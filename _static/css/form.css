@@ -1,0 +1,219 @@
+@charset "utf-8";
+
+.formContainer { min-width: 300px; height: auto; max-height:90%; /*overflow-y: auto;*/ /*padding:20px;*/}
+.register_form { padding: 10px; max-height:500px; overflow-y:auto;}
+
+
+
+
+
+
+.form_input { border: 1px solid #ddd; padding:7px 8px;}
+.form_input1 { border: 1px solid #ddd; padding:4px 6px;}
+
+.form_select { border: 1px solid #ddd; padding:3px 8px;}
+
+
+
+.register_form label { font-size: 0.9em; }
+.register_form select { border: 1px solid #bbb; }
+.register_form p { font-size: 0.78em; line-height: 14px; margin: 0; }
+
+.register_form th{position:relative;}
+.register_form .re{color:#f00;}
+.register_form .re:after{content:"*"; font-size:16px; font-weight:600;}
+
+.register_form .bcont{text-align:center; margin:15px 0;}
+
+.input01 { width: 40%; }
+.input_100 { width: 100%; }
+.input_call { width: 27%; }
+
+
+.form_1 { height: auto; padding: 10px; }
+.form_1 table { width:100%; margin: 10px 0; border-collapse: collapse;}
+.form_1 table tr th { width: 20%; text-align: left; background: #eee; padding: 0 10px; border-right: 1px solid #ddd; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;}
+.form_1 table tr td { padding: 6px 10px; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }
+
+.form_2 { height: auto; padding: 10px;  }
+.form_2 table { width:100%;margin: 10px 0; border-collapse: collapse;}
+.form_2 table tr th { width: 20%; text-align: left; background: #eee; padding: 0 10px; border-right: 1px solid #ccc; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;}
+.form_2 table tr td { padding: 8px 10px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; }
+
+
+.form_3 { height: auto; }
+.form_3 table { width:100%;margin: 10px 0; border-collapse: collapse;}
+.form_3 table thead tr th{text-align:center; padding:7px 0; background:#f6f6f6;}
+.form_3 table tbody tr th { width: 20%; text-align: left; background: #eee; padding: 0 10px; border-right: 1px solid #ccc; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;}
+.form_3 table tbody tr td { padding: 8px 10px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; }
+
+
+
+.select01 { width: 40%; zoom: 1.1; padding: 5px; }
+.select_call { width: 100%; padding: 5px; color:#666; -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+box-sizing: border-box; }
+
+option{padding:4px 0;}
+
+
+
+
+
+.back {background: #ddd; width: 100px; height: 40px; border: 0; cursor: pointer;}
+.back:hover { background: #bbb; }
+.blue_btn {background: rgb(39, 73, 146); color: #fff; width: 100px; height: 40px; border: 0; cursor: pointer;}
+.blue_btn:hover {background: rgb(38, 62, 114);}
+
+.blue_btnx {background: rgb(39, 73, 146); color: #fff; width: 100px; height: 32px; border: 0; cursor: pointer;}
+.blue_btnx:hover {background: rgb(38, 62, 114);}
+
+
+
+
+.mcont_bd{/*margin-top:50px;*/ width: 220px;}
+
+#smart_container .menu_Content .mcont_hd { font-size: 1.5em; font-weight: 600; width: 220px; }
+#menuContent{}
+#menuContent .menu01_li {}
+#menuContent i { text-align: center; }
+#menuContent .menu01_li .menu_a{display:block; padding:15px 20px; color:#b9b9b9; min-width:200px; font-size:1.2em; text-align:left;}
+#menuContent .menu01_li .menu_a:hover { background: #fb5e5e; color: #fff; transition: .3s; }
+#menuContent .menu01_li .menu_a.on { background: #19212b; color:#b9b9b9; border-bottom:1px dashed #444; }
+.menu_Content .scroll { height: 100%; overflow-y: auto; overflow-x: hidden; }
+.menu_Content .menu02 { background:#19212b; display: none; overflow:hidden; padding-bottom:10px; }
+.menu_Content .menu02.menu50 {position: absolute; left:50px;
+box-shadow: 1px 1px 4px #aaa;
+-moz-box-shadow: 1px 1px 4px #aaa;
+-webkit-box-shadow: 1px 1px 4px #aaa;
+}
+.menu_Content .menu02 li {}
+.menu_Content .menu02 li a { display:block; padding:7px 10px; margin-bottom:7px; color:#a4a4a4; min-width:200px; font-size:1.2em; text-align:left; }
+.menu_Content .menu02 li a i{font-size:20px; vertical-align:middle; width:30px;}
+.menu_Content .menu02 li a:hover{}
+.menu_Content .menu02 li a.on { color: #039be5; font-weight: 600; transition: .2s;}
+.menu_Content .menu02 li a.on:after{content:""; float:right; line-height:15px; margin-right:-5px;}
+
+
+.limitset{float:right;}
+.limitset select{padding:3px 10px; border:1px solid #ddd;}
+.mlink{cursor:pointer; color:#237bff;}
+
+
+.pagination {
+  display: block;
+  padding-left: 0;
+  margin: 20px auto;
+  border-radius: 4px;
+}
+.pagination > li {
+  display: inline;
+}
+.pagination > li > a,
+.pagination > li > span {
+  position: relative;
+  float: left;
+  padding: 6px 12px;
+  line-height: 1.42857143;
+  text-decoration: none;
+  color: #337ab7;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  margin-left: -1px;
+}
+.pagination > li:first-child > a,
+.pagination > li:first-child > span {
+  margin-left: 0;
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
+}
+.pagination > li:last-child > a,
+.pagination > li:last-child > span {
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+  z-index: 2;
+  color: #23527c;
+  background-color: #eeeeee;
+  border-color: #ddd;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  z-index: 3;
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #337ab7;
+  cursor: default;
+}
+.pagination > .disabled > span,
+.pagination > .disabled > span:hover,
+.pagination > .disabled > span:focus,
+.pagination > .disabled > a,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > a:focus {
+  color: #777777;
+  background-color: #fff;
+  border-color: #ddd;
+  cursor: not-allowed;
+}
+.pagination-lg > li > a,
+.pagination-lg > li > span {
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.3333333;
+}
+.pagination-lg > li:first-child > a,
+.pagination-lg > li:first-child > span {
+  border-bottom-left-radius: 6px;
+  border-top-left-radius: 6px;
+}
+.pagination-lg > li:last-child > a,
+.pagination-lg > li:last-child > span {
+  border-bottom-right-radius: 6px;
+  border-top-right-radius: 6px;
+}
+.pagination-sm > li > a,
+.pagination-sm > li > span {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.pagination-sm > li:first-child > a,
+.pagination-sm > li:first-child > span {
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
+}
+.pagination-sm > li:last-child > a,
+.pagination-sm > li:last-child > span {
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+
+
+
+
+
+
+
+
+/* for custom scrollbar for webkit browser*/
+
+::-webkit-scrollbar {
+    width: 6px;
+	height:6px;
+} 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+} 
+::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+}
