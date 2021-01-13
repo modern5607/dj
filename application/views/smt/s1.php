@@ -106,7 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		<div class="pagination">
 			<?php echo $this->data['pagenation'];?>
-			<?
+			<?php
 			if($this->data['cnt'] > 20){
 			?>
 			<div class="limitset">

@@ -70,23 +70,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				<?php
 				}
-				if(empty($memberList)){
-				?>
+				if(empty($memberList)){?>
 
 					<tr>
 						<td colspan="15" class="list_none">회원정보가 없습니다.</td>
 					</tr>
 
-				<?php
-				}	
-				?>
+				<?php }	?>
 				</tbody>
 			</table>
 		</div>
 
 		<div class="pagination">
 			<?php echo $this->data['pagenation'];?>
-			<?
+			<?php
 			if($this->data['cnt'] > 20){
 			?>
 			<div class="limitset">
@@ -97,9 +94,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<option value="100" <?php echo ($perpage == 100)?"selected":"";?>>100</option>
 				</select>
 			</div>
-			<?php
-			}	
-			?>
+			<?php }?>
 		</div>
 
 	</div>
