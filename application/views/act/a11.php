@@ -40,16 +40,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</select>
 					
 					<label for="v3">품명</label>
-					<input type="text" name="v3" class="v3" value="<?php echo (!empty($str['v3']) && $str['v3'] != "")?$str['v3']:"";?>" size="12" />
+					<input type="text"autocomplete="off" name="v3" class="v3" value="<?php echo (!empty($str['v3']) && $str['v3'] != "")?$str['v3']:"";?>" size="12" />
 
 					<!--label for="v4">CU만보기</label>
 					<input type="checkbox" name="v4" id="v4" value="1" <?php echo (!empty($str['v4']) && $str['v4'] == 1)?"checked":"";?> /-->
 
 					
 					<label for="sdate">수주일</label>
-					<input type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:"";?>" size="10" /> ~ 
+					<input type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>" size="10" /> ~ 
 					
-					<input type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:"";?>" size="10" />
+					<input type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>" size="10" />
 					<span class="nbsp"></span>
 					
 					<button class="search_submit"><i class="material-icons">search</i></button>
@@ -155,7 +155,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-<!--
+
 var num = 1;
 $(".add_form").on("click",function(){
 	$("#menuUpdateForm").submit();

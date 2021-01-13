@@ -34,12 +34,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				?>
 				</select>
 				<label>품목</label>
-				<input type="text" name="v3" size="6" value="<?php echo (!empty($str['v3']))?$str['v3']:"";?>">
+				<input type="text"autocomplete="off" name="v3" size="6" value="<?php echo (!empty($str['v3']))?$str['v3']:"";?>">
 				<div style="margin:5px 0;">
 					<label for="sdate">수주일</label>
-					<input type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:"";?>" size="10" /> ~ 
+					<input type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>" size="10" /> ~ 
 					
-					<input type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:"";?>" size="10" />
+					<input type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>" size="10" />
 					<button class="search_submit"><i class="material-icons">search</i></button>
 				</div>
 				

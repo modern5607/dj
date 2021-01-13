@@ -9,12 +9,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<form id="items_formupdate">
 
 		<label for="sdate">수주일자</label>
-		<input type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:"";?>" size="10" /> ~ 
+		<input type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>" size="10" /> ~ 
 		
-		<input type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:"";?>" size="10" />
+		<input type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>" size="10" />
 		
 		<label for="v2">거래처</label>
-		<input type="text" name="v2" id="v2" value="<?php echo $str['v2']?>">
+		<input type="text"autocomplete="off" name="v2" id="v2" value="<?php echo $str['v2']?>">
 
 		<label for="v1">시리즈</label>
 		<select name="v1">
@@ -30,7 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</select>
 
 		<label for="v3">품목</label>
-		<input type="text" name="v3" id="v3" value="<?php echo $str['v3']?>">
+		<input type="text"autocomplete="off" name="v3" id="v3" value="<?php echo $str['v3']?>">
 
 		<label for="v4">출고여부</label>
 		<input type="checkbox" name="v4" id="v4" <?php echo (!empty($str['v4']) && $str['v4'] == "Y")?"checked":"";?> value="Y" />
@@ -131,7 +131,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-<!--
+
 
 
 //-->

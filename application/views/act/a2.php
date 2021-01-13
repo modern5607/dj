@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</select>
 
 		<label for="v3">품목</label>
-		<input type="text" name="v3" id="v3" value="<?php echo $str['v3']?>">
+		<input type="text"autocomplete="off" name="v3" id="v3" value="<?php echo $str['v3']?>">
 		
 		<span class="nbsp"></span>
 
@@ -129,7 +129,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-<!--
+
 
 
 var modchk = false;

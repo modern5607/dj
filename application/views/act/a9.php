@@ -13,9 +13,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<form>
 				<input type='hidden' name='n' value='1'/>
 				<label for="sdate">실적등록일</label>
-				<input type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:"";?>" size="10" /> ~ 
+				<input type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>" size="10" /> ~ 
 				
-				<input type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:"";?>" size="10" />
+				<input type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>" size="10" />
 				
 				<button class="search_submit"><i class="material-icons">search</i></button>
 			</form>
@@ -58,10 +58,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div id="" class="bc_search" style="background:#f8f8f8;">
 			<form>
 				<label for="component">제품코드</label>
-				<input type="text" name="component" id="component" value="<?php echo $str['component']?>">
+				<input type="text"autocomplete="off" name="component" id="component" value="<?php echo $str['component']?>">
 
 				<label for="component_nm">제품명</label>
-				<input type="text" name="component_nm" id="component_nm" value="<?php echo $str['component_nm']?>">
+				<input type="text"autocomplete="off" name="component_nm" id="component_nm" value="<?php echo $str['component_nm']?>">
 				
 				<button class="search_submit"><i class="material-icons">search</i></button>
 			</form>
@@ -130,7 +130,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-<!--
+
 $(".add_itemnum").on("click",function(){
 
 	var type = $(this).data("type");

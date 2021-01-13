@@ -13,14 +13,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<form>
 				<input type='hidden' name='n' value='1'/>
 				<label for="sdate">수주일</label>
-				<input type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:"";?>" size="10" /> ~ 
+				<input type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>" size="10" /> ~ 
 				
-				<input type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:"";?>" size="10" />
+				<input type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>" size="10" />
 				<span class="nbsp"></span>
 				<label for="custnm">거래처</label>
-				<input type="text" name="custnm" class="custnm" value="<?php echo (!empty($str['custnm']) && $str['custnm'] != "")?$str['custnm']:"";?>" size="12" />
+				<input type="text"autocomplete="off" name="custnm" class="custnm" value="<?php echo (!empty($str['custnm']) && $str['custnm'] != "")?$str['custnm']:"";?>" size="12" />
 				<label for="actnm">수주명</label>
-				<input type="text" name="actnm" class="actnm" value="<?php echo (!empty($str['actnm']) && $str['actnm'] != "")?$str['actnm']:"";?>" size="12" />
+				<input type="text"autocomplete="off" name="actnm" class="actnm" value="<?php echo (!empty($str['actnm']) && $str['actnm'] != "")?$str['actnm']:"";?>" size="12" />
 				<button class="search_submit"><i class="material-icons">search</i></button>
 			</form>
 			</div>
@@ -161,7 +161,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-<!--
+
 $(".add_head").on("click",function(){
 
 	$(".ajaxContent").html('');

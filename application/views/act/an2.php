@@ -9,10 +9,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<form id="items_formupdate">
 
 		<label for="v3">품목</label>
-		<input type="text" name="v3" id="v3" value="<?php echo $str['v3']?>">
+		<input type="text"autocomplete="off" name="v3" id="v3" value="<?php echo $str['v3']?>">
 
 		<label for="v4">색상</label>
-		<input type="text" name="v4" id="v4" value="<?php echo $str['v4']?>">
+		<input type="text"autocomplete="off" name="v4" id="v4" value="<?php echo $str['v4']?>">
 
 				
 		<button class="search_submit"><i class="material-icons">search</i></button>
@@ -93,8 +93,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-<!--
 
 
-//-->
 </script>

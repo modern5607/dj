@@ -13,7 +13,7 @@ class MDM extends CI_Controller {
         $this->data['subpos'] = $this->uri->segment(2);
 		
 		$this->load->helper('test');
-		$this->load->model(array('main_model','item_model','biz_model','register_model'));
+		$this->load->model(array('main_model','biz_model','register_model'));
 
 		if(!empty($this->config->item('site_title')[$this->data['pos']][$this->data['subpos']])){
 			$this->data['siteTitle'] = $this->config->item('site_title')[$this->data['pos']][$this->data['subpos']];

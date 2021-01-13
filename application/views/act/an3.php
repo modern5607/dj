@@ -58,7 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-<!--
+
 
 $("select[name='recycle']").on("change",function(){
 	var vx = $(this).val();
