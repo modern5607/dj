@@ -462,11 +462,18 @@ class Main_model extends CI_Model {
 
 
 	/* 시리즈 HEAD 리스트 */
-	public function get_seriesHead_list()
+	public function get_seriesHead_list($param)
 	{
+		if(!empty($param['V1']) && $param['V1'] != ""){
+			$this->db->where("IDX",$param['V1']);
+		}
+
+		if(!empty($param['V2']) && $param['V2'] != ""){
+			$this->db->where("USE_YN",$param['V2']);
+		}
+
 		$res = $this->db->get("t_series_h");
 		return $res->result();
-
 	}
 
 	/* 시리즈 Detail 리스트 */

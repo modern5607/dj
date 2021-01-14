@@ -23,8 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr>
 							<th><label class="l_id">시리즈</label></th>
 							<td>
-								<select name="H_IDX" class="form_input select_call" style="width:100%;">
-									<option value="">Head code 선택</option>
+								<select readonly name="H_IDX" class="form_input select_call" style="width:100%;">
 								<?php
 								
 								foreach($headList as $opt){ //공통코드 HEAD

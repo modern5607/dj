@@ -29,14 +29,21 @@ class Register extends CI_Controller {
             }
         }else{ //ajax가 아니면
 
+			$user_id = $this->session->userdata('user_id');
+			$this->data['member_name'] = $this->session->userdata('user_name');
+
 			if (method_exists($this, $method)) {
                 $this->load->view('/layout/header',$this->data);
                 call_user_func_array(array($this,$method), $params);
                 $this->load->view('/layout/tail');
-            } else {
-                show_404();
-            }
+
+			}else{
+				show_404();
+				// alert('로그인이 필요합니다.',base_url('register/login'));
+
+			}
         }
+		
 	}
 
 

@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<label for="itemno">품번</label>
 		<input type="itemno" name="itemno" id="itemno" value="<?php echo $str['itemno']?>">
 
-		<label for="itemname">권한</label>
+		<label for="itemname">품명</label>
 		<input type="itemname" name="itemname" id="itemname" value="<?php echo $str['itemname']?>">
 
 		<label for="use">사용유무</label>

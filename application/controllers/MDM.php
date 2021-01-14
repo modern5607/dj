@@ -13,7 +13,7 @@ class MDM extends CI_Controller {
         $this->data['subpos'] = $this->uri->segment(2);
 		
 		$this->load->helper('test');
-		$this->load->model(array('main_model','item_model','biz_model','register_model'));
+		$this->load->model(array('main_model','biz_model','register_model','act_model'));
 
 		if(!empty($this->config->item('site_title')[$this->data['pos']][$this->data['subpos']])){
 			$this->data['siteTitle'] = $this->config->item('site_title')[$this->data['pos']][$this->data['subpos']];
@@ -121,7 +121,7 @@ class MDM extends CI_Controller {
 		$data['pageNum'] = $start;
 		
 		$data['title'] = "품목관리";
-		$data['seriesList']   = $this->main_model->get_seriesHead_list();
+		$data['seriesList']   = $this->main_model->get_seriesHead_list($params);
 		$data['itemsList'] = $this->main_model->get_items_list($params,$start,$config['per_page']);
 		$this->data['cnt'] = $this->main_model->get_items_cnt($params);
 		/* pagenation start */
@@ -202,7 +202,7 @@ class MDM extends CI_Controller {
 		$data['pageNum'] = $start;
 		
 		$data['title'] = "품목관리";
-		$data['seriesList']   = $this->main_model->get_seriesHead_list();
+		$data['seriesList']   = $this->main_model->get_seriesHead_list($params);
 		$data['componentList'] = $this->main_model->get_component_list($params,$start,$config['per_page']);
 		$this->data['cnt'] = $this->main_model->get_component_cnt($params);
 		/* pagenation start */
@@ -327,7 +327,7 @@ class MDM extends CI_Controller {
 		$data['title'] = "품목추가";
 		$data['mod'] = ($this->input->post("idx"))?"1":"";
 				
-		$data['seriesList']   = $this->main_model->get_seriesHead_list();
+		$data['seriesList']   = $this->main_model->get_seriesHead_list($params);
 		$data['data'] = $this->main_model->get_items_info($this->input->post("idx"));
 
 		$data['UNIT']   = $this->main_model->get_selectInfo("tch.CODE","UNIT");
@@ -343,7 +343,7 @@ class MDM extends CI_Controller {
 		$data['title'] = "자재추가";
 		$data['mod'] = ($this->input->post("idx"))?"1":"";
 				
-		//$data['seriesList']   = $this->main_model->get_seriesHead_list();
+		//$data['seriesList']   = $this->main_model->get_seriesHead_list($params);
 		$data['data'] = $this->main_model->get_component_info($this->input->post("idx"));
 		$data['USER'] = $this->session->userdata('user_name');
 
@@ -773,15 +773,147 @@ class MDM extends CI_Controller {
 	public function series($hid='')
 	{
 		check_pageLevel(); //helper 페이지권한
-		$data['series_headList'] = $this->main_model->get_seriesHead_list();
-		$data['series_detailList'] = $this->main_model->get_seriesDetail_list($hid);
+		$data['str'] = array(); //검색어관련
 		
+		$data['str']['v1'] = $this->input->get('v1');
+		$data['str']['v2'] = $this->input->get('v2');
+
+		$params['V1'] = "";
+		$params['V2'] = "";
+
+		$data['qstr'] = "?P";
+		if(!empty($data['str']['v1'])){
+			$params['V1'] = $data['str']['v1'];
+			$data['qstr'] .= "&v1=".$data['str']['v1'];
+		}
+		if(!empty($data['str']['v2'])){
+			$params['V2'] = $data['str']['v2'];
+			$data['qstr'] .= "&v2=".$data['str']['v2'];
+		}
+
+			// $data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
+			
+			// //PAGINATION
+			// $config['per_page'] = $data['perpage'];
+			// $config['page_query_string'] = true;
+			// $config['query_string_segment'] = "pageNum";
+			// $config['reuse_query_string'] = TRUE;
+
+			// $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+			
+			// $start = $pageNum;
+			// $data['pageNum'] = $start;
+
+		$data['series_headList'] = $this->main_model->get_seriesHead_list($params);
+		$data['series_detailList'] = $this->main_model->get_seriesDetail_list($hid);
+		$data['SERIES'] = $this->main_model->get_seriesh_select();
+
 		$data['H_IDX'] = $hid;
 		$data['de_show_chk']= ($hid != "")?true:false;
+
+			// /* pagenation start */
+			// $this->load->library("pagination");
+			// $config['base_url'] = base_url(uri_string());
+			// $config['total_rows'] = $this->data['cnt'];
+	
+			// $config['full_tag_open'] = "<ul class='pagination'>";
+			// $config['full_tag_close'] = '</ul>';
+			// $config['num_tag_open'] = '<li>';
+			// $config['num_tag_close'] = '</li>';
+			// $config['cur_tag_open'] = '<li class="active"><a href="#">';
+			// $config['cur_tag_close'] = '</a></li>';
+			// $config['prev_tag_open'] = '<li>';
+			// $config['prev_tag_close'] = '</li>';
+			// $config['first_tag_open'] = '<li>';
+			// $config['first_tag_close'] = '</li>';
+			// $config['last_tag_open'] = '<li>';
+			// $config['last_tag_close'] = '</li>';
+			// $config['prev_link'] = '<i class="fa fa-long-arrow-left"></i>Previous Page';
+			// $config['prev_tag_open'] = '<li>';
+			// $config['prev_tag_close'] = '</li>';
+			// $config['next_link'] = 'Next Page<i class="fa fa-long-arrow-right"></i>';
+			// $config['next_tag_open'] = '<li>';
+			// $config['next_tag_close'] = '</li>';
+	
+			// $this->pagination->initialize($config);
+			// $this->data['pagenation'] = $this->pagination->create_links();
 
 		$this->load->view('/mdm/series',$data);
 	}
 	
+	public function color()
+	{
+		check_pageLevel();
+		
+		$data['str'] = array(); //검색어관련
+		$data['str']['v1'] = $this->input->get('v1');
+		$data['str']['v3'] = $this->input->get('v3');
+
+		$params['V1'] = "";
+		$params['V3'] = "";
+
+		$data['qstr'] = "?P";
+		
+		if(!empty($data['str']['v1'])){
+			$params['V1'] = $data['str']['v1'];
+			$data['qstr'] .= "&v1=".$data['str']['v1'];
+		}
+		if(!empty($data['str']['v3'])){
+			$params['V3'] = $data['str']['v3'];
+			$data['qstr'] .= "&v3=".$data['str']['v3'];
+		}
+
+$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
+
+//PAGINATION
+$config['per_page'] = $data['perpage'];
+$config['page_query_string'] = true;
+$config['query_string_segment'] = "pageNum";
+$config['reuse_query_string'] = TRUE;
+
+$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+
+$start = $pageNum;
+$data['pageNum'] = $start;
+
+
+		$data['List'] = $this->act_model->act_an2_list($params,$start,$config['per_page']);
+		$this->data['cnt'] = $this->act_model->act_an2_cut($params);
+
+		$data['SERIES'] = $this->main_model->get_seriesh_select();
+
+
+/* pagenation start */
+
+$this->load->library("pagination");
+$config['base_url'] = base_url(uri_string());
+$config['total_rows'] = $this->data['cnt'];
+
+$config['full_tag_open'] = "<ul class='pagination'>";
+$config['full_tag_close'] = '</ul>';
+$config['num_tag_open'] = '<li>';
+$config['num_tag_close'] = '</li>';
+$config['cur_tag_open'] = '<li class="active"><a href="#">';
+$config['cur_tag_close'] = '</a></li>';
+$config['prev_tag_open'] = '<li>';
+$config['prev_tag_close'] = '</li>';
+$config['first_tag_open'] = '<li>';
+$config['first_tag_close'] = '</li>';
+$config['last_tag_open'] = '<li>';
+$config['last_tag_close'] = '</li>';
+$config['prev_link'] = '<i class="fa fa-long-arrow-left"></i>Previous Page';
+$config['prev_tag_open'] = '<li>';
+$config['prev_tag_close'] = '</li>';
+$config['next_link'] = 'Next Page<i class="fa fa-long-arrow-right"></i>';
+$config['next_tag_open'] = '<li>';
+$config['next_tag_close'] = '</li>';
+
+$this->pagination->initialize($config);
+$this->data['pagenation'] = $this->pagination->create_links();
+
+		$this->load->view('/mdm/color',$data);
+	}
+
 	/* 공통코드 HEAD 폼 호출 */
 	public function ajax_seriesHead_form()
 	{
@@ -805,8 +937,9 @@ class MDM extends CI_Controller {
 	{
 		$params['title'] = "공통코드-DETAIL";
 		$params['mod'] = '';
-		$params['headList']  = $this->main_model->get_seriesHead_list();
-		$params['hidx'] = $this->input->post("idx");
+		$params['headList']  = $this->main_model->get_seriesHead_list($params);
+		// $params['hidx'] = $this->input->post("idx");
+		$params['hidx'] = $this->input->post("hidx");
 		
 
 		if($_POST['mode'] == "mod"){

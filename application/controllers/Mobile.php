@@ -12,7 +12,7 @@ class Mobile extends CI_Controller {
 		$this->data['pos'] = $this->uri->segment(1);
         $this->data['subpos'] = $this->uri->segment(2);
 		
-		$this->load->model(array('act_model','bom_model','main_model'));
+		$this->load->model(array('act_model','main_model'));
 
 		$this->data['siteTitle'] = $this->config->item('site_title');
 

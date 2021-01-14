@@ -40,7 +40,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <li><a href="<?php echo base_url('MDM')?>" class="<?php echo ($this->data['subpos'] == NULL || $this->data['subpos'] == 'index')?"on":"";?>"><i class="material-icons">build</i>공통코드관리</a></li>
                             <li><a href="<?php echo base_url('MDM/component')?>" class="<?php echo ($this->data['subpos'] == "component")?"on":"";?>"><i class="material-icons">wysiwyg</i>자재관리</a></li>
 							<li><a href="<?php echo base_url('MDM/items')?>" class="<?php echo ($this->data['subpos'] == "items")?"on":"";?>"><i class="material-icons">dvr</i>품목관리</a></li>
-							<li><a href="<?php echo base_url('MDM/series')?>" class="<?php echo ($this->data['subpos'] == "series")?"on":"";?>"><i class="material-icons">dvr</i>품목색상관리</a></li>
+							<li><a href="<?php echo base_url('MDM/series')?>" class="<?php echo ($this->data['subpos'] == "series")?"on":"";?>"><i class="material-icons">dvr</i>시리즈관리</a></li>
+							<li><a href="<?php echo base_url('MDM/color')?>" class="<?php echo ($this->data['subpos'] == "color")?"on":"";?>"><i class="material-icons">dvr</i>품목색상관리</a></li>
                             <li><a href="<?php echo base_url('MDM/biz')?>" class="<?php echo ($this->data['subpos'] == "biz")?"on":"";?>"><i class="material-icons">build_circle</i>업체관리</a></li>
 							<li><a href="<?php echo base_url('MDM/infolist')?>" class="<?php echo ($this->data['subpos'] == "infolist")?"on":"";?>"><i class="material-icons">build_circle</i>배송지관리</a></li>
                             <li><a href="<?php echo base_url('MDM/infoform')?>" class="<?php echo ($this->data['subpos'] == "infoform")?"on":"";?>"><i class="material-icons">build_circle</i>인사정보관리</a></li>
@@ -167,6 +168,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <li><a href="<?php echo base_url('SYS/user')?>" class="<?php echo ($this->data['subpos'] == 'user')?"on":"";?>"><i class="material-icons">layers</i>사용자 등록</a></li>
                             <li><a href="<?php echo base_url('SYS/level')?>" class="<?php echo ($this->data['subpos'] == 'level')?"on":"";?>"><i class="material-icons">engineering</i>사용자 권한등록</a></li>
                             <li><a href="<?php echo base_url('SYS/version')?>" class="<?php echo ($this->data['subpos'] == 'version')?"on":"";?>"><i class="material-icons">memory</i>버전관리</a></li>
+                            <li><a href="<?php echo base_url('SYS/userlog')?>" class="<?php echo ($this->data['subpos'] == 'userlog')?"on":"";?>"><i class="material-icons">preview</i>사용자 접속기록</a></li>
                         </ul>
                     </li>
                 </ul>

@@ -477,4 +477,88 @@ class SYS extends CI_Controller {
 	}
 
 
+
+	public function userlog($idx="")
+	{
+		check_pageLevel();
+
+		$data['str'] = array(); //검색어관련
+		$data['str']['login'] = $this->input->get('login'); //MEMBER ID
+		$data['str']['mid'] = $this->input->get('mid'); //MEMBER ID
+
+		$params['ID'] = "";
+		$params['LOGIN'] ="";
+
+
+		$data['qstr'] = "?P";
+		if(!empty($data['str']['login'])){
+			$params['LOGIN'] = $data['str']['login'];
+			$data['qstr'] .= "&login=".$data['str']['login'];
+		}
+		if(!empty($data['str']['mid'])){
+			$params['ID'] = $data['str']['mid'];
+			$data['qstr'] .= "&mid=".$data['str']['mid'];
+		}
+
+
+		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
+		
+		//PAGINATION
+		$config['per_page'] = $data['perpage'];
+		$config['page_query_string'] = true;
+		$config['query_string_segment'] = "pageNum";
+		$config['reuse_query_string'] = TRUE;
+
+        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+        //$start = $config['per_page'] * ($pageNum - 1);
+		
+		$start = $pageNum;
+		$data['pageNum'] = $start;
+		
+
+		$data['title'] = "사용자 접속관리";
+		$user_id = $this->session->userdata('user_id');
+		$this->data['userName'] = $this->session->userdata('user_name');
+
+		
+		$data['userlog'] = $this->sys_model->get_userlog_list($params,$start,$config['per_page']);
+		$this->data['cnt'] = $this->sys_model->get_userlog_cut($params);
+		
+		
+
+		/* pagenation start */
+
+		$this->load->library("pagination");
+		$config['base_url'] = base_url(uri_string());
+        $config['total_rows'] = $this->data['cnt'];
+
+
+		$config['full_tag_open'] = "<ul class='pagination'>";
+		$config['full_tag_close'] = '</ul>';
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li class="active"><a href="#">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		$config['prev_link'] = '<i class="fa fa-long-arrow-left"></i>Previous Page';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+		$config['next_link'] = 'Next Page<i class="fa fa-long-arrow-right"></i>';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+
+
+		$this->pagination->initialize($config);
+        $this->data['pagenation'] = $this->pagination->create_links();
+
+
+		
+		$this->load->view('/sys/userlog',$data);
+	}
+
 }

@@ -849,6 +849,10 @@ SQL;
 	public function act_an2_cut($param,$start=0,$limit=20)
 	{
 		$where = "";
+
+		if(!empty($param['V1']) && $param['V1'] != ""){
+			$where .= " AND TSD.SERIES_IDX = '{$param['V1']}'";
+		}
 		
 		if(!empty($param['V3']) && $param['V3'] != ""){
 			$where .= " AND TI.ITEM_NAME LIKE '%{$param['V3']}%'";

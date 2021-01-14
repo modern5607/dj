@@ -172,7 +172,34 @@ SQL;
 
 	}
 
-	
+	public function get_userlog_list($param,$start=0,$limit=20)
+	{
+		if(!empty($param['LOGIN']) && $param['LOGIN'] != ""){
+			$this->db->where("SDATE BETWEEN '{$param['LOGIN']} 00:00:00' AND '{$param['LOGIN']} 23:59:59'");
+		}
+		if(!empty($param['ID']) && $param['ID'] != ""){
+			$this->db->like("MID",$param['ID']);
+		}
+		
+		$this->db->order_by("SDATE","desc");
+		$this->db->limit($limit,$start);
+		$res = $this->db->get("T_LOG");
+		return $res->result();
+	}
+
+	public function get_userlog_cut($param)
+	{
+		if(!empty($param['LOGIN']) && $param['LOGIN'] != ""){
+			$this->db->where("SDATE BETWEEN '{$param['LOGIN']} 00:00:00' AND '{$param['LOGIN']} 23:59:59'");
+		}
+		if(!empty($param['ID']) && $param['ID'] != ""){
+			$this->db->like("MID",$param['ID']);
+		}
+		$this->db->select("COUNT(*) as CUT");
+
+		$res = $this->db->get("T_LOG");
+		return $res->row()->CUT;
+	}
 
 
 

@@ -41,8 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 						<tr <?php echo ($NDATE == $row->TRANS_DATE)?"class='over'":"";?>>
 							<td class="cen"><?php echo $no; ?></td>
-							<td class="cen"><a href='<?php echo base_url($this->data['pos'].'/p1/').$row->TRANS_DATE
-							?>'><?php echo $row->TRANS_DATE;?></a></td>
+							<td class="cen"><a href='<?php echo base_url($this->data['pos'].'/p1/').$row->TRANS_DATE?>'><?php echo $row->TRANS_DATE;?></a></td>
 						</tr>
 
 					<?php
