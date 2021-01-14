@@ -19,6 +19,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<label for="component_nm">자재명</label>
 		<input type="text" autocomplete="off" name="component_nm" id="component_nm" value="<?php echo $str['component_nm']?>">
 
+		<label for="customer">거래처</label>
+		<input type="text" autocomplete="off" name="customer" id="customer" value="<?php echo $str['customer']?>">
+
 		
 		
 		<button class="search_submit"><i class="material-icons">search</i></button>

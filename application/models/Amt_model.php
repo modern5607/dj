@@ -56,6 +56,10 @@ class Amt_model extends CI_Model {
 			$where .= " AND B.COMPONENT_NM LIKE '%{$param['COMPONENT_NM']}%'";
 		}
 
+		if(!empty($param['CUSTOMER']) && $param['CUSTOMER'] != ""){
+			$where .= " AND djsmart.T_BIZ_REG.CUST_NM LIKE '%{$param['CUSTOMER']}%'";
+		}
+
 
 		$sql=<<<SQL
 			SELECT 
@@ -104,6 +108,7 @@ SQL;
 		//$this->db->order_by("A.TRANS_DATE ASC");
 		//$this->db->limit($limit,$start);
 		$query = $this->db->query($sql);
+		echo $this->db->last_query();
 		return $query->result();
 	}
 

@@ -180,12 +180,14 @@ class PO extends CI_Controller {
 
 		$data['str']['component'] = $this->input->get('component');
 		$data['str']['component_nm'] = $this->input->get('component_nm');
+		$data['str']['customer'] = $this->input->get('customer');
 
 		$params['SDATE'] = "";
 		$params['EDATE'] = "";
 		
 		$params['COMPONENT'] = "";
 		$params['COMPONENT_NM'] = "";
+		$params['CUSTOMER'] = "";
 
 		$data['qstr'] = "?P";
 		
@@ -206,6 +208,10 @@ class PO extends CI_Controller {
 		if(!empty($data['str']['component_nm'])){
 			$params['COMPONENT_NM'] = $data['str']['component_nm'];
 			$data['qstr'] .= "&component_nm=".$data['str']['component_nm'];
+		}
+		if(!empty($data['str']['customer'])){
+			$params['CUSTOMER'] = $data['str']['customer'];
+			$data['qstr'] .= "&customer=".$data['str']['customer'];
 		}
 
 		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
