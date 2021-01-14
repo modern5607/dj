@@ -32,15 +32,14 @@ class Register extends CI_Controller {
 			$user_id = $this->session->userdata('user_id');
 			$this->data['member_name'] = $this->session->userdata('user_name');
 
-			if(isset($user_id) && $user_id != ""){
-				
-				$this->load->view('/layout/header',$this->data);
-				call_user_func_array(array($this,$method), $params);
-				$this->load->view('/layout/tail');
+			if (method_exists($this, $method)) {
+                $this->load->view('/layout/header',$this->data);
+                call_user_func_array(array($this,$method), $params);
+                $this->load->view('/layout/tail');
 
 			}else{
-
-				alert('로그인이 필요합니다.',base_url('register/login'));
+				show_404();
+				// alert('로그인이 필요합니다.',base_url('register/login'));
 
 			}
         }

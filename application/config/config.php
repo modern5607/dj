@@ -29,11 +29,13 @@ $config['site_title']['SYS']['menu'] = "메뉴권한관리";
 $config['site_title']['SYS']['user'] = "사용자관리";
 $config['site_title']['SYS']['level'] = "사용자권한관리";
 $config['site_title']['SYS']['version'] = "버전관리";
+$config['site_title']['SYS']['userlog'] = "사용자접속관리";
 
 $config['site_title']['MDM'][''] = "공통코드관리";
 $config['site_title']['MDM']['index'] = "공통코드관리";
 $config['site_title']['MDM']['biz'] = "업체관리";
-$config['site_title']['MDM']['series'] = "품목색상관리";
+$config['site_title']['MDM']['series'] = "시리즈관리";
+$config['site_title']['MDM']['color'] = "품목색상관리";
 $config['site_title']['MDM']['items'] = "품목관리";
 $config['site_title']['MDM']['infoform'] = "인사정보관리";
 $config['site_title']['MDM']['component'] = "자재관리";

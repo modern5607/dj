@@ -79,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr>
 							<th><label class="l_id"><span class="re"></span>BK여부</label></th>
 							<td style="line-height:32px;">
-								<input type="radio" name="BK_YN" value="Y" <?php echo (isset($data->BK_YN) && $data->BK_YN == "Y")?"checked":"";?>>사용
+								<input type="radio" name="BK_YN" value="Y" <?php echo (isset($data->BK_YN) && $data->BK_YN == "N")?"":"checked";?>>사용
 								<input type="radio" name="BK_YN" value="N" <?php echo (isset($data->BK_YN) && $data->BK_YN == "N")?"checked":"";?>>미사용
 							</td>
 						</tr>
@@ -98,7 +98,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr>
 							<th><label class="l_id">사용유무</label></th>
 							<td style="line-height:32px;">
-								<input type="radio" name="USE_YN" value="Y" <?php echo (isset($data->USE_YN) && $data->USE_YN == "Y")?"checked":"";?>>사용
+								<input type="radio" name="USE_YN" value="Y" <?php echo (isset($data->USE_YN) && $data->USE_YN == "N")?"":"checked";?>>사용
 								<input type="radio" name="USE_YN" value="N" <?php echo (isset($data->USE_YN) && $data->USE_YN == "N")?"checked":"";?>>미사용
 							</td>
 						</tr>

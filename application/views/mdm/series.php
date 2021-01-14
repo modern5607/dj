@@ -1,14 +1,42 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-
+<style>
+	.gsflexst{
+		display:flex; justify-content: space-between; flex-wrap:wrap; align-items: flex-end;
+	}
+</style>
 <div class="body_cont_float1">
 	<ul>
 		<li>
-			
-			<div class="bc_header none_padding">
-				<span class="btni btn_right add_head"><span class="material-icons">add</span></span>				
+			<div id="items_formupdate" class="bc_search gsflexst">
+				<form>
+					<label for="v1">시리즈</label>
+					<select name="v1">
+							<option value="">::선택::</option>
+						<?php
+						foreach($SERIES as $row){
+							$selected = (!empty($str['v1']) && $row->IDX == $str['v1'])?"selected":"";
+						?>
+							<option value="<?php echo $row->IDX;?>" <?php echo $selected;?>><?php echo $row->SERIES_NM;?></option>
+						<?php
+						}
+						?>
+					</select>
+
+					<label for="v2">사용여부</label>
+					<select name="v2">
+						<option value="">::선택::</option>		
+						<option value="Y" <?php echo ($str['v2'] == "Y")?"selected":"";?>>사용</option>
+						<option value="N" <?php echo ($str['v2'] == "N")?"selected":"";?>>미사용</option>		
+					</select>	
+					<span style="display: inline-block;width: 10px;"></span>
+					<button class="search_submit"><i class="material-icons">search</i></button>
+				</form>
+
+					<span class="btni btn_right add_head" style="max-height:34px;"><span class="material-icons">add</span></span>
 			</div>
+			
 
 			<div class="tbl-content">
 				<table cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -27,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						$no = $i+1;
 					?>
 
-						<tr>
+						<tr <?php echo ($H_IDX == $row->IDX)?"class='over'":"";?>>
 							<td class="cen"><?php echo $no; ?></td>
 							<td><a href="<?php echo base_url('MDM/series/'.$row->IDX); //series idx?>" class="link_s1"><?php echo $row->SERIES; ?></a></td>
 							<td><?php echo $row->SERIES_NM;?></td>
@@ -44,13 +72,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		</li>
 		<li>
-			<div class="bc_header none_padding">
-				<?php if($de_show_chk){ //hid값이 없는경우는 노출안됨 ?>
-					<a href="<?php echo base_url('MDM/series/');?>" class="alink" style="float:left;">전체코드보기</a>
-					<span class="btni btn_right add_detail" data-hidx="<?php echo $H_IDX; //series idx?>"><span class="material-icons">add</span></span>
-					
-				<?php } ?>
+			<div id="items_formupdate" class="bc_search gsflexst" style="min-height:76px;">
+		<?php if($de_show_chk){?>
+				<div class="gsflexst">
+					<p style="font-size:20px; line-height:36px; padding:0 10px;"> <?php echo $series_headList[$H_IDX-1]->SERIES_NM; ?> </p>
+
+					<form>
+						<label for="colorcode">색상코드</label>
+							<input type="text" name="colorcode" size="12">
+						<label for="colorname">색상코드</label>
+							<input type="text" name="colorcode" size="12">
+						<label for="duse">사용여부</label>
+							<select name="v2">
+								<option value="">::선택::</option>		
+								<option value="Y" <?php echo ($str['v2'] == "Y")?"selected":"";?>>사용</option>
+								<option value="N" <?php echo ($str['v2'] == "N")?"selected":"";?>>미사용</option>		
+							</select>	
+						<button class="search_submit"><i class="material-icons">search</i></button>
+					</form>
+				</div>
+				
+				<span class="btni btn_right add_detail" data-hidx="<?php echo $H_IDX; //series idx?>"><span class="material-icons">add</span></span>
+		<?php } ?>
 			</div>
+			
 			<div class="tbl-content">
 				<table cellpadding="0" cellspacing="0" border="0" width="100%">
 					<thead>
@@ -63,22 +108,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</tr>
 					</thead>
 					<tbody>
-					<?php
-					foreach($series_detailList as $i=>$row){
-						$num = $i+1;
-					?>
-
-						<tr>
-							<td class="cen"><?php echo $num; ?></td>
-							<td><?php echo $row->COLOR_CD; ?></td>
-							<td><?php echo $row->COLOR; ?></td>
-							<td class="cen"><?php echo ($row->USE_YN == "Y")?"사용":"미사용";?></td>
-							<td><span class="btn mod_detail" data-idx="<?php echo $row->IDX; //detail idx?>">수정</span></td>
-						</tr>
-
-					<?php
-					}
-					?>
+			<?php 
+			if($de_show_chk){
+				foreach($series_detailList as $i=>$row){
+					$num = $i+1;
+			?>
+					<tr>
+						<td class="cen"><?php echo $num; ?></td>
+						<td><?php echo $row->COLOR_CD; ?></td>
+						<td><?php echo $row->COLOR; ?></td>
+						<td class="cen"><?php echo ($row->USE_YN == "Y")?"사용":"미사용";?></td>
+						<td><span class="btn mod_detail" data-idx="<?php echo $row->IDX; //detail idx?>">수정</span></td>
+					</tr>
+			<?php
+				}
+			}else{ 
+			?>
+					<tr>
+						<td colspan="5" class="list_none">헤드 시리지를 선택해주세요.</td>
+					</tr>
+			<?php 
+			}
+			?>
 					</tbody>
 				</table>
 			</div>
@@ -101,7 +152,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-<!--
+
 $(".add_head").on("click",function(){
 
 	$(".ajaxContent").html('');
@@ -156,7 +207,7 @@ $(".add_detail").on("click",function(){
 
 });
 
-
+//헤드 수정
 $(".mod_head").on("click",function(){
 	
 	var idx = $(this).data("idx");
@@ -182,7 +233,7 @@ $(".mod_head").on("click",function(){
 	});
 
 });
-
+//디테일 수정
 $(".mod_detail").on("click",function(){
 	
 	var idx = $(this).data("idx");

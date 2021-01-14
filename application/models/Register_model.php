@@ -30,6 +30,7 @@ class Register_model extends CI_Model {
 
 	public function set_log_end($idx)
 	{
+		date_default_timezone_set('Asia/Seoul');
 		$datetime = date("Y-m-d H:i:s",time());
 		$this->db->set("EDATE",$datetime);
 		$this->db->set("STATUS","off");
