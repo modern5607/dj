@@ -65,7 +65,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="cen"><?php echo $no;?></td>
 					<td class="cen"><?php echo $row->ACT_DATE;?></td>
 					<td><strong><?php echo $row->ITEM_NM; ?></strong></td>
-					<td class="right"><?php echo $row->QTY; ?></td>
+					<td class="right"><?php echo number_format($row->QTY); ?></td>
 					<td class="right"><?php echo $sumqty; ?></td>
 					<td class="cen"><?php echo $row->COLOR; ?></td>
 					<td class="cen"><?php echo $row->DEL_DATE; ?></td>

@@ -131,7 +131,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td class="cen"><?php echo $row->ACT_DATE; ?></td>
 							<td><?php echo $row->ITEM_NM; ?></td>
 							<td class="cen"><?php echo $row->COLOR;?></td>
-							<td><?php echo $row->QTY;?></td>
+							<td class="right"><?php echo number_format($row->QTY);?></td>
 							<td>
 								<input type="hidden" name="AD_IDX[]" value="<?php echo $row->IDX;?>" />
 								<input type="text" name="IN_QTY[]" value="" />

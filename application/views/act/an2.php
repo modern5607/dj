@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td><strong><?php echo $row->ITEM_NAME; ?></strong></td>
 					<td class="cen"><?php echo $row->COLOR; ?></td>
 					<td class="right"><?php echo number_format($row->QTY); ?></td>
-					<td class="right"><?php echo number_format($row->EQTY); ?></td>
+					<td style="text-align:right" class="right"><?php echo number_format($row->EQTY); ?></td>
 				</tr>
 						
 
