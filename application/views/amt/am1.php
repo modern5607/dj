@@ -96,7 +96,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td><?php echo $row->COMPONENT; ?></td>
 							<td><?php echo $row->COMPONENT_NM; ?></td>
 							<td class="cen"><?php echo $row->UNIT;?></td>
-							<td><?php echo $row->IN_QTY;?></td>
+							<td><?php echo number_format($row->IN_QTY);?></td>
 							<!--td><span class="btn mod_detail" data-idx="<?php echo $row->AIDX; //trans idx?>">수정</span></td-->
 						</tr>
 

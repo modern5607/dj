@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					<tr>
 						<td class="cen"><?php echo $row->IDX;?></td>
-						<td><span class="mod_biz  link_s1" data-idx="<?php echo $row->IDX;?>"><?php echo $row->CUST_NM; ?></span></td>
+						<td class="cen"><span class="mod_biz  link_s1" data-idx="<?php echo $row->IDX;?>"><?php echo $row->CUST_NM; ?></span></td>
 						<td><?php echo $row->ADDRESS;?></td>
 						<td><?php echo $row->TEL;?></td>
 						<td><?php echo $row->CUST_NAME;?></td>

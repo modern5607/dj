@@ -114,6 +114,7 @@ i { vertical-align: middle; }
 
 table td.cen{text-align:center;}
 table td.right{text-align:right;}
+table td.left{text-align:left;}
 
 /* 11 */
 #left_sbox{padding:0; margin:0; list-style:none; display:block; border:1px solid #ddd; overflow:hidden;}

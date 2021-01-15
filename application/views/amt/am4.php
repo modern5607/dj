@@ -59,7 +59,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="cen"><?php echo $no;?></td>
 					<td class="cen"><?php echo $row->ACT_DATE;?></td>
 					<td><strong><?php echo $row->ITEM_NM; ?></strong></td>
-					<td class="right"><?php echo $row->QTY; ?></td>
+					<td class="right"><?php echo number_format($row->QTY); ?></td>
 					<td class="cen">
 						<input type="text" name="OUT_QTY[]" class="form_input1" value="" size="6">
 						<input type="hidden" name="QTY[]" value="<?php echo $row->QTY; ?>">
