@@ -79,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-<!--
+
 var HIDX = "<?php echo $HIDX ?>"; //수주idx
 $("#s1").on("change",function(){
 	var idx = $(this).val();
@@ -119,7 +119,7 @@ $(".sh_submit").on("click",function(){
 				html += "<td>"+info.ITEM_NAME+"</td>";
 				html += "<td>"+info.COLOR+"</td>";
 				html += "<td>";
-				html += "	<input type='text' name='QTY[]' class='form_select' size='4' value='' />";
+				html += "	<input type='text' autocomplete='off' name='QTY[]' class='form_select' size='4' value='' />";
 				html += "	<input type='hidden' name='ITEM_IDX[]' value='"+info.ITEM_IDX+"' />";
 				html += "	<input type='hidden' name='ITEM_NM[]' value='"+info.ITEM_NAME+"' />";
 				html += "	<input type='hidden' name='SERIESD_IDX[]' value='"+info.SERIESD_IDX+"' />";
@@ -129,6 +129,21 @@ $(".sh_submit").on("click",function(){
 				html += "</tr>";
 				
 			});
+			var QTYlogic = "<script>"+
+				 "$('input[name=\"QTY[]\"]').on('propertychange change keyup paste',function(){"+
+					"var value = $(this).val();"+
+					"if($.isNumeric(value)){"+
+						"console.log('숫자');}"+
+					"else"+
+					"console.log('문자열')"+
+					// "var last = value[value.length-1];"+
+					// "if(!(last > 0&&last<9)){"+
+					// "alert('숫자만 입력해 주세요');"+
+					// "$(this).val('');}"+
+					// "console.log(last);"+
+				"});"+
+				"<\/script>";
+			html += QTYlogic;
 			$(".form_3 table tbody").html(html);
 		}
 
@@ -194,8 +209,4 @@ $("input[name='ACT_DATE'],#DEL_DATE").datetimepicker({
 });
 
 
-
-
-
-//-->
 </script>

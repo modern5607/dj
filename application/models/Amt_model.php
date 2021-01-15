@@ -57,7 +57,7 @@ class Amt_model extends CI_Model {
 		}
 
 		if(!empty($param['CUSTOMER']) && $param['CUSTOMER'] != ""){
-			$where .= " AND djsmart.T_BIZ_REG.CUST_NM LIKE '%{$param['CUSTOMER']}%'";
+			$where .= " AND (SELECT CUST_NM FROM djsmart.T_BIZ_REG WHERE IDX = A.BIZ_IDX) LIKE '%{$param['CUSTOMER']}%'";
 		}
 
 
@@ -90,13 +90,12 @@ class Amt_model extends CI_Model {
 				) as AA
 			
 			UNION
-			SELECT '','합계' AS TEXT,B.COMPONENT_NM, B.UNIT, SUM(IN_QTY) IN_QTY,'' 
+			SELECT '','합계' AS TEXT,'' COMPONENT_NM, '' UNIT, SUM(IN_QTY) IN_QTY,'' 
 			FROM 
 				T_COMPONENT_TRANS A, T_COMPONENT B
 			WHERE A.COMP_IDX = B.IDX
 			AND A.KIND = 'IN'
 			{$where}
-			GROUP BY COMP_IDX
 SQL;
 
 		
@@ -237,6 +236,7 @@ SQL;
 		//$this->db->order_by("A.TRANS_DATE ASC");
 		//$this->db->limit($limit,$start);
 		$query = $this->db->query($sql);
+		echo $this->db->last_query();
 		return $query->result();
 	}
 

@@ -36,10 +36,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tr>
 						<th>No</th>
 						<th>일자</th>
-						<th>거래처</th>
 						<th>자재명</th>
-						<th>단위</th>
 						<th>출고량</th>
+						<th>단위</th>
 						<th>비고</th>
 					</tr>
 				</thead>
@@ -51,8 +50,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<tr style="background:#f3f8fd;">
 					<td colspan="3" style="text-align:right;"><strong><?php echo $row->CUST_NM; ?></strong></td>
 					<td><?php echo $row->COMPONENT_NM; ?></td>
-					<td class="cen"><?php echo $row->UNIT; ?></td>
 					<td class="right"><strong><?php echo number_format($row->OUT_QTY); ?></strong></td>
+					<td class="cen"><?php echo $row->UNIT; ?></td>
 					<td class="cen"><?php echo $row->REMARK; ?></td>
 				</tr>
 				<?php
@@ -63,8 +62,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="cen"><?php echo $row->TRANS_DATE; ?></td>
 					<td><?php echo $row->CUST_NM; ?></td>
 					<td><?php echo $row->COMPONENT_NM; ?></td>
-					<td class="cen"><?php echo $row->UNIT; ?></td>
 					<td class="right"><?php echo number_format($row->OUT_QTY); ?></td>
+					<td class="cen"><?php echo $row->UNIT; ?></td>
+					
 					<td class="cen"><?php echo $row->REMARK; ?></td>
 				</tr>
 				<?php
