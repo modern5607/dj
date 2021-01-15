@@ -68,43 +68,46 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php if(!empty($headInfo)){ //hid값이 없는경우는 노출안됨 ?>
 					
 					<div class="ac_table">
-						<table>
+						<table style="margin-bottom: 6px;">
 							<tr>
-								<th>수주일자</th>
-								<td><?php echo substr($headInfo->ACT_DATE,0,10); ?></td>
+								<!--th>수주일자</th>
+								<td><?php echo substr($headInfo->ACT_DATE,0,10); ?></td-->
 								<th>거래처</th>
 								<td><?php echo $headInfo->CUST_NM; ?></td>
-							</tr>
-							<tr>
 								<th>수주명</th>
-								<td colspan="3"><?php echo $headInfo->ACT_NAME; ?></td>
+								<td><?php echo $headInfo->ACT_NAME; ?></td>
 							</tr>
 							<tr>
+								
 								<th>납품일자</th>
 								<td><b><?php echo substr($headInfo->DEL_DATE,0,10); ?></b></td>
 								<th>납품현황</th>
 								<td><?php echo ($headInfo->END_YN == "Y")?"납품완료":"준비중"; ?></td>
 							</tr>
 							<tr>
+								
+								
+							</tr>
+							<!--tr>
 								<th>세부사항</th>
 								<td colspan="3"><?php echo $headInfo->REMARK; ?></td>
-							</tr>
-							<tr>
+							</tr-->
+							<!--tr>
 								<th>특이사항</th>
 								<td colspan="3"><?php echo $headInfo->ORD_TEXT; ?></td>
-							</tr>
+							</tr-->
 						</table>
-
+						<span class="btni btn_right add_detail" data-hidx="<?php echo $HIDX; // idx?>"><span class="material-icons">add</span></span>
 					</div>
 
 					<!--a href="<?php echo base_url('PLN/index');?>" class="alink" style="float:left;">전체코드보기</a-->
-					<span class="btni btn_right add_detail" data-hidx="<?php echo $HIDX; // idx?>"><span class="material-icons">add</span></span>
+					
 					
 				<?php } ?>
 			</div>
 			<div class="tbl-content">
 			<?php if(!empty($detailList) || $HIDX){ ?>
-				<table cellpadding="0" cellspacing="0" border="0" width="100%">
+				<table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-top: 2px;">
 					<thead>
 						<tr>
 							<th>No</th>
@@ -127,7 +130,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td><?php echo $row->COLOR; ?></td>
 							<td class="cen"><?php echo $row->QTY;?></td>
 							<td><?php echo $row->REMARK;?></td>
-							<td><span class="btn mod_detail" data-idx="<?php echo $row->IDX; //detail idx?>">수정</span></td>
+							<td><span class="btn mod_detail" data-idx="<?php echo $row->IDX;?>" data-name="<?=$row->ITEM_NM?>" data-color="<?=$row->COLOR?>">삭제</span></td>
 						</tr>
 
 					<?php
@@ -244,8 +247,10 @@ $(".mod_head").on("click",function(){
 });
 
 $(".mod_detail").on("click",function(){
-	
 	var idx = $(this).data("idx");
+	
+	
+	/*
 	$(".ajaxContent").html('');
 	$("#pop_container").fadeIn();
 	$(".info_content").animate({
@@ -266,6 +271,7 @@ $(".mod_detail").on("click",function(){
 			alert(errorThrown);
 		}
 	});
+	*/
 
 });
 

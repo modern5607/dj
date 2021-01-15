@@ -421,7 +421,15 @@ class PLN extends CI_Controller {
 
 	}
 
-
+	//수주관리 목록 선택시 오른쪽에 나오는 상세 목록 삭제버튼
+	public function deletedetail()
+	{
+		$params['IDX'] = $this->input->post('idx');
+		$data = array();
+		$data['result'] = $this->pln_model->deletedetail($params);
+		var_dump($data['result']);
+		
+	}
 	
 
 	

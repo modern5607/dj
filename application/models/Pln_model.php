@@ -27,8 +27,10 @@ class Pln_model extends CI_Model {
 
 		$this->db->from("t_act_h as A");
 		$this->db->join("t_biz_reg as B","B.IDX = A.BIZ_IDX");
+		$this->db->order_by("ACT_DATE", "DESC");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
+		//echo $this->db->last_query();
 		return $query->result();
 
 	}
@@ -230,7 +232,14 @@ class Pln_model extends CI_Model {
 
 	}
 
+	public function deletedetail($params)
+	{
+		$sql = "DELETE FROM T_ACT_D WHERE IDX ={$params['IDX']}";
 
+		$query = $this->db->query($sql);
+		echo $this->db->last_query();
+		return $this->db->affected_rows();
+	}
 
 
 }
