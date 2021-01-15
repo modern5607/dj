@@ -137,6 +137,7 @@ class Act_model extends CI_Model {
 		$this->db->where("GJ_GB",$GJGB);
 
 		$query = $this->db->get();
+		// echo $this->db->Last_query();
 		return $query->result();
 	}
 
@@ -276,7 +277,7 @@ SQL;
 			$datax = array(
 				//"H_IDX"        => $params['H_IDX'][$k],
 				"ITEMS_IDX"    => $params['ITEM_IDX'][$k],
-				"TRANS_DATE"   => date("Y-m-d",time()),
+				"TRANS_DATE"   => $params['TRANS_DATE'][$k],
 				"KIND"         => "IN",
 				"GJ_GB"        => "SH",
 				"IN_QTY"       => $qty,
@@ -465,10 +466,9 @@ SQL;
 
 		if(!empty($param['V3']) && $param['V3'] != ""){
 			$where .= " AND A.GJ_GB = '{$param['V3']}'";
-		}else{
-			$where .= " AND A.GJ_GB like '%JH%'";
 		}
-
+		// else{$where .= " AND A.GJ_GB like '%JH%'";}
+		$where .= " AND A.GJ_GB != 'SH'";
 
 		$sql=<<<SQL
 			SELECT 
@@ -480,7 +480,11 @@ SQL;
 						B.ITEM_NAME,
 						A.IN_QTY, 
 						A.REMARK,
-						IF(A.GJ_GB = "JHBK","BK","") as BK
+						CASE
+							WHEN (A.GJ_GB = "JHBK") THEN "BK"
+							-- WHEN (A.GJ_GB = "SH") THEN "성형"
+							WHEN (A.GJ_GB = "JH") THEN "정형"
+						END as BK
 					FROM
 						T_ITEMS_TRANS A, 
 						T_ITEMS B
@@ -505,6 +509,7 @@ SQL;
 			-- LIMIT 0, 5
 SQL;
 		$query = $this->db->query($sql);
+		echo $this->db->Last_query();
 		return $query->result();
 	}
 
@@ -526,9 +531,8 @@ SQL;
 
 		if(!empty($param['V3']) && $param['V3'] != ""){
 			$where .= " AND A.GJ_GB = '{$param['V3']}'";
-		}else{
-			$where .= " AND A.GJ_GB like '%JH%'";
 		}
+		// else{$where .= " AND A.GJ_GB like '%JH%'";}
 		
 		$sql=<<<SQL
 			SELECT
@@ -542,6 +546,7 @@ SQL;
 				{$where}
 SQL;
 		$query = $this->db->query($sql);
+		
 		return $query->row()->CUT;
 
 	}

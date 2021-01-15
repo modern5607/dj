@@ -11,7 +11,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			
 			<div id="" class="bc_search">
 			<form>
-				<select name="v1">
+					<label for="sdate">수주일</label>
+					<input style="width:139px" type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>" size="10" /> ~ 
+					
+					<input style="width:139px" type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>" size="10" />
+				<select name="v1" style="width:165px">
 					<option value="">::거래처::</option>
 				<?php
 				foreach($BIZ as $row){
@@ -22,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}
 				?>
 				</select>
-				<select name="v2">
+				<select name="v2" style="width:165px">
 					<option value="">::시리즈::</option>
 				<?php
 				foreach($SERIES as $row){
@@ -33,16 +37,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}
 				?>
 				</select>
+				<br>
 				<label>품목</label>
-				<input type="text"autocomplete="off" name="v3" size="6" value="<?php echo (!empty($str['v3']))?$str['v3']:"";?>">
-				<div style="margin:5px 0;">
-					<label for="sdate">수주일</label>
-					<input type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>" size="10" /> ~ 
-					
-					<input type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>" size="10" />
+				<input style="width:248px" type="text"autocomplete="off" name="v3" size="6" value="<?php echo (!empty($str['v3']))?$str['v3']:"";?>">
 					<button class="search_submit"><i class="material-icons">search</i></button>
-				</div>
-				
 			</form>
 			</div>
 			

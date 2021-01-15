@@ -837,7 +837,7 @@ class ACT extends CI_Controller {
 				//$params['ITEM_NM'][$key] = $this->input->post("ITEM_NM")[$key];
 				//$params['SERIESD_IDX'][$key] = $this->input->post("SERIESD_IDX")[$key];
 				$params['REMARK'][$key] = $this->input->post("REMARK")[$key];
-				//$params['H_IDX'][$key] = $this->input->post("H_IDX")[$key];
+				$params['TRANS_DATE'][$key] = $this->input->post("TRANS_DATE")[$key];
 			}
 		}
 		

@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div id="" class="bc_search">
 			<form>
 				<input type='hidden' name='n' value='1'/>
-				<label for="sdate">실적등록일</label>
+				<label for="sdate">자재입고일</label>
 				<input type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>" size="10" /> ~ 
 				
 				<input type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>" size="10" />
@@ -94,8 +94,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr>
 							<td class="cen"><?php echo $num; ?></td>
 							<td><?php echo $row->ITEM_NAME; ?></td>
-							<td class="cen"><?php echo $row->IN_QTY; ?></td>
-							<td><?php echo $row->REMARK;?></td>
+							<td class="left"><?php echo $row->IN_QTY; ?></td>
+							<td class="cen"><?php echo $row->REMARK;?></td>
 							<td><span class="btn del_items" data-idx="<?php echo $row->TRANS_IDX; //detail idx?>">삭제</span></td>
 						</tr>
 

@@ -26,6 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<select name="s3" id="s3" class="form_input select_call" style="width:120px;">
 			<option value="">색상</option>
 		</select-->
+		
 		<button class="sh_submit"><i class="material-icons">search</i></button>
 	</div>
 	<form name="ajaxform" id="ajaxform">
@@ -42,6 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>No</th>
 							<th>품명</th>
 							<th>수량</th>
+							<th>자재입고일</th>
 							<th>비고</th>
 						</tr>
 					</thead>
@@ -123,8 +125,12 @@ $(".sh_submit").on("click",function(){
 					//html += "	<input type='hidden' name='SERIESD_IDX[]' value='"+info.SERIESD_IDX+"' />";
 					//html += "	<input type='hidden' name='H_IDX[]' value='"+HIDX+"' />";				
 					html += "</td>";
+					html += "<td>";
+					html += "	<input type='text' name='TRANS_DATE[]' class='form_select calendar' size='12' value='<?php echo (!empty($INFO))?$INFO->TRANS_DATE:date("Y-m-d",time())?>' />";
+					html += "</td>";
 					html += "<td><input type='text' name='REMARK[]' class='form_select' value='' /></td>";
 					html += "</tr>";
+					html += "<script type='text/javascript'>$('.calendar').datetimepicker({format:'Y-m-d',timepicker:false,lang:'ko-KR'});</script>";
 					
 				});
 			}else{
@@ -193,7 +199,6 @@ $("input[name='ACT_DATE'],#DEL_DATE").datetimepicker({
 	timepicker:false,
 	lang:'ko-KR'
 });
-
 
 
 
