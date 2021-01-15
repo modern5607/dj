@@ -8,7 +8,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </h2>
 
 
-
+<style>
+.gsdetailT{height:32px;line-height:30px;}
+</style>
 <div class="formContainer">
 	
 	<form name="bizRegForm" id="bizRegForm">
@@ -22,6 +24,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th><label class="l_id">업체명</label></th>
 							<td>
 								<input type="text" name="CUST_NM" value="<?php echo isset($data->CUST_NM)?$data->CUST_NM:"";?>" class="form_input input_100">
+							</td>
+						</tr>
+						<tr>
+							<th><label class="l_id">거래처구분</label></th>
+							<?php	
+								$buyer = (empty($data->CUST_TYPE) || $data->CUST_TYPE !== "buyer")?"":"selected";
+								$customer = (empty($data->CUST_TYPE) || $data->CUST_TYPE !== "customer")?"":"selected";
+							?>
+							<td>
+								<select name="CUST_TYPE" class="form_input input_100">
+									<option value="">::선택::</option>
+									<option value="buyer" <?=$buyer?>>매입처</option>
+									<option value="customer" <?=$customer?>>매출처</option>
+								</select>
 							</td>
 						</tr>
 						<tr>
@@ -51,9 +67,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr>
 							<th><label class="l_pw">비고</label></th>
 							<td>
-								<textarea name="REMARK" class="form_input input_100">
-									<?php echo isset($data->REMARK)?$data->REMARK:"";?>
-								</textarea>
+								<textarea name="REMARK" class="form_input input_100"><?php echo isset($data->REMARK)?$data->REMARK:"";?></textarea>
 							</td>
 						</tr>
 						<?php
@@ -62,21 +76,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr>
 							<th><label class="l_pw">생성ID</label></th>
 							<td>
-								<?php echo $data->INSERT_ID;?>
+								<div class="gsdetailT"><?php echo $data->INSERT_ID;?></div>
 								<input type="hidden" name="IDX" value="<?php echo $data->IDX;?>">
 							</td>
 						</tr>
 						<tr>
 							<th><label class="l_pw">등록일</label></th>
 							<td>
-								<?php echo $data->INSERT_DATE;?>
+								<div class="gsdetailT"><?php echo $data->INSERT_DATE;?></div>
 							</td>
 						</tr>
 						<?php if($data->UPDATE_ID != ""){ ?>
 						<tr>
 							<th><label class="l_pw">수정ID</label></th>
 							<td>
-								<?php echo $data->UPDATE_ID;?>
+								<div class="gsdetailT"><?php echo $data->UPDATE_ID;?></div>
 							</td>
 						</tr>
 						<?php } ?>
@@ -84,13 +98,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr>
 							<th><label class="l_pw">수정일</label></th>
 							<td>
-								<?php echo $data->UPDATE_DATE;?>
+								<div class="gsdetailT"><?php echo $data->UPDATE_DATE;?></div>
 							</td>
 						</tr>
 						<?php } ?>
 						<?php
 						}	
 						?>
+						<tr>
+							<th><label class="l_pw">사용유무</label></th>
+							<td>
+								<?php	
+									$Y = (empty($data->CUST_USE) || $data->CUST_USE == "Y")?"checked":"";
+									$N = (empty($data->CUST_USE) || $data->CUST_USE !== "N")?"":"checked";
+								?>
+								<div class="gsdetailT"><label>사용 <input type="radio" name="CUST_USE" value="Y" <?=$Y?>></label>
+								<label>미사용 <input type="radio" name="CUST_USE" value="N" <?=$N?>></label></div>
+							</td>
+						</tr>
 						
 					</tbody>
 				</table>

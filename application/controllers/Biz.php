@@ -87,15 +87,17 @@ class Biz extends CI_Controller {
 	//업체등록 update
 	public function set_bizRegUpdate()
 	{
-		$params['mod']            = $this->input->post("mod");
-		$params['IDX']             = $this->input->post("IDX");
-		$params['CUST_NM']    = $this->input->post("CUST_NM");
-		$params['ADDRESS']    = $this->input->post("ADDRESS");
-		$params['TEL']             = $this->input->post("TEL");
+		$params['mod']        	= $this->input->post("mod");
+		$params['IDX']        	= $this->input->post("IDX");
+		$params['CUST_NM']    	= $this->input->post("CUST_NM");
+		$params['CUST_TYPE']    = $this->input->post("CUST_TYPE");
+		$params['ADDRESS']    	= $this->input->post("ADDRESS");
+		$params['TEL']          = $this->input->post("TEL");
 		$params['CUST_NAME']    = $this->input->post("CUST_NAME");
-		$params['ITEM']          = $this->input->post("ITEM");
-		$params['REMARK']    = $this->input->post("REMARK");
-		$params['INSERT_ID'] = $this->session->userdata('user_name');
+		$params['ITEM']         = $this->input->post("ITEM");
+		$params['REMARK']    	= $this->input->post("REMARK");
+		$params['CUST_USE'] 	= $this->input->post("CUST_USE");
+		$params['INSERT_ID'] 	= $this->session->userdata('user_name');
 
 		$ins = $this->biz_model->bizReg_update($params);
 		

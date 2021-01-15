@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>담당자</th>
 						<th>주거래품목</th>
 						<th>비고</th>
-						<th></th>
+						<th>사용유무</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -40,7 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<td><?php echo $row->CUST_NAME;?></td>
 						<td><?php echo $row->ITEM;?></td>
 						<td><?php echo $row->REMARK;?></td>
-						<td></td>
+						<td><?php echo $row->CUST_USE;?></td>
 					</tr>
 
 				<?php

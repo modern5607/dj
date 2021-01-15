@@ -10,7 +10,7 @@ class Biz_model extends CI_Model {
 
 
 
-	/* ¾÷Ã¼ ¸®½ºÆ® */
+	/* ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½Æ® */
 	public function get_bizReg_list()
 	{
 		$res = $this->db->get("T_BIZ_REG");
@@ -20,7 +20,7 @@ class Biz_model extends CI_Model {
 
 	
 
-	/* ¾÷Ã¼ µî·Ï */
+	/* ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ */
 	public function bizReg_update($param)
 	{
 
@@ -29,16 +29,18 @@ class Biz_model extends CI_Model {
 			$dateTime = date("Y-m-d H:i:s",time());
 			
 			$data = array(
-				'CUST_NM'        => $param['CUST_NM'],
-				'ADDRESS'        => $param['ADDRESS'],
-				'TEL'                 => $param['TEL'],
-				'CUST_NAME'    => $param['CUST_NAME'],
-				'ITEM'               => $param['ITEM'],
-				'REMARK'          => $param['REMARK'],
-				'UPDATE_ID'      => $param['INSERT_ID'],
-				'UPDATE_DATE' => $dateTime,
-				'COL1'        => '',
-				'COL2'        => ''
+				'CUST_NM'       => $param['CUST_NM'],
+				'CUST_TYPE'     => $param['CUST_TYPE'],
+				'ADDRESS'       => $param['ADDRESS'],
+				'TEL'           => $param['TEL'],
+				'CUST_NAME'		=> $param['CUST_NAME'],
+				'ITEM'          => $param['ITEM'],
+				'REMARK'        => $param['REMARK'],
+				'CUST_USE'     	=> $param['CUST_USE'],
+				'UPDATE_ID'     => $param['INSERT_ID'],
+				'UPDATE_DATE' 	=> $dateTime,
+				'COL1'        	=> '',
+				'COL2'        	=> ''
 			);
 			$this->db->update("T_BIZ_REG",$data,array("IDX"=>$param['IDX']));
 			return $param['IDX'];
@@ -75,7 +77,7 @@ class Biz_model extends CI_Model {
 
 
 
-	/* ¾÷Ã¼Á¤º¸ »ó¼¼Á¤º¸ */
+	/* ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 	public function get_bizReg_info($idx)
 	{
 		$res = $this->db->where("IDX",$idx)
@@ -92,7 +94,7 @@ class Biz_model extends CI_Model {
 
 
 	/*
-	* Æ¯Á¤ °øÅëÄÚµåÀÇ µðÅ×ÀÏ¸®½ºÆ®¸¦ È£Ãâ
+	* Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ È£ï¿½ï¿½
 	*/
 	public function get_selectInfo()
 	{

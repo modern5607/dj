@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>주문수량</th>
 						<th>출고수량</th>
 						<th>출고일</th>
-						<th>비고</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -61,11 +61,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td><strong><?php echo $row->ITEM_NM; ?></strong></td>
 					<td class="right"><?php echo $row->QTY; ?></td>
 					<td class="cen">
-						<input type="text" name="OUT_QTY[]" class="form_input1" value="" size="6">
+						<input type="number" name="OUT_QTY[]" class="form_input1" value="<?php echo $row->QTY; ?>" size="6">
 						<input type="hidden" name="QTY[]" value="<?php echo $row->QTY; ?>">
 					</td>
-					<td class="cen"><input type="text" name="OUT_DATE[]" class="form_input1" value=""></td>
-					<td class="cen"><span class="btn mod_stock" data-actidx="<?php echo $row->ACT_IDX;?>"  data-seriesd="<?php //echo $row->SERIESD_IDX;?>">수정</span></td>
+					<td class="cen"><input type="text" name="OUT_DATE[]" class="form_input1 calendar" value="" /> </td>
+					<!-- <td class="cen"><input type="text" name="OUT_DATE[]" class="form_input1" value=""></td> -->
+					<td class="cen"><span class="btn mod_stock" data-actidx="<?php echo $row->ACT_IDX;?>"  data-seriesd="<?php //echo $row->SERIESD_IDX;?>">출고</span></td>
 				</tr>
 						
 
@@ -165,34 +166,47 @@ $(".mod_stock").on("click",function(){
 	var outqty = $(this).parents("tr").find("input[name^='OUT_QTY']").val();
 	var qty = $(this).parents("tr").find("input[name^='QTY']").val();
 	var xdate = $(this).parents("tr").find("input[name^='OUT_DATE']").val();
+	var itemnm = $(this).parents("tr").find('strong').text();
 
 	$this = $(this);
 	
-	
-	if(outqty == 0 || outqty == ""){
-		alert('출고수량을 입력하세요');
+	if(xdate == 0 || xdate == ""){
+		alert('출고일을 입력하세요');
+		$this.parents("tr").find("input[name^='OUT_DATE']").focus();
 		return false;
 	}
-
-	
-	
-	$.post("<?php echo base_url('AMT/ajax_am4_listupdate')?>",{actidx:actidx, seriesd:seriesd, outqty:outqty, xdate:xdate},function(data){
-		if(data.status != ""){
-			alert(data.msg);
-			if(data.status == "Y"){
-				location.reload();
-			}else{
-				$this.parents("tr").find("input[name^='OUT_QTY']").val('');
-				$this.parents("tr").find("input[name^='OUT_DATE']").val('');
-				$this.parents("tr").find("input[name^='OUT_QTY']").focus();
-			}
+	if(confirm(itemnm+"을(를) "+xdate+"에 출고하시겠습니까?") !== false){
+		if(outqty == 0 || outqty == ""){
+			alert('출고수량을 입력하세요');
+			$this.parents("tr").find("input[name^='OUT_QTY']").focus();
+			return false;
 		}
-	},"JSON");
 
+	
+	
+		$.post("<?php echo base_url('AMT/ajax_am4_listupdate')?>",
+			{actidx:actidx, seriesd:seriesd, outqty:outqty, xdate:xdate},
+				function(data){
+					if(data.status != ""){
+						alert(data.msg);
+						if(data.status == "Y"){
+							location.reload();
+						}else{
+							$this.parents("tr").find("input[name^='OUT_QTY']").val('');
+							$this.parents("tr").find("input[name^='OUT_DATE']").val('');
+						}
+					}
+				},"JSON"
+		);
+	}
 });
 
 
-
+$(".calendar").datetimepicker({
+	format:'Y-m-d H:i:s',
+	timepicker:false,
+	lang:'ko-KR'
+});
 
 //-->
 </script>

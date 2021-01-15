@@ -54,20 +54,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</li>
 		<li style="width:75%;">
 			
-			<div id="" class="bc_search" style="background:#f8f8f8;">
-			<form>
-				<label for="component">자재코드</label>
-				<input type="text"  autocomplete="off"name="component" id="component" value="<?php echo $str['component']?>">
-
-				<label for="component_nm">자재명</label>
-				<input type="text" autocomplete="off" name="component_nm" id="component_nm" value="<?php echo $str['component_nm']?>">
+			<div id="items_formupdate" class="bc_search gsflexst">
+				<form>
+					<label for="component">자재코드</label>
+						<input type="text"  autocomplete="off"name="component" id="component" value="<?php echo $str['component']?>">
+					<label for="component_nm">자재명</label>
+						<input type="text" autocomplete="off" name="component_nm" id="component_nm" value="<?php echo $str['component_nm']?>">
 				
-				<button class="search_submit"><i class="material-icons">search</i></button>
-			</form>
-			</div>
-
-			<div class="bc_header none_padding">
-				<span class="btni btn_right add_compnum"><span class="material-icons">add</span></span>	
+					<button class="search_submit"><i class="material-icons">search</i></button>
+				</form>
+					<span class="btni btn_right add_compnum" style="max-height:34px;"><span class="material-icons">add</span></span>	
 			</div>
 
 			<div class="tbl-content">
@@ -95,7 +91,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td><?php echo $row->COMPONENT; ?></td>
 							<td><?php echo $row->COMPONENT_NM; ?></td>
 							<td class="cen"><?php echo $row->UNIT;?></td>
-							<td><?php echo $row->IN_QTY;?></td>
+							<td><?php echo number_format($row->IN_QTY);?></td>
 							<!--td><span class="btn mod_detail" data-idx="<?php echo $row->AIDX; //trans idx?>">수정</span></td-->
 						</tr>
 

@@ -337,7 +337,7 @@ SQL;
 						->limit($limit, $start)
 						->order_by("TAH.ACT_DATE","DESC")
 						->get();
-		//echo $this->db->last_query();
+		echo $this->db->last_query();
 		return $query->result();
 	}
 

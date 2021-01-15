@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td>
 								<?php
 								if(!empty($COMP)){
-									echo "<select name='component' id='component' class='form_input select_call'>";
+									echo "<select name='COMPONENT_NM' id='COMPONENT_NM' class='form_input select_call'>";
 									echo "	<option value=''>::자재선택::</option>";
 									foreach($COMP as $co){
 										$selected = (!empty($INFO) && $INFO->COMP_IDX == $co->IDX)?"selected":"";
@@ -56,16 +56,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<?php
 								foreach($CUST as $cust){
 									$selected = (!empty($INFO) && $INFO->BIZ_IDX == $cust->IDX)?"selected":"";
-
-									echo '<option value="'.$cust->IDX.'" '.$selected.'>'.$cust->CUST_NM.'</option>';
+									if($cust->CUST_TYPE == "buyer"){
+										echo '<option value="'.$cust->IDX.'" '.$selected.'>'.$cust->CUST_NM.'</option>';
+									}
 								}
 								?>
 								</select>
+
 							</td>
 						</tr>
 						<tr>
-							<th>입고량</th>
-							<td><input type="text" name="IN_QTY" class="form_input input_100" value="<?php echo (!empty($INFO))?$INFO->IN_QTY:""; ?>" style="padding:6px 10px;"></td>
+							<th>입고량<span class="re"></span></th>
+							<td><input type="number" name="IN_QTY" class="form_input input_100" value="<?php echo (!empty($INFO))?$INFO->IN_QTY:""; ?>" style="padding:6px 10px;"></td>
 						</tr>
 						<tr>
 							<th>입고일자<span class="re"></span></th>
@@ -75,7 +77,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</tr>
 						<tr>
 							<th>비고</th>
-							<td><input type="text" name="REMARK" class="form_input input_100" style="padding:6px 10px;" value="<?php echo (!empty($INFO))?$INFO->REMARK:date("Y-m-d",time())?>"></td>
+							<td><input type="text" name="REMARK" class="form_input input_100" style="padding:6px 10px;" value=""></td>
 						</tr>
 					</tbody>
 				</table>
@@ -106,7 +108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-<!--
+
 
 
 $(".submitBtn").on("click",function(){
@@ -114,7 +116,49 @@ $(".submitBtn").on("click",function(){
 	var formData = new FormData($("#ajaxform")[0]);
 	var $this = $(this);
 
-		
+	var COMPONENT_NM     = $("select[name='COMPONENT_NM']");
+	var BIZ_IDX 	= $("select[name='BIZ_IDX']");
+	var IN_QTY = $("input[name='IN_QTY']");
+	var TRANS_DATE     = $("input[name='TRANS_DATE']");
+	var REMARK     = $("input[name='REMARK']");
+
+
+	var midx = $("input[name='midx']").val();
+
+	if(COMPONENT_NM.val()=="")
+	{
+		alert('자재를 선택하세요.');
+		COMPONENT_NM.focus();
+		return false;
+	}
+
+	if(BIZ_IDX.val()=="")
+	{
+		alert('거래처를 선택하세요.');
+		BIZ_IDX.focus();
+		return false;
+	}
+
+	if(IN_QTY.val()=="")
+	{
+		alert('입고량을 작성하세요.');
+		IN_QTY.focus();
+		return false;
+	}
+
+	if(TRANS_DATE.val()=="")
+	{
+		alert('입고일자를 작성하세요.');
+		TRANS_DATE.focus();
+		return false;
+	}
+
+	if(REMARK.val()=="")
+	{
+		alert('비고를 작성하세요.');
+		REMARK.focus();
+		return false;
+	}
 
 	$.ajax({
 		url  : "<?php echo base_url('AMT/ajax_component_set_qty')?>",
@@ -173,5 +217,4 @@ $("input[name='TRANS_DATE']").datetimepicker({
 
 
 
-//-->
 </script>

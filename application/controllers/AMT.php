@@ -570,7 +570,7 @@ class AMT extends CI_Controller {
 	public function ajax_component_set_qty()
 	{
 		$params['MOD'] = $this->input->post("mod");
-		$params['IDX'] = $this->input->post("component"); //t_component IDX
+		$params['IDX'] = $this->input->post("COMPONENT_NM"); //t_component IDX
 		$params['BIZ_IDX'] = $this->input->post("BIZ_IDX");
 		$params['IN_QTY'] = $this->input->post("IN_QTY");
 		$params['TRANS_DATE'] = $this->input->post("TRANS_DATE");

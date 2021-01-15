@@ -1,11 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-<style>
-	.gsflexst{
-		display:flex; justify-content: space-between; flex-wrap:wrap; align-items: flex-end;
-	}
-</style>
+
 <div class="body_cont_float1">
 	<ul>
 		<li>
