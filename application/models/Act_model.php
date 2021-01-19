@@ -114,15 +114,15 @@ class Act_model extends CI_Model {
 	
 	public function item_trans_numlist($date='',$param)
 	{
-		// $where='';
-		$this->db->select("B.*, A.IN_QTY, A.REMARK, A.IDX as TRANS_IDX, H.SERIES_NM");
-		$this->db->from("t_items_trans as A");
-		$this->db->join("t_items as B","B.IDX = A.ITEMS_IDX");
-		$this->db->join("t_series_h as H","H.IDX = B.SERIES_IDX","LEFT");
+		 $where='';
+		// $this->db->select("B.*, A.IN_QTY, A.REMARK, A.IDX as TRANS_IDX, H.SERIES_NM");
+		// $this->db->from("t_items_trans as A");
+		// $this->db->join("t_items as B","B.IDX = A.ITEMS_IDX");
+		// $this->db->join("t_series_h as H","H.IDX = B.SERIES_IDX","LEFT");
 		
-		if(!empty($param['V1']) && $param['V1'] != ""){
-			$this->db->where("B.SERIES_IDX",$param['V1']);
-		}
+		// if(!empty($param['V1']) && $param['V1'] != ""){
+		// 	$this->db->where("B.SERIES_IDX",$param['V1']);
+		// }
 		if(!empty($param['COMPONENT']) && $param['COMPONENT'] != ""){
 			//$this->db->like("B.ITEM_NO",$param['COMPONENT']);
 			$where .= "AND B.ITEM_NO LIKE '%{$param['COMPONENT']}%'";
@@ -155,46 +155,46 @@ class Act_model extends CI_Model {
 		//$this->db->where("A.ITEMS_IDX = B.IDX");
 		//$this->db->where("B.SERIES_IDX = C.IDX");
 
-		$query = $this->db->get();
+		// $query = $this->db->get();
 
-// 		$sql=<<<SQL
-// 		SELECT 
-// 			AA.*
-// 		FROM 
-// 			(
-// 				SELECT
-// 					A.IDX AS TRANS_IDX,
-// 					C.SERIES_NM,
-// 					B.ITEM_NAME,
-// 					A.IN_QTY, 
-// 					A.REMARK
+		$sql=<<<SQL
+		SELECT 
+			AA.*
+		FROM 
+			(
+				SELECT
+					A.IDX AS TRANS_IDX,
+					C.SERIES_NM,
+					B.ITEM_NAME,
+					A.IN_QTY, 
+					A.REMARK
 					
-// 				FROM
-// 					T_ITEMS_TRANS A, 
-// 					T_ITEMS B,
-// 					T_SERIES_H C
-// 				WHERE
-// 					A.ITEMS_IDX = B.IDX
-// 					AND	A.KIND = 'IN'
-// 					AND B.SERIES_IDX = C.IDX
-// 					{$where}
-// 			) as AA
+				FROM
+					T_ITEMS_TRANS A, 
+					T_ITEMS B,
+					T_SERIES_H C
+				WHERE
+					A.ITEMS_IDX = B.IDX
+					AND	A.KIND = 'IN'
+					AND B.SERIES_IDX = C.IDX
+					{$where}
+			) as AA
 		
-// 		UNION
-// 		SELECT '','합계' AS TEXT,'', SUM(IN_QTY) as IN_QTY,''
-// 		FROM 
-// 			T_ITEMS_TRANS A, 
-// 			T_ITEMS B,
-// 			T_SERIES_H C
-// 		WHERE 
-// 			A.ITEMS_IDX = B.IDX
-// 			AND A.KIND = 'IN'
-// 			AND B.SERIES_IDX = C.IDX
-// 			{$where}
-// SQL;
+		UNION
+		SELECT '','합계' AS TEXT,'', SUM(IN_QTY) as IN_QTY,''
+		FROM 
+			T_ITEMS_TRANS A, 
+			T_ITEMS B,
+			T_SERIES_H C
+		WHERE 
+			A.ITEMS_IDX = B.IDX
+			AND A.KIND = 'IN'
+			AND B.SERIES_IDX = C.IDX
+			{$where}
+SQL;
 
-// 		$query = $this->db->query($sql);
-		//echo $this->db->last_query();
+		$query = $this->db->query($sql);
+		echo $this->db->last_query();
 		return $query->result();
 	}
 
