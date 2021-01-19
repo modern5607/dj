@@ -76,7 +76,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr <?php echo ($OIDX == $row->IDX)?"class='over'":"";?>>
 							<td class="cen"><?php echo $num;?></td>
 							<td class="cen"><?php echo substr($row->ACT_DATE,0,10);?></td>
-							<td class="cen"><?php echo $row->SE_NAME;?></td>
+							<td class="cen"><?php echo $row->SERIES_NM;?></td>
 							<td>
 								<a href="<?php echo base_url($this->data['pos'].'/a11/'.$row->IDX);?>" class="link_s1">
 									<?php echo $row->ITEM_NM;?>

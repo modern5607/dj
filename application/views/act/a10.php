@@ -132,7 +132,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td class="cen"><?php echo $row->COLOR;?></td>
 							<td class="right"><?php echo number_format($row->QTY);?></td>
 							<td>
-								<input type="text" name="IN_QTY[]" value="" />
+								<input type="text" name="IN_QTY[]" value="" autocomplete="off" style="text-align: right; border:1px solid #ddd; padding:3px 7px; margin: 3px 4px;"/>
 								<input type="hidden" name="AD_IDX[]" value="<?php echo $row->IDX;?>" />
 								<input type="hidden" name="ACT_IDX[]" value="<?php echo $row->H_IDX;?>" />
 								<input type="hidden" name="ITEMS_IDX[]" value="<?php echo $row->ITEMS_IDX?>" />

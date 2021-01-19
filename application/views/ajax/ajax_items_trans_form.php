@@ -130,6 +130,7 @@ $(".sh_submit").on("click",function(){
 					html += "</td>";
 					html += "<td><input type='text' name='REMARK[]' class='form_select' value='' /></td>";
 					html += "</tr>";
+					html += "<script type='text/javascript'>$('.calendar').datetimepicker({format:'Y-m-d',timepicker:false,lang:'ko-KR'});<\/script>";
 					
 				});
 			}else{
@@ -201,5 +202,4 @@ $("input[name='ACT_DATE'],#DEL_DATE,.calendar").datetimepicker({
 
 
 
-//-->
 </script>

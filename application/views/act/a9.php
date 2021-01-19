@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <input type="text" name="edate" class="edate calendar"
                         value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>"
                         size="10" />
-
+                    
                     <button class="search_submit"><i class="material-icons">search</i></button>
                 </form>
             </div>
@@ -61,12 +61,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			
 			<div id="" class="bc_search gsflexst" style="background:#f8f8f8;">
 			<form>
-				<label for="component">제품코드</label>
-				<input type="text"autocomplete="off" name="component" id="component" value="<?php echo $str['component']?>">
+				<!--label for="component">제품코드</label>
+				<input type="text"autocomplete="off" name="component" id="component" value="<?php echo $str['component']?>"-->
 
 				<label for="component_nm">제품명</label>
 				<input type="text"autocomplete="off" name="component_nm" id="component_nm" value="<?php echo $str['component_nm']?>">
-				
+                
+                <select name="v1">
+						<option value="">::시리즈::</option>
+					<?php
+					foreach($SERIES as $row){
+						
+						$selected = (!empty($str['v1']) && $row->IDX == $str['v1'])?"selected":"";
+					?>
+						<option value="<?php echo $row->IDX;?>" <?php echo $selected;?>><?php echo $row->SERIES_NM;?></option>
+					<?php
+					}
+					?>
+					</select>
 				<button class="search_submit"><i class="material-icons">search</i></button>
 			</form>
 				<span class="btni btn_right add_itemnum" style="max-height:34px;" data-type="<?php echo $this->data['subpos'];?>"><span class="material-icons">add</span></span>	
@@ -93,9 +105,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 if($row->SERIES_NM == "합계"){ ?>
                                     <tr style="background:#f3f8fd;">
                                         <td colspan="2" style="text-align:right;"><strong><?php echo $row->SERIES_NM; ?></strong></td>
-                                        <td><?php echo $row->ITEM_NAME; ?></td>
+                                        <td></td>
                                         <td class="right"><strong><?php echo $row->IN_QTY; ?></strong></td>
-                                        <td><?php echo $row->REMARK?></td>
+                                        <td></td>
                                         <td></td>
                                     </tr>
                                 <?php
