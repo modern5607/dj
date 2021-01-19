@@ -86,8 +86,8 @@ class AMT extends CI_Controller {
 		$data['str']['v3'] = $this->input->get('v3');
 		$data['str']['v4'] = $this->input->get('v4');
 
-		$params['SDATE'] = "";
-		$params['EDATE'] = "";
+		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+		$params['EDATE'] = date("Y-m-d");
 		
 		$params['V1'] = "";
 		$params['V2'] = "";
@@ -199,8 +199,8 @@ class AMT extends CI_Controller {
 		$data['str']['v3'] = $this->input->get('v3');
 		$data['str']['v4'] = $this->input->get('v4');
 
-		$params['SDATE'] = "";
-		$params['EDATE'] = "";
+		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+		$params['EDATE'] = date("Y-m-d");
 		
 		$params['V1'] = "";
 		$params['V2'] = "";
@@ -316,8 +316,8 @@ class AMT extends CI_Controller {
 		$data['str']['v3'] = $this->input->get('v3');
 		$data['str']['v4'] = $this->input->get('v4');
 
-		$params['SDATE'] = "";
-		$params['EDATE'] = "";
+		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+		$params['EDATE'] = date("Y-m-d");
 		
 		$params['V1'] = "";
 		$params['V2'] = "";
@@ -430,8 +430,8 @@ class AMT extends CI_Controller {
 		$data['str']['v3'] = $this->input->get('v3');
 		$data['str']['v4'] = $this->input->get('v4');
 
-		$params['SDATE'] = "";
-		$params['EDATE'] = "";
+		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+		$params['EDATE'] = date("Y-m-d");
 		
 		$params['V1'] = "";
 		$params['V2'] = "";

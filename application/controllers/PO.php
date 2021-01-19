@@ -84,9 +84,9 @@ class PO extends CI_Controller {
 		$data['str']['component_nm'] = $this->input->get('component_nm');
 
 
-		$params['SDATE'] = "";
-		$params['EDATE'] = "";
-		
+		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+		$params['EDATE'] = date("Y-m-d");
+
 		$params['COMPONENT'] = "";
 		$params['COMPONENT_NM'] = "";
 
@@ -184,8 +184,8 @@ class PO extends CI_Controller {
 		$data['str']['component_nm'] = $this->input->get('component_nm');
 		$data['str']['customer'] = $this->input->get('customer');
 
-		$params['SDATE'] = "";
-		$params['EDATE'] = "";
+		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+		$params['EDATE'] = date("Y-m-d");
 		
 		$params['COMPONENT'] = "";
 		$params['COMPONENT_NM'] = "";
@@ -275,12 +275,18 @@ class PO extends CI_Controller {
 		check_pageLevel();
 		
 		$data['str'] = array(); //검색어관련
-		
+	
+		$data['str']['v1'] = $this->input->get('v1');
+		$data['str']['v2'] = $this->input->get('v2');
+			
 		$data['str']['sdate'] = $this->input->get('sdate');
 		$data['str']['edate'] = $this->input->get('edate');
 
 		$data['str']['component'] = $this->input->get('component');
 		$data['str']['component_nm'] = $this->input->get('component_nm');
+
+		$params['V1'] = "";
+		$params['V2'] = "";
 
 		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
 		$params['EDATE'] = date("Y-m-d");
@@ -290,6 +296,14 @@ class PO extends CI_Controller {
 
 		$data['qstr'] = "?P";
 		
+		if(!empty($data['str']['v1'])){
+			$params['V1'] = $data['str']['v1'];
+			$data['qstr'] .= "&v1=".$data['str']['v1'];
+		}
+		if(!empty($data['str']['v2'])){
+			$params['V2'] = $data['str']['v2'];
+			$data['qstr'] .= "&v2=".$data['str']['v2'];
+		}
 		if(!empty($data['str']['sdate'])){
 			$params['SDATE'] = $data['str']['sdate'];
 			$data['qstr'] .= "&sdate=".$data['str']['sdate'];
@@ -327,7 +341,8 @@ class PO extends CI_Controller {
 		$data['List'] = $this->amt_model->component_trans_am2list_out($params,$start,$config['per_page']);
 		$this->data['cnt'] = $this->amt_model->component_trans_am2list_cnt_out($params);
 		
-		
+		$data['SERIES'] = $this->main_model->get_seriesh_select();
+
 		/* pagenation start */
 
 		$this->load->library("pagination");

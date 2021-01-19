@@ -13,8 +13,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		
 		<input type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>" size="10" />
 					
-		<label for="component">자재코드</label>
-		<input type="text" autocomplete="off" name="component" id="component" value="<?php echo $str['component']?>">
+		<label for="v1">시리즈</label>
+		<select name="v1">
+			<option value="">전체</option>
+		<?php
+		foreach($SERIES as $row){
+			$selected = (!empty($str['v1']) && $row->IDX == $str['v1'])?"selected":"";
+		?>
+			<option value="<?php echo $row->IDX;?>" <?php echo $selected;?>><?php echo $row->SERIES_NM;?></option>
+		<?php
+		}
+		?>
+		</select>
+
+		<label for="v2">품목</label>
+		<input type="text"autocomplete="off" name="v2" id="v2" value="<?php echo $str['v2']?>">
 
 		<label for="component_nm">자재명</label>
 		<input type="text"autocomplete="off" name="component_nm" id="component_nm" value="<?php echo $str['component_nm']?>">

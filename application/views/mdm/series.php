@@ -72,7 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div id="items_formupdate" class="bc_search gsflexst" style="min-height:76px;">
 		<?php if($de_show_chk){?>
 				<div class="gsflexst">
-					<p style="font-size:20px; line-height:36px; padding:0 10px;"> <?php echo $series_headList[$H_IDX-1]->SERIES_NM; ?> </p>
+					<p style="font-size:20px; line-height:36px; padding:0 10px;"> <?php echo $series_detailList[0]->SERIES_NM; ?> </p>
 
 					<form>
 						<label for="colorcode">색상코드</label>
@@ -80,10 +80,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<label for="colorname">색상명</label>
 							<input type="text" name="cnm" size="12" value="<?php echo $str['cnm']?>">
 						<label for="duse">사용여부</label>
-							<select name="v2">
+							<select name="dv2">
 								<option value="">전체</option>		
-								<option value="Y" <?php echo ($str['v2'] == "Y")?"selected":"";?>>사용</option>
-								<option value="N" <?php echo ($str['v2'] == "N")?"selected":"";?>>미사용</option>		
+								<option value="Y" <?php echo ($str['dv2'] == "Y")?"selected":"";?>>사용</option>
+								<option value="N" <?php echo ($str['dv2'] == "N")?"selected":"";?>>미사용</option>		
 							</select>	
 						<button class="search_submit"><i class="material-icons">search</i></button>
 					</form>

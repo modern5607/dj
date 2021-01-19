@@ -153,12 +153,12 @@ $(".submitBtn").on("click",function(){
 		return false;
 	}
 
-	if(REMARK.val()=="")
-	{
-		alert('비고를 작성하세요.');
-		REMARK.focus();
-		return false;
-	}
+	// if(REMARK.val()=="")
+	// {
+	// 	alert('비고를 작성하세요.');
+	// 	REMARK.focus();
+	// 	return false;
+	// }
 
 	$.ajax({
 		url  : "<?php echo base_url('AMT/ajax_component_set_qty')?>",

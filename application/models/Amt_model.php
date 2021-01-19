@@ -190,7 +190,13 @@ SQL;
 		if(!empty($param['COMPONENT_NM']) && $param['COMPONENT_NM'] != ""){
 			$where .= " AND B.COMPONENT_NM LIKE '%{$param['COMPONENT_NM']}%'";
 		}
+		if(!empty($param['V1']) && $param['V1'] != ""){
+			$where .= " AND TI.SERIES_IDX = '{$param['V1']}'";
+		}
 
+		if(!empty($param['V2']) && $param['V2'] != ""){
+			$where .= " AND TI.ITEM_NAME LIKE '%{$param['V2']}%'";
+		}
 
 
 		$sql=<<<SQL
@@ -201,7 +207,7 @@ SQL;
 				AA.UNIT, 
 				AA.OUT_QTY, 
 				AA.REMARK,
-				TI.ITEM_NAME, 
+				AA.ITEM_NAME, 
 				AA.COL1
 			FROM 
 				(
@@ -214,22 +220,25 @@ SQL;
 						A.REMARK,
 						A.ITEM_IDX,
 						A.BIZ_IDX, 
-						A.COL1
+						A.COL1,
+						TI.ITEM_NAME
 					FROM
 						djsmart.T_COMPONENT_TRANS A, 
-						djsmart.T_COMPONENT B
+						djsmart.T_COMPONENT B,
+						djsmart.T_ITEMS TI
 					WHERE
-						A.COMP_IDX = B.IDX AND 
-						A.KIND = 'OUT'
+						A.COMP_IDX = B.IDX 
+						AND TI.IDX = A.ITEM_IDX
+						AND A.KIND = 'OUT'
 						{$where}
 					ORDER BY A.TRANS_DATE DESC
 				) as AA
-				LEFT JOIN T_ITEMS as TI ON(TI.IDX = AA.ITEM_IDX)
 			UNION ALL
 			SELECT '','합계' AS TEXT,B.COMPONENT_NM, B.UNIT, SUM(OUT_QTY) OUT_QTY,'','',SUM(A.COL1)
 			FROM 
-				T_COMPONENT_TRANS A, T_COMPONENT B
+				T_COMPONENT_TRANS A, T_COMPONENT B,T_ITEMS TI
 			WHERE A.COMP_IDX = B.IDX
+			AND TI.IDX = A.ITEM_IDX
 			AND A.KIND = 'OUT'
 			{$where}
 			GROUP BY COMP_IDX
@@ -244,7 +253,7 @@ SQL;
 		//$this->db->order_by("A.TRANS_DATE ASC");
 		//$this->db->limit($limit,$start);
 		$query = $this->db->query($sql);
-		//echo $this->db->last_query();
+		// echo $this->db->last_query();
 		return $query->result();
 	}
 

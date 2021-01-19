@@ -29,7 +29,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</select-->
 			<button class="sh_submit"><i class="material-icons">search</i></button>
 		</div>
+		<lavel>등록일
 		<input type="text" name="transdate" class="calendar" value="<?= date("Y-m-d") ?>" size="15" autocomplete="off" style="border: 1px solid #ddd; padding: 5px 7px;"/>
+		</lavel>
 	</div>
 	
 	<form name="ajaxform" id="ajaxform">
@@ -46,11 +48,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>No</th>
 							<th>품명</th>
 							<th>수량</th>
-							<th>자재입고일</th>
 							<th>비고</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody style="text-align:center;">
 						<tr>
 							<td colspan="5" style="text-align:center; color:#999;"> 시리즈를 선택하세요 </td>
 						</tr>
@@ -127,12 +128,8 @@ $(".sh_submit").on("click",function(){
 					//html += "	<input type='hidden' name='SERIESD_IDX[]' value='"+info.SERIESD_IDX+"' />";
 					//html += "	<input type='hidden' name='H_IDX[]' value='"+HIDX+"' />";				
 					html += "</td>";
-					html += "<td>";
-					html += "	<input type='text' name='TRANS_DATE[]' class='form_select calendar' size='12' value='<?php echo (!empty($INFO))?$INFO->TRANS_DATE:date("Y-m-d",time())?>' />";
-					html += "</td>";
 					html += "<td><input type='text' name='REMARK[]' class='form_select' value='' /></td>";
 					html += "</tr>";
-					html += "<script type='text/javascript'>$('.calendar').datetimepicker({format:'Y-m-d',timepicker:false,lang:'ko-KR'});</script>";
 					
 				});
 			}else{

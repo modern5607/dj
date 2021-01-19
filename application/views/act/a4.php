@@ -29,13 +29,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<label for="v3">품목</label>
 		<input type="text"autocomplete="off" name="v3" id="v3" value="<?php echo $str['v3']?>">
 		
-		<span class="nbsp"></span>
-
-		<label><input type="radio" name="v2" checked value=""> 전체</label>
-		<label><input type="radio" name="v2" <?php echo (!empty($str['v2']) && $str['v2'] == "1")?"checked":""; ?> value="1"> 시유</label>
-		<label><input type="radio" name="v2" <?php echo (!empty($str['v2']) && $str['v2'] == "2")?"checked":""; ?> value="2"> 선별</label>
-		<label><input type="radio" name="v2" <?php echo (!empty($str['v2']) && $str['v2'] == "3")?"checked":""; ?> value="3"> 출고대기</label>
+		<label for="v20">진행내역</label>
+		<select name="v2">
+			<option value="">전체</option>
+			<option value="1" <?php echo(!empty($str['v2']) && 1 == $str['v2'])?"selected":"";?>>시유</option>
+			<option value="2" <?php echo(!empty($str['v2']) && 2 == $str['v2'])?"selected":"";?>>선별</option>
+			<option value="3" <?php echo(!empty($str['v2']) && 3 == $str['v2'])?"selected":"";?>>출고대기</option>
+		</select>
 				
+		<span class="nbsp"></span>
 		<button class="search_submit"><i class="material-icons">search</i></button>
 	</form>
 	
@@ -65,9 +67,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<tbody>
 				<?php
 				if(!empty($List)){
+					$count=0;
+					$countin=0;
+					$countsum=0;
 				foreach($List as $i=>$row){ 
 					$no = $pageNum+$i+1;
 					$sumqty = $row->QT2+$row->QT3+$row->QT4;
+					$count += $row->QTY;
+					$countin += $row->IN_QTY;
+					$countsum += $row->QT2+$row->QT3+$row->QT4;
 				?>
 				<tr>
 					<td class="cen"><?php echo $no;?></td>
@@ -86,6 +94,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				<?php
 				}
+				?>
+				<tr style="background:#f3f8fd;">
+					<td colspan="4" style="text-align:right;"><strong>총 합계</strong></td>
+					<td class="right"><strong><?php echo number_format($count); ?></strong></td>
+					<td class="right"><?php echo number_format($countin); ?></td>
+					<td class="right"><?php echo number_format($countsum); ?></td>
+					<td colspan="4" class="right"></td>
+				</tr>
+				<?php
 				}else{
 				
 				?>
@@ -97,6 +114,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php
 				}	
 				?>
+				
 				</tbody>
 			</table>
 		</div>

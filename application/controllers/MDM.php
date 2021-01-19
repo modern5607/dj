@@ -326,7 +326,8 @@ class MDM extends CI_Controller {
 	{
 		$data['title'] = "품목추가";
 		$data['mod'] = ($this->input->post("idx"))?"1":"";
-				
+		$params['phpError'] = ""; //없으면 오류뜸
+
 		$data['seriesList']   = $this->main_model->get_seriesHead_list($params);
 		$data['data'] = $this->main_model->get_items_info($this->input->post("idx"));
 
@@ -779,9 +780,11 @@ class MDM extends CI_Controller {
 		$data['str']['v2'] = $this->input->get('v2');
 		$data['str']['cnm'] = $this->input->get('cnm');
 		$data['str']['ccd'] = $this->input->get('ccd');
+		$data['str']['dv2'] = $this->input->get('dv2');
 
 		$params['V1'] = "";
 		$params['V2'] = "";
+		$params['DV2'] = "";
 		$params['COLOERNM'] = "";
 		$params['COLORCD'] = "";
 
@@ -793,6 +796,10 @@ class MDM extends CI_Controller {
 		if(!empty($data['str']['v2'])){
 			$params['V2'] = $data['str']['v2'];
 			$data['qstr'] .= "&v2=".$data['str']['v2'];
+		}
+		if(!empty($data['str']['dv2'])){
+			$params['DV2'] = $data['str']['dv2'];
+			$data['qstr'] .= "&dv2=".$data['str']['dv2'];
 		}
 		if(!empty($data['str']['ccd'])){
 			$params['COLORCD'] = $data['str']['ccd'];
@@ -859,16 +866,23 @@ class MDM extends CI_Controller {
 		
 		$data['str'] = array(); //검색어관련
 		$data['str']['v1'] = $this->input->get('v1');
+		$data['str']['v2'] = $this->input->get('v2');
 		$data['str']['v3'] = $this->input->get('v3');
 
 		$params['V1'] = "";
+		$params['V2'] = "";
 		$params['V3'] = "";
+		$params['COLOR'] = "ON";
 
 		$data['qstr'] = "?P";
 		
 		if(!empty($data['str']['v1'])){
 			$params['V1'] = $data['str']['v1'];
 			$data['qstr'] .= "&v1=".$data['str']['v1'];
+		}
+		if(!empty($data['str']['v2'])){
+			$params['V2'] = $data['str']['v2'];
+			$data['qstr'] .= "&v2=".$data['str']['v2'];
 		}
 		if(!empty($data['str']['v3'])){
 			$params['V3'] = $data['str']['v3'];

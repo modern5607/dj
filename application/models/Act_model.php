@@ -114,87 +114,37 @@ class Act_model extends CI_Model {
 	
 	public function item_trans_numlist($date='',$param)
 	{
-		 $where='';
-		// $this->db->select("B.*, A.IN_QTY, A.REMARK, A.IDX as TRANS_IDX, H.SERIES_NM");
-		// $this->db->from("t_items_trans as A");
-		// $this->db->join("t_items as B","B.IDX = A.ITEMS_IDX");
-		// $this->db->join("t_series_h as H","H.IDX = B.SERIES_IDX","LEFT");
+		$this->db->select("B.*, A.IN_QTY, A.REMARK, A.IDX as TRANS_IDX, H.SERIES_NM");
+		$this->db->from("t_items_trans as A");
+		$this->db->join("t_items as B","B.IDX = A.ITEMS_IDX");
+		$this->db->join("t_series_h as H","H.IDX = B.SERIES_IDX","LEFT");
 		
-		// if(!empty($param['V1']) && $param['V1'] != ""){
-		// 	$this->db->where("B.SERIES_IDX",$param['V1']);
-		// }
+		if(!empty($param['V1']) && $param['V1'] != ""){
+			$this->db->where("B.SERIES_IDX",$param['V1']);
+		}
 		if(!empty($param['COMPONENT']) && $param['COMPONENT'] != ""){
-			//$this->db->like("B.ITEM_NO",$param['COMPONENT']);
-			$where .= "AND B.ITEM_NO LIKE '%{$param['COMPONENT']}%'";
+			$this->db->like("B.ITEM_NO",$param['COMPONENT']);
 		}
 
 		if(!empty($param['COMPONENT_NM']) && $param['COMPONENT_NM'] != ""){
-			// $this->db->like("B.ITEM_NAME",$param['COMPONENT_NM']);
-			$where .= "AND B.ITEM_NAME LIKE '%{$param['COMPONENT_NM']}%'";
+			$this->db->like("B.ITEM_NAME",$param['COMPONENT_NM']);
 		}
-
-		if(!empty($param['V1']) && $param['V1'] != "")
-			$where .= "AND C.IDX = {$param['V1']}";
-			// $this->db->where("C.IDX",$param['V1']);
 
 
 		if($date != ""){
-			//$this->db->where("A.TRANS_DATE",$date);
-			$where .= "AND A.TRANS_DATE = '{$date}'";
+			$this->db->where("A.TRANS_DATE",$date);
 		}
 		
 		if(!empty($param['BK'])){
-			$where .= "AND A.GJ_GB = 'JHBK'";
-			// $GJGB = "JHBK";
+			$GJGB = "JHBK";
 		}else{
-			// $GJGB = $param['GJGB'];
-			$where .= "AND A.GJ_GB = '{$param['GJGB']}'";
+			$GJGB = $param['GJGB'];
 		}
 
-		//$this->db->where("GJ_GB",$GJGB);
-		//$this->db->where("A.ITEMS_IDX = B.IDX");
-		//$this->db->where("B.SERIES_IDX = C.IDX");
+		$this->db->where("GJ_GB",$GJGB);
 
-		// $query = $this->db->get();
-
-		$sql=<<<SQL
-		SELECT 
-			AA.*
-		FROM 
-			(
-				SELECT
-					A.IDX AS TRANS_IDX,
-					C.SERIES_NM,
-					B.ITEM_NAME,
-					A.IN_QTY, 
-					A.REMARK
-					
-				FROM
-					T_ITEMS_TRANS A, 
-					T_ITEMS B,
-					T_SERIES_H C
-				WHERE
-					A.ITEMS_IDX = B.IDX
-					AND	A.KIND = 'IN'
-					AND B.SERIES_IDX = C.IDX
-					{$where}
-			) as AA
-		
-		UNION
-		SELECT '','합계' AS TEXT,'', SUM(IN_QTY) as IN_QTY,''
-		FROM 
-			T_ITEMS_TRANS A, 
-			T_ITEMS B,
-			T_SERIES_H C
-		WHERE 
-			A.ITEMS_IDX = B.IDX
-			AND A.KIND = 'IN'
-			AND B.SERIES_IDX = C.IDX
-			{$where}
-SQL;
-
-		$query = $this->db->query($sql);
-		echo $this->db->last_query();
+		$query = $this->db->get();
+		// ECHO $this->db->last_query();
 		return $query->result();
 	}
 
@@ -664,7 +614,7 @@ SQL;
 				{$start}, {$limit}
 SQL;
 		$query = $this->db->query($sql);
-		
+		// echo $this->db->last_query();
 		return $query->result();
 
 	}
@@ -700,9 +650,10 @@ SQL;
 			SELECT
 				COUNT(*) as CUT
 			FROM
-				T_ACT_D as TA
+			T_ACT_D as TA
 				LEFT JOIN T_ACT_H as TAH ON(TAH.IDX = TA.H_IDX)
 				LEFT JOIN T_INVENTORY_TRANS as TIT ON(TIT.ACT_D_IDX = TA.IDX)
+				LEFT JOIN T_SERIES_D as TS ON(TS.IDX = TA.SERIESD_IDX)
 			WHERE
 				1
 				{$where}
@@ -883,17 +834,22 @@ SQL;
 		if(!empty($param['AM1']) && $param['AM1'] != ""){
 			$where .= " AND (TIS.QTY > 0 || (SELECT SUM(B.QTY) FROM T_ACT_D as B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX) > 0 ) ";
 		}
+		if(empty($param['COLOR'])){
+			$where .= " AND TIS.USE_YN = 'Y' ";
+		}
 		if(!empty($param['V1']) && $param['V1'] != ""){
 			$where .= " AND TSD.SERIES_IDX = '{$param['V1']}'";
 		}
-		
+		if(!empty($param['V2']) && $param['V2'] != ""){
+			$where .= " AND TIS.USE_YN = '{$param['V2']}'";
+		}	
 		if(!empty($param['V3']) && $param['V3'] != ""){
 			$where .= " AND TI.ITEM_NAME LIKE '%{$param['V3']}%'";
 		}
-
 		if(!empty($param['V4']) && $param['V4'] != ""){
 			$where .= " AND TSD.COLOR LIKE '%{$param['V4']}%' ";
 		}
+
 		
 		$sql=<<<SQL
 			SELECT
@@ -906,7 +862,7 @@ SQL;
 				LEFT JOIN T_ITEMS as TI ON(TI.IDX = TIS.ITEM_IDX)
 				LEFT JOIN T_SERIES_D as TSD ON(TSD.IDX = TIS.SERIESD_IDX)
 			WHERE
-				TIS.USE_YN = "Y"
+				1
 				{$where}
 			ORDER BY 
 				TI.IDX, TIS.SERIESD_IDX
@@ -926,14 +882,18 @@ SQL;
 		if(!empty($param['AM1']) && $param['AM1'] != ""){
 			$where .= " AND (TIS.QTY > 0 || (SELECT SUM(B.QTY) FROM T_ACT_D as B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX) > 0 ) ";
 		}
+		if(empty($param['COLOR'])){
+			$where .= " AND TIS.USE_YN = 'Y' ";
+		}
 		if(!empty($param['V1']) && $param['V1'] != ""){
 			$where .= " AND TSD.SERIES_IDX = '{$param['V1']}'";
 		}
-		
+		if(!empty($param['V2']) && $param['V2'] != ""){
+			$where .= " AND TIS.USE_YN = '{$param['V2']}'";
+		}	
 		if(!empty($param['V3']) && $param['V3'] != ""){
 			$where .= " AND TI.ITEM_NAME LIKE '%{$param['V3']}%'";
 		}
-
 		if(!empty($param['V4']) && $param['V4'] != ""){
 			$where .= " AND TSD.COLOR LIKE '%{$param['V4']}%' ";
 		}
@@ -946,7 +906,7 @@ SQL;
 				LEFT JOIN T_ITEMS as TI ON(TI.IDX = TIS.ITEM_IDX)
 				LEFT JOIN T_SERIES_D as TSD ON(TSD.IDX = TIS.SERIESD_IDX)
 			WHERE
-				TIS.USE_YN = "Y"
+				1
 				{$where}
 			ORDER BY 
 				TI.IDX, TIS.SERIESD_IDX

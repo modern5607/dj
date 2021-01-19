@@ -25,9 +25,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<input type="itemname" name="itemname" id="itemname" value="<?php echo $str['itemname']?>">
 
 		<label for="use">사용유무</label>
-		<select name="useyn" id="use">
-			<option value="Y">사용</option>
-			<option value="N">미사용</option>
+		<select name="use" id="use">
+			<option value="" selected>전체</option>
+			<option value="Y" <?php echo ($str['use'] == "Y")?"selected":"";?>>사용</option>
+			<option value="N" <?php echo ($str['use'] == "N")?"selected":"";?>>미사용</option>
 		</select>	
 		
 		<button class="search_submit"><i class="material-icons">search</i></button>

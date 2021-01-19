@@ -76,11 +76,11 @@ class Register_model extends CI_Model {
 	public function get_member_list($param,$start=0,$limit=20)
 	{
 		if(!empty($param['ID']) && $param['ID'] != ""){
-			$this->db->where("ID",$param['ID']);
+			$this->db->like("ID",$param['ID']);
 		}
 
 		if(!empty($param['NAME']) && $param['NAME'] != ""){
-			$this->db->where("NAME",$param['NAME']);
+			$this->db->like("NAME",$param['NAME']);
 		}
 
 		if(!empty($param['LEVEL']) && $param['LEVEL'] != ""){

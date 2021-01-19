@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</select>
 
 				<label for="component_nm">제품명</label>
-				<input type="text"autocomplete="off" name="component_nm" id="component_nm" value="<?php echo $str['component_nm']?>">
+				<input type="text" autocomplete="off"  name="component_nm" id="component_nm" value="<?php echo $str['component_nm']?>">
 				
 				<button class="search_submit"><i class="material-icons">search</i></button>
 			</form>
@@ -122,10 +122,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php }else{
 						?>
 						<tr style="background:#f3f8fd;">
-							<td colspan="2">합계</td>
-							<td class="right"><?php echo number_format($totalQty);?></td>
-							<td></td>
-							<td></td>
+							<td colspan="3" style="text-align:right"><strong>총 합계</strong></td>
+							<td style="text-align:center"><?php echo number_format($totalQty);?></td>
+							<td colspan="2"></td>
 						</tr>
 						<?php
 					} ?>
@@ -189,7 +188,7 @@ $(".del_items").on("click",function(){
 	var idx = $(this).data("idx");
 	var inqty = $(this).data("inqty");
 	var shqty = $(this).data("shqty");
-
+console.log(inqty,shqty)
 	if(inqty > shqty){
 alert(`삭제할 수 없습니다.
 재고가 ${shqty}개 남았습니다.`)
