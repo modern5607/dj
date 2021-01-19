@@ -6,46 +6,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js')?>"></script>
 
 <div class="body_cont_float2">
-	<ul>
-		<li style="width:400px;">
-			
-			<div id="" class="bc_search">
-			<form>
-				<input type='hidden' name='n' value='1'/>
-				<label for="sdate">실적등록일</label>
-				<input type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>" size="10" /> ~ 
-				
-				<input type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>" size="10" />
-				
-				<button class="search_submit"><i class="material-icons">search</i></button>
-			</form>
-			</div>
-			
-			<!--div class="bc_header none_padding">
+    <ul>
+        <li style="width:400px;">
+
+            <div id="" class="bc_search">
+                <form>
+                    <input type='hidden' name='n' value='1' />
+                    <label for="sdate">실적등록일</label>
+                    <input type="text" name="sdate" class="sdate calendar"
+                        value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>"
+                        size="10" /> ~
+
+                    <input type="text" name="edate" class="edate calendar"
+                        value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>"
+                        size="10" />
+
+                    <button class="search_submit"><i class="material-icons">search</i></button>
+                </form>
+            </div>
+
+            <!--div class="bc_header none_padding">
 				<span class="btni btn_right add_head"><span class="material-icons">add</span></span>	
 			</div-->
 
-			<div class="tbl-content">
-				<table cellpadding="0" cellspacing="0" border="0" width="100%">
-					<thead>
-						<tr>
-							<th>No</th>
-							<th>실적등록일</th>
-						</tr>
-					</thead>
-					<tbody>
-					<?php
+            <div class="tbl-content">
+                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>실적등록일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
 					foreach($List as $i=>$row){
 						$no = $pageNum+$i+1;
 					?>
 
-						<tr <?php echo ($NDATE == $row->TRANS_DATE)?"class='over'":"";?>>
-							<td class="cen"><?php echo $no; ?></td>
-							<td class="cen"><a href='<?php echo base_url($this->data['pos'].'/'.$this->data['subpos'].'/').$row->TRANS_DATE
+                        <tr <?php echo ($NDATE == $row->TRANS_DATE)?"class='over'":"";?>>
+                            <td class="cen"><?php echo $no; ?></td>
+                            <td class="cen"><a href='<?php echo base_url($this->data['pos'].'/'.$this->data['subpos'].'/').$row->TRANS_DATE
 							?>'><?php echo $row->TRANS_DATE;?></a></td>
-						</tr>
+                        </tr>
 
-					<?php
+                        <?php
 					}
 					?>
 					</tbody>
@@ -82,110 +86,124 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</tr>
 					</thead>
 					<tbody>
-					<?php if(!empty($RList)){ ?>
-					<?php
-
-					foreach($RList as $i=>$row){
-						$num = $i+1;
-					?>
-
-						<tr>
-							<td class="cen"><?php echo $num; ?></td>
-							<td><?php echo $row->SERIES_NM; ?></td>
-							<td><?php echo $row->ITEM_NAME; ?></td>
-							<td class="right"><?php echo $row->IN_QTY; ?></td>
-							<td><?php echo $row->REMARK;?></td>
-							<td><span class="btn del_items" data-idx="<?php echo $row->TRANS_IDX; //detail idx?>">삭제</span></td>
-						</tr>
-
-					<?php
-					}
-					}
+					<?php 
+                        if(!empty($RList)){
+					        foreach($RList as $i=>$row){
+                                $num = $i+1;
+                                if($row->SERIES_NM == "합계"){ ?>
+                                    <tr style="background:#f3f8fd;">
+                                        <td colspan="2" style="text-align:right;"><strong><?php echo $row->SERIES_NM; ?></strong></td>
+                                        <td><?php echo $row->ITEM_NAME; ?></td>
+                                        <td class="right"><strong><?php echo $row->IN_QTY; ?></strong></td>
+                                        <td><?php echo $row->REMARK?></td>
+                                        <td></td>
+                                    </tr>
+                                <?php
+                                }
+                                else
+                                { ?>
+                                    <tr>
+                                        <td class="cen"><?php echo $num; ?></td>
+                                        <td><?php echo $row->SERIES_NM; ?></td>
+                                        <td><?php echo $row->ITEM_NAME; ?></td>
+                                        <td class="right"><?php echo $row->IN_QTY; ?></td>
+                                        <td><?php echo $row->REMARK;?></td>
+                                        <td><span class="btn del_items"
+                                                data-idx="<?php echo $row->TRANS_IDX; //detail idx?>">삭제</span></td>
+                                    </tr>
+                                <?php 
+                                }
+                            }
+                        }
 					if(empty($RList)){
 					?>
-						<tr><td colspan="6" style='color:#999; padding:40px 0;'>등록된 실적정보가 없습니다.</td></tr>
-					<?php } ?>
-					</tbody>
-				</table>
-			
-				
-			</div>
-		</li>
-	</ul>
+                        <tr>
+                            <td colspan="6" style='color:#999; padding:40px 0;'>등록된 실적정보가 없습니다.</td>
+                        </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+
+
+            </div>
+        </li>
+    </ul>
 </div>
 
 <div id="pop_container">
-	
-	<div class="info_content" style="height:auto;">
-		<div class="ajaxContent">			
-			
-		<!-- 데이터 -->
 
-		</div>
-	</div>
+    <div class="info_content" style="height:auto;">
+        <div class="ajaxContent">
+
+            <!-- 데이터 -->
+
+        </div>
+    </div>
 
 </div>
 
 
 
 <script type="text/javascript">
+$(".add_itemnum").on("click", function() {
 
-$(".add_itemnum").on("click",function(){
+    var type = $(this).data("type");
 
-	var type = $(this).data("type");
+    $(".ajaxContent").html('');
 
-	$(".ajaxContent").html('');
+    $("#pop_container").fadeIn();
+    $(".info_content").animate({
+        top: "50%"
+    }, 500);
 
-	$("#pop_container").fadeIn();
-	$(".info_content").animate({
-		top : "50%"
-	},500);
-
-	$.ajax({
-		url      : "<?php echo base_url('ACT/ajax_itemNum_form')?>",
-		type     : "POST",
-		dataType : "HTML",
-		data     : {mode:"add",type:type},
-		success  : function(data){
-			$(".ajaxContent").html(data);
-		},
-		error    : function(xhr,textStatus,errorThrown){
-			alert(xhr);
-			alert(textStatus);
-			alert(errorThrown);
-		}
-	})
+    $.ajax({
+        url: "<?php echo base_url('ACT/ajax_itemNum_form')?>",
+        type: "POST",
+        dataType: "HTML",
+        data: {
+            mode: "add",
+            type: type
+        },
+        success: function(data) {
+            $(".ajaxContent").html(data);
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            alert(xhr);
+            alert(textStatus);
+            alert(errorThrown);
+        }
+    })
 
 });
 
 
-$(".del_items").on("click",function(){
-	var idx = $(this).data("idx");
-	if(confirm('삭제하시겠습니까?') !== false){
-	$.post("<?php echo base_url('ACT/ajax_del_items_trans_a9')?>",{idx:idx},function(data){
-		if(data.statu != "")
-		{
-			alert(data.msg);
-			location.reload();
-		}
-	},"JSON");
-	}
+$(".del_items").on("click", function() {
+    var idx = $(this).data("idx");
+    if (confirm('삭제하시겠습니까?') !== false) {
+        $.post("<?php echo base_url('ACT/ajax_del_items_trans_a9')?>", {
+            idx: idx
+        }, function(data) {
+            if (data.statu != "") {
+                alert(data.msg);
+                location.reload();
+            }
+        }, "JSON");
+    }
 });
 
 
 $("input[name='sdate'],input[name='edate']").datetimepicker({
-	format:'Y-m-d',
-	timepicker:false,
-	lang:'ko-KR'
+    format: 'Y-m-d',
+    timepicker: false,
+    lang: 'ko-KR'
 });
 
 
-$(document).on("click","h2 > span.close",function(){
+$(document).on("click", "h2 > span.close", function() {
 
-	$(".ajaxContent").html('');
-	$("#pop_container").fadeOut();
-	$(".info_content").css("top","-50%");
-	
+    $(".ajaxContent").html('');
+    $("#pop_container").fadeOut();
+    $(".info_content").css("top", "-50%");
+
 });
-//-->
 </script>

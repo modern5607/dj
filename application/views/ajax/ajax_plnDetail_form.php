@@ -119,7 +119,7 @@ $(".sh_submit").on("click",function(){
 				html += "<td>"+info.ITEM_NAME+"</td>";
 				html += "<td>"+info.COLOR+"</td>";
 				html += "<td>";
-				html += "	<input type='text' autocomplete='off' name='QTY[]' class='form_select' size='4' value='' />";
+				html += "	<input type='text' autocomplete='off' name='QTY[]' class='form_select' size='4' value='' style='text-align:right;'/>";
 				html += "	<input type='hidden' name='ITEM_IDX[]' value='"+info.ITEM_IDX+"' />";
 				html += "	<input type='hidden' name='ITEM_NM[]' value='"+info.ITEM_NAME+"' />";
 				html += "	<input type='hidden' name='SERIESD_IDX[]' value='"+info.SERIESD_IDX+"' />";
@@ -131,16 +131,12 @@ $(".sh_submit").on("click",function(){
 			});
 			var QTYlogic = "<script>"+
 				 "$('input[name=\"QTY[]\"]').on('propertychange change keyup paste',function(){"+
-					"var value = $(this).val();"+
-					"if($.isNumeric(value)){"+
-						"console.log('숫자');}"+
-					"else"+
-					"console.log('문자열')"+
-					// "var last = value[value.length-1];"+
-					// "if(!(last > 0&&last<9)){"+
-					// "alert('숫자만 입력해 주세요');"+
-					// "$(this).val('');}"+
-					// "console.log(last);"+
+					//"var value = $(this).val();"+
+					" $(this).val($(this).val().replace(/[^0-9]/g,''));"+
+					"var str = $(this).val();"+
+					//"str.replace(/\B(?=(\d{3})+(?!\d))/g, ',');"+
+					//"if($.isNumeric(value) ==false){"+
+					//	"$(this).val('');}"+
 				"});"+
 				"<\/script>";
 			html += QTYlogic;

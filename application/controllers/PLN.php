@@ -427,7 +427,7 @@ class PLN extends CI_Controller {
 		$params['IDX'] = $this->input->post('idx');
 		$data = array();
 		$data['result'] = $this->pln_model->deletedetail($params);
-		var_dump($data['result']);
+		alert($data['result']);
 		
 	}
 	

@@ -127,7 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td><?php echo $row->COLOR; ?></td>
 							<td class="cen"><?php echo $row->QTY;?></td>
 							<td><?php echo $row->REMARK;?></td>
-							<td><span class="btn mod_detail" data-idx="<?php echo $row->IDX;?>" data-name="<?=$row->ITEM_NM?>" data-color="<?=$row->COLOR?>">삭제</span></td>
+							<td><span class="btn mod_detail" data-idx="<?php echo $row->IDX; ?>"data-name="<?php echo $row->ITEM_NM; ?>"data-color="<?php echo $row->COLOR; ?>"data-qty="<?php echo $row->QTY; ?>">삭제</span></td>
 						</tr>
 
 					<?php
@@ -245,8 +245,20 @@ $(".mod_head").on("click",function(){
 
 $(".mod_detail").on("click",function(){
 	var idx = $(this).data("idx");
-	
-	
+	var name = $(this).data("name");
+	var color = $(this).data("color");
+	var qty = $(this).data("qty");
+
+	var con = confirm("이름 : "+name+" / 색상 : "+color+" / 갯수 : "+qty+"를 삭제하시겠습니까?");
+	if(con)
+	{
+		$.post("<?=base_url('PLN/deletedetail')?>",{
+			idx:idx
+		},function(data){
+			alert('삭제되었습니다.');
+			location.reload();
+		});
+	}
 	/*
 	$(".ajaxContent").html('');
 	$("#pop_container").fadeIn();
