@@ -41,24 +41,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>일자</th>
 						<th>거래처</th>
 						<th>자재명</th>
-						<th>단위</th>
 						<th>입고량</th>
+						<th>단위</th>
 						<th>비고</th>
 					</tr>
 				</thead>
 				<tbody>
-				<?php foreach($List as $i=>$row){ 
+				<?php 
+				if(!empty($List)){
+				$count=0;
+				foreach($List as $i=>$row){ 
 					$no = $i+1; 
 					if($row->CUST_NM == "합계"){
-				?>
-				<tr style="background:#f3f8fd;">
-					<td colspan="3" style="text-align:right;"><strong><?php echo $row->CUST_NM; ?></strong></td>
-					<td><?php echo $row->COMPONENT_NM; ?></td>
-					<td class="cen"><?php echo $row->UNIT; ?></td>
-					<td class="right"><strong><?php echo number_format($row->IN_QTY); ?></strong></td>
-					<td class="cen"><?php echo $row->REMARK; ?></td>
-				</tr>
-				<?php
+						$count += $row->IN_QTY;
 					}else{
 				?>
 				<tr>
@@ -66,18 +61,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="cen"><?php echo $row->TRANS_DATE; ?></td>
 					<td><?php echo $row->CUST_NM; ?></td>
 					<td><?php echo $row->COMPONENT_NM; ?></td>
-					<td class="cen"><?php echo $row->UNIT; ?></td>
 					<td class="right"><?php echo number_format($row->IN_QTY); ?></td>
+					<td class="cen"><?php echo $row->UNIT; ?></td>
 					<td class="cen"><?php echo $row->REMARK; ?></td>
 				</tr>
 				<?php
 					}
-				?>
-		
-
-				<?php
 				}
-				if(empty($List)){
+				?>
+				<tr style="background:#f3f8fd;">
+					<td colspan="4" style="text-align:right;"><strong>총 합계</strong></td>
+					<!-- <td class="cen"><?php echo $row->COMPONENT_NM; ?></td> -->
+					<td class="right"><strong><?php echo number_format($count); ?></strong></td>
+					<td class="cen">KG</td>
+					<td colspan="2"><?php echo $row->REMARK; ?></td>
+				</tr>
+				<?php
+				}else{
 				?>
 
 					<tr>

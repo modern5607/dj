@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		<label for="use">사용유무</label>
 		<select name="useyn" id="use">
-			<option value=''>::선택::</option>
+			<option value=''>전체</option>
 			<option value="Y" <?php echo ($str['use'] == "Y")?"selected":"";?>>사용</option>
 			<option value="N" <?php echo ($str['use'] == "N")?"selected":"";?>>미사용</option>
 		</select>	
@@ -42,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</tr>
 				</thead>
 				<tbody>
-				<?php foreach($componentList as $i=>$row){ $no = $i+1; ?>
+				<?php foreach($componentList as $i=>$row){ $no = $pageNum+$i+1; ?>
 				<tr>
 					<td class="cen"><?php echo $no; ?></td>
 					<td class="cen"><?php echo $row->COMPONENT; ?></td>

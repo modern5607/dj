@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								if(!empty($UNIT)){
 								?>
 									<select name="UNIT" class="form_input select_call" style="padding:7px 8px; border:1px solid #ddd;">
-										<option value="">::선택::</option>
+										<option value="">전체</option>
 									<?php
 									foreach($UNIT as $row){
 										$selected5 = (!empty($data) && $data->UNIT == $row->D_NAME)?"selected":"";

@@ -838,6 +838,7 @@ class ACT extends CI_Controller {
 				//$params['SERIESD_IDX'][$key] = $this->input->post("SERIESD_IDX")[$key];
 				$params['REMARK'][$key] = $this->input->post("REMARK")[$key];
 				//$params['H_IDX'][$key] = $this->input->post("H_IDX")[$key];
+				$params['transdate'] = $this->input->post("transdate");
 			}
 		}
 		
@@ -868,6 +869,7 @@ class ACT extends CI_Controller {
 				//$params['SERIESD_IDX'][$key] = $this->input->post("SERIESD_IDX")[$key];
 				$params['REMARK'][$key] = $this->input->post("REMARK")[$key];
 				//$params['H_IDX'][$key] = $this->input->post("H_IDX")[$key];
+				$params['transdate'] = $this->input->post("transdate");
 			}
 		}
 

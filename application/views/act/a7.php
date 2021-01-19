@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				
 				foreach($List as $i=>$row){
 					$chkn = 0;
-					$no = $i+1;
+					$no = $pageNum+$i+1;
 					//$sumqty = $row->QT2+$row->QT3+$row->QT4;
 					$yn = ($row->END_YN <> "Y")?"N":"Y";
 					//$mQty = (($row->QT1-$row->QTY) > 0)?$row->QT1-$row->QTY:"0";//잉여재고

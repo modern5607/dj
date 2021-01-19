@@ -18,6 +18,7 @@ class Amt_model extends CI_Model {
 		}
 
 		$this->db->select("IDX, TRANS_DATE");
+		$this->db->WHERE("KIND", "IN");
 		$this->db->group_by("TRANS_DATE");
 		$this->db->order_by("TRANS_DATE ASC");
 		$this->db->limit($limit,$start);
@@ -90,12 +91,13 @@ class Amt_model extends CI_Model {
 				) as AA
 			
 			UNION
-			SELECT '','합계' AS TEXT,'' COMPONENT_NM, '' UNIT, SUM(IN_QTY) IN_QTY,'' 
+			SELECT '','합계' AS TEXT,B.COMPONENT_NM, '' UNIT, SUM(IN_QTY) IN_QTY,'' 
 			FROM 
 				T_COMPONENT_TRANS A, T_COMPONENT B
 			WHERE A.COMP_IDX = B.IDX
 			AND A.KIND = 'IN'
 			{$where}
+			GROUP BY COMP_IDX
 SQL;
 
 		
@@ -107,7 +109,7 @@ SQL;
 		//$this->db->order_by("A.TRANS_DATE ASC");
 		//$this->db->limit($limit,$start);
 		$query = $this->db->query($sql);
-		echo $this->db->last_query();
+		// echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -196,7 +198,9 @@ SQL;
 				AA.COMPONENT_NM, 
 				AA.UNIT, 
 				AA.OUT_QTY, 
-				AA.REMARK
+				AA.REMARK,
+				TI.ITEM_NAME, 
+				AA.COL1
 			FROM 
 				(
 					SELECT
@@ -206,7 +210,9 @@ SQL;
 						B.UNIT, 
 						A.OUT_QTY, 
 						A.REMARK,
-						A.BIZ_IDX
+						A.ITEM_IDX,
+						A.BIZ_IDX, 
+						A.COL1
 					FROM
 						djsmart.T_COMPONENT_TRANS A, 
 						djsmart.T_COMPONENT B
@@ -216,9 +222,9 @@ SQL;
 						{$where}
 					ORDER BY A.TRANS_DATE DESC
 				) as AA
-			
-			UNION
-			SELECT '','합계' AS TEXT,B.COMPONENT_NM, B.UNIT, SUM(OUT_QTY) OUT_QTY,'' 
+				LEFT JOIN T_ITEMS as TI ON(TI.IDX = AA.ITEM_IDX)
+			UNION ALL
+			SELECT '','합계' AS TEXT,B.COMPONENT_NM, B.UNIT, SUM(OUT_QTY) OUT_QTY,'','',SUM(A.COL1)
 			FROM 
 				T_COMPONENT_TRANS A, T_COMPONENT B
 			WHERE A.COMP_IDX = B.IDX
@@ -236,7 +242,7 @@ SQL;
 		//$this->db->order_by("A.TRANS_DATE ASC");
 		//$this->db->limit($limit,$start);
 		$query = $this->db->query($sql);
-		echo $this->db->last_query();
+		// echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -330,14 +336,15 @@ SQL;
 		$this->db->where("TAD.STATUS","SB");
 		$this->db->where("COALESCE(TAD.END_YN,'N') <>","Y");
 
-		$query = $this->db->select("TAH.ACT_DATE, TAD.IDX as ACT_IDX, TAD.ITEM_NM, TAD.QTY")
+		$query = $this->db->select("TAH.ACT_DATE, TAD.IDX as ACT_IDX, TAD.ITEM_NM, TAD.QTY,TSH.SERIES_NM")
 						->from("T_ACT_D as TAD")
 						->join("T_ACT_H as TAH","TAH.IDX = TAD.H_IDX","LEFT")
 						->join("T_SERIES_D as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
+						->join("T_SERIES_H as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
 						->limit($limit, $start)
 						->order_by("TAH.ACT_DATE","DESC")
 						->get();
-		echo $this->db->last_query();
+		// echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -453,6 +460,41 @@ SQL;
 
 	}
 
+public function component_count($date='',$param)
+	{
+		
+		$this->db->select("STOCK");
+		$this->db->from("t_component");
+		$this->db->WHERE("COMPONENT", "CLAY");
+		
+		$query = $this->db->get();
+		$data['STOCK'] = $query->row()->STOCK;
+		// echo  $this->db->last_query();
+		return $data;		
+	}
 
+	public function am1_listupdate($param)
+	{
+		
+		$datetime = date("Y-m-d H:i:s",time());
+		$username = $this->session->userdata("user_name");
+
+
+		$query =  $this->db->set("STOCK",$param['C_QTY'])
+						->set("UPDATE_ID",$username)
+						->set("UPDATE_DATE",$datetime)
+						->where("COMPONENT", "CLAY")	
+						->update("T_COMPONENT");					
+
+		$query = $this->db->set("IN_QTY",$param['QTY'])
+						->set("UPDATE_ID",$username)
+						->set("UPDATE_DATE",$datetime)
+						->where(array("IDX"=>$param['ITEM_IDX']))
+						->update("T_COMPONENT_TRANS");
+						
+		
+		return $this->db->affected_rows();
+		
+	}
 
 }

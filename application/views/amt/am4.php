@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		
 		<label for="v1">시리즈</label>
 		<select name="v1">
-			<option value="">::선택::</option>
+			<option value="">전체</option>
 		<?php
 		foreach($SERIES as $row){
 			$selected = (!empty($str['v1']) && $row->IDX == $str['v1'])?"selected":"";
@@ -41,6 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tr>
 						<th>No</th>
 						<th>수주일자</th>
+						<th>시리즈</th>
 						<th>품명</th>
 						<th>주문수량</th>
 						<th>출고수량</th>
@@ -52,12 +53,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php
 				if(!empty($List)){
 				foreach($List as $i=>$row){ 
-					$no = $i+1;
+					$no = $pageNum+$i+1;
 					
 				?>
 				<tr>
 					<td class="cen"><?php echo $no;?></td>
 					<td class="cen"><?php echo $row->ACT_DATE;?></td>
+					<td class="cen"><?php echo $row->SERIES_NM;?></td>
 					<td><strong><?php echo $row->ITEM_NM; ?></strong></td>
 					<td class="right"><?php echo number_format($row->QTY); ?></td>
 					<td class="cen">
@@ -186,17 +188,17 @@ $(".mod_stock").on("click",function(){
 	
 		$.post("<?php echo base_url('AMT/ajax_am4_listupdate')?>",
 			{actidx:actidx, seriesd:seriesd, outqty:outqty, xdate:xdate},
-				function(data){
-					if(data.status != ""){
-						alert(data.msg);
-						if(data.status == "Y"){
-							location.reload();
-						}else{
-							$this.parents("tr").find("input[name^='OUT_QTY']").val('');
-							$this.parents("tr").find("input[name^='OUT_DATE']").val('');
-						}
+			function(data){
+				if(data.status != ""){
+					alert(data.msg);
+					if(data.status == "Y"){
+						location.reload();
+					}else{
+						$this.parents("tr").find("input[name^='OUT_QTY']").val('');
+						$this.parents("tr").find("input[name^='OUT_DATE']").val('');
 					}
-				},"JSON"
+				}
+			},"JSON"
 		);
 	}
 });

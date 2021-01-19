@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							?>
 							<td>
 								<select name="CUST_TYPE" class="form_input input_100">
-									<option value="">::선택::</option>
+									<option value="">전체</option>
 									<option value="buyer" <?=$buyer?>>매입처</option>
 									<option value="customer" <?=$customer?>>매출처</option>
 								</select>

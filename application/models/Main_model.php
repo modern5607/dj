@@ -477,7 +477,7 @@ class Main_model extends CI_Model {
 	}
 
 	/* 시리즈 Detail 리스트 */
-	public function get_seriesDetail_list($sid = "")
+	public function get_seriesDetail_list($sid = "",$params)
 	{
 		$this->db->select("D.*");
 		$this->db->from("t_series_d as D");
@@ -485,9 +485,16 @@ class Main_model extends CI_Model {
 		if($sid){
 			$this->db->where("D.SERIES_IDX",$sid);
 		}
+		if(!empty($params['COLORCD']) && $params['COLORCD'] != ""){
+			$this->db->like("COLOR_CD",$params['COLORCD']);
+		}
+
+		if(!empty($params['COLOERNM']) && $params['COLOERNM'] != ""){
+			$this->db->like("COLOR",$params['COLOERNM']);
+		}
+
 		$this->db->order_by("D.IDX","ASC");
 		$res = $this->db->get();
-
 
 		return $res->result();
 

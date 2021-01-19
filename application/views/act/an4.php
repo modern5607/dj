@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		<label for="v1">시리즈</label>
 		<select name="v1">
-			<option value="">::선택::</option>
+			<option value="">전체</option>
 		<?php
 		foreach($SERIES as $row){
 			$selected = (!empty($str['v1']) && $row->IDX == $str['v1'])?"selected":"";
@@ -54,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php
 				if(!empty($List)){
 				foreach($List as $i=>$row){ 
-					$no = $i+1;
+					$no = $pageNum+$i+1;
 				?>
 				<tr>
 					<td class="cen"><?php echo $no;?></td>
@@ -123,11 +123,15 @@ $(".mod_stock").on("click",function(){
 		return false;
 	}
 	
-	$.post("<?php echo base_url('ACT/ajax_an4_listupdate')?>",{item:item, seriesd:seriesd, stock:stock, cont:cont},function(data){
-		if(data > 0){
-			//location.reload();
+	$.post("<?php echo base_url('ACT/ajax_an4_listupdate')?>",
+		{item:item, seriesd:seriesd, stock:stock, cont:cont},
+		function(data){
+			if(data > 0){
+				alert("수정되었습니다.");
+				location.reload();
+			}
 		}
-	});
+	);
 
 });
 

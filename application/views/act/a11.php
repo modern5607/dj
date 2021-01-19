@@ -62,6 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr>
 							<th>No</th>
 							<th>수주일자</th>
+							<th>시리즈</th>
 							<th>품명</th>
 							<th>색상</th>
 							<th>수주수량</th>
@@ -75,6 +76,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr <?php echo ($OIDX == $row->IDX)?"class='over'":"";?>>
 							<td class="cen"><?php echo $num;?></td>
 							<td class="cen"><?php echo substr($row->ACT_DATE,0,10);?></td>
+							<td class="cen"><?php echo $row->SE_NAME;?></td>
 							<td>
 								<a href="<?php echo base_url($this->data['pos'].'/a11/'.$row->IDX);?>" class="link_s1">
 									<?php echo $row->ITEM_NM;?>
@@ -89,7 +91,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php
 					if(empty($List)){
 					?>
-						<tr><td colspan="6" style='color:#999; padding:40px 0;'>실적정보가 없습니다.</td></tr>
+						<tr><td colspan="7" style='color:#999; padding:40px 0;'>실적정보가 없습니다.</td></tr>
 					<?php
 					}
 					?>

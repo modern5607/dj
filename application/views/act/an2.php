@@ -7,6 +7,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="bc_header">
 	<form id="items_formupdate">
+		<label for="v1">시리즈</label>
+			<select name="v1">
+				<option value="">전체</option>
+			<?php
+			foreach($SERIES as $row){
+				$selected = (!empty($str['v1']) && $row->IDX == $str['v1'])?"selected":"";
+			?>
+				<option value="<?php echo $row->IDX;?>" <?php echo $selected;?>><?php echo $row->SERIES_NM;?></option>
+			<?php
+			}
+			?>
+			</select>
 
 		<label for="v3">품목</label>
 		<input type="text"autocomplete="off" name="v3" id="v3" value="<?php echo $str['v3']?>">
@@ -39,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php
 				if(!empty($List)){
 				foreach($List as $i=>$row){ 
-					$no = $i+1;
+					$no = $pageNum+$i+1;
 				?>
 				<tr>
 					<td class="cen"><?php echo $no;?></td>

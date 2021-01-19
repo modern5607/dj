@@ -13,21 +13,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <div class="formContainer">
-	<div style="background:#eceff5; padding:20px;">
-		<select name="s1" id="s1" class="form_input select_call" style="width:120px;">
-			<option value="">시리즈</option>
-			<?php foreach($SERIES as $s_h){ ?>
-			<option value="<?php echo $s_h->IDX;?>"><?php echo $s_h->SERIES_NM;?></option>
-			<?php } ?>
-		</select>
-		<!--select name="s2" id="s2" class="form_input select_call" style="width:120px;">
-			<option value="">품명</option>
-		</select>
-		<select name="s3" id="s3" class="form_input select_call" style="width:120px;">
-			<option value="">색상</option>
-		</select-->
-		<button class="sh_submit"><i class="material-icons">search</i></button>
+	<div style="background:#eceff5; padding:20px;" class="gsflexst">
+		<div>
+			<select name="s1" id="s1" class="form_input select_call" style="width:120px;">
+				<option value="">시리즈</option>
+				<?php foreach($SERIES as $s_h){ ?>
+				<option value="<?php echo $s_h->IDX;?>"><?php echo $s_h->SERIES_NM;?></option>
+				<?php } ?>
+			</select>
+			<!--select name="s2" id="s2" class="form_input select_call" style="width:120px;">
+				<option value="">품명</option>
+			</select>
+			<select name="s3" id="s3" class="form_input select_call" style="width:120px;">
+				<option value="">색상</option>
+			</select-->
+			<button class="sh_submit"><i class="material-icons">search</i></button>
+		</div>
+		<input type="text" name="transdate" class="calendar" value="<?= date("Y-m-d") ?>" size="15" autocomplete="off" style="border: 1px solid #ddd; padding: 5px 7px;"/>
 	</div>
+	
 	<form name="ajaxform" id="ajaxform">
 		<input type="hidden" name="mod" value="<?php echo $mode?>">
 		<div class="register_form">
@@ -142,8 +146,7 @@ $(".submitBtn").on("click",function(){
 
 	var formData = new FormData($("#ajaxform")[0]);
 	var $this = $(this);
-
-	
+	formData.append('transdate', $("input[name='transdate']").val());
 
 	$.ajax({
 		url  : "<?php echo base_url('ACT/ajax_act_items_trans_insert')?>",
@@ -188,7 +191,7 @@ $(".submitBtn").on("click",function(){
 
 
 
-$("input[name='ACT_DATE'],#DEL_DATE").datetimepicker({
+$("input[name='ACT_DATE'],#DEL_DATE,.calendar").datetimepicker({
 	format:'Y-m-d',
 	timepicker:false,
 	lang:'ko-KR'

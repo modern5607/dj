@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								if(!empty($CUST)){
 								?>
 								<select name="CUST" class="form_input select_call">
-									<option value="">:::선택:::</option>
+									<option value="">:전체:</option>
 								<?php
 									foreach($CUST as $cust){
 										$select = ($data->BIZ_IDX == $cust->IDX)?"selected":"";

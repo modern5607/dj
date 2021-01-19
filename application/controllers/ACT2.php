@@ -73,6 +73,7 @@ class ACT2 extends CI_Controller {
 		
 		$data['str']['sdate'] = $this->input->get('sdate');
 		$data['str']['edate'] = $this->input->get('edate');
+		$data['str']['v1'] = $this->input->get('v1');
 
 		$data['str']['component'] = $this->input->get('component');
 		$data['str']['component_nm'] = $this->input->get('component_nm');
@@ -82,9 +83,14 @@ class ACT2 extends CI_Controller {
 		
 		$params['COMPONENT'] = "";
 		$params['COMPONENT_NM'] = "";
+		$params['V1'] = "";
 
 		$data['qstr'] = "?P";
 		
+		if(!empty($data['str']['v1'])){
+			$params['V1'] = $data['str']['v1'];
+			$data['qstr'] .= "&v1=".$data['str']['v1'];
+		}
 		if(!empty($data['str']['sdate'])){
 			$params['SDATE'] = $data['str']['sdate'];
 			$data['qstr'] .= "&sdate=".$data['str']['sdate'];
@@ -124,6 +130,10 @@ class ACT2 extends CI_Controller {
 
 		$data['List'] = $this->act_model->item_trans_list($params,$start,$config['per_page']);
 		$this->data['cnt'] = $this->act_model->item_trans_cnt($params);
+
+		
+		$data['SERIES'] = $this->main_model->get_seriesh_select();
+		
 		if(empty($this->input->get('n'))){
 			if($date != ""){
 				$data['RList'] = $this->act_model->item_trans_numlist($date,$params);

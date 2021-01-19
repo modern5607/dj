@@ -149,7 +149,7 @@ class Register extends CI_Controller {
 				$os = $this->getBrowserInfo($userAgent);
 				$borwser = $this->getOsInfo($userAgent);
 				
-
+				date_default_timezone_set('Asia/Seoul');	
 				$params = array(
 					"SDATE"   => date("Y-m-d H:i:s",time()),
 					"IP"      => $_SERVER["REMOTE_ADDR"],

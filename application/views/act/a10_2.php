@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					
 		<label for="v1">시리즈</label>
 		<select name="v1">
-			<option value="">::선택::</option>
+			<option value="">전체</option>
 		<?php
 		foreach($SERIES as $row){
 			$selected = (!empty($str['v1']) && $row->IDX == $str['v1'])?"selected":"";
@@ -48,6 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tr>
 						<th>No</th>
 						<th>일자</th>
+						<th>시리즈</th>
 						<th>품목</th>
 						<th>색상</th>
 						<th>수주수량</th>
@@ -58,24 +59,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<tbody>
 				<?php
 				if(!empty($List)){
+					$count=0;
+					$incount=0;
 				foreach($List as $i=>$row){ 
-					$no = $i+1; 
+					$no = $pageNum+$i+1;
 					if($row->ACT_DATE == "합계"){
-				?>
-				<tr style="background:#f3f8fd;">
-					<td colspan="2" style="text-align:right;"><?php echo $row->ACT_DATE; ?></td>
-					<td><strong><?php echo $row->ITEM_NM; ?></strong></td>
-					<td><?php echo $row->COLOR; ?></td>
-					<td class="right"><?php echo $row->QTY; ?></td>
-					<td class="right"><strong><?php echo $row->IN_QTY; ?></strong></td>
-					<td class="cen"><?php //echo $row->REMARK; ?></td>
-				</tr>
-				<?php
+						$count += $row->QTY;
+						$incount += $row->IN_QTY;
 					}else{
 				?>
 				<tr>
 					<td class="cen"><?php echo $no; ?></td>
 					<td class="cen"><?php echo $row->ACT_DATE; ?></td>
+					<td><?php echo $row->SERIES_NM; ?></td>
 					<td><?php echo $row->ITEM_NM; ?></td>
 					<td><?php echo $row->COLOR; ?></td>
 					<td class="right"><?php echo number_format($row->QTY); ?></td>
@@ -90,6 +86,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				<?php
 				}
+				?>
+				<tr style="background:#f3f8fd;">
+					<td colspan="5" style="text-align:right;"><strong>총 합계</strong></td>
+					<td class="right"><?php echo number_format( $count); ?></td>
+					<td class="right"><strong><?php echo number_format( $incount); ?></strong></td>
+					<td class="cen"><?php //echo $row->REMARK; ?></td>
+				</tr>
+				<?php
 				}else{
 				
 				?>

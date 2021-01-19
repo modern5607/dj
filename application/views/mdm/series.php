@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<form>
 					<label for="v1">시리즈</label>
 					<select name="v1">
-							<option value="">::선택::</option>
+							<option value="">전체</option>
 						<?php
 						foreach($SERIES as $row){
 							$selected = (!empty($str['v1']) && $row->IDX == $str['v1'])?"selected":"";
@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					<label for="v2">사용여부</label>
 					<select name="v2">
-						<option value="">::선택::</option>		
+						<option value="">전체</option>		
 						<option value="Y" <?php echo ($str['v2'] == "Y")?"selected":"";?>>사용</option>
 						<option value="N" <?php echo ($str['v2'] == "N")?"selected":"";?>>미사용</option>		
 					</select>	
@@ -47,8 +47,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</thead>
 					<tbody>
 					<?php
+					$pageNum=0;
 					foreach($series_headList as $i=>$row){
-						$no = $i+1;
+						$no = $pageNum+$i+1;
 					?>
 
 						<tr <?php echo ($H_IDX == $row->IDX)?"class='over'":"";?>>
@@ -75,12 +76,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					<form>
 						<label for="colorcode">색상코드</label>
-							<input type="text" name="colorcode" size="12">
-						<label for="colorname">색상코드</label>
-							<input type="text" name="colorcode" size="12">
+							<input type="text" name="ccd" size="12" value="<?php echo $str['ccd']?>">
+						<label for="colorname">색상명</label>
+							<input type="text" name="cnm" size="12" value="<?php echo $str['cnm']?>">
 						<label for="duse">사용여부</label>
 							<select name="v2">
-								<option value="">::선택::</option>		
+								<option value="">전체</option>		
 								<option value="Y" <?php echo ($str['v2'] == "Y")?"selected":"";?>>사용</option>
 								<option value="N" <?php echo ($str['v2'] == "N")?"selected":"";?>>미사용</option>		
 							</select>	

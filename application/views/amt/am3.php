@@ -36,6 +36,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tr>
 						<th>No</th>
 						<th>일자</th>
+						<th>품목</th>
+						<th>수량</th>
 						<th>자재명</th>
 						<th>출고량</th>
 						<th>단위</th>
@@ -43,38 +45,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</tr>
 				</thead>
 				<tbody>
-				<?php foreach($List as $i=>$row){ 
-					$no = $i+1; 
+				<?php 
+				if(!empty($List)){
+				$count=0;
+				$countcol=0;
+				foreach($List as $i=>$row){ 
+					$no = $pageNum+$i+1; 
 					if($row->CUST_NM == "합계"){
-				?>
-				<tr style="background:#f3f8fd;">
-					<td colspan="3" style="text-align:right;"><strong><?php echo $row->CUST_NM; ?></strong></td>
-					<td><?php echo $row->COMPONENT_NM; ?></td>
-					<td class="right"><strong><?php echo number_format($row->OUT_QTY); ?></strong></td>
-					<td class="cen"><?php echo $row->UNIT; ?></td>
-					<td class="cen"><?php echo $row->REMARK; ?></td>
-				</tr>
-				<?php
+						$count += $row->OUT_QTY;
+						$countcol += $row->COL1;
 					}else{
 				?>
 				<tr>
 					<td class="cen"><?php echo $no; ?></td>
 					<td class="cen"><?php echo $row->TRANS_DATE; ?></td>
-					<td><?php echo $row->CUST_NM; ?></td>
+					<td><?php echo $row->ITEM_NAME; ?></td>
+					<td class="right"><?php echo $row->COL1; ?></td>
 					<td><?php echo $row->COMPONENT_NM; ?></td>
 					<td class="right"><?php echo number_format($row->OUT_QTY); ?></td>
 					<td class="cen"><?php echo $row->UNIT; ?></td>
-					
 					<td class="cen"><?php echo $row->REMARK; ?></td>
 				</tr>
 				<?php
 					}
-				?>
-		
-
-				<?php
 				}
-				if(empty($List)){
+				?>
+				<tr style="background:#f3f8fd;">
+					<td colspan="3" style="text-align:right;"><strong>총 합계</strong></td>
+					<!-- <td><?php echo $row->COMPONENT_NM; ?></td> -->
+					<td class="right"><strong><?php echo number_format($countcol); ?>개</strong></td>
+					<td colspan="" style="text-align:right;"><strong>총 합계</strong></td>
+					<td class="right"><strong><?php echo number_format($count); ?></strong></td>
+					<td class="cen"><?php echo $row->UNIT; ?></td>
+					<td class="cen"><?php echo $row->REMARK; ?></td>
+				</tr>
+				<?php
+				}else{
 				?>
 
 					<tr>

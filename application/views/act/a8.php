@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tbody>
 					<?php
 					foreach($List as $i=>$row){
-						$no = $i+1;
+						$no = $pageNum+$i+1;
 					?>
 
 						<tr <?php echo ($NDATE == $row->TRANS_DATE)?"class='over'":"";?>>
@@ -55,20 +55,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</li>
 		<li style="width:calc(100% - 400px);">
 			
-			<div id="" class="bc_search" style="background:#f8f8f8;">
+			<div id="" class="bc_search gsflexst" style="background:#f8f8f8;">
 			<form>
-				<label for="component">제품코드</label>
-				<input type="text"autocomplete="off" name="component" id="component" value="<?php echo $str['component']?>">
+				<label for="v1">시리즈</label>
+					<select name="v1">
+						<option value="">전체</option>
+					<?php
+					foreach($SERIES as $row){
+						$selected = (!empty($str['v1']) && $row->IDX == $str['v1'])?"selected":"";
+					?>
+						<option value="<?php echo $row->IDX;?>" <?php echo $selected;?>><?php echo $row->SERIES_NM;?></option>
+					<?php
+					}
+					?>
+					</select>
 
 				<label for="component_nm">제품명</label>
 				<input type="text"autocomplete="off" name="component_nm" id="component_nm" value="<?php echo $str['component_nm']?>">
 				
 				<button class="search_submit"><i class="material-icons">search</i></button>
 			</form>
-			</div>
-
-			<div class="bc_header none_padding">
-				<span class="btni btn_right add_itemnum" data-type="<?php echo $this->data['subpos'];?>"><span class="material-icons">add</span></span>	
+				<span class="btni btn_right add_itemnum" style="max-height:34px;" data-type="<?php echo $this->data['subpos'];?>"><span class="material-icons">add</span></span>	
 			</div>
 
 			<div class="tbl-content">
@@ -77,6 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<thead>
 						<tr>
 							<th>No</th>
+							<th>시리즈</th>
 							<th>품명</th>
 							<th>수량</th>
 							<th>비고</th>
@@ -93,10 +101,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 						<tr>
 							<td class="cen"><?php echo $num; ?></td>
+							<td><?php echo $row->SERIES_NM; ?></td>
 							<td><?php echo $row->ITEM_NAME; ?></td>
 							<td class="cen"><?php echo $row->IN_QTY; ?></td>
 							<td><?php echo $row->REMARK;?></td>
-							<td><span class="btn del_items" data-idx="<?php echo $row->TRANS_IDX; //detail idx?>">삭제</span></td>
+							<td><span class="btn del_items" 
+							data-idx="<?php echo $row->TRANS_IDX; //detail idx?>" 
+							data-inqty="<?php echo $row->IN_QTY; ?>"
+							data-shqty="<?php echo $row->SH_QTY; ?>">삭제</span></td>
 						</tr>
 
 					<?php
@@ -104,11 +116,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					}
 					if(empty($RList)){
 					?>
-						<tr><td colspan="6" style='color:#999; padding:40px 0;'>등록된 실적정보가 없습니다.</td></tr>
+						<tr><td colspan="15" style='color:#999; padding:40px 0;'>등록된 실적정보가 없습니다.</td></tr>
 					<?php } ?>
 					</tbody>
 				</table>
-			
+
 				
 			</div>
 		</li>
@@ -162,6 +174,14 @@ $(".add_itemnum").on("click",function(){
 
 $(".del_items").on("click",function(){
 	var idx = $(this).data("idx");
+	var inqty = $(this).data("inqty");
+	var shqty = $(this).data("shqty");
+
+	if(inqty > shqty){
+alert(`삭제할 수 없습니다.
+재고가 ${shqty}개 남았습니다.`)
+		return false;
+	}
 	if(confirm('삭제하시겠습니까?') !== false){
 	$.post("<?php echo base_url('ACT/ajax_del_items_trans')?>",{idx:idx},function(data){
 		if(data.statu != "")

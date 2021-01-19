@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					
 		<label for="v1">시리즈</label>
 		<select name="v1">
-			<option value="">::선택::</option>
+			<option value="">전체</option>
 		<?php
 		foreach($SERIES as $row){
 			$selected = (!empty($str['v1']) && $row->IDX == $str['v1'])?"selected":"";
@@ -49,30 +49,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tr>
 						<th>No</th>
 						<th>일자</th>
+						<th>시리즈</th>
 						<th>품목</th>
 						<th>수량</th>
-						<th>비고</th>
+						<th style="min-width:100px;">비고</th>
 					</tr>
 				</thead>
 				<tbody>
 				<?php
 				if(!empty($List)){
+					$count=0;
 				foreach($List as $i=>$row){ 
-					$no = $i+1; 
+					$no = $pageNum+$i+1;
 					if($row->ITEM_NAME == "합계"){
-				?>
-				<tr style="background:#f3f8fd;">
-					<td colspan="2" style="text-align:right;"><strong><?php echo $row->ITEM_NAME; ?></strong></td>
-					<td><?php echo $row->IN_QTY; ?></td>
-					<td class="right"><strong><?php echo $row->REMARK; ?></strong></td>
-					<td class="cen"><?php //echo $row->REMARK; ?></td>
-				</tr>
-				<?php
+						$count += $row->REMARK;
 					}else{
 				?>
 				<tr>
 					<td class="cen"><?php echo $no; ?></td>
 					<td class="cen"><?php echo $row->TRANS_DATE; ?></td>
+					<td><?php echo $row->SERIES_NM; ?></td>
 					<td><?php echo $row->ITEM_NAME; ?></td>
 					<td class="right"><?php echo number_format($row->IN_QTY); ?></td>
 					<td class="cen"><?php echo $row->REMARK; ?></td>
@@ -85,6 +81,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				<?php
 				}
+				?>
+				<tr style="background:#f3f8fd;">
+					<td colspan="4" style="text-align:right;"><strong>총 합계</strong></td>
+					<td class="right"><strong><?php echo number_format( $count); ?></strong></td>
+					<td class="right"></td>
+				</tr>
+				<?php
 				}else{
 				
 				?>

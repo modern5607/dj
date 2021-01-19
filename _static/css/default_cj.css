@@ -27,7 +27,7 @@ a {text-decoration:none}
   box-sizing:border-box;
 }
 
-.calendar { background: url("../../_static/img/calendar.png") no-repeat right; background-position: 95%;}
+.calendar { background: url("../../_static/img/calendar.png") no-repeat right, #fff; background-position: 95%;}
 
 .sh_submit{border: none; background:#262f3c; color: #fff; padding: 2px 15px; text-align: center;}
 
@@ -71,7 +71,7 @@ a {text-decoration:none}
 .body_cont_float2 ul li:nth-child(2){width:40%; padding:20px;}
 .body_cont_float2 ul:after{clear:both; display:block; visibility:hidden; content:'';}
 
-.bc_search.gsflexst{display:flex; justify-content: space-between; flex-wrap:wrap; align-items: flex-end;}
+.gsflexst{display:flex; justify-content: space-between; align-items: flex-end;}
 .bc_search{padding:20px 10px; border:1px solid #ddd; margin-bottom:10px;}
 .bc_search input{border:1px solid #ddd; padding:5px 7px;}
 .bc_search label {color: #999;}

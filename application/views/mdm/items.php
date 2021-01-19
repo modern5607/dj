@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</tr>
 				</thead>
 				<tbody>
-				<?php foreach($itemsList as $i=>$row){ $no = $i+1; ?>
+				<?php foreach($itemsList as $i=>$row){ $no = $pageNum+$i+1; ?>
 				<tr>
 					<td class="cen"><?php echo $no; ?></td>
 					<td class="cen"><?php echo $row->ITEM_NO; ?></td>

@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tbody>
 					<?php
 					foreach($List as $i=>$row){
-						$no = $i+1;
+						$no = $pageNum+$i+1;
 					?>
 
 						<tr <?php echo ($NDATE == $row->SB_DATE)?"class='over'":"";?>>

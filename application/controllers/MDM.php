@@ -777,9 +777,13 @@ class MDM extends CI_Controller {
 		
 		$data['str']['v1'] = $this->input->get('v1');
 		$data['str']['v2'] = $this->input->get('v2');
+		$data['str']['cnm'] = $this->input->get('cnm');
+		$data['str']['ccd'] = $this->input->get('ccd');
 
 		$params['V1'] = "";
 		$params['V2'] = "";
+		$params['COLOERNM'] = "";
+		$params['COLORCD'] = "";
 
 		$data['qstr'] = "?P";
 		if(!empty($data['str']['v1'])){
@@ -789,6 +793,14 @@ class MDM extends CI_Controller {
 		if(!empty($data['str']['v2'])){
 			$params['V2'] = $data['str']['v2'];
 			$data['qstr'] .= "&v2=".$data['str']['v2'];
+		}
+		if(!empty($data['str']['ccd'])){
+			$params['COLORCD'] = $data['str']['ccd'];
+			$data['qstr'] .= "&ccd=".$data['str']['ccd'];
+		}
+		if(!empty($data['str']['cnm'])){
+			$params['COLOERNM'] = $data['str']['cnm'];
+			$data['qstr'] .= "&cnm=".$data['str']['cnm'];
 		}
 
 			// $data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
@@ -805,7 +817,7 @@ class MDM extends CI_Controller {
 			// $data['pageNum'] = $start;
 
 		$data['series_headList'] = $this->main_model->get_seriesHead_list($params);
-		$data['series_detailList'] = $this->main_model->get_seriesDetail_list($hid);
+		$data['series_detailList'] = $this->main_model->get_seriesDetail_list($hid,$params);
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 
 		$data['H_IDX'] = $hid;
@@ -912,6 +924,17 @@ $this->pagination->initialize($config);
 $this->data['pagenation'] = $this->pagination->create_links();
 
 		$this->load->view('/mdm/color',$data);
+	}
+
+	public function color_use_update(){
+
+		
+		$params['SERIESD_IDX'] = $this->input->post("seriesd");
+		$params['ITEM_IDX'] = $this->input->post("item");
+		$params['USE_YN'] = $this->input->post("use");
+
+		$data = $this->act_model->ajax_color_useupdate($params);	
+		echo $data;
 	}
 
 	/* 공통코드 HEAD 폼 호출 */

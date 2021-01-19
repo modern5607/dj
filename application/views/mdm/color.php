@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<form id="items_formupdate">
 		<label for="v1">시리즈</label>
 			<select name="v1">
-				<option value="">::선택::</option>
+				<option value="">전체</option>
 			<?php
 			foreach($SERIES as $row){
 				$selected = (!empty($str['v1']) && $row->IDX == $str['v1'])?"selected":"";
@@ -39,13 +39,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>색상</th>					
 						<th>현재고량</th>
 						<th>출고대기수량</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 				<?php
 				if(!empty($List)){
 				foreach($List as $i=>$row){ 
-					$no = $i+1;
+					$no = $pageNum+$i+1;
 				?>
 				<tr>
 					<td class="cen"><?php echo $no;?></td>
@@ -54,6 +55,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="cen"><?php echo $row->COLOR; ?></td>
 					<td class="right"><?php echo number_format($row->QTY); ?></td>
 					<td class="right"><?php echo number_format($row->EQTY); ?></td>
+					<td class="right">
+						<select name="useyn" 
+						data-seriesd="<?php echo $row->SERIESD_IDX ?>"
+						data-item="<?php echo $row->ITEM_IDX ?>"
+						data-qty='<?php echo $row->QTY; ?>' 
+						data-eqty='<?php echo $row->EQTY; ?>'>
+							<option value="Y">사용</option>
+							<option value="N" <?php echo ($row->USE_YN == "N")?"selected":"";?>>미사용</option>
+						</select>
+					</td>
 				</tr>
 						
 
@@ -99,8 +110,65 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-<!--
+$('select[name=useyn]').on('change',function(){
+
+	if($(this).data('qty') > 0 ){
+		alert('현재고량이 남아있습니다.');
+		$(this).children().eq(0).prop("selected", true);
+		return false;
+	}
+	if($(this).data('eqty') > 0 ){
+		alert('출고대기량이 남아있습니다.');
+		$(this).children().eq(0).prop("selected", true);
+		return false;
+	}
+
+	
+	var formData = new FormData();
+	formData.append('seriesd', $(this).data('seriesd'));
+	formData.append('item', $(this).data('item'));
+	formData.append('use', $(this).val());
 
 
-//-->
+	$.ajax({
+		url  : "<?php echo base_url('MDM/color_use_update')?>",
+		type : "POST",
+		data : formData,
+		cache  : false,
+		contentType : false,
+		processData : false,
+		success : function(data){			
+			alert("수정되었습니다.");
+			location.reload();
+		},
+		error   : function(xhr,textStatus,errorThrown){
+			alert(xhr);
+			alert(textStatus);
+			alert(errorThrown);
+		}
+	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+})
 </script>

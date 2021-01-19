@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		<label for="v1">시리즈</label>
 		<select name="v1">
-			<option value="">::선택::</option>
+			<option value="">전체</option>
 		<?php
 		foreach($SERIES as $row){
 			$selected = (!empty($str['v1']) && $row->IDX == $str['v1'])?"selected":"";
@@ -43,6 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tr>
 						<th>No</th>
 						<th>일자</th>
+						<th>시리즈</th>
 						<th>품목</th>
 						<th>수량</th>
 						<th>비고</th>
@@ -51,15 +52,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<tbody>
 				<?php
 				if(!empty($List)){
-				$totalQty = 0;
+				$count = 0;
 				foreach($List as $i=>$row){ 
-					$no = $i+1;
-					$totalQty += $row->IN_QTY;
+					$no = $pageNum+$i+1;
+					$count += $row->IN_QTY;
 					//$sumqty = $row->QT2+$row->QT3+$row->QT4;
 				?>
 				<tr>
 					<td class="cen"><?php echo $no;?></td>
 					<td class="cen"><?php echo $row->TRANS_DATE;?></td>
+					<td><strong><?php echo $row->SERIES_NM; ?></strong></td>
 					<td><strong><?php echo $row->ITEM_NAME; ?></strong></td>
 					<td class="right"><?php echo $row->IN_QTY; ?></td>
 					<td class=""><?php echo $row->REMARK; ?></td>
@@ -72,7 +74,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				
 				?>
 
-					<tr>
+					<tr>a
 						<td colspan="15" class="list_none">정보가 없습니다.</td>
 					</tr>
 
@@ -81,10 +83,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				?>
 				</tbody>
 				<tfoot>
-					<tr>
-						<td colspan="3">합계</td>
-						<td class="right"><?php echo number_format($totalQty);?></td>
-						<td></td>
+					<tr style="background:#f3f8fd;">
+						<td colspan="4" style="text-align:right;"><strong>총 합계</strong></td>
+						<td class="right"><?php echo number_format( $count); ?></td>
+						<td class="cen"></td>
 					</tr>
 				</tfoot>
 			</table>

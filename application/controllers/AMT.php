@@ -93,6 +93,7 @@ class AMT extends CI_Controller {
 		$params['V2'] = "";
 		$params['V3'] = "";
 		$params['V4'] = "";
+		$params['AM1'] = "OK";
 
 		$data['qstr'] = "?P";
 		
@@ -144,7 +145,7 @@ class AMT extends CI_Controller {
 
 		
 
-		//$data['SERIES'] = $this->main_model->get_seriesh_select();
+		$data['SERIES'] = $this->main_model->get_seriesh_select();
 
 
 		
@@ -593,7 +594,7 @@ class AMT extends CI_Controller {
 	}
 
 
-	
+
 
 
 

@@ -62,8 +62,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<input type="text" autocomplete="off" name="component_nm" id="component_nm" value="<?php echo $str['component_nm']?>">
 				
 					<button class="search_submit"><i class="material-icons">search</i></button>
+
 				</form>
+				<div class="gsflexst">
+					<div style="margin:0 10px;">
+						<label for="component_stock">자재재고량</label>
+						<input style="text-align: right" type="text" name="XQTY" id="XQTY" readonly value="<?php if(!empty($detail)){ echo round($detail['STOCK']); }?>">	
+					</div>
+					
 					<span class="btni btn_right add_compnum" style="max-height:34px;"><span class="material-icons">add</span></span>	
+				</div>
 			</div>
 
 			<div class="tbl-content">
@@ -76,6 +84,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>자재명</th>
 							<th>단위</th>
 							<th>입고량</th>
+							<th>입고변경</th>
+							<th>수정</th>                            
 						</tr>
 					</thead>
 					<tbody>
@@ -83,7 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php
 
 					foreach($RList as $i=>$row){
-						$num = $i+1;
+						$num = $pageNum+$i+1;
 					?>
 
 						<tr>
@@ -91,8 +101,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td><?php echo $row->COMPONENT; ?></td>
 							<td><?php echo $row->COMPONENT_NM; ?></td>
 							<td class="cen"><?php echo $row->UNIT;?></td>
-							<td><?php echo number_format($row->IN_QTY);?></td>
-							<!--td><span class="btn mod_detail" data-idx="<?php echo $row->AIDX; //trans idx?>">수정</span></td-->
+							<td><?php echo round($row->IN_QTY);?></td>
+           					<td class="cen"><input type="text" name="C_QTY[]" class="form_input1" size="6" value=""></td>
+							<td><span class="btn mod_detail" data-idx="<?php echo $row->AIDX; //trans idx?>">수정</span></td>
 						</tr>
 
 					<?php
@@ -100,7 +111,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					}
 					if(empty($RList)){
 					?>
-						<tr><td colspan="6" style='color:#999; padding:40px 0;'>등록된 자재수량정보가 없습니다.</td></tr>
+						<tr><td colspan="15" style='color:#999; padding:40px 0;'>등록된 자재수량정보가 없습니다.</td></tr>
 					<?php } ?>
 					</tbody>
 				</table>
@@ -126,6 +137,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
+$(".mod_detail").on("click",function(){
+	var ipgo = $(this).parents("tr").find("td").eq(4).text();
+	var stock = $(this).parents("tr").find("input[name^='C_QTY']").val();
+	var qty = $("input[name='XQTY']").val();
+	var idx = $(this).data("idx");
+	var cQty = qty-(ipgo-stock);
+	if(qty-(ipgo-stock) < 0 ){
+		alert("자재 입고변경 값이 현 자재 재고량 보다 큽니다.");
+		return false;
+	}
+
+
+	
+	$.post("<?php echo base_url('PO/am1_listupdate')?>",{idx:idx,stock:stock,cQty:cQty},function(data){
+		if(data > 0){
+			location.reload();
+		}
+	});
+
+
+});
+
+<!--
+
 
 $(".add_compnum").on("click",function(){
 
@@ -182,6 +217,9 @@ $(".add_detail").on("click",function(){
 });
 
 
+
+
+
 $(".mod_head").on("click",function(){
 	
 	var idx = $(this).data("idx");
@@ -208,7 +246,9 @@ $(".mod_head").on("click",function(){
 
 });
 
-$(".mod_detail").on("click",function(){
+
+
+/*$(".mod_detail").on("click",function(){
 	
 	var idx = $(this).data("idx");
 	$(".ajaxContent").html('');
@@ -232,7 +272,7 @@ $(".mod_detail").on("click",function(){
 		}
 	});
 
-});
+});*/
 
 
 function formcheck(f){

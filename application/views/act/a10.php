@@ -62,7 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tbody>
 					<?php
 					foreach($List as $i=>$row){
-						$no = $i+1;
+						$no = $pageNum+$i+1;
 					?>
 
 						<tr <?php echo ($CODE == $row->ITEMS_IDX)?"class='over'":"";?>>
@@ -114,6 +114,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr>
 							<th>No</th>
 							<th>수주일자</th>
+							<th>시리즈</th>
 							<th>품명</th>
 							<th>색상</th>
 							<th>수주수량</th>
@@ -129,12 +130,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr>
 							<td class="cen"><?php echo $num; ?></td>
 							<td class="cen"><?php echo $row->ACT_DATE; ?></td>
+							<td class="cen"><?php echo $row->SE_NAME; ?></td>
 							<td><?php echo $row->ITEM_NM; ?></td>
 							<td class="cen"><?php echo $row->COLOR;?></td>
 							<td class="right"><?php echo number_format($row->QTY);?></td>
 							<td>
-								<input type="hidden" name="AD_IDX[]" value="<?php echo $row->IDX;?>" />
 								<input type="text" name="IN_QTY[]" value="" />
+								<input type="hidden" name="AD_IDX[]" value="<?php echo $row->IDX;?>" />
 								<input type="hidden" name="ACT_IDX[]" value="<?php echo $row->H_IDX;?>" />
 								<input type="hidden" name="ITEMS_IDX[]" value="<?php echo $row->ITEMS_IDX?>" />
 								<input type="hidden" name="SERIESD_IDX[]" value="<?php echo $row->SERIESD_IDX?>" />
@@ -145,7 +147,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					}
 					if(empty($detail)){
 					?>
-						<tr><td colspan="6" style='color:#999; padding:40px 0;'>실적정보가 없습니다.</td></tr>
+						<tr><td colspan="7" style='color:#999; padding:40px 0;'>실적정보가 없습니다.</td></tr>
 					<?php } ?>
 					</tbody>
 				</table>

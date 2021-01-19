@@ -50,22 +50,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<tbody>
 				<?php
 				if(!empty($List)){
+					$count=0;
+					$incount=0;
+					$count1=0;
+					$count2=0;
+					$countx=0;
+					$glazing=0;
 				foreach($List as $i=>$row){ 
-					$no = $i+1; 
+					$no = $pageNum+$i+1;
 					if($row->ITEM_NM == "합계"){
-				?>
-				<tr style="background:#f3f8fd;">
-					<td colspan="2"><strong><?php echo $row->ITEM_NM; ?> - <?php echo $row->COLOR; ?></strong></td>
-					<td class="right"><?php echo number_format($row->QTY); ?></td>
-					<td class="right"><strong><?php echo number_format($row->IN_QTY); ?></strong></td>
-					<td class="right"><?php echo number_format($row->QTY1); ?></td>
-					<td class="right"><?php echo number_format($row->QTY1); ?></td>
-					<td class="right"><?php echo number_format($row->QTY2); ?></td>
-					<td class="right"><?php echo number_format($row->QTY3); ?></td>
-					<td class="right"><?php echo number_format($row->QTY4); ?></td>
-				</tr>
-				<?php
+						$count += $row->QTY;
+						$incount += $row->IN_QTY;
+						$count1 += $row->QTY1;
+						$count2 += $row->QTY2;
+						$countx += $row->QTY3;
+						$glazing += $row->QTY4;
 					}else{
+				
 				?>
 				<tr>
 					<td><?php echo $row->ITEM_NM; ?></td>
@@ -86,12 +87,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				<?php
 				}
+				?>
+				<tr style="background:#f3f8fd;">
+					<td colspan="2"><strong>총 합계</strong></td>
+					<td class="right"><?php echo number_format($count); ?></td>
+					<td class="right"><?php echo number_format($incount); ?></td>
+					<td class="right"><strong><?php echo number_format($count1); ?></strong></td>
+					<td class="right"><?php echo number_format($count1); ?></td>
+					<td class="right"><?php echo number_format($count2); ?></td>
+					<td class="right"><?php echo number_format($countx); ?></td>
+					<td class="right"><?php echo number_format($glazing); ?></td>
+				</tr>
+				<?php
 				}else{
 				
 				?>
 
 					<tr>
-						<td colspan="15" class="list_none">실적정보가 없습니다.</td>
+						<td colspan="15" class="list_none" style="text-align: center;">실적정보가 없습니다.</td>
 					</tr>
 
 				<?php

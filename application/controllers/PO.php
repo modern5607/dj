@@ -132,6 +132,7 @@ class PO extends CI_Controller {
 		if(empty($this->input->get('n'))){
 			if($date != ""){
 				$data['RList'] = $this->amt_model->component_trans_numlist($date,$params);
+				$data['detail'] = $this->amt_model->component_count($date,$params);
 			}
 		}
 		
@@ -280,8 +281,8 @@ class PO extends CI_Controller {
 		$data['str']['component'] = $this->input->get('component');
 		$data['str']['component_nm'] = $this->input->get('component_nm');
 
-		$params['SDATE'] = "";
-		$params['EDATE'] = "";
+		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+		$params['EDATE'] = date("Y-m-d");
 		
 		$params['COMPONENT'] = "";
 		$params['COMPONENT_NM'] = "";
@@ -359,7 +360,17 @@ class PO extends CI_Controller {
 		$this->load->view('/amt/am3',$data);
 	}
 
+	public function am1_listupdate()
+	{
+		$param['ITEM_IDX'] = $this->input->post("idx");
+		$param['QTY'] = $this->input->post("stock");
+		$param['C_QTY'] = $this->input->post("cQty");
 
+		$data = $this->amt_model->am1_listupdate($param);
+		
+		echo $data;
+		
+	}
 
 
 

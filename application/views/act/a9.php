@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tbody>
 					<?php
 					foreach($List as $i=>$row){
-						$no = $i+1;
+						$no = $pageNum+$i+1;
 					?>
 
 						<tr <?php echo ($NDATE == $row->TRANS_DATE)?"class='over'":"";?>>
@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</li>
 		<li style="width:calc(100% - 400px);">
 			
-			<div id="" class="bc_search" style="background:#f8f8f8;">
+			<div id="" class="bc_search gsflexst" style="background:#f8f8f8;">
 			<form>
 				<label for="component">제품코드</label>
 				<input type="text"autocomplete="off" name="component" id="component" value="<?php echo $str['component']?>">
@@ -65,10 +65,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				
 				<button class="search_submit"><i class="material-icons">search</i></button>
 			</form>
-			</div>
-
-			<div class="bc_header none_padding">
-				<span class="btni btn_right add_itemnum" data-type="<?php echo $this->data['subpos'];?>"><span class="material-icons">add</span></span>	
+				<span class="btni btn_right add_itemnum" style="max-height:34px;" data-type="<?php echo $this->data['subpos'];?>"><span class="material-icons">add</span></span>	
 			</div>
 
 			<div class="tbl-content">
@@ -77,6 +74,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<thead>
 						<tr>
 							<th>No</th>
+							<th>시리즈</th>
 							<th>품명</th>
 							<th>수량</th>
 							<th>비고</th>
@@ -93,6 +91,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 						<tr>
 							<td class="cen"><?php echo $num; ?></td>
+							<td><?php echo $row->SERIES_NM; ?></td>
 							<td><?php echo $row->ITEM_NAME; ?></td>
 							<td class="right"><?php echo $row->IN_QTY; ?></td>
 							<td><?php echo $row->REMARK;?></td>
