@@ -536,7 +536,7 @@ SQL;
 
 		$sql=<<<SQL
 			SELECT 
-				AA.*, H.SERIES_NM
+			AA.*, H.SERIES_NM
 			FROM 
 				(
 					SELECT
@@ -544,9 +544,10 @@ SQL;
 						B.ITEM_NAME,
 						A.IN_QTY, 
 						A.REMARK,
+						B.SERIES_IDX,
 						CASE
 							WHEN (A.GJ_GB = "JHBK") THEN "BK"
-							/* WHEN (A.GJ_GB = "SH") THEN "성형"*/
+							
 							WHEN (A.GJ_GB = "JH") THEN "정형"
 						END as BK
 					FROM
@@ -557,9 +558,9 @@ SQL;
 						A.KIND = 'IN'
 						{$where}
 					ORDER BY A.TRANS_DATE DESC
-					-- LIMIT 0, 3
+					
 				) as AA
-			LEFT JOIN `t_series_h` as `H` ON `H`.`IDX` = `AA`.`SERIES_IDX`
+				LEFT JOIN `t_series_h` as `H` ON `H`.`IDX` = `AA`.`SERIES_IDX`
 			UNION
 			SELECT '','합계' AS TEXT,B.ITEM_NAME, SUM(IN_QTY) as IN_QTY,'','',''
 			FROM 
@@ -570,10 +571,10 @@ SQL;
 				AND A.KIND = 'IN'
 				{$where}
 			GROUP BY ITEMS_IDX
-			-- LIMIT 0, 5
+			
 SQL;
 		$query = $this->db->query($sql);
-		// echo $this->db->last_query();
+		echo $this->db->Last_query();
 		return $query->result();
 	}
 
