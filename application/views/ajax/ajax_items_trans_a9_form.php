@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 
-<div class="formContainer">
+<div class="formContainer" style="font-size: 15px;">
 	<div style="background:#eceff5; padding:20px;">
 		<select name="s1" id="s1" class="form_input select_call" style="width:120px;">
 			<option value="">시리즈</option>

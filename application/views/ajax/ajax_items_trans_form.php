@@ -78,7 +78,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-<!--
 var HIDX = "<?php echo $HIDX ?>"; //수주idx
 $("#s1").on("change",function(){
 	var idx = $(this).val();

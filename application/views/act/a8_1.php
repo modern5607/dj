@@ -49,6 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tr>
 						<th>No</th>
 						<th>일자</th>
+						<th>시리즈</th>
 						<th>품목</th>
 						<th>수량</th>
 						<th>비고</th>
@@ -59,13 +60,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				if(!empty($List)){
 				foreach($List as $i=>$row){ 
 					$no = $i+1; 
-					if($row->ITEM_NAME == "합계"){
+					if($row->SERIES_NM == "합계"){
 				?>
 				<tr style="background:#f3f8fd;">
-					<td colspan="2" style="text-align:right;"><strong><?php echo $row->ITEM_NAME; ?></strong></td>
-					<td><?php echo $row->IN_QTY; ?></td>
-					<td class="right"><strong><?php echo $row->REMARK; ?></strong></td>
-					<td class="cen"><?php //echo $row->REMARK; ?></td>
+					<td colspan="2" style="text-align:right;"><strong><?php echo $row->SERIES_NM; ?></strong></td>
+					<td><?php echo $row->ITEM_NAME; ?></td>
+					<td></td>
+					<td class="right"><strong><?php echo $row->IN_QTY; ?></strong></td>
+					<td><?php echo $row->REMARK?></td>
 				</tr>
 				<?php
 					}else{
@@ -73,6 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<tr>
 					<td class="cen"><?php echo $no; ?></td>
 					<td class="cen"><?php echo $row->TRANS_DATE; ?></td>
+					<td class="cen"><?php echo $row->SERIES_NM; ?></td>					
 					<td><?php echo $row->ITEM_NAME; ?></td>
 					<td class="right"><?php echo number_format($row->IN_QTY); ?></td>
 					<td class="cen"><?php echo $row->REMARK; ?></td>

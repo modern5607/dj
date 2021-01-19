@@ -280,6 +280,7 @@ class ACT2 extends CI_Controller {
 
 		$data['str']['component'] = $this->input->get('component');
 		$data['str']['component_nm'] = $this->input->get('component_nm');
+		$data['str']['v1'] = $this->input->get('v1');
 
 		$params['SDATE'] = "";
 		$params['EDATE'] = "";
@@ -307,6 +308,10 @@ class ACT2 extends CI_Controller {
 			$params['COMPONENT_NM'] = $data['str']['component_nm'];
 			$data['qstr'] .= "&component_nm=".$data['str']['component_nm'];
 		}
+		if(!empty($data['str']['v1'])){
+			$params['V1'] = $data['str']['v1'];
+			$data['qstr'] .= "&v1=".$data['str']['v1'];
+		}
 
 		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
 		
@@ -327,6 +332,7 @@ class ACT2 extends CI_Controller {
 
 		$params['BK'] = '';
 		$data['BK'] = $params['BK']; 
+		$data['SERIES'] = $this->main_model->get_seriesh_select();
 
 		$data['List'] = $this->act_model->item_trans_list($params,$start,$config['per_page']);
 		$this->data['cnt'] = $this->act_model->item_trans_cnt($params);
@@ -382,12 +388,14 @@ class ACT2 extends CI_Controller {
 
 		$data['str']['component'] = $this->input->get('component');
 		$data['str']['component_nm'] = $this->input->get('component_nm');
+		$data['str']['v1'] = $this->input->get('v1');
 
 		$params['SDATE'] = "";
 		$params['EDATE'] = "";
 		
 		$params['COMPONENT'] = "";
 		$params['COMPONENT_NM'] = "";
+		$params['V1'] = "";
 
 		$data['qstr'] = "?P";
 		
@@ -408,6 +416,10 @@ class ACT2 extends CI_Controller {
 		if(!empty($data['str']['component_nm'])){
 			$params['COMPONENT_NM'] = $data['str']['component_nm'];
 			$data['qstr'] .= "&component_nm=".$data['str']['component_nm'];
+		}
+		if(!empty($data['str']['v1'])){
+			$params['V1'] = $data['str']['v1'];
+			$data['qstr'] .= "&v1=".$data['str']['v1'];
 		}
 
 		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
@@ -432,7 +444,7 @@ class ACT2 extends CI_Controller {
 		$data['BK'] = $params['BK']; 
 
 
-
+		$data['SERIES'] = $this->main_model->get_seriesh_select();
 		$data['List'] = $this->act_model->item_trans_list($params,$start,$config['per_page']);
 		$this->data['cnt'] = $this->act_model->item_trans_cnt($params);
 		if(empty($this->input->get('n'))){
