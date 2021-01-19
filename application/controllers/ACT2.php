@@ -298,6 +298,8 @@ class ACT2 extends CI_Controller {
 		$params['COMPONENT'] = "";
 		$params['COMPONENT_NM'] = "";
 
+		$params['V1'] = "";
+
 		$data['qstr'] = "?P";
 		
 		if(!empty($data['str']['sdate'])){

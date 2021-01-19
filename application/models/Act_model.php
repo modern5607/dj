@@ -17,12 +17,12 @@ class Act_model extends CI_Model {
 		}
 
 		if(!empty($param['V3']) && $param['V3'] != ""){
-			$this->db->where("TI.ITEM_NAME",$param['V3']);
+			$this->db->like("TI.ITEM_NAME",$param['V3']);
 		}
 
-		if(!empty($param['V4']) && $param['V4'] != ""){
-			$this->db->where("B.ITEM_NM",$param['V4']);
-		}
+		// if(!empty($param['V4']) && $param['V4'] != ""){
+		// 	$this->db->where("B.ITEM_NM",$param['V4']);
+		// }
 
 		$this->db->select("TIT.TRANS_DATE, TI.ITEM_NAME, TIT.IN_QTY, TIT.REMARK, TSH.SERIES_NM");
 		$this->db->from("T_ITEMS as TI");
@@ -123,31 +123,25 @@ class Act_model extends CI_Model {
 		// if(!empty($param['V1']) && $param['V1'] != ""){
 		// 	$this->db->where("B.SERIES_IDX",$param['V1']);
 		// }
-		if(!empty($param['COMPONENT']) && $param['COMPONENT'] != ""){
-			//$this->db->like("B.ITEM_NO",$param['COMPONENT']);
-			$where .= "AND B.ITEM_NO LIKE '%{$param['COMPONENT']}%'";
-		}
+		// if(!empty($param['COMPONENT']) && $param['COMPONENT'] != ""){
+		// 	$where .= "AND B.ITEM_NO LIKE '%{$param['COMPONENT']}%'";
+		// }
 
 		if(!empty($param['COMPONENT_NM']) && $param['COMPONENT_NM'] != ""){
-			// $this->db->like("B.ITEM_NAME",$param['COMPONENT_NM']);
 			$where .= "AND B.ITEM_NAME LIKE '%{$param['COMPONENT_NM']}%'";
 		}
 
 		if(!empty($param['V1']) && $param['V1'] != "")
-			$where .= "AND C.IDX = {$param['V1']}";
-			// $this->db->where("C.IDX",$param['V1']);
+			$where .= "AND C.IDX = '{$param['V1']}'";
 
 
 		if($date != ""){
-			//$this->db->where("A.TRANS_DATE",$date);
 			$where .= "AND A.TRANS_DATE = '{$date}'";
 		}
 		
 		if(!empty($param['BK'])){
 			$where .= "AND A.GJ_GB = 'JHBK'";
-			// $GJGB = "JHBK";
 		}else{
-			// $GJGB = $param['GJGB'];
 			$where .= "AND A.GJ_GB = '{$param['GJGB']}'";
 		}
 
@@ -176,7 +170,6 @@ class Act_model extends CI_Model {
 				WHERE
 					A.ITEMS_IDX = B.IDX
 					AND	A.KIND = 'IN'
-					AND B.SERIES_IDX = C.IDX
 					{$where}
 			) as AA
 		
@@ -189,7 +182,6 @@ class Act_model extends CI_Model {
 		WHERE 
 			A.ITEMS_IDX = B.IDX
 			AND A.KIND = 'IN'
-			AND B.SERIES_IDX = C.IDX
 			{$where}
 SQL;
 
@@ -212,12 +204,13 @@ SQL;
 	public function get_inventory_list($param,$start=0,$limit=20)
 	{
 		
-		$this->db->select("A.IDX, B.H_IDX, C.ACT_DATE, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY,F.CUST_NM");
+		$this->db->select("A.IDX, B.H_IDX, C.ACT_DATE, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY,F.CUST_NM,E.SERIES_NM");
 		$this->db->from("t_inventory_trans as A");
 		$this->db->join("t_act_h as C","C.IDX = A.ACT_IDX","LEFT");
 		$this->db->join("t_act_d as B","B.IDX = A.ACT_D_IDX","LEFT");
 		$this->db->join("t_series_d as D","D.IDX = A.SERIESD_IDX","LEFT");
 		$this->db->join("T_BIZ_REG AS F ","C.BIZ_IDX = F.IDX","LEFT");
+		$this->db->join("T_SERIES_H AS E ","E.IDX = D.SERIES_IDX","LEFT");
 
 
 		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
@@ -233,7 +226,8 @@ SQL;
 		}
 
 		if(!empty($param['V3']) && $param['V3'] != ""){
-			$this->db->where("B.ITEM_NM",$param['V3']);
+			//$this->db->where("B.ITEM_NM",$param['V3']);
+			$this->db->like("B.ITEM_NM",$param['V3']);
 		}
 
 		//if(!empty($param['V4']) && $param['V4'] != ""){
@@ -1103,7 +1097,7 @@ SQL;
 		$this->db->group_by("A.ITEM_NM, A.ITEMS_IDX");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
-		echo $this->db->last_query();
+		//echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -1181,7 +1175,7 @@ SQL;
 
 		$query = $this->db->get();
 		$data['SLIST'] = $query->result();
-		echo $this->db->last_query();
+		//echo $this->db->last_query();
 		return $data;
 	}
 
@@ -1804,6 +1798,9 @@ SQL;
 			$where .= " AND C.ITEM_NM LIKE '%{$param['V2']}%'";
 		}
 
+		if(!empty($param['V3']) && $param['V3'] != ""){
+			$where .= " AND D.COLOR LIKE '%{$param['V3']}%'";
+		}
 
 		$where .= " AND A.GJ_GB = 'SB'";
 
@@ -1866,6 +1863,7 @@ SQL;
 		//$this->db->order_by("A.TRANS_DATE ASC");
 		//$this->db->limit($limit,$start);
 		$query = $this->db->query($sql);
+		echo $this->db->last_query();
 		return $query->result();
 	}
 

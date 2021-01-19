@@ -150,7 +150,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-<!--
 
 
 $("input[name^='QTY']").on("change",function(){

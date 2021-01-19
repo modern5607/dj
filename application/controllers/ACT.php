@@ -122,14 +122,15 @@ class ACT extends CI_Controller {
 			$params['V1'] = $data['str']['v1'];
 			$data['qstr'] .= "&v1=".$data['str']['v1'];
 		}
-		if(!empty($data['str']['v4'])){
-			$params['V4'] = $data['str']['v4'];
-			$data['qstr'] .= "&v2=".$data['str']['v4'];
-		}
 		if(!empty($data['str']['v3'])){
 			$params['V3'] = $data['str']['v3'];
 			$data['qstr'] .= "&v3=".$data['str']['v3'];
 		}
+		if(!empty($data['str']['v4'])){
+			$params['V4'] = $data['str']['v4'];
+			$data['qstr'] .= "&v4=".$data['str']['v4'];
+		}
+		
 
 		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
 		
