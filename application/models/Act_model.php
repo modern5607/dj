@@ -546,7 +546,7 @@ SQL;
 						A.REMARK,
 						CASE
 							WHEN (A.GJ_GB = "JHBK") THEN "BK"
-							-- WHEN (A.GJ_GB = "SH") THEN "성형"
+							/* WHEN (A.GJ_GB = "SH") THEN "성형"*/
 							WHEN (A.GJ_GB = "JH") THEN "정형"
 						END as BK
 					FROM
@@ -972,7 +972,6 @@ SQL;
 
 		if(!empty($param['V1']) && $param['V1'] != ""){
 			$where .= " AND B.SERIES_IDX = '{$param['V1']}'";
-			
 		}
 
 		if(!empty($param['V2']) && $param['V2'] != ""){
@@ -991,36 +990,32 @@ SQL;
 				(
 					SELECT
 						A.TRANS_DATE,
-						C.SERIES_NM,
 						B.ITEM_NAME,
 						A.IN_QTY, 
 						A.REMARK,
 						B.SERIES_IDX
 					FROM
 						T_ITEMS_TRANS A, 
-						T_ITEMS B,
-						T_SERIES_H C
+						T_ITEMS B
 					WHERE
 						A.ITEMS_IDX = B.IDX AND 
 						A.KIND = 'IN'
-						AND B.SERIES_IDX = C.IDX
 						{$where}
-						
+					ORDER BY A.TRANS_DATE DESC
+					-- LIMIT 0, 3
 				) as AA
 			LEFT JOIN `t_series_h` as `H` ON `H`.`IDX` = `AA`.`SERIES_IDX` 
 			UNION
 			SELECT '','합계' AS TEXT,B.ITEM_NAME, SUM(IN_QTY) as IN_QTY,"",""
 			FROM 
 				T_ITEMS_TRANS A, 
-				T_ITEMS B,
-				T_SERIES_H C
+				T_ITEMS B
 			WHERE 
 				A.ITEMS_IDX = B.IDX
 				AND A.KIND = 'IN'
-				AND B.SERIES_IDX = C.IDX
 				{$where}
-				ORDER BY TRANS_DATE DESC
-			
+			GROUP BY ITEMS_IDX
+			-- LIMIT 0, 5
 SQL;
 
 			
@@ -1034,7 +1029,7 @@ SQL;
 		//$this->db->order_by("A.TRANS_DATE ASC");
 		//$this->db->limit($limit,$start);
 		$query = $this->db->query($sql);
-		//echo $this->db->last_query();
+		// echo $this->db->last_query();
 		return $query->result();
 	}
 
