@@ -29,9 +29,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<label for="v2">품목</label>
 		<input type="text"autocomplete="off" name="v2" id="v2" value="<?php echo $str['v2']?>">
 
-		<label for="v3">BK여부
-		<input type="checkbox" name="v3" id="v3" value="JHBK" <?php echo (!empty($str['v3']) && $str['v3'] == "JHBK")?"checked":"";?>>
-		</label>
+		<label for="v3">BK여부</label>
+		<select name="v3">
+		<?php 
+			// $SH = (!empty($str['v3']) && $str['v3']=="SH")?"selected":"";
+			$JH = (!empty($str['v3']) && $str['v3']=="JH")?"selected":"";
+			$BK = (!empty($str['v3']) && $str['v3']=="JHBK")?"selected":"";
+		?>
+			<option value="">전체</option>
+			<option value="JH" <?= $JH; ?>>BK제외</option>
+			<option value="JHBK" <?= $BK; ?>>BK</option>
+		</select>
+		
 		
 		
 		<button class="search_submit"><i class="material-icons">search</i></button>

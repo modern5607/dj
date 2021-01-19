@@ -530,10 +530,9 @@ SQL;
 
 		if(!empty($param['V3']) && $param['V3'] != ""){
 			$where .= " AND A.GJ_GB = '{$param['V3']}'";
-		}else{
-			$where .= " AND A.GJ_GB like '%JH%'";
 		}
-
+		// else{$where .= " AND A.GJ_GB like '%JH%'";}
+		$where .= " AND A.GJ_GB != 'SH'";
 
 		$sql=<<<SQL
 			SELECT 
@@ -545,8 +544,11 @@ SQL;
 						B.ITEM_NAME,
 						A.IN_QTY, 
 						A.REMARK,
-						IF(A.GJ_GB = "JHBK","BK","") as BK, 
-						B.SERIES_IDX
+						CASE
+							WHEN (A.GJ_GB = "JHBK") THEN "BK"
+							-- WHEN (A.GJ_GB = "SH") THEN "성형"
+							WHEN (A.GJ_GB = "JH") THEN "정형"
+						END as BK
 					FROM
 						T_ITEMS_TRANS A, 
 						T_ITEMS B
@@ -593,9 +595,8 @@ SQL;
 
 		if(!empty($param['V3']) && $param['V3'] != ""){
 			$where .= " AND A.GJ_GB = '{$param['V3']}'";
-		}else{
-			$where .= " AND A.GJ_GB like '%JH%'";
 		}
+		// else{$where .= " AND A.GJ_GB like '%JH%'";}
 		
 		$sql=<<<SQL
 			SELECT
@@ -609,6 +610,7 @@ SQL;
 				{$where}
 SQL;
 		$query = $this->db->query($sql);
+		
 		return $query->row()->CUT;
 
 	}
@@ -1101,7 +1103,7 @@ SQL;
 		$this->db->group_by("A.ITEM_NM, A.ITEMS_IDX");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
-		//echo $this->db->last_query();
+		echo $this->db->last_query();
 		return $query->result();
 	}
 

@@ -163,7 +163,6 @@ $(".mod_detail").on("click",function(){
 
 
 $(".add_compnum").on("click",function(){
-
 	$(".ajaxContent").html('');
 
 	$("#pop_container").fadeIn();

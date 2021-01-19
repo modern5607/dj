@@ -83,11 +83,13 @@ class PO extends CI_Controller {
 		$data['str']['component'] = $this->input->get('component');
 		$data['str']['component_nm'] = $this->input->get('component_nm');
 
+
 		$params['SDATE'] = "";
 		$params['EDATE'] = "";
 		
 		$params['COMPONENT'] = "";
 		$params['COMPONENT_NM'] = "";
+
 
 		$data['qstr'] = "?P";
 		
@@ -109,7 +111,6 @@ class PO extends CI_Controller {
 			$params['COMPONENT_NM'] = $data['str']['component_nm'];
 			$data['qstr'] .= "&component_nm=".$data['str']['component_nm'];
 		}
-
 		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
 		
 		//PAGINATION
@@ -126,7 +127,7 @@ class PO extends CI_Controller {
 
 		$data['NDATE'] = $date;
 		
-
+		
 		$data['List'] = $this->amt_model->component_trans_list($params,$start,$config['per_page']);
 		$this->data['cnt'] = $this->amt_model->component_trans_cnt($params);
 		if(empty($this->input->get('n'))){

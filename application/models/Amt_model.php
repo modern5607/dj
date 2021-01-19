@@ -9,6 +9,7 @@ class Amt_model extends CI_Model {
 	}
 
 
+
 	public function component_trans_list($param,$start=0,$limit=20)
 	{
 		$this->db->query('SET SESSION sql_mode = ""');
@@ -18,11 +19,12 @@ class Amt_model extends CI_Model {
 		}
 
 		$this->db->select("IDX, TRANS_DATE");
-		$this->db->WHERE("KIND", "IN");
+		$this->db->where(" KIND = 'IN'");
 		$this->db->group_by("TRANS_DATE");
 		$this->db->order_by("TRANS_DATE ASC");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get("t_component_trans");
+		//echo $this->db->Last_query();
 		return $query->result();
 	}
 
@@ -154,6 +156,7 @@ SQL;
 		$this->db->select("B.*,A.IDX as AIDX, A.IN_QTY");
 		$this->db->from("t_component_trans as A");
 		$this->db->join("t_component as B","B.IDX = A.COMP_IDX");
+		$this->db->where("KIND","IN");
 		
 		if(!empty($param['COMPONENT']) && $param['COMPONENT'] != ""){
 			$this->db->like("B.COMPONENT",$param['COMPONENT']);
@@ -162,7 +165,6 @@ SQL;
 		if(!empty($param['COMPONENT_NM']) && $param['COMPONENT_NM'] != ""){
 			$this->db->like("B.COMPONENT_NM",$param['COMPONENT_NM']);
 		}
-
 
 		if($date != ""){
 			$this->db->where("A.TRANS_DATE",$date);
@@ -317,7 +319,9 @@ SQL;
 	public function ajax_componentNum_form($idx)
 	{
 		$query = $this->db->where("IDX",$idx)
+				-> $this->db->where("KIND","IN")
 						->get("T_COMPONENT_TRANS");
+		echo $this->db->Last_query();
 		return $query->row();
 	}
 

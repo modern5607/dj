@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-
 <link href="<?php echo base_url('_static/css/jquery.datetimepicker.min.css')?>" rel="stylesheet">
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js')?>"></script>
 
@@ -12,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div id="" class="bc_search">
 			<form>
 				<input type='hidden' name='n' value='1'/>
-				<label for="sdate">실적등록일</label>
+				<label for="sdate">자재입고일</label>
 				<input type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>" size="10" /> ~ 
 				
 				<input type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>" size="10" />
@@ -92,12 +91,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</tr>
 					</thead>
 					<tbody>
+					<?php $totalQty = 0;?>
 					<?php if(!empty($RList)){ ?>
 					<?php
-
+					$totalQty = 0;
 					foreach($RList as $i=>$row){
 						$num = $i+1;
+						$totalQty += $row->IN_QTY;
 					?>
+					
 
 						<tr>
 							<td class="cen"><?php echo $num; ?></td>
@@ -116,9 +118,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					}
 					if(empty($RList)){
 					?>
-						<tr><td colspan="15" style='color:#999; padding:40px 0;'>등록된 실적정보가 없습니다.</td></tr>
-					<?php } ?>
+						<tr><td colspan="6" style='color:#999; padding:40px 0;'>등록된 실적정보가 없습니다.</td></tr>
+					<?php }else{
+						?>
+						<tr style="background:#f3f8fd;">
+							<td colspan="2">합계</td>
+							<td class="right"><?php echo number_format($totalQty);?></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<?php
+					} ?>
 					</tbody>
+					<tfoot>
+				</tfoot>
 				</table>
 
 				

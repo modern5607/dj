@@ -583,7 +583,7 @@ class AMT extends CI_Controller {
 
 		if($num > 0){
 			$data['status'] = "ok";
-			$data['msg'] = "자재수량을 등록되었습니다.";
+			$data['msg'] = "자재수량이 등록되었습니다.";
 		}else{
 			$data['status'] = "";
 			$data['msg'] = "자재수량등록에 실패했습니다. 관리자에게 문의하세요";

@@ -40,6 +40,11 @@ $config['site_title']['MDM']['items'] = "품목관리";
 $config['site_title']['MDM']['infoform'] = "인사정보관리";
 $config['site_title']['MDM']['component'] = "자재관리";
 
+$config['site_title']['PO']['p1'] = "자재입고";
+$config['site_title']['PO']['p2'] = "자재입고현황";
+$config['site_title']['PO']['p3'] = "자재출고현황";
+
+
 $config['site_title']['PLN'][''] = "수주관리";
 $config['site_title']['PLN']['index'] = "수주관리";
 $config['site_title']['PLN']['p1'] = "주문대비진행현황";
