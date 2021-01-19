@@ -137,7 +137,7 @@ class Act_model extends CI_Model {
 		$this->db->where("GJ_GB",$GJGB);
 
 		$query = $this->db->get();
-		// echo $this->db->Last_query();
+		 echo $this->db->Last_query();
 		return $query->result();
 	}
 
@@ -1026,7 +1026,7 @@ SQL;
 		$this->db->group_by("A.ITEM_NM, A.ITEMS_IDX");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
-		//echo $this->db->last_query();
+		echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -1104,7 +1104,7 @@ SQL;
 
 		$query = $this->db->get();
 		$data['SLIST'] = $query->result();
-		//echo $this->db->last_query();
+		echo $this->db->last_query();
 		return $data;
 	}
 

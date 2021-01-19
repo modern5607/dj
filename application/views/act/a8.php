@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-
 <link href="<?php echo base_url('_static/css/jquery.datetimepicker.min.css')?>" rel="stylesheet">
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js')?>"></script>
 
@@ -84,17 +83,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</tr>
 					</thead>
 					<tbody>
+					<?php $totalQty = 0;?>
 					<?php if(!empty($RList)){ ?>
 					<?php
-
+					$totalQty = 0;
 					foreach($RList as $i=>$row){
 						$num = $i+1;
+						$totalQty += $row->IN_QTY;
 					?>
+					
 
 						<tr>
 							<td class="cen"><?php echo $num; ?></td>
 							<td><?php echo $row->ITEM_NAME; ?></td>
-							<td class="left"><?php echo $row->IN_QTY; ?></td>
+							<td class="right"><?php echo $row->IN_QTY; ?></td>
 							<td class="cen"><?php echo $row->REMARK;?></td>
 							<td><span class="btn del_items" data-idx="<?php echo $row->TRANS_IDX; //detail idx?>">삭제</span></td>
 						</tr>
@@ -105,8 +107,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					if(empty($RList)){
 					?>
 						<tr><td colspan="6" style='color:#999; padding:40px 0;'>등록된 실적정보가 없습니다.</td></tr>
-					<?php } ?>
+					<?php }else{
+						?>
+						<tr style="background:#f3f8fd;">
+							<td colspan="2">합계</td>
+							<td class="right"><?php echo number_format($totalQty);?></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<?php
+					} ?>
 					</tbody>
+					<tfoot>
+				</tfoot>
 				</table>
 			
 				

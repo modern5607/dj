@@ -76,6 +76,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>자재명</th>
 							<th>단위</th>
 							<th>입고량</th>
+							<th>수정</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -92,7 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td><?php echo $row->COMPONENT_NM; ?></td>
 							<td class="cen"><?php echo $row->UNIT;?></td>
 							<td><?php echo number_format($row->IN_QTY);?></td>
-							<!--td><span class="btn mod_detail" data-idx="<?php echo $row->AIDX; //trans idx?>">수정</span></td-->
+							<td><span class="btn mod_detail" data-idx="<?php echo $row->AIDX; //trans idx?>">수정</span></td>
 						</tr>
 
 					<?php
@@ -128,7 +129,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript">
 
 $(".add_compnum").on("click",function(){
-
 	$(".ajaxContent").html('');
 
 	$("#pop_container").fadeIn();

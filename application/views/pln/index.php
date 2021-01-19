@@ -128,7 +128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td class="cen"><?php echo $num; ?></td>
 							<td><?php echo $row->ITEM_NM; ?></td>
 							<td><?php echo $row->COLOR; ?></td>
-							<td class="cen"><?php echo $row->QTY;?></td>
+							<td class="cen"><?php echo number_format($row->QTY);?></td>
 							<td><?php echo $row->REMARK;?></td>
 							<td><span class="btn mod_detail" data-idx="<?php echo $row->IDX;?>" data-name="<?=$row->ITEM_NM?>" data-color="<?=$row->COLOR?>">삭제</span></td>
 						</tr>
