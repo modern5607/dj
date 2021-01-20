@@ -31,7 +31,7 @@ class Act_model extends CI_Model {
 		$this->db->where("TI.SH_QTY > 0");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
-		// echo $this->db->last_query();
+		
 		return $query->result();
 		
 	}
@@ -85,7 +85,7 @@ class Act_model extends CI_Model {
 		$this->db->limit($limit,$start);
 		$query = $this->db->get("t_items_trans");
 
-		//echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
@@ -199,7 +199,7 @@ class Act_model extends CI_Model {
 
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
-		echo $this->db->last_query();
+		
 		return $query->result();
 	}
 	
@@ -230,7 +230,7 @@ class Act_model extends CI_Model {
 
 		//$this->db->group_by("B.H_IDX");
 		$query = $this->db->get();
-		//echo $this->db->last_query();
+		
 		return $query->row()->CNT;
 	}
 
@@ -526,7 +526,7 @@ SQL;
 			
 SQL;
 		$query = $this->db->query($sql);
-		echo $this->db->Last_query();
+		//echo $this->db->Last_query();
 		return $query->result();
 	}
 
@@ -616,7 +616,7 @@ SQL;
 				{$start}, {$limit}
 SQL;
 		$query = $this->db->query($sql);
-		// echo $this->db->last_query();
+		
 		return $query->result();
 
 	}
@@ -722,7 +722,7 @@ SQL;
 SQL;
 		
 		$query = $this->db->query($sql);
-		// echo $this->db->last_query();
+		
 		return $query->result();
 
 	}
@@ -872,7 +872,7 @@ SQL;
 				{$start},{$limit}
 SQL;
 		$query = $this->db->query($sql);
-		// echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
@@ -916,7 +916,7 @@ SQL;
 				{$start},{$limit}
 SQL;
 		$query = $this->db->query($sql);
-		//echo $this->db->last_query();
+		
 		return $query->row()->CUT;
 	}
 
@@ -992,7 +992,7 @@ SQL;
 		//$this->db->order_by("A.TRANS_DATE ASC");
 		//$this->db->limit($limit,$start);
 		$query = $this->db->query($sql);
-		// echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
@@ -1061,7 +1061,7 @@ SQL;
 		$this->db->group_by("A.ITEM_NM, A.ITEMS_IDX");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
-		//echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
@@ -1139,7 +1139,7 @@ SQL;
 
 		$query = $this->db->get();
 		$data['SLIST'] = $query->result();
-		//echo $this->db->last_query();
+		
 		return $data;
 	}
 
@@ -1230,7 +1230,7 @@ SQL;
 		$this->db->order_by("CU_DATE ASC");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get("t_inventory_trans");
-		//echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
@@ -1305,7 +1305,7 @@ SQL;
 		$this->db->order_by("C.ACT_DATE","DESC");
 		$query = $this->db->get();
 		
-		// echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
@@ -1447,7 +1447,7 @@ SQL;
 			-- LIMIT 0, 5
 SQL;
 		$query = $this->db->query($sql);
-		// echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
@@ -1572,7 +1572,7 @@ SQL;
 
 		//$this->db->limit($limit,$start);
 		$query = $this->db->get();
-		//echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
@@ -1678,7 +1678,7 @@ SQL;
 			$this->db->set("QTY","QTY - {$info['QTY1']}",FALSE);
 			$this->db->where(array("ITEM_IDX"=>$info['ITEMS_IDX'],"SERIESD_IDX"=>$info['SERIESD_IDX']));
 			$this->db->update("t_item_stock");
-			//echo $this->db->last_query();
+			
 		}
 
 		$this->db->trans_complete();
@@ -1827,7 +1827,7 @@ SQL;
 		//$this->db->order_by("A.TRANS_DATE ASC");
 		//$this->db->limit($limit,$start);
 		$query = $this->db->query($sql);
-		echo $this->db->last_query();
+		
 		return $query->result();
 	}
 

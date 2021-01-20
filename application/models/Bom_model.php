@@ -116,7 +116,7 @@ SQL;
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
 
-		//echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
@@ -152,7 +152,7 @@ SQL;
 		$this->db->order_by("TRANS_DATE","DESC");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
-		//echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
@@ -266,7 +266,7 @@ SQL;
 
 		$this->db->limit($limit,$start);
 		$query = $this->db->get("T_COMPONENT");
-		//echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
@@ -290,7 +290,7 @@ SQL;
 		$this->db->limit($limit,$start);
 		$this->db->order_by("QUICK","DESC");
 		$query = $this->db->get("T_COMPONENT");
-		//echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
@@ -596,7 +596,7 @@ SQL;
 		$this->db->order_by("COMPONENTNO","DESC");
 		$this->db->order_by("IPGO_DATE","DESC");
 		$query = $this->db->get("T_TEMP_COM");
-		//echo $this->db->last_query();
+		
 		$data['list'] = $query->result();
 		$data['num']  = $query->num_rows();
 		return $data;

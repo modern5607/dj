@@ -111,7 +111,7 @@ SQL;
 		//$this->db->order_by("A.TRANS_DATE ASC");
 		//$this->db->limit($limit,$start);
 		$query = $this->db->query($sql);
-		//echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
@@ -253,7 +253,7 @@ SQL;
 		//$this->db->order_by("A.TRANS_DATE ASC");
 		//$this->db->limit($limit,$start);
 		$query = $this->db->query($sql);
-		// echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
@@ -357,7 +357,7 @@ SQL;
 						->limit($limit, $start)
 						->order_by("TAH.ACT_DATE","DESC")
 						->get();
-		//echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
@@ -482,7 +482,7 @@ public function component_count($date='',$param)
 		
 		$query = $this->db->get();
 		$data['STOCK'] = $query->row()->STOCK;
-		// echo  $this->db->last_query();
+
 		return $data;		
 	}
 

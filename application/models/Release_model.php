@@ -129,7 +129,7 @@ class Release_model extends CI_Model {
 		$this->db->order_by("TIT.CG_DATE","DESC");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
-		//echo $this->db->last_query();
+		
 		return $query->result();
 	}
 

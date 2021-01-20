@@ -30,7 +30,7 @@ class Pln_model extends CI_Model {
 		$this->db->order_by("ACT_DATE", "DESC");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
-		//echo $this->db->last_query();
+		
 		return $query->result();
 
 	}
@@ -119,7 +119,7 @@ class Pln_model extends CI_Model {
 		//}
 
 		$query = $this->db->get();
-		//echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
@@ -178,7 +178,7 @@ class Pln_model extends CI_Model {
 		$query = $this->db->where("SERIES_IDX",$idx)
 						->get("t_series_d");
 		$data['sdetail'] = $query->result();
-		//echo $this->db->last_query();
+		
 
 		return $data;
 

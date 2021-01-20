@@ -174,7 +174,7 @@ class Main_model extends CI_Model {
 		$this->db->limit($limit,$start);
 		$query = $this->db->get("t_component");
 
-		//echo $this->db->last_query();
+		
 
 		return $query->result();
 	}
