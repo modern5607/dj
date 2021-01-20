@@ -121,7 +121,7 @@ table td.left{text-align:left;}
 #left_sbox li{float:left; border-left:1px solid #ddd; text-align:center; width:90px; line-height:50px;}
 #left_sbox li:first-child{border:unset;}
 #left_sbox li h4{border-bottom:1px solid #ddd; padding:10px 0; line-height:20px;}
-#left_sbox:after{clear:both; display:block; visibility:hidden; content='';}
+#left_sbox:after{clear:both; display:block; visibility:hidden;}
 
 
 .tbl-content02 {}
