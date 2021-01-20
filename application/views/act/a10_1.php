@@ -117,7 +117,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td><?php echo $row->COLOR;?></td>
 							<td class="right"><?php echo number_format($row->QTY);?></td>
 							<td class="cen">
-								<input type="text" name="QTY" data-idx="<?php echo $row->IDX;?>" data-org="<?php echo $row->IN_QTY;?>" style="text-align:right;" value="<?php echo $row->IN_QTY;?>"></td>
+								<input type="text" name="QTY" data-idx="<?php echo $row->IDX;?>" data-org="<?php echo $row->IN_QTY;?>" style="text-align:right;border:1px solid #ddd; padding:4px 5px; margin: 3px 4px;" value="<?php echo $row->IN_QTY;?>"></td>
 							<td>
 								<span class="btn del_items" data-idx="<?php echo $row->IDX; //detail idx?>">삭제</span>
 							</td>

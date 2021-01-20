@@ -199,7 +199,7 @@ class Act_model extends CI_Model {
 
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
-		
+		// echo $this->db->last_query();
 		return $query->result();
 	}
 	
@@ -925,7 +925,7 @@ SQL;
 
 
 
-
+	/* 성형실적 */
 	public function act_a81_list($param,$start=0,$limit=20)
 	{
 		$where = '';
@@ -965,11 +965,10 @@ SQL;
 						A.KIND = 'IN'
 						{$where}
 					ORDER BY A.TRANS_DATE DESC
-					-- LIMIT 0, 3
 				) as AA
 			LEFT JOIN `t_series_h` as `H` ON `H`.`IDX` = `AA`.`SERIES_IDX` 
 			UNION
-			SELECT '','합계' AS TEXT,B.ITEM_NAME, SUM(IN_QTY) as IN_QTY,"",""
+			SELECT '','합계' AS TEXT, SUM(IN_QTY) as IN_QTY,"","",''
 			FROM 
 				T_ITEMS_TRANS A, 
 				T_ITEMS B
@@ -977,26 +976,14 @@ SQL;
 				A.ITEMS_IDX = B.IDX
 				AND A.KIND = 'IN'
 				{$where}
-			GROUP BY ITEMS_IDX
-			-- LIMIT 0, 5
 SQL;
 
-			
-
-		
-		//$subquery1 = "(SELECT C.CUST_NM FROM t_biz_reg as C WHERE C.IDX = A.BIZ_IDX) as CUST_NM";
-
-		//$this->db->select("A.TRANS_DATE,{$subquery1}, B.COMPONENT_NM, B.UNIT, A.IN_QTY, A.REMARK");
-		//$this->db->from("t_component_trans as A");
-		//$this->db->join("t_component as B","B.IDX = A.COMP_IDX");
-		//$this->db->order_by("A.TRANS_DATE ASC");
-		//$this->db->limit($limit,$start);
 		$query = $this->db->query($sql);
-		
+		//echo $this->db->last_query();
 		return $query->result();
 	}
 
-
+	/*성형실적 갯수 */
 	public function act_a81_cut($param)
 	{
 		$where = '';
@@ -1827,7 +1814,7 @@ SQL;
 		//$this->db->order_by("A.TRANS_DATE ASC");
 		//$this->db->limit($limit,$start);
 		$query = $this->db->query($sql);
-		
+		// echo $this->db->last_query();
 		return $query->result();
 	}
 

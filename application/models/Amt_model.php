@@ -330,7 +330,7 @@ SQL;
 		$query = $this->db->where("IDX",$idx)
 				-> $this->db->where("KIND","IN")
 						->get("T_COMPONENT_TRANS");
-		echo $this->db->Last_query();
+		// echo $this->db->Last_query();
 		return $query->row();
 	}
 
