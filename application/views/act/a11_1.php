@@ -48,7 +48,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td class="cen"><a href='<?php echo base_url($this->data['pos'].'/a11_1/').$row->SB_DATE
 							?>'><?php echo $row->SB_DATE;?></a></td>
                         </tr>
-
                         <?php
 					}
 					?>
@@ -57,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
 
         </li>
-        <li style="width:calc(100% - 400px);">
+        <li style="width:calc(100% - 430px);">
 
             <div id="" class="bc_search" style="background:#f8f8f8;">
                 작업일자 : <strong style='font-size:16px;'><?php echo $NDATE?></strong>

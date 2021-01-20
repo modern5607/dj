@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 
 		</li>
-		<li style="width:calc(100% - 400px);">
+		<li style="width:calc(100% - 430px);">
 			
 			<div id="" class="bc_search gsflexst" style="background:#f8f8f8;">
 			<form>
