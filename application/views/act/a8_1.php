@@ -66,7 +66,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$count=0;
 					foreach($List as $i=>$row){
 						$no = $pageNum+$i+1;
-						if($row->SERIES_NM == "합계")
+						if($row->ITEM_NAME == "합계")
 						{
 							//$count += $row->REMARK;
 						?>
