@@ -66,7 +66,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<input style="text-align:right" type="number" name="OUT_QTY[]" class="form_input1" value="<?php echo $row->QTY; ?>" size="6">
 						<input type="hidden" name="QTY[]" value="<?php echo $row->QTY; ?>">
 					</td>
-					<td class="cen"><input type="text" name="OUT_DATE[]" class="form_input1 calendar" value="" /> </td>
+					<td class="cen"><input type="text" name="OUT_DATE[]" class="form_input1 calendar" value="<?= date("Y-m-d H:i:s") ?>" /> </td>
 					<!-- <td class="cen"><input type="text" name="OUT_DATE[]" class="form_input1" value=""></td> -->
 					<td class="cen"><span class="btn mod_stock" data-actidx="<?php echo $row->ACT_IDX;?>"  data-seriesd="<?php //echo $row->SERIESD_IDX;?>">출고</span></td>
 				</tr>

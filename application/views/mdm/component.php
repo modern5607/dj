@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		
 		<button class="search_submit"><i class="material-icons">search</i></button>
 	</form>
-	<span class="btn btn_right add_items">신규등록</span>
+	<!-- <span class="btn btn_right add_items">신규등록</span> -->
 </div>
 
 

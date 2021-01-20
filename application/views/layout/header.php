@@ -33,7 +33,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="mcont_bd">
             
                 <ul id="menuContent">
-                
+                <?php 
+                        if(!empty($_SESSION['user_level']) && $_SESSION['user_level'] > 0){ 
+                    ?>
                     <li class="menu01_li">
                         <a href="<?php echo base_url('MDM')?>" class="menu_a <?php echo ($this->data['pos'] == "MDM")?"on":"";?>">기준정보</a>
                         <ul class="menu02" <?php echo ($this->data['pos'] == "MDM")?"style='display:block'":"";?>>
@@ -165,12 +167,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <a href="<?php echo base_url('SYS/menu')?>" class="menu_a <?php echo ($this->data['pos'] == "SYS")?"on":"";?>">시스템관리</a>
                         <ul class="menu02" <?php echo ($this->data['pos'] == "SYS")?"style='display:block'":"";?>>
 							<li><a href="<?php echo base_url('SYS/menu')?>" class="<?php echo ($this->data['subpos'] == 'menu')?"on":"";?>"><i class="material-icons">inbox</i>메뉴권한관리</a></li>
-                            <li><a href="<?php echo base_url('SYS/user')?>" class="<?php echo ($this->data['subpos'] == 'user')?"on":"";?>"><i class="material-icons">layers</i>사용자 등록</a></li>
-                            <li><a href="<?php echo base_url('SYS/level')?>" class="<?php echo ($this->data['subpos'] == 'level')?"on":"";?>"><i class="material-icons">engineering</i>사용자 권한등록</a></li>
+                            <li><a href="<?php echo base_url('SYS/user')?>" class="<?php echo ($this->data['subpos'] == 'user')?"on":"";?>"><i class="material-icons">layers</i>사용자 관리</a></li>
+                            <li><a href="<?php echo base_url('SYS/level')?>" class="<?php echo ($this->data['subpos'] == 'level')?"on":"";?>"><i class="material-icons">engineering</i>사용자 권한관리</a></li>
                             <li><a href="<?php echo base_url('SYS/version')?>" class="<?php echo ($this->data['subpos'] == 'version')?"on":"";?>"><i class="material-icons">memory</i>버전관리</a></li>
                             <li><a href="<?php echo base_url('SYS/userlog')?>" class="<?php echo ($this->data['subpos'] == 'userlog')?"on":"";?>"><i class="material-icons">preview</i>사용자 접속기록</a></li>
                         </ul>
                     </li>
+                    <?php }
+                    if(empty($_SESSION['user_level'])){ ?>
+                        <a href="<?php echo base_url('register/login')?>"><p style="color:white; padding:15px 8px; font-size:15px;">로그인후 이용해주세요. </p></a>
+                    <?php }?>
                 </ul>
             
                 
