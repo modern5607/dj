@@ -15,11 +15,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <label for="sdate">실적완료일</label>
                     <input type="text" name="sdate" class="sdate calendar"
                         value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>"
-                        size="10" /> ~
+                        size="12" /> ~
 
                     <input type="text" name="edate" class="edate calendar"
                         value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>"
-                        size="10" />
+                        size="12" />
 
                     <button class="search_submit"><i class="material-icons">search</i></button>
                 </form>

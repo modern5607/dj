@@ -11,9 +11,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div id="" class="bc_search">
 			<form>
 					<label for="sdate">수주일</label>
-					<input style="width:139px" type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>" size="10" /> ~ 
+					<input style="width:139px" type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>" size="12" /> ~ 
 					
-					<input style="width:139px" type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>" size="10" />
+					<input style="width:139px" type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>" size="12" />
 				<select name="v1" style="width:165px">
 					<option value="">::거래처::</option>
 				<?php
