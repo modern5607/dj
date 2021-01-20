@@ -105,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td class="cen"><?php echo $num; ?></td>
 							<td><?php echo $row->SERIES_NM; ?></td>
 							<td><?php echo $row->ITEM_NAME; ?></td>
-							<td class="cen"><?php echo $row->IN_QTY; ?></td>
+							<td class="right"><?php echo $row->IN_QTY; ?></td>
 							<td><?php echo $row->REMARK;?></td>
 							<td><span class="btn del_items" 
 							data-idx="<?php echo $row->TRANS_IDX; //detail idx?>" 
@@ -123,7 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						?>
 						<tr style="background:#f3f8fd;">
 							<td colspan="3" style="text-align:right"><strong>총 합계</strong></td>
-							<td style="text-align:center"><?php echo number_format($totalQty);?></td>
+							<td style="text-align:right"><?php echo number_format($totalQty);?></td>
 							<td colspan="2"></td>
 						</tr>
 						<?php
