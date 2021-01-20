@@ -1269,7 +1269,7 @@ SQL;
 	}
 
 
-	public function get_a10_1_right_list($date,$param)
+	public function get_a10_1_right_list($date='',$param)
 	{
 		/*$this->db->where("IDX",$code);
 		$query = $this->db->get("t_items");
@@ -1285,10 +1285,10 @@ SQL;
 		
 		$this->db->where("A.GJ_GB","CU");
 		$this->db->where("A.KIND","IN");
+
 		if($date != ""){
-			//$this->db->where("A.ITEMS_IDX",$code);
+			$this->db->where("A.CU_DATE",$date);
 		}
-		
 		
 		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
 			$this->db->where("C.ACT_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'");
@@ -1305,7 +1305,7 @@ SQL;
 		$this->db->order_by("C.ACT_DATE","DESC");
 		$query = $this->db->get();
 		
-		//echo $this->db->last_query();
+		// echo $this->db->last_query();
 		return $query->result();
 	}
 
