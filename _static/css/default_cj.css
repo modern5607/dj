@@ -164,7 +164,7 @@ a.alink{border:1px solid #ddd; padding:5px 8px; line-height:24px; font-size:14px
 .btn_right{float:right;}
 
 .bc_cont{margin:20px; /*height:80%;*/}
-.bc_cont .cont_header{padding-left:20px; margin:20px 0; font-size:1.2em;}
+.bc_cont .cont_header{padding-left:20px; margin:20px 0; font-size:1.2em; display:none;}
 .bc_cont .cont_body{background:#fff; overflow:hidden; height:100%; padding:30px; border:1px solid #ddd; border-radius:20px;}
 
 .bc_cont .cont_body .tbl-content{}

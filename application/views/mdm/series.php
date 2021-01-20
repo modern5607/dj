@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr <?php echo ($H_IDX == $row->IDX)?"class='over'":"";?>>
 							<td class="cen"><?php echo $no; ?></td>
 							<td><a href="<?php echo base_url('MDM/series/'.$row->IDX); //series idx?>" class="link_s1"><?php echo $row->SERIES; ?></a></td>
-							<td><?php echo $row->SERIES_NM;?></td>
+							<td data-snm="<?php echo $row->SERIES_NM;?>"><?php echo $row->SERIES_NM;?></td>
 							<td class="cen"><?php echo ($row->USE_YN == "Y")?"사용":"미사용";?></td>
 							<td><span class="btn mod_head" data-idx="<?php echo $row->IDX;?>">수정</span></td>
 						</tr>
@@ -72,7 +72,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div id="items_formupdate" class="bc_search gsflexst" style="min-height:76px;">
 		<?php if($de_show_chk){?>
 				<div class="gsflexst">
-					<p style="font-size:20px; line-height:36px; padding:0 10px;"> <?php echo $series_detailList[0]->SERIES_NM; ?> </p>
+				<p style="font-size:20px; line-height:36px; padding:0 10px;">
+					<?php if($series_detailList){
+						  echo $series_detailList[0]->SERIES_NM; 
+					 }else{
+						 echo $series_headList[$detailpos-1]->SERIES_NM ;
+					 }?>
+				</p>
 
 					<form>
 						<label for="colorcode">색상코드</label>
