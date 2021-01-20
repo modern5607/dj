@@ -33,9 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="mcont_bd">
             
                 <ul id="menuContent">
-                <?php 
-                        if(!empty($_SESSION['user_level']) && $_SESSION['user_level'] > 0){ 
-                    ?>
+                
                     <li class="menu01_li">
                         <a href="<?php echo base_url('MDM')?>" class="menu_a <?php echo ($this->data['pos'] == "MDM")?"on":"";?>">기준정보</a>
                         <ul class="menu02" <?php echo ($this->data['pos'] == "MDM")?"style='display:block'":"";?>>
@@ -173,10 +171,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <li><a href="<?php echo base_url('SYS/userlog')?>" class="<?php echo ($this->data['subpos'] == 'userlog')?"on":"";?>"><i class="material-icons">preview</i>사용자 접속기록</a></li>
                         </ul>
                     </li>
-                    <?php }
-                    if(empty($_SESSION['user_level'])){ ?>
-                        <a href="<?php echo base_url('register/login')?>"><p style="color:white; padding:15px 8px; font-size:15px;">로그인후 이용해주세요. </p></a>
-                    <?php }?>
                 </ul>
             
                 
