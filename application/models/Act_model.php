@@ -1044,11 +1044,13 @@ SQL;
 		if(!empty($param['V2']) && $param['V2'] != ""){
 			$this->db->where("C.SERIES_IDX",$param['V2']);
 		}
+		if(!empty($param['V3']) && $param['V3'] != ""){
+			$this->db->like("A.ITEM_NM",$param['V3']);
+		}
 		
 		$this->db->group_by("A.ITEM_NM, A.ITEMS_IDX");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
-		
 		return $query->result();
 	}
 

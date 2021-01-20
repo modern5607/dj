@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="body_cont_float2">
 	<ul>
-		<li style="width:400px">
+		<li style="width:430px">
 			
 			<div id="" class="bc_search">
 			<form>
