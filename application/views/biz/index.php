@@ -36,10 +36,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<td class="cen"><?php echo $row->IDX;?></td>
 						<td class="cen"><span class="mod_biz  link_s1" data-idx="<?php echo $row->IDX;?>"><?php echo $row->CUST_NM; ?></span></td>
 						<td><?php echo $row->ADDRESS;?></td>
-						<td><?php echo $row->TEL;?></td>
+						<td class="cen"><?php echo $row->TEL;?></td>
 						<td><?php echo $row->CUST_NAME;?></td>
 						<td><?php echo $row->ITEM;?></td>
-						<td><?php echo $row->REMARK;?></td>
+						<td class="cen"><?php echo $row->REMARK;?></td>
 						<td><?php echo $row->CUST_USE;?></td>
 					</tr>
 

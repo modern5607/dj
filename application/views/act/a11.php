@@ -83,8 +83,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</a>
 							</td>
 							<td class="cen"><?php echo $row->COLOR;?></td>
-							<td class="cen"><?php echo $row->QTY;?></td>
-							<td class="cen"><?php echo $row->IN_QTY;?></td>
+							<td class="right"><?php echo $row->QTY;?></td>
+							<td style="text-align:right"><?php echo $row->IN_QTY;?></td>
 							
 						</tr>
 					<?php } ?>
