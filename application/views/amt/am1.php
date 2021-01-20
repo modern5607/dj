@@ -144,7 +144,7 @@ $(".mod_detail").on("click",function(){
 	var idx = $(this).data("idx");
 	var cQty = qty-(ipgo-stock);
 	if(qty-(ipgo-stock) < 0 ){
-		alert("자재 입고변경 값이 현 자재 재고량 보다 큽니다.");
+		alert("자재 입고변경 값이 현 자재 재고량 보다 적습니다.");
 		return false;
 	}
 
