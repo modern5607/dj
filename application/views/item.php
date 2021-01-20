@@ -37,7 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 						<tr>
 							<td><?php echo $row->IDX; ?></td>
-							<td><a href="<?php echo base_url('item/index/'.$row->IDX);?>" class="link_s1"><?php echo $row->ITEM_NAME; ?></a></td>
+							<td><a href="<?php echo base_url('item/index/'.$row->IDX.$qstr);?>" class="link_s1"><?php echo $row->ITEM_NAME; ?></a></td>
 							<td><?php echo $row->ITEM_CODE; ?></td>
 							<!--  <td><?php echo $row->REMARK;?></td> -->
                             <td><button type="button" class="mod mod_head" data-idx="<?php echo $row->IDX;?>">수정</button></td>

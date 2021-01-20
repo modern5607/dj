@@ -78,7 +78,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td class="cen"><?php echo substr($row->ACT_DATE,0,10);?></td>
 							<td class="cen"><?php echo $row->SERIES_NM;?></td>
 							<td>
-								<a href="<?php echo base_url($this->data['pos'].'/a11/'.$row->IDX);?>" class="link_s1">
+								<a href="<?php echo base_url($this->data['pos'].'/a11/'.$row->IDX.$qstr);?>" class="link_s1">
 									<?php echo $row->ITEM_NM;?>
 								</a>
 							</td>

@@ -54,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 						<tr <?php echo ($H_IDX == $row->IDX)?"class='over'":"";?>>
 							<td class="cen"><?php echo $no; ?></td>
-							<td><a href="<?php echo base_url('MDM/series/'.$row->IDX); //series idx?>" class="link_s1"><?php echo $row->SERIES; ?></a></td>
+							<td><a href="<?php echo base_url('MDM/series/'.$row->IDX.$qstr); //series idx?>" class="link_s1"><?php echo $row->SERIES; ?></a></td>
 							<td data-snm="<?php echo $row->SERIES_NM;?>"><?php echo $row->SERIES_NM;?></td>
 							<td class="cen"><?php echo ($row->USE_YN == "Y")?"사용":"미사용";?></td>
 							<td><span class="btn mod_head" data-idx="<?php echo $row->IDX;?>">수정</span></td>
