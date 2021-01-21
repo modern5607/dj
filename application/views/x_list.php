@@ -16,7 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<form id="items_formupdate">
 					
 					<label for="date">수신일</label>
-					<input type="text" class="calendar" name="actdate" id="actdate" value="<?php echo ($str['actdate']!="")?$str['actdate']:date("Y-m-d",time())?>" />
+					<input type="text" class="calendar" autocomplete="off" name="actdate" id="actdate" value="<?php echo ($str['actdate']!="")?$str['actdate']:date("Y-m-d",time())?>" />
 					<button class="search_submit"><i class="material-icons">search</i></button>
 				</form>
 			</div>

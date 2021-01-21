@@ -73,7 +73,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="cen"><?php echo $no; ?></td>
 					<td class="cen"><?php echo $row->TRANS_DATE; ?></td>
 					<td><?php echo $row->ITEM_NAME; ?></td>
-					<td class="right"><?php echo $row->COL1; ?></td>
+					<td class="right"><?php echo number_format($row->COL1); ?></td>
 					<td><?php echo $row->COMPONENT_NM; ?></td>
 					<td class="right"><?php echo number_format($row->OUT_QTY); ?></td>
 					<td class="cen"><?php echo $row->UNIT; ?></td>
@@ -86,7 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<tr style="background:#f3f8fd;">
 					<td colspan="3" style="text-align:right;"><strong>총 합계</strong></td>
 					<!-- <td><?php echo $row->COMPONENT_NM; ?></td> -->
-					<td class="right"><strong><?php echo number_format($countcol); ?>개</strong></td>
+					<td class="right"><strong><?php echo number_format($countcol); ?></strong></td>
 					<td colspan="" style="text-align:right;"><strong>총 합계</strong></td>
 					<td class="right"><strong><?php echo number_format($count); ?></strong></td>
 					<td class="cen"><?php echo $row->UNIT; ?></td>

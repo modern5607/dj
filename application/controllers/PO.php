@@ -229,7 +229,7 @@ class PO extends CI_Controller {
 		$start = $pageNum;
 		$data['pageNum'] = $start;
 		
-		$data['title'] = "자재입고일";
+		$data['title'] = "";
 
 		$data['List'] = $this->amt_model->component_trans_am2list($params,$start,$config['per_page']);
 		$this->data['cnt'] = $this->amt_model->component_trans_cnt($params);
@@ -336,7 +336,7 @@ class PO extends CI_Controller {
 		$start = $pageNum;
 		$data['pageNum'] = $start;
 		
-		$data['title'] = "자재출고일";
+		$data['title'] = "";
 
 		$data['List'] = $this->amt_model->component_trans_am2list_out($params,$start,$config['per_page']);
 		$this->data['cnt'] = $this->amt_model->component_trans_am2list_cnt_out($params);
@@ -388,7 +388,19 @@ class PO extends CI_Controller {
 		
 	}
 
+	public function delete_comp_trans($idx="")
+	{
+		$data = array();
+		$param['CQTY'] = $this->input->post("cQty");
+		$param['IDX'] = $this->input->post("idx");
 
+		$data = $this->amt_model->delete_compTrans($param);
+		alert($data);
+
+
+		echo $data;
+		//var_dump($data['result']);
+	}
 
 
 

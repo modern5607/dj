@@ -60,7 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<label for="component">제품코드</label>
 				<input type="text" name="component" id="component" value="<?php echo $str['component']?>">
 
-				<label for="component_nm">제품명</label>
+				<label for="component_nm">품명</label>
 				<input type="text" name="component_nm" id="component_nm" value="<?php echo $str['component_nm']?>">
 				
 				<button class="search_submit"><i class="material-icons">search</i></button>

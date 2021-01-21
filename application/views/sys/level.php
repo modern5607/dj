@@ -59,7 +59,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="cen"><?php echo ($row->MARRY == "Y") ? "기혼" : "미혼"; ?></td>
 					<td class="cen"><?php echo $row->ADDR2; ?></td>
 					<td class="cen"><?php echo $row->HP; ?></td>
-					<td><?php echo $row->EMAIL; ?></td>
+					<td class="cen"><?php echo $row->EMAIL; ?></td>
 					<td class="cen"><?php echo ($row->STATE == 1) ? "사용" : "중지"; ?></td>
 				</tr>
 		

@@ -66,8 +66,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</form>
 				<div class="gsflexst">
 					<div style="margin:0 10px;">
-						<label for="component_stock">자재재고량</label>
-						<input style="text-align: right" type="text" name="XQTY" id="XQTY" readonly value="<?php if(!empty($detail)){ echo round($detail['STOCK']); }?>">	
+						<!-- <label for="component_stock">자재재고량</label> -->
+						<input style="text-align: right" type="hidden" name="XQTY" id="XQTY" readonly value="<?php if(!empty($detail)){ echo round($detail['STOCK']); }?>">	
 					</div>
 					
 					<span class="btni btn_right add_compnum" style="max-height:34px;"><span class="material-icons">add</span></span>	
@@ -84,8 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>자재명</th>
 							<th>단위</th>
 							<th>입고량</th>
-							<th>입고변경</th>
-							<th>수정</th>                            
+							<th></th>                            
 						</tr>
 					</thead>
 					<tbody>
@@ -101,9 +100,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td><?php echo $row->COMPONENT; ?></td>
 							<td><?php echo $row->COMPONENT_NM; ?></td>
 							<td class="cen"><?php echo $row->UNIT;?></td>
-							<td class="right"><?php echo round($row->IN_QTY);?></td>
-           					<td class="cen"><input type="text" name="C_QTY[]" class="form_input1" size="6" value=""></td>
-							<td><span class="btn mod_detail" data-idx="<?php echo $row->AIDX; //trans idx?>">수정</span></td>
+							<td class="right inqty"><?php echo number_format(round($row->IN_QTY));?></td>
+							<td><span class="btn mod_delete" data-idx="<?php echo $row->AIDX; //trans idx?>">삭제</span></td>
 						</tr>
 
 					<?php
@@ -159,7 +157,37 @@ $(".mod_detail").on("click",function(){
 
 });
 
-<!--
+$(".mod_delete").on("click",function(){
+	var idx = $(this).data("idx");
+	var qty = $("input[name='XQTY']").val();	//점토 총합계
+	var inqty = $(this).parents("tr").find("td").eq(4).text();
+	var comp = $(this).parents("tr").find("td").eq(1).text(); //자재코드
+	inqty = parseInt(inqty.replace(/,/g,""));
+	console.log(idx);
+	var cQty = qty-inqty;
+	console.log("cqty : "+ cQty);
+
+	
+	if(inqty>qty){
+		alert("자재 입고변경 값이 현 자재 재고량 보다 큽니다.");
+		return false;
+	}
+
+	if(comp != 'CLAY'){
+		alert("점토만 변경 가능합니다.")
+		return false;
+	}
+
+	if(confirm("삭제하시겠습니까?") == true)
+	{
+		$.post("<?php echo base_url('PO/delete_comp_trans')?>",{idx:idx,cQty:cQty},function(data)
+		{
+				location.reload();
+			
+		});
+	}
+
+});
 
 
 $(".add_compnum").on("click",function(){

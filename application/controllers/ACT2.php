@@ -233,7 +233,7 @@ class ACT2 extends CI_Controller {
 		$data['pageNum'] = $start;
 		
 		
-		$data['title'] = "실적현황";
+		$data['title'] = "";
 		$data['List'] = $this->act_model->act_a81_list($params,$start,$config['per_page']);
 		$this->data['cnt'] = $this->act_model->act_a81_cut($params);
 

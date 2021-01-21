@@ -59,7 +59,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="cen"><?php echo $row->GRADE; ?></td>
 					<td class="cen"><?php echo $row->TEL; ?></td>
 					<td class="cen"><?php echo $row->HP; ?></td>
-					<td><?php echo $row->EMAIL; ?></td>
+					<td class="cen"><?php echo $row->EMAIL; ?></td>
 					<td class="cen"><?php echo $row->FIRSTDAY; ?></td>
 					<td class="cen"><?php echo ($row->STATE == 1) ? "사용" : "사용안함"; ?></td>
 					<td class="cen">

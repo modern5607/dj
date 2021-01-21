@@ -849,7 +849,7 @@ SQL;
 			$where .= " AND TI.ITEM_NAME LIKE '%{$param['V3']}%'";
 		}
 		if(!empty($param['V4']) && $param['V4'] != ""){
-			$where .= " AND TSD.COLOR LIKE '%{$param['V4']}%' ";
+			$where .= " AND COLOR LIKE '%{$param['V4']}%' ";
 		}
 
 		
@@ -872,7 +872,7 @@ SQL;
 				{$start},{$limit}
 SQL;
 		$query = $this->db->query($sql);
-		// echo $this->db->last_query();
+		 //echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -964,21 +964,19 @@ SQL;
 						A.ITEMS_IDX = B.IDX AND 
 						A.KIND = 'IN'
 						{$where}
-					ORDER BY A.TRANS_DATE DESC
-					-- LIMIT 0, 3
+						LIMIT {$start}, {$limit}
 				) as AA
 			LEFT JOIN `t_series_h` as `H` ON `H`.`IDX` = `AA`.`SERIES_IDX` 
-			UNION
-			SELECT '','합계' AS TEXT,B.ITEM_NAME, SUM(IN_QTY) as IN_QTY,"",""
+			UNION ALL
+			SELECT '','합계' AS ITEM_NAME, SUM(IN_QTY) as IN_QTY, COUNT(IN_QTY),"","합계" AS TEXT
 			FROM 
 				T_ITEMS_TRANS A, 
 				T_ITEMS B
 			WHERE 
 				A.ITEMS_IDX = B.IDX
-				AND A.KIND = 'IN'
+				AND A.KIND = 'IN'  
 				{$where}
-			GROUP BY ITEMS_IDX
-			-- LIMIT 0, 5
+			ORDER BY  TRANS_DATE DESC, ITEM_NAME, SERIES_NM
 SQL;
 
 			
@@ -992,7 +990,7 @@ SQL;
 		//$this->db->order_by("A.TRANS_DATE ASC");
 		//$this->db->limit($limit,$start);
 		$query = $this->db->query($sql);
-		// echo $this->db->last_query();
+		 //echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -1444,7 +1442,7 @@ SQL;
 				A.GJ_GB = 'CU'
 				{$where}
 			GROUP BY A.ITEMS_IDX
-			-- LIMIT 0, 5
+			-- LIMIT 0, 5 1111
 SQL;
 		$query = $this->db->query($sql);
 		// echo $this->db->last_query();

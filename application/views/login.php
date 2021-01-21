@@ -36,7 +36,7 @@
             <tbody>
                 <tr>
                     <!--<th><label for="ID">아이디</label></th>-->
-                    <td><input type="text" name="ID" id="ID" value="" placeholder="아이디" class="login_in"/></td>
+                    <td><input type="text" autocomplete="off" name="ID" id="ID" value="" placeholder="아이디" class="login_in"/></td>
                 </tr>
                 <tr>
                     <!--<th><label for="PWD">비밀번호</label></th>-->

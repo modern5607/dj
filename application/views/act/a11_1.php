@@ -108,15 +108,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td class="cen"><input type="text"
                                     style="text-align: right; border:1px solid #ddd; padding:5px 5px;" size="4"
                                     name="QTY2" data-lastnum="<?php echo $row->QTY2;?>"
-                                    value="<?php echo $row->QTY2;?>" /></td>
+                                    value="<?php echo number_format($row->QTY2);?>" /></td>
                             <td class="cen"><input type="text"
                                     style="text-align: right;border:1px solid #ddd; padding:5px 5px;" size="4"
                                     name="QTY3" data-lastnum="<?php echo $row->QTY3;?>"
-                                    value="<?php echo $row->QTY3;?>" /></td>
+                                    value="<?php echo number_format($row->QTY3);?>" /></td>
                             <td class="cen"><input type="text"
                                     style="text-align: right;border:1px solid #ddd; padding:5px 5px;" size="4"
                                     name="QTY4" data-lastnum="<?php echo $row->QTY4;?>"
-                                    value="<?php echo $row->QTY4;?>" /></td>
+                                    value="<?php echo number_format($row->QTY4);?>" /></td>
                             <td><span class="btn del_items" data-idx="<?php echo $row->IDX;?>">삭제</span></td>
                         </tr>
 

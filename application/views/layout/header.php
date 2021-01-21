@@ -26,8 +26,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="scroll">
             
 			<div id="" class="mcont_bh">
-				관리자페이지
-				<p>Manufacturing<br>Execution<br> System</p>
+                <a href="<?php echo base_url('')?>"><img src="<?php echo base_url("_static/img/dj_logo.png");?>" width="140"></a>
+                <div class="login_b">
+
+                        <?php
+				if(!empty($this->session->userdata('user_id'))){
+				?>
+                        <a href="<?php echo base_url('register/logout')?>" class="l_btn">로그아웃</a>
+                        <?php
+				}else{	
+				?>
+                        <a href="<?php echo base_url('register/login')?>" class="l_btn">로그인</a>
+                        <?php
+				}	
+				?>
+                    </div>
 			</div>
             
             <div class="mcont_bd">
@@ -39,8 +52,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <ul class="menu02" <?php echo ($this->data['pos'] == "MDM")?"style='display:block'":"";?>>
                             <li><a href="<?php echo base_url('MDM')?>" class="<?php echo ($this->data['subpos'] == NULL || $this->data['subpos'] == 'index')?"on":"";?>"><i class="material-icons">build</i>공통코드관리</a></li>
                             <li><a href="<?php echo base_url('MDM/component')?>" class="<?php echo ($this->data['subpos'] == "component")?"on":"";?>"><i class="material-icons">wysiwyg</i>자재관리</a></li>
-							<li><a href="<?php echo base_url('MDM/items')?>" class="<?php echo ($this->data['subpos'] == "items")?"on":"";?>"><i class="material-icons">dvr</i>품목관리</a></li>
 							<li><a href="<?php echo base_url('MDM/series')?>" class="<?php echo ($this->data['subpos'] == "series")?"on":"";?>"><i class="material-icons">dvr</i>시리즈관리</a></li>
+							<li><a href="<?php echo base_url('MDM/items')?>" class="<?php echo ($this->data['subpos'] == "items")?"on":"";?>"><i class="material-icons">dvr</i>품목관리</a></li>
 							<li><a href="<?php echo base_url('MDM/color')?>" class="<?php echo ($this->data['subpos'] == "color")?"on":"";?>"><i class="material-icons">dvr</i>품목색상관리</a></li>
                             <li><a href="<?php echo base_url('MDM/biz')?>" class="<?php echo ($this->data['subpos'] == "biz")?"on":"";?>"><i class="material-icons">build_circle</i>업체관리</a></li>
 							<li><a href="<?php echo base_url('MDM/infolist')?>" class="<?php echo ($this->data['subpos'] == "infolist")?"on":"";?>"><i class="material-icons">build_circle</i>배송지관리</a></li>
@@ -185,14 +198,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				if(!empty($this->session->userdata('user_id'))){
 			?>
 				<?php echo $member_name."님이 로그인중 입니다."; ?>
-				<a href="<?php echo base_url('register/logout')?>" class="btn float_right">로그아웃</a>
 				
 			<?php
 			}else{	
 			?>
 				로그인이 필요합니다.
 				<?php if($subpos != "login"){ ?>
-				<a href="<?php echo base_url('register/login')?>" class="btn float_right">로그인</a>
 				<?php } ?>
 				
 			<?php

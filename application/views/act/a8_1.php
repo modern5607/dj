@@ -40,7 +40,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <button class="search_submit"><i class="material-icons">search</i></button>
     </form>
-    <span class="btn btn_right add_items">신규등록</span>
 </div>
 
 
@@ -63,24 +62,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?php
 				if(!empty($List))
 				{
-					$count=0;
+                    $count=0;
 					foreach($List as $i=>$row){
 						$no = $pageNum+$i+1;
 						if($row->SERIES_NM == "합계")
 						{
-							//$count += $row->REMARK;
-						?>
-						<tr style="background:#f3f8fd;">
-							<td colspan="2" style="text-align:right;"><strong>총 합계</strong></td>
-							<td></td>
-							<td></td>
-							<td class="right"><strong><?php echo number_format($row->IN_QTY); ?></strong></td>
-							<td></td>
-						</tr>
-						<?php
-						}
-						else
-						{ ?>
+                            $count = $row->IN_QTY;
+                            $remark = $row->REMARK;
+						    }else{ 
+                        ?>
 							<tr>
 								<td class="cen"><?php echo $no; ?></td>
 								<td class="cen"><?php echo $row->TRANS_DATE; ?></td>
@@ -91,7 +81,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 							</tr>
 					<?php }
-					}
+					}?>
+                    <tr style="background:#f3f8fd;">
+                        <td colspan="2" style="text-align:right;"><strong>총 수량</strong></td>
+                        <td class="right"><strong><?php echo $remark?></strong></td>
+                        <td colspan="" style="text-align:right;"><strong>총 합계</strong></td>
+                        <td class="right"><strong><?php echo number_format($count); ?></strong></td>
+                        <td></td>
+                    </tr>
+                    <?php
 				}
 				if(empty($List))
 				{?>
@@ -102,6 +100,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </tbody>
             </table>
         </div>
+        <div class="pagination">
+			<?php echo $this->data['pagenation'];?>
+			<?php
+			if($this->data['cnt'] > 20){
+			?>
+			<div class="limitset">
+				<select name="per_page">
+					<option value="20" <?php echo ($perpage == 20)?"selected":"";?>>20</option>
+					<option value="50" <?php echo ($perpage == 50)?"selected":"";?>>50</option>
+					<option value="80" <?php echo ($perpage == 80)?"selected":"";?>>80</option>
+					<option value="100" <?php echo ($perpage == 100)?"selected":"";?>>100</option>
+				</select>
+			</div>
+			<?php
+			}	
+			?>
+		</div>
     </div>
 </div>
 

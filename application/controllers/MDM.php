@@ -868,10 +868,12 @@ class MDM extends CI_Controller {
 		$data['str']['v1'] = $this->input->get('v1');
 		$data['str']['v2'] = $this->input->get('v2');
 		$data['str']['v3'] = $this->input->get('v3');
+		$data['str']['v4'] = $this->input->get('v4');
 
 		$params['V1'] = "";
 		$params['V2'] = "";
 		$params['V3'] = "";
+		$params['V4'] = "";
 		$params['COLOR'] = "ON";
 
 		$data['qstr'] = "?P";
@@ -887,6 +889,10 @@ class MDM extends CI_Controller {
 		if(!empty($data['str']['v3'])){
 			$params['V3'] = $data['str']['v3'];
 			$data['qstr'] .= "&v3=".$data['str']['v3'];
+		}
+		if(!empty($data['str']['v4'])){
+			$params['V4'] = $data['str']['v4'];
+			$data['qstr'] .= "&v4=".$data['str']['v4'];
 		}
 
 $data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
@@ -907,6 +913,7 @@ $data['pageNum'] = $start;
 		$this->data['cnt'] = $this->act_model->act_an2_cut($params);
 
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
+		
 
 
 /* pagenation start */
