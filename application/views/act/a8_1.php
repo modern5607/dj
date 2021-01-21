@@ -85,7 +85,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <td class="right"><strong><?php echo $remark?></strong></td>
                         <td colspan="" style="text-align:right;"><strong>총 합계</strong></td>
                         <td class="right"><strong><?php echo number_format($count); ?></strong></td>
-                        <td></td>
                     </tr>
                     <?php
 				}

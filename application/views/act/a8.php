@@ -194,7 +194,9 @@ $(".del_items").on("click",function(){
 	var idx = $(this).data("idx");
 	var inqty = $(this).data("inqty");
 	var shqty = $(this).data("shqty");
-console.log(inqty,shqty)
+	if(!shqty){
+		shqty=0
+	}
 	if(inqty > shqty){
 		alert(`삭제할 수 없습니다.재고가 ${shqty}개 남았습니다.`);
 		return false;

@@ -63,12 +63,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<form>
 				<!--label for="component">제품코드</label>
 				<input type="text"autocomplete="off" name="component" id="component" value="<?php echo $str['component']?>"-->
-
-				<label for="component_nm">품명</label>
-				<input type="text"autocomplete="off" name="component_nm" id="component_nm" value="<?php echo $str['component_nm']?>">
-                
+                <label for="v1">시리즈</label>
                 <select name="v1">
-						<option value="">::시리즈::</option>
+						<option value="">전체</option>
 					<?php
 					foreach($SERIES as $row){
 						
@@ -86,7 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<button class="search_submit"><i class="material-icons">search</i></button>
 			</form>
             <span class="btn_right"><label style="font-size: 20px;"><?=empty($NDATE)?"":$NDATE?></label></span>
-				<span class="btni btn_right add_itemnum" style="max-height:34px;" data-type="<?php echo $this->data['subpos'];?>"><span class="material-icons">add</span></span>	
+            <span class="btni btn_right add_itemnum" style="max-height:34px;" data-type="<?php echo $this->data['subpos'];?>"><span class="material-icons">add</span></span>	
 			</div>
 
 			<div class="tbl-content">

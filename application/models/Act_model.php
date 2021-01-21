@@ -121,20 +121,16 @@ class Act_model extends CI_Model {
 		// $this->db->join("t_series_h as H","H.IDX = B.SERIES_IDX","LEFT");
 		
 		if(!empty($param['V1']) && $param['V1'] != ""){
-			//$this->db->where("B.SERIES_IDX",$param['V1']);
 			$where .= "AND B.SERIES_IDX={$param['V1']}";
 		}
 		if(!empty($param['COMPONENT']) && $param['COMPONENT'] != ""){
-			// $this->db->like("B.ITEM_NO",$param['COMPONENT']);
 			$where .= "AND B.ITEM_NO LIKE '%{$param['COMPONENT']}%'";
 		}
 
 		if(!empty($param['COMPONENT_NM']) && $param['COMPONENT_NM'] != ""){
-			// $this->db->like("B.ITEM_NAME",$param['COMPONENT_NM']);
 			$where .= "AND B.ITEM_NAME LIKE '%{$param['COMPONENT_NM']}%'";
 		}
 		if($date != ""){
-			//$this->db->where("A.TRANS_DATE",$date);
 			$where .= "AND A.TRANS_DATE = '{$date}'";
 		}
 		
@@ -144,7 +140,6 @@ class Act_model extends CI_Model {
 			$GJGB = $param['GJGB'];
 		}
 
-		//$this->db->where("GJ_GB",$GJGB);
 		$where .="AND GJ_GB = '{$GJGB}'";
 
 		$sql=<<<SQL
@@ -153,7 +148,8 @@ class Act_model extends CI_Model {
 				H.SERIES_NM,
 				B.ITEM_NAME,
 				A.IN_QTY,
-				A.REMARK 
+				A.REMARK ,
+				B.SH_QTY
 			FROM
 				t_items_trans AS A
 				JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
@@ -167,6 +163,7 @@ class Act_model extends CI_Model {
 				'합계' AS TEXT,
 				'',
 				SUM(A.IN_QTY),
+				'',
 				''
 			FROM
 				t_items_trans AS A

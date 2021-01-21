@@ -82,8 +82,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>No</th>
 							<th>자재코드</th>
 							<th>자재명</th>
-							<th>단위</th>
 							<th>입고량</th>
+							<th>단위</th>
 							<th></th>                            
 						</tr>
 					</thead>
@@ -99,8 +99,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td class="cen"><?php echo $num; ?></td>
 							<td><?php echo $row->COMPONENT; ?></td>
 							<td><?php echo $row->COMPONENT_NM; ?></td>
-							<td class="cen"><?php echo $row->UNIT;?></td>
 							<td class="right inqty"><?php echo number_format(round($row->IN_QTY));?></td>
+							<td class="cen"><?php echo $row->UNIT;?></td>
 							<td><span class="btn mod_delete" data-idx="<?php echo $row->AIDX; //trans idx?>">삭제</span></td>
 						</tr>
 
