@@ -144,7 +144,6 @@ class Act_model extends CI_Model {
 		$this->db->where("GJ_GB",$GJGB);
 
 		$query = $this->db->get();
-		// ECHO $this->db->last_query();
 		return $query->result();
 	}
 
@@ -199,7 +198,6 @@ class Act_model extends CI_Model {
 
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
-		// echo $this->db->last_query();
 		return $query->result();
 	}
 	
@@ -526,7 +524,6 @@ SQL;
 			
 SQL;
 		$query = $this->db->query($sql);
-		//echo $this->db->Last_query();
 		return $query->result();
 	}
 
@@ -872,7 +869,6 @@ SQL;
 				{$start},{$limit}
 SQL;
 		$query = $this->db->query($sql);
-		
 		return $query->result();
 	}
 
@@ -979,7 +975,6 @@ SQL;
 SQL;
 
 		$query = $this->db->query($sql);
-		//echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -1031,7 +1026,6 @@ SQL;
 		$this->db->join("t_items as C","C.IDX = A.ITEMS_IDX","LEFT");
 		$this->db->where("(A.END_YN <> 'Y' OR A.END_YN IS NULL)");
 		$this->db->where("(A.SIU_YN <> 'Y' OR A.SIU_YN IS NULL)");
-
 		
 		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
 			$this->db->where("B.ACT_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'");
@@ -1040,7 +1034,7 @@ SQL;
 		if(!empty($param['V1']) && $param['V1'] != ""){
 			$this->db->where("B.BIZ_IDX",$param['V1']);
 		}
-
+		
 		if(!empty($param['V2']) && $param['V2'] != ""){
 			$this->db->where("C.SERIES_IDX",$param['V2']);
 		}
@@ -1048,6 +1042,7 @@ SQL;
 			$this->db->like("A.ITEM_NM",$param['V3']);
 		}
 		
+
 		$this->db->group_by("A.ITEM_NM, A.ITEMS_IDX");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
@@ -1102,7 +1097,8 @@ SQL;
 		$data['ITEM_NAME'] = $query->row()->ITEM_NAME;
 
 
-		$this->db->select("C.ACT_DATE, A.IDX, A.H_IDX, A.ITEM_NM, A.ITEMS_IDX, A.SERIESD_IDX, D.COLOR, A.QTY,(SELECT E.SERIES_NM FROM T_SERIES_H as E WHERE E.IDX = D.SERIES_IDX) as SE_NAME");
+
+		$this->db->select("C.ACT_DATE, A.IDX, A.H_IDX, A.ITEM_NM, A.ITEMS_IDX, A.SERIESD_IDX, D.COLOR, A.QTY,(SELECT E.SERIES_NM FROM T_SERIES_H as E WHERE E.IDX = D.SERIES_IDX) as SE_NAME,( SELECT F.CUST_NM FROM T_BIZ_REG AS F WHERE F.IDX = C.BIZ_IDX ) AS CUST_NM");
 		$this->db->from("t_act_d as A");
 		$this->db->join("t_items as B","B.IDX = A.ITEMS_IDX","LEFT");
 		$this->db->join("t_act_h as C","C.IDX = A.H_IDX","LEFT");
@@ -1112,7 +1108,7 @@ SQL;
 		}
 		$this->db->where("(A.END_YN <> 'Y' OR A.END_YN IS NULL)");
 		$this->db->where("(A.SIU_YN <> 'Y' OR A.SIU_YN IS NULL)");
-
+		$this->db->order_by("ACT_DATE ASC");
 		
 		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
 			$this->db->where("C.ACT_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'");
@@ -1128,7 +1124,7 @@ SQL;
 
 		$query = $this->db->get();
 		$data['SLIST'] = $query->result();
-		
+
 		return $data;
 	}
 
@@ -1266,7 +1262,7 @@ SQL;
 		$data['ITEM_NAME'] = $query->row()->ITEM_NAME;*/
 
 
-		$this->db->select("A.IDX, C.ACT_DATE, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY");
+		$this->db->select("A.IDX, C.ACT_DATE, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY, (SELECT F.CUST_NM FROM T_BIZ_REG AS F WHERE F.IDX = C.BIZ_IDX ) AS CUST_NM");
 		$this->db->from("t_inventory_trans as A");
 		$this->db->join("t_act_d as B","B.IDX = A.ACT_D_IDX","LEFT");
 		$this->db->join("t_series_d as D","D.IDX = A.SERIESD_IDX","LEFT");
@@ -1379,7 +1375,7 @@ SQL;
 
 		$where = '';
 		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
-			$where .= " AND C.ACT_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'";
+			$where .= " AND A.CU_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'";
 		}
 
 		if(!empty($param['V1']) && $param['V1'] != ""){
@@ -1401,7 +1397,7 @@ SQL;
 			FROM 
 				(
 					SELECT
-						C.ACT_DATE,
+						A.CU_DATE,
 						B.ITEM_NM,
 						D.COLOR,
 						B.QTY,
@@ -1436,7 +1432,6 @@ SQL;
 			-- LIMIT 0, 5
 SQL;
 		$query = $this->db->query($sql);
-		
 		return $query->result();
 	}
 
@@ -1816,7 +1811,6 @@ SQL;
 		//$this->db->order_by("A.TRANS_DATE ASC");
 		//$this->db->limit($limit,$start);
 		$query = $this->db->query($sql);
-		// echo $this->db->last_query();
 		return $query->result();
 	}
 

@@ -11,13 +11,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div id="" class="bc_search">
                 <form>
                     <label for="sdate">수주일</label>
-                    <input style="width:139px" type="text" name="sdate" class="sdate calendar"
-                        value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>"
-                        size="12" /> ~
-
-                    <input style="width:139px;" type="text" name="edate" class="edate calendar"
-                        value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>"
-                        size="12" />
+                    <input style="width:139px" type="text" name="sdate" class="sdate calendar" value=""size="12" /> ~
+                    <input style="width:139px;" type="text" name="edate" class="edate calendar" value="" size="12" />
                     <div>
                         <label for="v2">거래처</label>
                         <select name="v1" style="width:295px;margin-top: 5px;">
@@ -101,7 +96,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <table>
                             <tr>
                                 <th>작업일자</th>
-                                <td><input type="text" name="XDATE" readonly value="<?php echo date("Y-m-d",time());?>">
+                                <td><input type="text" name="XDATE" value="<?php echo date("Y-m-d",time());?>" autocomplet="off" class="calendar">
                                 </td>
                                 <th>품목</th>
                                 <td><input type="text" name="XITEM" readonly
@@ -128,6 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <tr>
                                 <th>No</th>
                                 <th>수주일자</th>
+                                <th>거래처</th>
                                 <th>시리즈</th>
                                 <th>품명</th>
                                 <th>색상</th>
@@ -144,12 +140,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <tr>
                                 <td class="cen"><?php echo $num; ?></td>
                                 <td class="cen"><?php echo $row->ACT_DATE; ?></td>
+                                <td class="cen"><?php echo $row->CUST_NM; ?></td>
                                 <td class="cen"><?php echo $row->SE_NAME; ?></td>
                                 <td><?php echo $row->ITEM_NM; ?></td>
                                 <td class="cen"><?php echo $row->COLOR;?></td>
                                 <td class="right"><?php echo number_format($row->QTY);?></td>
                                 <td>
-                                    <input type="text" name="IN_QTY[]" value="" autocomplete="off"
+                                    <input type="text" name="IN_QTY[]" value="" autocomplete="off" data-qty="<?php echo $row->QTY;?>"
                                         style="text-align: right; border:1px solid #ddd; padding:3px 7px; margin: 3px 4px;" />
                                     <input type="hidden" name="AD_IDX[]" value="<?php echo $row->IDX;?>" />
                                     <input type="hidden" name="ACT_IDX[]" value="<?php echo $row->H_IDX;?>" />
@@ -210,18 +207,28 @@ $(".form_submit").on("click", function() {
 
     var qty = $("input[name='XQTY']").val();
     var tCount = 0;
-
+    var sjqty = 0;
     var num = 0;
+    var ererer = 0;
+ 
 
     $("input[name='IN_QTY[]']").each(function(idx) {
-
         tCount += $(this).val() * 1;
         if ($(this).val() != "") {
             num++;
-        }
 
+            if($(this).val() < $(this).data('qty')){
+            ererer = 1;
+            }
+        }
     });
 
+  
+    if (ererer == 1) {
+            alert('시유수량이 수주수량보다 작을 수 없습니다.');
+        ererer = 0;
+        return false;
+    }
     if (num == 0) {
         alert('시유수량을 입력하세요');
         $("input[name^=IN_QTY]").eq(0).focus();
@@ -234,6 +241,7 @@ $(".form_submit").on("click", function() {
         $("input[name^=IN_QTY]").eq(0).focus();
         return false;
     }
+
 
     $.ajax({
         url: "<?php echo base_url('ACT/ajax_act_a10_insert')?>",
@@ -276,7 +284,7 @@ $(".form_submit").on("click", function() {
 
 
 
-$("input[name='sdate'],input[name='edate']").datetimepicker({
+$("input[name='sdate'],input[name='edate'],.calendar").datetimepicker({
     format: 'Y-m-d',
     timepicker: false,
     lang: 'ko-KR'

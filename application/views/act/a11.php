@@ -13,9 +13,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<form>
 					
 					<input type='hidden' name='n' value='1'/>
-
+					<label for="v1">거래처</label>
 					<select name="v1">
-						<option value="">::거래처::</option>
+						<option value="">전체</option>
 					<?php
 					foreach($BIZ as $row){
 						$selected = (!empty($str['v1']) && $row->IDX == $str['v1'])?"selected":"";
@@ -25,9 +25,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					}
 					?>
 					</select>
-					
+					<label for="v2">시리즈</label>
 					<select name="v2">
-						<option value="">::시리즈::</option>
+						<option value="">전체</option>
 					<?php
 					foreach($SERIES as $row){
 						
@@ -47,9 +47,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					
 					<label for="sdate">수주일</label>
-					<input type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>" size="12" /> ~ 
+					<input type="text" name="sdate" class="sdate calendar" value="" size="12" autocomplete="off"/> ~ 
 					
-					<input type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>" size="12" />
+					<input type="text" name="edate" class="edate calendar" value="" size="12" autocomplete="off"/>
 					<span class="nbsp"></span>
 					
 					<button class="search_submit"><i class="material-icons">search</i></button>
@@ -62,6 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr>
 							<th>No</th>
 							<th>수주일자</th>
+							<th>거래처</th>
 							<th>시리즈</th>
 							<th>품명</th>
 							<th>색상</th>
@@ -76,6 +77,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr <?php echo ($OIDX == $row->IDX)?"class='over'":"";?>>
 							<td class="cen"><?php echo $num;?></td>
 							<td class="cen"><?php echo substr($row->ACT_DATE,0,10);?></td>
+							<td class="cen"><?php echo $row->CUST_NM;?></td>
 							<td class="cen"><?php echo $row->SERIES_NM;?></td>
 							<td>
 								<a href="<?php echo base_url($this->data['pos'].'/a11/'.$row->IDX.$qstr);?>" class="link_s1">
@@ -117,15 +119,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</tr>
 							<tr>
 								<th>1급</th>
-								<td><input type="text" name="A2" readonly size="6" value="<?php echo $XXX_QTY;?>"></td>
+								<td colspan="3"><input type="text" name="A2" class="input_100 right" readonly value="<?php echo $XXX_QTY;?>"></td>
+							</tr>
+							<tr>
 								<th>2급</th>
-								<td><input type="text" name="A3" size="6" value=""></td>
+								<td colspan="3"><input type="text" name="A3" class="input_100 right" value=""></td>
 							</tr>
 							<tr>
 								<th>파손</th>
-								<td><input type="text" name="A4" size="6" value=""></td>
+								<td colspan="3"><input type="text" name="A4" size="6" class="input_100 right" value=""></td>
+							</tr>
+							<tr>
 								<th>시유</th>
-								<td><input type="text" name="A5" size="6" value=""></td>
+								<td colspan="3"><input type="text" name="A5" size="6" class="input_100 right"value=""></td>
 							</tr>
 							<tr>
 								<th>비고</th>

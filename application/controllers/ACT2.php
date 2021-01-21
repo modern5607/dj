@@ -617,8 +617,8 @@ class ACT2 extends CI_Controller {
 		$data['str']['v2'] = $this->input->get('v2');
 		$data['str']['v3'] = $this->input->get('v3');
 
-		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
-		$params['EDATE'] = date("Y-m-d");
+		$params['SDATE'] = "";
+		$params['EDATE'] = "";
 		
 		$params['V1'] = "";
 		$params['V2'] = "";
@@ -943,8 +943,8 @@ class ACT2 extends CI_Controller {
 		$data['str']['v3'] = $this->input->get('v3');
 		$data['str']['v4'] = $this->input->get('v4');
 
-		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
-		$params['EDATE'] = date("Y-m-d");
+		$params['SDATE'] = "";
+		$params['EDATE'] = "";
 		
 		$params['V1'] = "";
 		$params['V2'] = "";

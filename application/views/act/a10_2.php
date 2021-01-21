@@ -63,14 +63,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$incount=0;
 				foreach($List as $i=>$row){ 
 					$no = $pageNum+$i+1;
-					if($row->ACT_DATE == "합계"){
+					if($row->CU_DATE == "합계"){
 						$count += $row->QTY;
 						$incount += $row->IN_QTY;
 					}else{
 				?>
 				<tr>
 					<td class="cen"><?php echo $no; ?></td>
-					<td class="cen"><?php echo $row->ACT_DATE; ?></td>
+					<td class="cen"><?php echo $row->CU_DATE; ?></td>
 					<td><?php echo $row->SERIES_NM; ?></td>
 					<td><?php echo $row->ITEM_NM; ?></td>
 					<td><?php echo $row->COLOR; ?></td>

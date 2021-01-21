@@ -242,8 +242,32 @@ class MDM extends CI_Controller {
 
 	public function biz()
 	{
+		$data['str'] = array(); //검색어관련
+		$data['str']['a1'] = $this->input->get('a1'); //custnm
+		$data['str']['a2'] = $this->input->get('a2'); //address
+		$data['str']['a3'] = $this->input->get('a3'); //cust name
+		
+		$params['CUST_NM'] = "";
+		$params['ADDRESS'] = "";
+		$params['CUST_NAME'] = "";
+
+		$data['qstr'] = "?P";
+		if(!empty($data['str']['a1'])){
+			$params['CUST_NM'] = $data['str']['a1'];
+			$data['qstr'] .= "&a1=".$data['str']['a1'];
+		}
+		if(!empty($data['str']['a2'])){
+			$params['ADDRESS'] = $data['str']['a2'];
+			$data['qstr'] .= "&a2=".$data['str']['a2'];
+		}
+		if(!empty($data['str']['a3'])){
+			$params['CUST_NAME'] = $data['str']['a3'];
+			$data['qstr'] .= "&a3=".$data['str']['a3'];
+		}
+
+
 		$data['title'] = "업체등록";
-		$data['bizList']   = $this->biz_model->get_bizReg_list(); 
+		$data['bizList']   = $this->biz_model->get_bizReg_list($params); 
 		$this->load->view('/biz/index',$data);
 	}
 	
@@ -973,7 +997,7 @@ $this->data['pagenation'] = $this->pagination->create_links();
 
 	public function ajax_seriesDetail_form()
 	{
-		$params['title'] = "공통코드-DETAIL";
+		$params['title'] = "시리즈-DETAIL";
 		$params['mod'] = '';
 		$params['headList']  = $this->main_model->get_seriesHead_list($params);
 		// $params['hidx'] = $this->input->post("idx");

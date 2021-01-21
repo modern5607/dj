@@ -3,9 +3,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 
+
+
+
 <div class="bc_header">
+	<form id="items_formupdate">
+		<label for="a1">업체명</label>
+		<input type="text" name="a1" id="a1" value="<?php echo $str['a1']?>">
+
+		<label for="a2">주소</label>
+		<input type="text" name="a2" id="a2" value="<?php echo $str['a2']?>">
+		
+		<label for="a3">당담자</label>
+		<input type="text" name="a3" id="a3" value="<?php echo $str['a3']?>">
+
+		<button class="search_submit"><i class="material-icons">search</i></button>
+	</form>
+
 	<span class="btn btn_right add_biz">업체추가</span>
 </div>
+
 
 
 <div class="bc_cont">

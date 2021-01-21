@@ -24,7 +24,7 @@ class Amt_model extends CI_Model {
 		$this->db->order_by("TRANS_DATE ASC");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get("t_component_trans");
-		//echo $this->db->Last_query();
+
 		return $query->result();
 	}
 
@@ -330,7 +330,6 @@ SQL;
 		$query = $this->db->where("IDX",$idx)
 				-> $this->db->where("KIND","IN")
 						->get("T_COMPONENT_TRANS");
-		// echo $this->db->Last_query();
 		return $query->row();
 	}
 
@@ -343,21 +342,21 @@ SQL;
 		}
 
 		if(!empty($params['V3']) && $params['V3'] != ""){
-			$this->db->where("TAD.ITEM_NM",$params['V3']);
+			$this->db->like("TAD.ITEM_NM",$params['V3']);
 		}
 
 		$this->db->where("TAD.STATUS","SB");
 		$this->db->where("COALESCE(TAD.END_YN,'N') <>","Y");
 
-		$query = $this->db->select("TAH.ACT_DATE, TAD.IDX as ACT_IDX, TAD.ITEM_NM, TAD.QTY,TSH.SERIES_NM")
+		$query = $this->db->select("TAH.ACT_DATE, TAD.IDX as ACT_IDX, TAD.ITEM_NM, TAD.QTY,TSH.SERIES_NM, TSD.COLOR, TIS.QTY AS MAXQTY")
 						->from("T_ACT_D as TAD")
 						->join("T_ACT_H as TAH","TAH.IDX = TAD.H_IDX","LEFT")
 						->join("T_SERIES_D as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
 						->join("T_SERIES_H as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
+						->join("T_ITEM_STOCK as TIS","TIS.ITEM_IDX = TAD.ITEMS_IDX AND TIS.SERIESD_IDX = TSD.IDX","LEFT")
 						->limit($limit, $start)
-						->order_by("TAH.ACT_DATE","DESC")
+						->order_by("TAH.ACT_DATE","ASC")
 						->get();
-		
 		return $query->result();
 	}
 

@@ -99,7 +99,6 @@ class Release_model extends CI_Model {
 		$this->db->from("T_ACTPLN AS TA");
 		$this->db->join("T_ITEMS_TRANS AS TIT","TIT.ACT_IDX = TA.IDX","left");
 		$query = $this->db->get();
-		//echo $this->last_query();
 		return $query->row()->cut;
 	}
 
@@ -148,7 +147,6 @@ class Release_model extends CI_Model {
 		$this->db->from("T_ACTPLN AS TA");
 		$this->db->join("T_ITEMS_TRANS AS TIT","TIT.ACT_IDX = TA.IDX","rigth");
 		$query = $this->db->get();
-		//echo $this->last_query();
 		
 		return $query->row()->cut;
 	}
@@ -196,7 +194,6 @@ class Release_model extends CI_Model {
 		$this->db->from("T_ACTPLN AS TA");
 		$this->db->join("T_CLAIM AS TC","TC.A_IDX = TA.IDX","rigth");
 		$query = $this->db->get();
-		//echo $this->last_query();
 		
 		return $query->row()->cut;
 	}
@@ -402,7 +399,6 @@ SQL;
 			AND T1.ORDER_DATE BETWEEN '{$toDate} 00:00:00' AND '{$toDate} 23:59:59'
 SQL;*/
 		$query = $this->db->query($sql);
-		//echo nl2br($this->db->last_query());
 
 		return $query->result();
 			

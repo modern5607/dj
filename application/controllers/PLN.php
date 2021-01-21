@@ -109,7 +109,8 @@ class PLN extends CI_Controller {
 		$start = $pageNum;
 		$data['pageNum'] = $start;
 		
-		$data['title'] = "수주관리";
+		$data['NDATE'] = $hidx;
+
 		
 		$data['contList']   = $this->pln_model->get_pln_list($params,$start,$config['per_page']);
 		$this->data['cnt']  = $this->pln_model->get_pln_count($params);

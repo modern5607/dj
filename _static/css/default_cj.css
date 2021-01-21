@@ -176,3 +176,4 @@ a.alink{border:1px solid #ddd; padding:5px 8px; line-height:24px; font-size:14px
 .ac_table table{ border-collapse:collapse; border:1px solid #ddd; font-size: 1em; width:100%; background:#fff; }
 .ac_table table th { border-bottom:1px solid #ddd; border-right : 1px solid #ddd; padding:10px; background:#e8f1ff; text-align:center; width:100px;}
 .ac_table table td { border-bottom:1px solid #ddd; border-right : 1px solid #ddd; padding:10px; word-break: break-all; white-space: inherit; }
+.ac_table table .right {text-align:right;}

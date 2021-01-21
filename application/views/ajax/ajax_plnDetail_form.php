@@ -97,12 +97,12 @@ $("#s1").on("change",function(){
 	},"JSON");
 });
 
-
+var num = 0;
 $(".sh_submit").on("click",function(){
 	var s1 = $("#s1").val();
 	var s2 = $("#s2").val();
 	var s3 = $("#s3").val();
-	
+	num = 1;
 	$.ajax({
 		url: "<?php echo base_url('PLN/ajax_plnindex_pop')?>",
 		type: "POST",
@@ -153,7 +153,18 @@ $(".submitBtn").on("click",function(){
 	var formData = new FormData($("#ajaxform")[0]);
 	var $this = $(this);
 
-	
+	if(num == 0){
+		alert('수주항목을 선택해주세요.');
+		return false;
+	}
+
+	if ($('.form_select').val() == "") {
+        alert('수량을 입력해주세요.');
+        $(".form_select").val('');
+        $(".form_select").eq(0).focus();
+        return false;
+    }
+
 
 	$.ajax({
 		url  : "<?php echo base_url('PLN/ajax_act_detail_insert')?>",

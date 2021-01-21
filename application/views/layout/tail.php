@@ -14,6 +14,15 @@ $(".menu01_li").on("click",function(){
 	$(this).find("ul").css("display","block");
 });
 
+//input autocoamplete off
+$("input"). attr("autocomplete", "off"); 
+
+//pageignation
+$(".limitset select").on("change", function() {
+    var qstr = "<?php echo $qstr ?>";
+    location.href = "<?php echo base_url($pos."/".$subpos)?>" + qstr + "&perpage=" + $(this).val();
+});
+
 
 </script>
 

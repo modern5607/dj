@@ -11,8 +11,18 @@ class Biz_model extends CI_Model {
 
 
 	/* ��ü ����Ʈ */
-	public function get_bizReg_list()
+	public function get_bizReg_list($param)
 	{
+		if(!empty($param['CUST_NM']) && $param['CUST_NM'] != ""){
+			$this->db->like("CUST_NM",$param['CUST_NM']);
+		}
+		if(!empty($param['ADDRESS']) && $param['ADDRESS'] != ""){
+			$this->db->like("ADDRESS",$param['ADDRESS']);
+		}
+		if(!empty($param['CUST_NAME']) && $param['CUST_NAME'] != ""){
+			$this->db->like("CUST_NAME",$param['CUST_NAME']);
+		}
+
 		$res = $this->db->get("T_BIZ_REG");
 		return $res->result();
 

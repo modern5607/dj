@@ -95,6 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr>
 							<th>No</th>
 							<th>수주일자</th>
+							<th>거래처</th>
 							<th>품명</th>
 							<th>색상</th>
 							<th>수주수량</th>
@@ -113,6 +114,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr>
 							<td class="cen"><?php echo $num; ?></td>
 							<td class="cen"><?php echo $row->ACT_DATE; ?></td>
+							<td><?php echo $row->CUST_NM; ?></td>
 							<td><?php echo $row->ITEM_NM; ?></td>
 							<td><?php echo $row->COLOR;?></td>
 							<td class="right"><?php echo number_format($row->QTY);?></td>

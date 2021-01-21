@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						$no = $pageNum+$i+1;
 					?>
 
-                        <tr>
+                        <tr <?php echo ($NDATE == $row->IDX)?"class='over'":"";?>>
                             <td class="cen"><?php echo $no; ?></td>
                             <td><a href="<?php echo base_url('PLN/index/').$row->IDX.$qstr; ?>"
                                     class="link_s1"><?php echo $row->ACT_NAME; ?></a></td>
@@ -129,7 +129,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>상품명</th>
                             <th>색상</th>
                             <th>수량</th>
-                            <th>비고</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -143,11 +142,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td class="cen"><?php echo $num; ?></td>
                             <td><?php echo $row->ITEM_NM; ?></td>
                             <td><?php echo $row->COLOR; ?></td>
-                            <td class="cen"><?php echo number_format($row->QTY);?></td>
-                            <td><?php echo $row->REMARK;?></td>
+                            <td class="right"><?php echo number_format($row->QTY);?></td>
                             <td><span class="btn mod_detail" data-idx="<?php echo $row->IDX; ?>"
                                     data-name="<?php echo $row->ITEM_NM; ?>" data-color="<?php echo $row->COLOR; ?>"
-                                    data-qty="<?php echo $row->QTY; ?>">삭제</span></td>
+                                    data-qty="<?php echo $row->QTY; ?>">삭제</span>
+                            </td>
                         </tr>
 
                         <?php
@@ -278,7 +277,7 @@ $(".mod_detail").on("click", function() {
     var color = $(this).data("color");
     var qty = $(this).data("qty");
 
-    var con = confirm("이름 : " + name + " / 색상 : " + color + " / 갯수 : " + qty + "를 삭제하시겠습니까?");
+    var con = confirm("<"+name + " - " + color + ">을(를) 삭제하시겠습니까?");
     if (con) {
         $.post("<?=base_url('PLN/deletedetail')?>", {
             idx: idx

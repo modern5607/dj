@@ -30,7 +30,6 @@ class Pln_model extends CI_Model {
 		$this->db->order_by("ACT_DATE", "DESC");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
-		
 		return $query->result();
 
 	}
@@ -195,6 +194,7 @@ class Pln_model extends CI_Model {
 		if(!empty($params['s3']) && $params['s3'] != ""){
 			$this->db->where("SERIESD_IDX",$params['s3']);
 		}
+		$this->db->where("COLOR_USE_YN","Y");
 
 		$query = $this->db->get("t_item_series_v");
 		

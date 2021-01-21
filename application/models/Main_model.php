@@ -127,6 +127,7 @@ class Main_model extends CI_Model {
 		}
 
 		$this->db->limit($limit,$start);
+		$this->db->order_by("SERIES_IDX","ASC");
 		$query = $this->db->get("t_items");
 
 		return $query->result();
@@ -431,12 +432,11 @@ class Main_model extends CI_Model {
 		$this->db->select("D.*,H.CODE as H_CODE");
 		$this->db->from("T_COCD_D as D");
 		$this->db->join("T_COCD_H as H","H.IDX = D.H_IDX");
-		if($hid){
+		// if($hid){
 			$this->db->where("H_IDX",$hid);
-		}
+		// }
 		$this->db->order_by("S_NO","ASC");
 		$res = $this->db->get();
-
 
 		return $res->result();
 
@@ -465,7 +465,7 @@ class Main_model extends CI_Model {
 	public function get_seriesHead_list($param)
 	{
 		if(!empty($param['V1']) && $param['V1'] != ""){
-			$this->db->where("IDX",$param['V1']);
+			$this->db->like("SERIES_NM",$param['V1']);
 		}
 
 		if(!empty($param['V2']) && $param['V2'] != ""){

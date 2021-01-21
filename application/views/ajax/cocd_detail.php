@@ -27,18 +27,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th><label class="l_id">HEAD CODE</label></th>
 							<td>
 								<select name="H_IDX" class="form_input select_call" style="width:100%;">
-									<option value="">Head code 선택</option>
 								<?php
 								
 								foreach($headList as $opt){ //공통코드 HEAD
 									
 									if($mod == 1){ //수정인경우
 										
-										$selected = ($data->H_IDX == $opt->IDX)?"selected":"";
+										$selected = ($data->H_IDX == $opt->IDX)?"selected":"style='display:none;'";
 
 									}else{
 
-										$selected = ($hidx == $opt->IDX)?"selected":"";
+										$selected = ($hidx == $opt->IDX)?"selected":"style='display:none;'";
 
 									}
 

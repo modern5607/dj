@@ -56,7 +56,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <th>시리즈</th>
                         <th>품목</th>
                         <th>수량</th>
-                        <th style="min-width:100px;">비고</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,7 +74,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td></td>
 							<td></td>
 							<td class="right"><strong><?php echo number_format($row->IN_QTY); ?></strong></td>
-							<td></td>
 						</tr>
 						<?php
 						}
@@ -87,8 +85,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td><?php echo $row->SERIES_NM; ?></td>
 								<td><?php echo $row->ITEM_NAME; ?></td>
 								<td class="right"><?php echo number_format($row->IN_QTY); ?></td>
-								<td class="cen"><?php echo $row->REMARK; ?></td>
-
 							</tr>
 					<?php }
 					}

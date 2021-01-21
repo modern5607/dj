@@ -23,19 +23,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr>
 							<th><label class="l_id">시리즈</label></th>
 							<td>
-								<select readonly name="H_IDX" class="form_input select_call" style="width:100%;">
+								<select name="H_IDX" class="form_input select_call" style="width:100%;">
 								<?php
 								
 								foreach($headList as $opt){ //공통코드 HEAD
-									
 									if($mod == 1){ //수정인경우
-										
-										$selected = ($data->SERIES_IDX == $opt->IDX)?"selected":"";
-
+										$selected = ($data->SERIES_IDX == $opt->IDX)?"selected":"style='display:none'";
 									}else{
-
-										$selected = ($hidx == $opt->IDX)?"selected":"";
-
+										$selected = ($hidx == $opt->IDX)?"selected":"style='display:none'";
 									}
 								?>
                                     <option value="<?php echo $opt->IDX;?>" <?php echo $selected;?>><?php echo $opt->SERIES." - ".$opt->SERIES_NM;?></option>
@@ -60,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr>
 							<th><label class="l_pw">사용유무</label></th>
 							<td>
-								<input type="radio" name="USE_YN" value="Y" <?php echo (isset($data->USE_YN) && $data->USE_YN == "Y")?"checked":"";?>>사용
+								<input type="radio" name="USE_YN" value="Y" <?php echo (isset($data->USE_YN) && $data->USE_YN == "N")?"":"checked";?>>사용
 								<input type="radio" name="USE_YN" value="N" <?php echo (isset($data->USE_YN) && $data->USE_YN == "N")?"checked":"";?>>미사용
 							</td>
 						</tr>

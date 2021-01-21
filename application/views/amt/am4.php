@@ -43,6 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>수주일자</th>
 						<th>시리즈</th>
 						<th>품명</th>
+						<th>색상</th>
 						<th>주문수량</th>
 						<th>출고수량</th>
 						<th>출고일</th>
@@ -61,6 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="cen"><?php echo $row->ACT_DATE;?></td>
 					<td class="cen"><?php echo $row->SERIES_NM;?></td>
 					<td><strong><?php echo $row->ITEM_NM; ?></strong></td>
+					<td><strong><?php echo $row->COLOR; ?></strong></td>
 					<td class="right"><?php echo number_format($row->QTY); ?></td>
 					<td class="cen">
 						<input style="text-align:right" type="number" name="OUT_QTY[]" class="form_input1" value="<?php echo $row->QTY; ?>" size="6">
@@ -68,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</td>
 					<td class="cen"><input type="text" name="OUT_DATE[]" class="form_input1 calendar" value="<?= date("Y-m-d H:i:s") ?>" /> </td>
 					<!-- <td class="cen"><input type="text" name="OUT_DATE[]" class="form_input1" value=""></td> -->
-					<td class="cen"><span class="btn mod_stock" data-actidx="<?php echo $row->ACT_IDX;?>"  data-seriesd="<?php //echo $row->SERIESD_IDX;?>">출고</span></td>
+					<td class="cen"><span class="btn mod_stock" data-actidx="<?php echo $row->ACT_IDX;?>"  data-maxqty="<?php echo $row->MAXQTY;?>">출고</span></td>
 				</tr>
 						
 
@@ -143,32 +145,35 @@ function leadingZeros(n, digits) {
 }
 
 
-$("input[name^=OUT_QTY]").on("change",function(){
-	if($(this).val() == ""){
-		$(this).parents("tr").find("input[name^='OUT_DATE']").val('');
-	}else{
-		var d = new Date();
-		var s =
-        leadingZeros(d.getFullYear(), 4) + '-' +
-        leadingZeros(d.getMonth() + 1, 2) + '-' +
-        leadingZeros(d.getDate(), 2) +' '+
-		leadingZeros(d.getHours(), 2) +':'+
-		leadingZeros(d.getMinutes(), 2) +':'+
-		leadingZeros(d.getSeconds(), 2);
-
-
-		$(this).parents("tr").find("input[name^='OUT_DATE']").val(s);
-	}
-});
+// $("input[name^=OUT_QTY]").on("change",function(){
+// 	if($(this).val() == ""){
+// 		$(this).parents("tr").find("input[name^='OUT_DATE']").val('');
+// 	}else{
+// 		var d = new Date();
+// 		var s =
+//         leadingZeros(d.getFullYear(), 4) + '-' +
+//         leadingZeros(d.getMonth() + 1, 2) + '-' +
+//         leadingZeros(d.getDate(), 2) +' '+
+// 		leadingZeros(d.getHours(), 2) +':'+
+// 		leadingZeros(d.getMinutes(), 2) +':'+
+// 		leadingZeros(d.getSeconds(), 2);
+// 		$(this).parents("tr").find("input[name^='OUT_DATE']").val(s);
+// 	}
+// });
 
 
 $(".mod_stock").on("click",function(){
 	var actidx = $(this).data("actidx");
 	var seriesd = "";
-	var outqty = $(this).parents("tr").find("input[name^='OUT_QTY']").val();
-	var qty = $(this).parents("tr").find("input[name^='QTY']").val();
+	var outqty = $(this).parents("tr").find("input[name^='OUT_QTY']").val();	//출고량
+	var qty = $(this).parents("tr").find("input[name^='QTY']").val();			//수주량
 	var xdate = $(this).parents("tr").find("input[name^='OUT_DATE']").val();
 	var itemnm = $(this).parents("tr").find('strong').text();
+	var maxqty = $(this).data('maxqty');										//재고량
+	if(!maxqty){
+		maxqty = 0;
+	}
+console.log(maxqty,+outqty,+qty)
 
 	$this = $(this);
 	
@@ -177,6 +182,21 @@ $(".mod_stock").on("click",function(){
 		$this.parents("tr").find("input[name^='OUT_DATE']").focus();
 		return false;
 	}
+	if(+outqty < +qty){
+		alert('출고수량이 주문수량보다 적습니다.');
+		$this.parents("tr").find("input[name^='OUT_QTY']").focus();
+		return false;
+	}
+	if(+outqty > maxqty){
+		alert('출고수량이 재고수량보다 많습니다.\n현 재고수량 : '+maxqty);
+		$this.parents("tr").find("input[name^='OUT_QTY']").focus();
+		return false;
+	}
+
+
+
+
+
 	if(confirm(itemnm+"을(를) "+xdate+"에 출고하시겠습니까?") !== false){
 		if(outqty == 0 || outqty == ""){
 			alert('출고수량을 입력하세요');

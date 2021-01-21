@@ -8,17 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div id="items_formupdate" class="bc_search gsflexst">
 				<form>
 					<label for="v1">시리즈</label>
-					<select name="v1">
-							<option value="">전체</option>
-						<?php
-						foreach($SERIES as $row){
-							$selected = (!empty($str['v1']) && $row->IDX == $str['v1'])?"selected":"";
-						?>
-							<option value="<?php echo $row->IDX;?>" <?php echo $selected;?>><?php echo $row->SERIES_NM;?></option>
-						<?php
-						}
-						?>
-					</select>
+					<input type="text" name="v1" size="12" value="<?php echo $str['v1']?>">
 
 					<label for="v2">사용여부</label>
 					<select name="v2">
@@ -47,6 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</thead>
 					<tbody>
 					<?php
+					if(!empty($series_headList)){
 					$pageNum=0;
 					foreach($series_headList as $i=>$row){
 						$no = $pageNum+$i+1;
@@ -62,6 +53,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					<?php
 					}
+					}else{ 
+					?>
+						<tr>
+							<td colspan="5" class="list_none">시리지 정보가 없습니다.</td>
+						</tr>
+					<?php 
+					}
 					?>
 					</tbody>
 				</table>
@@ -72,14 +70,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div id="items_formupdate" class="bc_search gsflexst" style="min-height:76px;">
 		<?php if($de_show_chk){?>
 				<div class="gsflexst">
-				<p style="font-size:20px; line-height:36px; padding:0 10px;">
-					<?php if($series_detailList){
-						  echo $series_detailList[0]->SERIES_NM; 
-					 }else{
-						 echo $series_headList[$detailpos-1]->SERIES_NM ;
-					 }?>
-				</p>
-
 					<form>
 						<label for="colorcode">색상코드</label>
 							<input type="text" name="ccd" size="12" value="<?php echo $str['ccd']?>">
@@ -94,8 +84,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<button class="search_submit"><i class="material-icons">search</i></button>
 					</form>
 				</div>
-				
+				<div class="gsflexst">
+					<input type="text" value="<?php if($series_detailList){
+							echo $series_detailList[0]->SERIES_NM; 
+						}else{
+							echo $series_headList[$detailpos-1]->SERIES_NM ;
+						}?>" readonly size="10" style="margin-right:5px;">
+					</input>
 				<span class="btni btn_right add_detail" data-hidx="<?php echo $H_IDX; //series idx?>"><span class="material-icons">add</span></span>
+				</div>
 		<?php } ?>
 			</div>
 			

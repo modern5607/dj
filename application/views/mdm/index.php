@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					foreach($headList as $i=>$row){
 					?>
 
-						<tr>
+						<tr <?php echo ($H_IDX == $row->IDX)?"class='over'":"";?>>
 							<td><?php echo $row->CODE; ?></td>
 							<td><a href="<?php echo base_url('MDM/index/'.$row->IDX);?>" class="link_s1"><?php echo $row->NAME; ?></a></td>
 							<td><?php echo $row->REMARK;?></td>
@@ -43,8 +43,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<li>
 			<div class="bc_header none_padding">
 				<?php if($de_show_chk){ //hid값이 없는경우는 노출안됨 ?>
-					<a href="<?php echo base_url('MDM');?>" class="alink" style="float:left;">전체코드보기</a>
+					<!-- <a href="<?php echo base_url('MDM');?>" class="alink" style="float:left;">전체코드보기</a> -->
 					<span class="btni btn_right add_detail" data-hidx="<?php echo $H_IDX;?>"><span class="material-icons">add</span></span>
+					<input type="text" disabled value="<?php echo $headList[$H_IDX-1]->NAME ?>" style="background:#fff; height:34px; float:right; margin-right:8px;">
 					
 				<?php } ?>
 			</div>
@@ -61,9 +62,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</thead>
 					<tbody>
 					<?php
+					if(!empty($detailList)){
 					foreach($detailList as $i=>$row){
 					?>
-
 						<tr>
 							<td><?php echo $row->H_CODE; ?></td>
 							<td><?php echo $row->CODE; ?></td>
@@ -72,6 +73,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td><span class="btn mod_detail" data-idx="<?php echo $row->IDX;?>">수정</span></td>
 						</tr>
 
+					<?php
+					}}else{
+					?>
+					<tr>
+						<td colspan="15" class="list_none">공통코드가 없습니다.</td>
+					</tr>
 					<?php
 					}
 					?>
