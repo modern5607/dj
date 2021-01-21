@@ -63,10 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<form>
 				<!--label for="component">제품코드</label>
 				<input type="text"autocomplete="off" name="component" id="component" value="<?php echo $str['component']?>"-->
-
-				<label for="component_nm">제품명</label>
-				<input type="text"autocomplete="off" name="component_nm" id="component_nm" value="<?php echo $str['component_nm']?>">
-                
+                <label >시리즈</label>
                 <select name="v1">
 						<option value="">::시리즈::</option>
 					<?php
@@ -79,8 +76,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					}
 					?>
 					</select>
+				<label for="component_nm">품명</label>
+				<input type="text"autocomplete="off" name="component_nm" id="component_nm" value="<?php echo $str['component_nm']?>">
+                
+                
 				<button class="search_submit"><i class="material-icons">search</i></button>
 			</form>
+            <span class="btn_right"><label style="font-size: 20px;"><?=empty($NDATE)?"":$NDATE?></label></span>
 				<span class="btni btn_right add_itemnum" style="max-height:34px;" data-type="<?php echo $this->data['subpos'];?>"><span class="material-icons">add</span></span>	
 			</div>
 
@@ -160,7 +162,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $(".add_itemnum").on("click", function() {
 
     var type = $(this).data("type");
-
+    var selectedDate = "<?= empty($NDATE)?"":$NDATE;?>";
+    
     $(".ajaxContent").html('');
 
     $("#pop_container").fadeIn();
@@ -174,7 +177,8 @@ $(".add_itemnum").on("click", function() {
         dataType: "HTML",
         data: {
             mode: "add",
-            type: type
+            type: type,
+            date:selectedDate
         },
         success: function(data) {
             $(".ajaxContent").html(data);

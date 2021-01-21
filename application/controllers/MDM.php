@@ -331,7 +331,7 @@ class MDM extends CI_Controller {
 
 		$data['seriesList']   = $this->main_model->get_seriesHead_list($params);
 		$data['data'] = $this->main_model->get_items_info($this->input->post("idx"));
-
+		$data['bizList']   = $this->main_model->get_custlist(); 
 		$data['UNIT']   = $this->main_model->get_selectInfo("tch.CODE","UNIT");
 
 
@@ -355,7 +355,7 @@ class MDM extends CI_Controller {
 		return $this->load->view('/mdm/ajax_compont_form',$data);
 	}
 
-
+	/* 품목추가 ajax 입력 버튼 클릭 */
 	public function set_items_formUpdate()
 	{
 		$params = array(
@@ -376,7 +376,7 @@ class MDM extends CI_Controller {
 		);
 
 		$ins = $this->main_model->set_items_formUpdate($params);
-		
+		$data['BIZ'] = $this->main_model->get_custlist();
 		$data['status'] = "";
 		$data['msg']    = "";
 

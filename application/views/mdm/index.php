@@ -97,7 +97,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-<!--
 $(".add_head").on("click",function(){
 
 	$(".ajaxContent").html('');

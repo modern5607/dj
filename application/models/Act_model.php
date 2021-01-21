@@ -81,7 +81,7 @@ class Act_model extends CI_Model {
 
 		$this->db->select("IDX, TRANS_DATE");
 		$this->db->group_by("TRANS_DATE");
-		$this->db->order_by("TRANS_DATE ASC");
+		$this->db->order_by("TRANS_DATE DESC");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get("t_items_trans");
 
@@ -111,28 +111,31 @@ class Act_model extends CI_Model {
 		return $query->row()->CUT;
 	}
 
-	
+	/* 정형실적 오른쪽 리스트 */
 	public function item_trans_numlist($date='',$param)
 	{
-		$this->db->select("B.*, A.IN_QTY, A.REMARK, A.IDX as TRANS_IDX, H.SERIES_NM");
-		$this->db->from("t_items_trans as A");
-		$this->db->join("t_items as B","B.IDX = A.ITEMS_IDX");
-		$this->db->join("t_series_h as H","H.IDX = B.SERIES_IDX","LEFT");
+		$where='';
+		//$this->db->select("B.*, A.IN_QTY, A.REMARK, A.IDX as TRANS_IDX, H.SERIES_NM");
+		// $this->db->from("t_items_trans as A");
+		// $this->db->join("t_items as B","B.IDX = A.ITEMS_IDX");
+		// $this->db->join("t_series_h as H","H.IDX = B.SERIES_IDX","LEFT");
 		
 		if(!empty($param['V1']) && $param['V1'] != ""){
-			$this->db->where("B.SERIES_IDX",$param['V1']);
+			//$this->db->where("B.SERIES_IDX",$param['V1']);
+			$where .= "AND B.SERIES_IDX={$param['V1']}";
 		}
 		if(!empty($param['COMPONENT']) && $param['COMPONENT'] != ""){
-			$this->db->like("B.ITEM_NO",$param['COMPONENT']);
+			// $this->db->like("B.ITEM_NO",$param['COMPONENT']);
+			$where .= "AND B.ITEM_NO LIKE '%{$param['COMPONENT']}%'";
 		}
 
 		if(!empty($param['COMPONENT_NM']) && $param['COMPONENT_NM'] != ""){
-			$this->db->like("B.ITEM_NAME",$param['COMPONENT_NM']);
+			// $this->db->like("B.ITEM_NAME",$param['COMPONENT_NM']);
+			$where .= "AND B.ITEM_NAME LIKE '%{$param['COMPONENT_NM']}%'";
 		}
-
-
 		if($date != ""){
-			$this->db->where("A.TRANS_DATE",$date);
+			//$this->db->where("A.TRANS_DATE",$date);
+			$where .= "AND A.TRANS_DATE = '{$date}'";
 		}
 		
 		if(!empty($param['BK'])){
@@ -141,10 +144,43 @@ class Act_model extends CI_Model {
 			$GJGB = $param['GJGB'];
 		}
 
-		$this->db->where("GJ_GB",$GJGB);
+		//$this->db->where("GJ_GB",$GJGB);
+		$where .="AND GJ_GB = '{$GJGB}'";
 
-		$query = $this->db->get();
-		// ECHO $this->db->last_query();
+		$sql=<<<SQL
+			SELECT
+				A.IDX AS TRANS_IDX,
+				H.SERIES_NM,
+				B.ITEM_NAME,
+				A.IN_QTY,
+				A.REMARK 
+			FROM
+				t_items_trans AS A
+				JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
+				LEFT JOIN t_series_h AS H ON H.IDX = B.SERIES_IDX 
+			WHERE
+				1
+				{$where}
+			UNION
+			SELECT
+				'',
+				'합계' AS TEXT,
+				'',
+				SUM(A.IN_QTY),
+				''
+			FROM
+				t_items_trans AS A
+				JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
+				LEFT JOIN t_series_h AS H ON H.IDX = B.SERIES_IDX
+			WHERE
+				1
+				{$where}
+				
+SQL;
+
+
+		$query = $this->db->query($sql);
+		ECHO $this->db->last_query();
 		return $query->result();
 	}
 
@@ -316,14 +352,14 @@ SQL;
 		$this->db->where("SERIES_IDX",$params['s1']);
 		
 		if(!empty($params['s2']) && $params['s2'] != ""){
-			$this->db->where("ITEM_IDX",$params['s2']);
+			//$this->db->where("ITEM_IDX",$params['s2']);
+			$this->db->like("ITEM_NAME",$params['s2']);
 		}
 		if(!empty($params['s3']) && $params['s3'] != ""){
 			$this->db->where("SERIESD_IDX",$params['s3']);
 		}
 		
 		$query = $this->db->get("t_items");
-		
 		
 		return $query->result();
 	}
@@ -500,7 +536,7 @@ SQL;
 						CASE
 							WHEN (A.GJ_GB = "JHBK") THEN "BK"
 							
-							WHEN (A.GJ_GB = "JH") THEN "정형"
+							WHEN (A.GJ_GB = "JH") THEN ""
 						END as BK
 					FROM
 						T_ITEMS_TRANS A, 
@@ -702,7 +738,9 @@ SQL;
 		
 
 		$sql=<<<SQL
-			SELECT
+		SELECT A.*
+		FROM(
+			(SELECT
 				TAH.ACT_DATE, TA.ITEM_NM, TA.QTY, TIT.IN_QTY, TIT.`1_QTY` as QT1, TIT.`2_QTY` as QT2, TIT.`3_QTY` as QT3, TIT.`4_QTY` as QT4,	DATE_FORMAT(TAH.DEL_DATE, '%Y-%m-%d') as DEL_DATE, TIT.CU_DATE, TIT.SB_DATE, TIT.CG_DATE, TS.COLOR, TA.END_YN, TA.REMARK,
 				TBR.CUST_NM as BIZ_NAME, TIT.IDX, TIT.RECYCLE,
 				(SELECT B.QTY FROM T_ITEM_STOCK as B WHERE B.ITEM_IDX = TA.ITEMS_IDX AND B.SERIESD_IDX = TA.SERIESD_IDX) as XQTY
@@ -715,13 +753,47 @@ SQL;
 			WHERE
 				1
 				{$where}
-			ORDER BY
-				{$orderby}
 			LIMIT
-				{$start}, {$limit}
+				{$start}, {$limit})
+				UNION
+				(SELECT
+					'',
+					'',
+					SUM(TA.QTY),
+					SUM(TIT.IN_QTY),
+					SUM(TIT.`1_QTY`) AS QT1,
+					SUM(TIT.`2_QTY`) AS QT2,
+					SUM(TIT.`3_QTY`) AS QT3,
+					SUM(TIT.`4_QTY`) AS QT4,
+					'',
+					'',
+					'',
+					'',
+					'',
+					'',
+					'',
+					'',
+					'',
+					'',
+					''
+				FROM
+					T_ACT_D AS TA
+					LEFT JOIN T_ACT_H AS TAH ON ( TAH.IDX = TA.H_IDX )
+					LEFT JOIN T_INVENTORY_TRANS AS TIT ON ( TIT.ACT_D_IDX = TA.IDX )
+					LEFT JOIN T_SERIES_D AS TS ON ( TS.IDX = TA.SERIESD_IDX )
+					LEFT JOIN T_BIZ_REG AS TBR ON ( TBR.IDX = TAH.BIZ_IDX ) 
+				WHERE 
+					1
+					{$where} )) AS A
+
+				ORDER BY
+				A.ACT_DATE DESC,
+				A.ITEM_NM ASC,
+				A.COLOR ASC
 SQL;
 		
 		$query = $this->db->query($sql);
+		echo $this->db->last_query();
 		
 		return $query->result();
 
@@ -1095,38 +1167,69 @@ SQL;
 
 	public function page_a10_right_list($code,$param)
 	{
-		
+		$where='';
 		$this->db->where("IDX",$code);
 		$query = $this->db->get("t_items");
 		$data['JH_QTY'] = $query->row()->JH_QTY;
 		$data['ITEM_NAME'] = $query->row()->ITEM_NAME;
-
-
-		$this->db->select("C.ACT_DATE, A.IDX, A.H_IDX, A.ITEM_NM, A.ITEMS_IDX, A.SERIESD_IDX, D.COLOR, A.QTY,(SELECT E.SERIES_NM FROM T_SERIES_H as E WHERE E.IDX = D.SERIES_IDX) as SE_NAME");
-		$this->db->from("t_act_d as A");
-		$this->db->join("t_items as B","B.IDX = A.ITEMS_IDX","LEFT");
-		$this->db->join("t_act_h as C","C.IDX = A.H_IDX","LEFT");
-		$this->db->join("t_series_d as D","D.IDX = A.SERIESD_IDX","LEFT");
 		if($code != ""){
-		$this->db->where("A.ITEMS_IDX",$code);
+		$where.= "AND A.ITEMS_IDX = '{$code}'";
 		}
-		$this->db->where("(A.END_YN <> 'Y' OR A.END_YN IS NULL)");
-		$this->db->where("(A.SIU_YN <> 'Y' OR A.SIU_YN IS NULL)");
+
+		$where.="AND (A.END_YN <> 'Y' OR A.END_YN IS NULL)";
+		$where.="AND (A.SIU_YN <> 'Y' OR A.END_YN IS NULL)";
 
 		
 		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
-			$this->db->where("C.ACT_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'");
+			$where .= "AND C.ACT_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'";
 		}
 		
 		if(!empty($param['V1']) && $param['V1'] != ""){
-			$this->db->where("C.BIZ_IDX",$param['V1']);
+			$where .= "AND C.BIZ_IDX = {$param['V1']}";
 		}
 
 		if(!empty($param['V2']) && $param['V2'] != ""){
-			$this->db->where("B.SERIES_IDX",$param['V2']);
+			$where .= "AND B.SERIES_IDX = {$param['V2']}";
 		}
 
-		$query = $this->db->get();
+		$sql=<<<SQL
+			SELECT
+				C.ACT_DATE,
+				A.IDX,
+				A.H_IDX,
+				A.ITEM_NM,
+				A.ITEMS_IDX,
+				A.SERIESD_IDX,
+				D.COLOR,
+				A.QTY,
+				( SELECT E.SERIES_NM FROM T_SERIES_H AS E WHERE E.IDX = D.SERIES_IDX ) AS SE_NAME 
+			FROM
+				t_act_d AS A
+				LEFT JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
+				LEFT JOIN t_act_h AS C ON C.IDX = A.H_IDX
+				LEFT JOIN t_series_d AS D ON D.IDX = A.SERIESD_IDX
+			WHERE
+				1
+				{$where}
+			UNION
+			SELECT
+				'',
+				'','','','','','',SUM(A.QTY),'합계' AS TEXT
+			FROM
+				t_act_d AS A
+				LEFT JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
+				LEFT JOIN t_act_h AS C ON C.IDX = A.H_IDX
+				LEFT JOIN t_series_d AS D ON D.IDX = A.SERIESD_IDX
+			WHERE
+				1
+				{$where}
+SQL;
+
+		$query = $this->db->query($sql);
+		
+
+		//$query = $this->db->get();
+		//echo $this->db->last_query();
 		$data['SLIST'] = $query->result();
 		
 		return $data;
