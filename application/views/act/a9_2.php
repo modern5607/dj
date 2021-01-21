@@ -61,7 +61,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>시리즈</th>
 						<th>품목</th>
 						<th>수량</th>
-						<th>비고</th>
 						<th>BK여부</th>
 					</tr>
 				</thead>
@@ -81,8 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td><?php echo $row->SERIES_NM; ?></td>
 					<td><?php echo $row->ITEM_NAME; ?></td>
 					<td class="right"><?php echo number_format($row->IN_QTY); ?></td>
-					<td class="cen"><?php echo $row->REMARK; ?></td>
-					<td class="cen"><?php echo $row->BK; ?></td>
+					<td class="cen"><?=$row->BK;?></td>
 					
 				</tr>
 				<?php
@@ -94,7 +92,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}
 				?>
 				<tr style="background:#f3f8fd;">
-					<td colspan="4" style="text-align:right;"><strong>총 합계</strong></td>
+					<td colspan="3" style="text-align:right;"><strong>총 합계</strong></td>
+					<td></td>
 					<td class="right"><strong><?php echo number_format( $count); ?></strong></td>
 					<td colspan="2" class="cen"></td>
 				</tr>

@@ -321,6 +321,7 @@ class Main_model extends CI_Model {
 	{
 		$dateTime = date("Y-m-d H:i:s",time());
 
+		//mod 0 : 신규등록 / 1 : 수정
 		if($param['mod'] == 1){
 
 			$data = array(
@@ -362,7 +363,6 @@ class Main_model extends CI_Model {
 			);
 			
 			$this->db->insert("t_items",$data);
-
 			return $this->db->insert_id();
 
 		}

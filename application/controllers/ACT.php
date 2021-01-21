@@ -791,10 +791,11 @@ class ACT extends CI_Controller {
 
 	public function ajax_itemNum_form()
 	{
-		
 		$data['mode'] = $this->input->post("mode");
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 		$data['HIDX'] = $this->input->post("hidx");
+		$data['NDATE'] = $this->input->post("date");
+		//alert(($data['NDATE']=="")?"no DATE":$data['NDATE']);
 		
 
 		if($this->input->post("mode") == "mod"){
@@ -820,6 +821,8 @@ class ACT extends CI_Controller {
 	public function ajax_itemsindex_pop()
 	{
 		$params['s1'] = $this->input->post("s1");
+		$params['s2'] = $this->input->post("s2");
+		//alert($params['s2']);
 		
 		$data = $this->act_model->ajax_itemv_pop($params);
 		echo json_encode($data);

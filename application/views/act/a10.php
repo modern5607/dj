@@ -21,9 +21,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							foreach($BIZ as $row){
 								$selected = (!empty($str['v1']) && $row->IDX == $str['v1'])?"selected":"";
 							?>
-								<option value="<?php echo $row->IDX;?>" <?php echo $selected;?>><?php echo $row->CUST_NM;?>
-								</option>
-								<?php
+                            <option value="<?php echo $row->IDX;?>" <?php echo $selected;?>><?php echo $row->CUST_NM;?>
+                            </option>
+                            <?php
 							}
 							?>
                         </select>
@@ -44,8 +44,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </select>
                     <br>
                     <label>품목</label>
-                    <input style="width:234px;margin-top: 5px;margin-left: 12px;" type="text" autocomplete="off" name="v3" size="6"
-                        value="<?php echo (!empty($str['v3']))?$str['v3']:"";?>">
+                    <input style="width:234px;margin-top: 5px;margin-left: 12px;" type="text" autocomplete="off"
+                        name="v3" size="6" value="<?php echo (!empty($str['v3']))?$str['v3']:"";?>">
                     <button class="search_submit" style="margin-top: 5px;"><i class="material-icons">search</i></button>
                 </form>
             </div>
@@ -133,10 +133,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </thead>
                         <tbody>
                             <?php
-					foreach($detail['SLIST'] as $i=>$row){
-						$num = $i+1;
-					?>
-
+                        if(!empty($detail)){
+                            foreach($detail['SLIST'] as $i=>$row){
+                                $num = $i+1;
+                                if($row->SE_NAME == "합계"){?>
+                            <tr style="background:#f3f8fd;">
+                                <td colspan="3" class="right"><strong>합계</strong></td>
+                                <td></td>
+                                <td></td>
+                                <td class="right"><?=number_format($row->QTY)?></td>
+                                <td></td>
+                            </tr>
+                            <?php
+                                }
+                                else
+                                {?>
                             <tr>
                                 <td class="cen"><?php echo $num; ?></td>
                                 <td class="cen"><?php echo $row->ACT_DATE; ?></td>
@@ -156,16 +167,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </tr>
 
                             <?php
-					}
-					if(empty($detail)){
-					?>
+                            }
+                        }
+                            if(empty($detail)){
+                            ?>
                             <tr>
                                 <td colspan="7" style='color:#999; padding:40px 0;'>실적정보가 없습니다.</td>
                             </tr>
                             <?php } ?>
                         </tbody>
                     </table>
-                    <?php }else{ ?>
+                    <?php }
+                    }else{ ?>
                     <div style="border:1px solid #ddd; padding:100px 0; text-align:center;">품명를 선택하세요</div>
                     <?php } ?>
                 </div>

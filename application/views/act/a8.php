@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div id="" class="bc_search">
 			<form>
 				<input type='hidden' name='n' value='1'/>
-				<label for="sdate">자재입고일</label>
+				<label for="sdate">생산 실적일</label>
 				<input type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>" size="12" /> ~ 
 				
 				<input type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>" size="12" />
@@ -29,7 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<thead>
 						<tr>
 							<th>No</th>
-							<th>자재입고일</th>
+							<th>생산 실적일</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -69,12 +69,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					?>
 					</select>
 
-				<label for="component_nm">제품명</label>
+				<label for="component_nm">품명</label>
 				<input type="text" autocomplete="off"  name="component_nm" id="component_nm" value="<?php echo $str['component_nm']?>">
 				
 				<button class="search_submit"><i class="material-icons">search</i></button>
+					
 			</form>
-				<span class="btni btn_right add_itemnum" style="max-height:34px;" data-type="<?php echo $this->data['subpos'];?>"><span class="material-icons">add</span></span>	
+			<span class="btn_right"><label style="font-size: 20px;"><?=empty($NDATE)?"":$NDATE?></label></span>
+			
+				<span class="btni btn_right add_itemnum" style="max-height:34px;" data-type="<?php echo $this->data['subpos'];?>"><span class="material-icons">add</span></span>
+				
 			</div>
 
 			<div class="tbl-content">
@@ -158,7 +162,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $(".add_itemnum").on("click",function(){
 
 	var type = $(this).data("type");
-
+	var selectedDate = "<?= empty($NDATE)?"":$NDATE;?>";
 	$(".ajaxContent").html('');
 
 	$("#pop_container").fadeIn();
@@ -170,7 +174,9 @@ $(".add_itemnum").on("click",function(){
 		url      : "<?php echo base_url('ACT/ajax_itemNum_form')?>",
 		type     : "POST",
 		dataType : "HTML",
-		data     : {mode:"add",type:type},
+		data     : {mode:"add",
+					type:type,
+					date:selectedDate},
 		success  : function(data){
 			$(".ajaxContent").html(data);
 		},
@@ -190,8 +196,7 @@ $(".del_items").on("click",function(){
 	var shqty = $(this).data("shqty");
 console.log(inqty,shqty)
 	if(inqty > shqty){
-alert(`삭제할 수 없습니다.
-재고가 ${shqty}개 남았습니다.`)
+		alert(`삭제할 수 없습니다.재고가 ${shqty}개 남았습니다.`);
 		return false;
 	}
 	if(confirm('삭제하시겠습니까?') !== false){
