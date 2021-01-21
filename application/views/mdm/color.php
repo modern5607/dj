@@ -19,14 +19,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			}
 			?>
 			</select>
+		<label for="v3">품목</label>
+		<input type="text" autocomplete="off" name="v3" id="v3" value="<?php echo $str['v3']?>">
+		<label for="v4">색상</label>
+		<input type="text" autocomplete="off" name="v4" id="v4" value="<?php echo $str['v4']?>">
+		
 		<label for="v2" >사용유무</label>
 		<select name="v2">
 			<option value="">전체</option>		
 			<option value="Y" <?php echo ($str['v2'] == "Y")?"selected":"";?>>사용</option>
 			<option value="N" <?php echo ($str['v2'] == "N")?"selected":"";?>>미사용</option>		
 		</select>	
-		<label for="v3">품목</label>
-		<input type="text" name="v3" id="v3" value="<?php echo $str['v3']?>">
 
 		<button class="search_submit"><i class="material-icons">search</i></button>
 	</form>
@@ -143,8 +146,7 @@ $('select[name=useyn]').on('change',function(){
 		cache  : false,
 		contentType : false,
 		processData : false,
-		success : function(data){			
-			alert("수정되었습니다.");
+		success : function(data){	
 			location.reload();
 		},
 		error   : function(xhr,textStatus,errorThrown){

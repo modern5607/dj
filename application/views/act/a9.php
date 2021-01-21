@@ -63,7 +63,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<form>
 				<!--label for="component">제품코드</label>
 				<input type="text"autocomplete="off" name="component" id="component" value="<?php echo $str['component']?>"-->
-                <label >시리즈</label>
+
+				<label for="component_nm">품명</label>
+				<input type="text"autocomplete="off" name="component_nm" id="component_nm" value="<?php echo $str['component_nm']?>">
+                
                 <select name="v1">
 						<option value="">::시리즈::</option>
 					<?php

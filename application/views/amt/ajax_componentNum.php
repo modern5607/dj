@@ -146,6 +146,13 @@ $(".submitBtn").on("click",function(){
 		return false;
 	}
 
+	if(IN_QTY.val()<0)
+	{
+		alert('양수만 입력가능합니다.');
+		IN_QTY.focus();
+		return false;
+	}
+
 	if(TRANS_DATE.val()=="")
 	{
 		alert('입고일자를 작성하세요.');

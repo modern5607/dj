@@ -1,1 +1,1 @@
-dddddddddddddd
+<img src="<?php echo base_url("_static/img/dj_logo_intro.png");?>" width="20%" style="position:absolute; top:40%; right:35%;">

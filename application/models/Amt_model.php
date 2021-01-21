@@ -21,10 +21,10 @@ class Amt_model extends CI_Model {
 		$this->db->select("IDX, TRANS_DATE");
 		$this->db->where(" KIND = 'IN'");
 		$this->db->group_by("TRANS_DATE");
-		$this->db->order_by("TRANS_DATE ASC");
+		$this->db->order_by("TRANS_DATE DESC");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get("t_component_trans");
-
+		// echo $this->db->Last_query();
 		return $query->result();
 	}
 
@@ -157,6 +157,7 @@ SQL;
 		$this->db->from("t_component_trans as A");
 		$this->db->join("t_component as B","B.IDX = A.COMP_IDX");
 		$this->db->where("KIND","IN");
+		$this->db->order_by("TRANS_DATE", "DESC");
 		
 		if(!empty($param['COMPONENT']) && $param['COMPONENT'] != ""){
 			$this->db->like("B.COMPONENT",$param['COMPONENT']);
@@ -170,6 +171,8 @@ SQL;
 			$this->db->where("A.TRANS_DATE",$date);
 		}
 		$query = $this->db->get();
+
+		//echo $this->db->Last_query();
 		
 		return $query->result();
 	}
@@ -496,7 +499,7 @@ public function component_count($date='',$param)
 						->set("UPDATE_ID",$username)
 						->set("UPDATE_DATE",$datetime)
 						->where("COMPONENT", "CLAY")	
-						->update("T_COMPONENT");					
+						->update("T_COMPONENT");
 
 		$query = $this->db->set("IN_QTY",$param['QTY'])
 						->set("UPDATE_ID",$username)
@@ -509,4 +512,23 @@ public function component_count($date='',$param)
 		
 	}
 
+
+	public function delete_compTrans($param)
+	{
+		$datetime = date("Y-m-d H:i:s",time());
+		$username = $this->session->userdata("user_name");
+
+		$this->db->set("STOCK",$param['CQTY'])
+						->set("UPDATE_ID",$username)
+						->set("UPDATE_DATE",$datetime)
+						->where("COMPONENT", "CLAY")	
+						->update("T_COMPONENT");
+
+		//$sql = "DELETE FROM T_COMPONENT_TRANS WHERE IDX={$param['IDX']}";
+		$this->db->where('IDX',$param['IDX']);
+		$this->db->delete("T_COMPONENT_TRANS");
+		// if(empty($param['IDX'] || $param['IDX']=="")
+		// 	return;
+		return $this->db->affected_rows();
+	}
 }

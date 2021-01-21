@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 	<script src="<?php echo base_url('/_static/js/jquery-1.12.4.min.js'); ?>"></script>
-	<script src="<?php echo base_url('/_static/js/common.js'); ?>"></script>
+    <script src="<?php echo base_url('/_static/js/common.js'); ?>"></script>
 </head>
 <body>
 

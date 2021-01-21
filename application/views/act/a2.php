@@ -62,7 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <td class="cen"><?php echo $row->TRANS_DATE;?></td>
                         <td><strong><?php echo $row->SERIES_NM; ?></strong></td>
                         <td><strong><?php echo $row->ITEM_NAME; ?></strong></td>
-                        <td class="right"><?php echo $row->IN_QTY; ?></td>
+                        <td class="right"><?php echo number_format($row->IN_QTY); ?></td>
                         <td class=""><?php echo $row->REMARK; ?></td>
                     </tr>
                     <?php
