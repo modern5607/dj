@@ -147,7 +147,7 @@ $('select[name=useyn]').on('change',function(){
 		contentType : false,
 		processData : false,
 		success : function(data){	
-			location.reload();
+			// location.reload();
 		},
 		error   : function(xhr,textStatus,errorThrown){
 			alert(xhr);

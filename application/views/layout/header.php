@@ -19,7 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 </head>
 <body>
-
+<?php date_default_timezone_set('Asia/Seoul'); ?>
 <div id="smart_container">
 
 	<div class="menu_Content">

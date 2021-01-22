@@ -183,7 +183,7 @@ $(".register_update").on("click",function(){
 	$.ajax({
 		url:"<?php echo base_url('MDM/ajax_set_items')?>",
 		type : "post",
-		data : {idx:idx},
+		data : {idx:idx,upd:'upd'},
 		dataType : "html",
 		success : function(data){
 			$(".ajaxContent").html(data);

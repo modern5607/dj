@@ -902,6 +902,8 @@ SQL;
 		
 		if(!empty($param['AM1']) && $param['AM1'] != ""){
 			$where .= " AND (TIS.QTY > 0 || (SELECT SUM(B.QTY) FROM T_ACT_D as B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX) > 0 ) ";
+		}else{
+			$where .= " AND TI.USE_YN = 'Y' ";
 		}
 		if(empty($param['COLOR'])){
 			$where .= " AND TIS.USE_YN = 'Y' ";
@@ -939,7 +941,7 @@ SQL;
 				{$start},{$limit}
 SQL;
 		$query = $this->db->query($sql);
-		 //echo $this->db->last_query();
+		 echo $this->db->last_query();
 		return $query->result();
 	}
 

@@ -22,6 +22,9 @@ class Biz_model extends CI_Model {
 		if(!empty($param['CUST_NAME']) && $param['CUST_NAME'] != ""){
 			$this->db->like("CUST_NAME",$param['CUST_NAME']);
 		}
+		if(!empty($param['CUST_TYPE']) && $param['CUST_TYPE'] != ""){
+			$this->db->like("CUST_TYPE",$param['CUST_TYPE']);
+		}
 
 		$res = $this->db->get("T_BIZ_REG");
 		return $res->result();
@@ -60,16 +63,18 @@ class Biz_model extends CI_Model {
 			$dateTime = date("Y-m-d H:i:s",time());
 
 			$data = array(
-				'CUST_NM'        => $param['CUST_NM'],
-				'ADDRESS'        => $param['ADDRESS'],
-				'TEL'                 => $param['TEL'],
-				'CUST_NAME'    => $param['CUST_NAME'],
-				'ITEM'               => $param['ITEM'],
-				'REMARK'          => $param['REMARK'],
-				'INSERT_ID'       => $param['INSERT_ID'],
-				'INSERT_DATE'  => $dateTime,
-				'COL1'        => '',
-				'COL2'        => ''
+				'CUST_NM'       => $param['CUST_NM'],
+				'CUST_TYPE'     => $param['CUST_TYPE'],
+				'ADDRESS'		=> $param['ADDRESS'],
+				'TEL'           => $param['TEL'],
+				'CUST_NAME'    	=> $param['CUST_NAME'],
+				'ITEM'          => $param['ITEM'],
+				'REMARK'        => $param['REMARK'],
+				'CUST_USE'     	=> $param['CUST_USE'],
+				'INSERT_ID'     => $param['INSERT_ID'],
+				'INSERT_DATE'  	=> $dateTime,
+				'COL1'        	=> '',
+				'COL2'        	=> ''
 			);
 
 			

@@ -246,10 +246,12 @@ class MDM extends CI_Controller {
 		$data['str']['a1'] = $this->input->get('a1'); //custnm
 		$data['str']['a2'] = $this->input->get('a2'); //address
 		$data['str']['a3'] = $this->input->get('a3'); //cust name
+		$data['str']['a4'] = $this->input->get('a4'); //cust name
 		
 		$params['CUST_NM'] = "";
 		$params['ADDRESS'] = "";
 		$params['CUST_NAME'] = "";
+		$params['CUST_TYPE'] = "";
 
 		$data['qstr'] = "?P";
 		if(!empty($data['str']['a1'])){
@@ -263,6 +265,10 @@ class MDM extends CI_Controller {
 		if(!empty($data['str']['a3'])){
 			$params['CUST_NAME'] = $data['str']['a3'];
 			$data['qstr'] .= "&a3=".$data['str']['a3'];
+		}
+		if(!empty($data['str']['a4'])){
+			$params['CUST_TYPE'] = $data['str']['a4'];
+			$data['qstr'] .= "&a4=".$data['str']['a4'];
 		}
 
 
@@ -353,8 +359,11 @@ class MDM extends CI_Controller {
 		$data['mod'] = ($this->input->post("idx"))?"1":"";
 		$params['phpError'] = ""; //없으면 오류뜸
 
+		$param['idx'] = $this->input->post("idx");
+		$param['upd'] = $this->input->post("upd");
+
 		$data['seriesList']   = $this->main_model->get_seriesHead_list($params);
-		$data['data'] = $this->main_model->get_items_info($this->input->post("idx"));
+		$data['data'] = $this->main_model->get_items_info($param);
 		$data['bizList']   = $this->main_model->get_custlist(); 
 		$data['UNIT']   = $this->main_model->get_selectInfo("tch.CODE","UNIT");
 

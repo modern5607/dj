@@ -23,7 +23,6 @@ $(".limitset select").on("change", function() {
     location.href = "<?php echo base_url($pos."/".$subpos)?>" + qstr + "&perpage=" + $(this).val();
 });
 
-
 </script>
 
 

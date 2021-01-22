@@ -17,6 +17,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<label for="a3">당담자</label>
 		<input type="text" name="a3" id="a3" value="<?php echo $str['a3']?>">
 
+		<label for="a4">거래관계</label>
+		<select name="a4" id="a4">
+			<option value="">전체</option>
+			<option value="buyer">매입처</option>
+			<option value="customer">매출처</option>
+		</select>
+
 		<button class="search_submit"><i class="material-icons">search</i></button>
 	</form>
 
@@ -35,6 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tr>
 						<th>순번</th>
 						<th>업체명</th>
+						<th>거래관계</th>
 						<th>주소</th>
 						<th>연락처</th>
 						<th>담당자</th>
@@ -52,6 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tr>
 						<td class="cen"><?php echo $row->IDX;?></td>
 						<td class="cen"><span class="mod_biz  link_s1" data-idx="<?php echo $row->IDX;?>"><?php echo $row->CUST_NM; ?></span></td>
+						<td><?php echo ($row->CUST_TYPE == 'buyer')?"매입처":(($row->CUST_TYPE == 'customer')?"매출처":""); ?></td>
 						<td><?php echo $row->ADDRESS;?></td>
 						<td class="cen"><?php echo $row->TEL;?></td>
 						<td><?php echo $row->CUST_NAME;?></td>

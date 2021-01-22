@@ -96,10 +96,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </td>
                         </tr>
                         <tr>
-                            <th><label class="l_id"><span class=""></span>점토중량</label></th>
+                            <th><label class="l_id"><span class="re"></span>점토중량</label></th>
                             <td>
                                 <input type="text" name="JT_QTY" id="JT_QTY"
-                                    value="<?php echo isset($data->JT_QTY)?$data->JT_QTY:"";?>"
+                                    value="<?php echo isset($data->JT_QTY)?number_format($data->JT_QTY):"";?>"
                                     class="form_input input_100">
                             </td>
                         </tr>
@@ -124,11 +124,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td style="line-height:32px;">
                                 <input type="radio" name="USE_YN" value="Y"
                                     <?php echo (isset($data->USE_YN) && $data->USE_YN == "N")?"":"checked";?>>사용
-                                <input type="radio" name="USE_YN" value="N"
+                                <input type="radio" name="USE_YN" value="N" data-qty="<?= isset($data->QTY)?$data->QTY:'';?>" data-eqty="<?= isset($data->EQTY)?$data->EQTY:'';?>"
                                     <?php echo (isset($data->USE_YN) && $data->USE_YN == "N")?"checked":"";?>>미사용
                             </td>
+                            
                         </tr>
-
 
 
                     </tbody>
@@ -195,10 +195,11 @@ $(".modBtn").on("click", function() {
 		return false;
 	}
 	
-	if($("select[name='BIZ_IDX']").val() == ""){
-		alert("주고객을 선택하세요");
+	if($("input[name='JT_QTY']").val() == ""){
+		alert("점토중량을 입력하세요");
 		return false;
 	}
+
 
 
     $.ajax({

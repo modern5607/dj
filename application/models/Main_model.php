@@ -299,10 +299,17 @@ class Main_model extends CI_Model {
 	}
 
 	
-	public function get_items_info($idx)
+	public function get_items_info($param)
 	{
-		$query = $this->db->where("IDX",$idx)
-						->get("t_items");
+		if($param['upd']){
+			$this->db->select("TI.*, SUM(TIS.QTY) AS QTY, SUM((SELECT SUM(B.QTY) FROM T_ACT_D as B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX)) as EQTY ");
+			$this->db->join("T_ITEM_STOCK as TIS","TI.IDX = TIS.ITEM_IDX","LEFT");
+		}
+
+		$query = $this->db->where("IDX",$param['idx'])
+						->get("t_items as TI");
+
+
 		return $query->row();
 	}
 
@@ -702,9 +709,10 @@ class Main_model extends CI_Model {
 	//거래처리스트
 	public function get_custlist()
 	{
+		$this->db->where('CUST_TYPE="customer"');
+		$this->db->where('CUST_USE="Y"');
 		$query = $this->db->get("t_biz_reg");
 		return $query->result();
-
 	}
 
 
