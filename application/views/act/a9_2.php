@@ -68,10 +68,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php
 				if(!empty($List)){
 					$count=0;
+					$remark=0;
 				foreach($List as $i=>$row){ 
 					$no = $pageNum+$i+1;
 					if($row->ITEM_NAME == "합계"){
-						$count += $row->REMARK;
+						$count += $row->IN_QTY;
+						$remark += $row->REMARK;
 					}else{
 				?>
 				<tr>
@@ -92,10 +94,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}
 				?>
 				<tr style="background:#f3f8fd;">
-					<td colspan="3" style="text-align:right;"><strong>총 합계</strong></td>
-					<td></td>
+					<td colspan="2" style="text-align:right;"><strong>총 수량</strong></td>
+					<td class="right"><strong><?php echo number_format( $remark); ?></strong></td>
+					<td colspan="1" style="text-align:right;"><strong>총 합계</strong></td>
 					<td class="right"><strong><?php echo number_format( $count); ?></strong></td>
-					<td colspan="2" class="cen"></td>
+					<td colspan="1" class="cen"></td>
 				</tr>
 				<?php
 				}else{
@@ -111,6 +114,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				?>
 				</tbody>
 			</table>
+		</div>
+		<div class="pagination">
+			<?php echo $this->data['pagenation'];?>
+			<?php
+			if($this->data['cnt'] > 20){
+			?>
+			<div class="limitset">
+				<select name="per_page">
+					<option value="20" <?php echo ($perpage == 20)?"selected":"";?>>20</option>
+					<option value="50" <?php echo ($perpage == 50)?"selected":"";?>>50</option>
+					<option value="80" <?php echo ($perpage == 80)?"selected":"";?>>80</option>
+					<option value="100" <?php echo ($perpage == 100)?"selected":"";?>>100</option>
+				</select>
+			</div>
+			<?php
+			}	
+			?>
 		</div>
 	</div>
 </div>

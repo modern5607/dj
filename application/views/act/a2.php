@@ -52,9 +52,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <?php
 				if(!empty($List)){
 				$count = 0;
+				$remark = 0;
 				foreach($List as $i=>$row){ 
+                    if($row->ITEM_NAME != "합계"){
 					$no = $pageNum+$i+1;
-					$count += $row->IN_QTY;
 					//$sumqty = $row->QT2+$row->QT3+$row->QT4;
 				?>
                     <tr>
@@ -66,12 +67,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <td class=""><?php echo $row->REMARK; ?></td>
                     </tr>
                     <?php
-				}?>
-				<tr style="background:#f3f8fd;">
-					<td colspan="4" style="text-align:right;"><strong>총 합계</strong></td>
-					<td class="right"><?php echo number_format( $count); ?></td>
-					<td class="cen"></td>
-				</tr>
+                }else{
+                $count = $row->IN_QTY;
+                $remark = $row->REMARK;
+                }
+                }?>
+				    <tr style="background:#f3f8fd;">
+                        <td colspan="2" style="text-align:right;"><strong>총 수량</strong></td>
+                        <td class="right"><?php echo $remark; ?></td>
+                        <td colspan="" style="text-align:right;"><strong>총 합계</strong></td>
+                        <td class="right"><?php echo $count; ?></td>
+                        <td class="cen"></td>
+                    </tr>
 				<?php
 			}
 			else{?>
@@ -82,7 +89,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			}?>
             </tbody>
 			<tfoot>
-				
+            
+                
+                
+            
 			</tfoot>
             </table>
         </div>

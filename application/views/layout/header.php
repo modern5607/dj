@@ -24,7 +24,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<div class="menu_Content">
         <div class="scroll">
-            
+            <div class="mControl">
+                        <span class="mhide"><i class="material-icons">close</i></span>
+                    </div>
+                  
 			<div id="" class="mcont_bh">
                 <a href="<?php echo base_url('')?>"><img src="<?php echo base_url("_static/img/dj_logo.png");?>" width="140"></a>
                 <div class="login_b">
@@ -193,6 +196,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <div class="body_">
 		<div id="" class="body_Header">
+            
 			<div class="bh_title">
 			<?php
 				if(!empty($this->session->userdata('user_id'))){
@@ -212,7 +216,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			
 			</div>
 			<h2><?php echo (!empty($siteTitle))?$siteTitle:"NONE TITLE"; ?></h2>
-		</div>
+        </div>
+        <div class="mControl_show">
+            <span class="mshow"><i class="material-icons">menu</i></span>
+        </div>
 		<div class="body_Content">
 			
 			

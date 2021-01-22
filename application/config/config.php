@@ -37,6 +37,7 @@ $config['site_title']['MDM']['biz'] = "업체관리";
 $config['site_title']['MDM']['series'] = "시리즈관리";
 $config['site_title']['MDM']['color'] = "품목색상관리";
 $config['site_title']['MDM']['items'] = "품목관리";
+$config['site_title']['MDM']['infolist'] = "배송지관리";
 $config['site_title']['MDM']['infoform'] = "인사정보관리";
 $config['site_title']['MDM']['component'] = "자재관리";
 

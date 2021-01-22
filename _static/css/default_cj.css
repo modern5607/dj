@@ -34,8 +34,8 @@ a {text-decoration:none}
 #smart_container{min-width:1200px; height:100%;}
 #smart_container .menu_Content{position:fixed; top:0; left:0; height:100%; width:220px; background:#262f3c;}
 #smart_container .body_{margin-left:220px; height:100%;}
-
-#smart_container .body_ .body_Header{background:#547a8f; color:#fff; padding:15px; position:fixed; width:calc(100% - 220px)}
+/* width:calc(100% - 220px) */
+#smart_container .body_ .body_Header{background:#547a8f; color:#fff; padding:15px; position:fixed; width:100%; box-sizing: border-box;}
 .body_Header h2{font-size:1.5em;}
 .body_Header .bh_title{padding-bottom:10px;}
 .body_Header .bh_title .btn{border:1px solid #ddd; color:#fff; padding:2px 5px;}
@@ -50,6 +50,12 @@ a {text-decoration:none}
 .mcont_bh p{ line-height:1em; font-size:16px; margin-top:7px; color:#546682;}
 .login_b {font-size:12px; /*margin-top:50px;*/ width:100%; /*position:absolute;*/ background:; right:0; /*height:50px;*/ line-height:50px; text-align: center;}
 .l_btn { padding:5px; background: #f6d50e; border-radius: 3px; }
+
+#smart_container .menu_Content .mControl{position:absolute; top:5px; right:18px; width:20px; text-align:center; cursor:pointer; color:#fff; background:; z-index: 10;}
+#smart_container .menu_Content .mControl .mhide{display:block; padding-top:2px;}
+#smart_container .menu_Content .mControl .mhide span{margin-left:-3px;}
+ .mControl_show {display: none; position:fixed; top:5px; left:10px; width:40px; height: 40px; text-align:center; cursor:pointer; color:#fff; background:#05627a; z-index: 10; border-radius: 5px;}
+ .mControl_show i { line-height: 40px; font-size: 2em; }
 
 
 .body_cont_float{height:100%;}

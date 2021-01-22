@@ -12,26 +12,62 @@ class Act_model extends CI_Model {
 
 	public function act_a2_list($param,$start=0,$limit=20)
 	{
+		$where = '';
 		if(!empty($param['V1']) && $param['V1'] != ""){
-			$this->db->where("TI.SERIES_IDX",$param['V1']);
+			// $this->db->where("TI.SERIES_IDX",$param['V1']);
+			$where .= " AND TI.SERIES_IDX = '{$param['V1']}'";
 		}
-
+		
 		if(!empty($param['V3']) && $param['V3'] != ""){
-			$this->db->like("TI.ITEM_NAME",$param['V3']);
+			// $this->db->like("TI.ITEM_NAME",$param['V3']);
+			$where .= " AND TI.ITEM_NAME LIKE '%{$param['V3']}%'";
 		}
 
 		// if(!empty($param['V4']) && $param['V4'] != ""){
 		// 	$this->db->where("B.ITEM_NM",$param['V4']);
 		// }
 
-		$this->db->select("TIT.TRANS_DATE, TI.ITEM_NAME, TIT.IN_QTY, TIT.REMARK, TSH.SERIES_NM");
-		$this->db->from("T_ITEMS as TI");
-		$this->db->join("T_ITEMS_TRANS as TIT","TIT.ITEMS_IDX = TI.IDX","LEFT");
-		$this->db->join("T_SERIES_H as TSH","TSH.IDX = TI.SERIES_IDX","LEFT");
-		$this->db->where("TI.SH_QTY > 0");
-		$this->db->limit($limit,$start);
-		$query = $this->db->get();
+		// $this->db->select("TIT.TRANS_DATE, TI.ITEM_NAME, TIT.IN_QTY, TIT.REMARK, TSH.SERIES_NM");
+		// $this->db->from("T_ITEMS as TI");
+		// $this->db->join("T_ITEMS_TRANS as TIT","TIT.ITEMS_IDX = TI.IDX","LEFT");
+		// $this->db->join("T_SERIES_H as TSH","TSH.IDX = TI.SERIES_IDX","LEFT");
+		// $this->db->where("TI.SH_QTY > 0");
+		// $this->db->limit($limit,$start);
+		// $query = $this->db->get();
 		
+
+		$sql=<<<SQL
+		SELECT 
+			AA.*
+		FROM 
+			(
+				SELECT
+				TIT.TRANS_DATE, TI.ITEM_NAME, TIT.IN_QTY, TIT.REMARK, TSH.SERIES_NM
+				FROM
+					T_ITEMS TI
+					LEFT JOIN T_ITEMS_TRANS AS TIT ON TIT.ITEMS_IDX = TI.IDX
+					LEFT JOIN T_SERIES_H AS TSH ON TSH.IDX = TI.SERIES_IDX
+				WHERE
+					TI.SH_QTY > 0
+					{$where}
+				LIMIT {$start}, {$limit}
+			) as AA
+		UNION ALL
+		SELECT '','합계', SUM(IN_QTY) as IN_QTY, COUNT(TI.ITEM_NAME),""
+		FROM 
+		T_ITEMS TI
+					LEFT JOIN T_ITEMS_TRANS AS TIT ON TIT.ITEMS_IDX = TI.IDX
+					LEFT JOIN T_SERIES_H AS TSH ON TSH.IDX = TI.SERIES_IDX
+		WHERE 
+			TI.SH_QTY > 0
+			{$where}
+		ORDER BY  TRANS_DATE DESC, ITEM_NAME, SERIES_NM
+SQL;
+
+	$query = $this->db->query($sql);
+
+
+	echo $this->db->last_query();
 		return $query->result();
 		
 	}
@@ -531,7 +567,6 @@ SQL;
 						B.SERIES_IDX,
 						CASE
 							WHEN (A.GJ_GB = "JHBK") THEN "BK"
-							
 							WHEN (A.GJ_GB = "JH") THEN ""
 						END as BK
 					FROM
@@ -542,11 +577,11 @@ SQL;
 						A.KIND = 'IN'
 						{$where}
 					ORDER BY A.TRANS_DATE DESC
-					
+					LIMIT {$start}, {$limit}
 				) as AA
 				LEFT JOIN `t_series_h` as `H` ON `H`.`IDX` = `AA`.`SERIES_IDX`
-			UNION
-			SELECT '','합계' AS TEXT,B.ITEM_NAME, SUM(IN_QTY) as IN_QTY,'','',''
+			UNION ALL
+			SELECT '','합계' AS TEXT, SUM(IN_QTY) as IN_QTY,COUNT(B.ITEM_NAME),'','',''
 			FROM 
 				T_ITEMS_TRANS A, 
 				T_ITEMS B
@@ -554,10 +589,11 @@ SQL;
 				A.ITEMS_IDX = B.IDX
 				AND A.KIND = 'IN'
 				{$where}
-			GROUP BY ITEMS_IDX
+
 			
 SQL;
 		$query = $this->db->query($sql);
+		ECHO $this->db->last_query();
 		return $query->result();
 	}
 
@@ -581,6 +617,7 @@ SQL;
 			$where .= " AND A.GJ_GB = '{$param['V3']}'";
 		}
 		// else{$where .= " AND A.GJ_GB like '%JH%'";}
+		$where .= " AND A.GJ_GB != 'SH'";
 		
 		$sql=<<<SQL
 			SELECT
