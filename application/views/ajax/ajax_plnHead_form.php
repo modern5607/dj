@@ -112,7 +112,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 
+$(".modBtn").on("click",function(){
+	var formData = new FormData($("#ajaxform")[0]);
+	var $this = $(this);
 
+	$.ajax({
+		url  : "<?php echo base_url('/PLN/ajax_plnHead_update')?>",
+		type : "POST",
+		data : formData,
+		cache  : false,
+		contentType : false,
+		processData : false,
+		beforeSend  : function(){
+			$this.hide();
+			$("#loading").show();
+		},
+		success : function(data){
+
+			var jsonData = JSON.parse(data);
+			if(jsonData.status == "ok"){
+			
+				setTimeout(function(){
+					alert(jsonData.msg);
+					$(".ajaxContent").html('');
+					$("#pop_container").fadeOut();
+					$(".info_content").css("top","-50%");
+					$("#loading").hide();
+					location.reload();
+
+				},1000);
+
+				chkHeadCode = false;
+
+			}
+		},
+		error   : function(xhr,textStatus,errorThrown){
+			alert(xhr);
+			alert(textStatus);
+			alert(errorThrown);
+		}
+	});
+
+});
 
 $(".submitBtn").on("click",function(){
 

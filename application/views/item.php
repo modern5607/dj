@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<thead>
 						<tr>
 							<th>순번</th>
-							<th>품명</th>
+							<th>품목</th>
 							<th>품목Code</th>
                             <!-- <th>비고</th> -->
                             <th></th>

@@ -85,12 +85,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</form>
 				</div>
 				<div class="gsflexst">
-					<input type="text" value="<?php if($series_detailList){
-							echo $series_detailList[0]->SERIES_NM; 
-						}else{
-							echo $series_headList[$detailpos-1]->SERIES_NM ;
-						}?>" readonly size="10" style="margin-right:5px;">
-					</input>
+				<span class="btn_right"><label style="font-size: 20px; padding-right:20px;">
+					<?php if($series_detailList){
+						echo $series_detailList[0]->SERIES_NM; 
+					}else{
+						echo $series_headList[$detailpos-1]->SERIES_NM ;
+					}?>
+				</label></span>
 				<span class="btni btn_right add_detail" data-hidx="<?php echo $H_IDX; //series idx?>"><span class="material-icons">add</span></span>
 				</div>
 		<?php } ?>

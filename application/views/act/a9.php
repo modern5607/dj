@@ -82,8 +82,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 
 				<button class="search_submit"><i class="material-icons">search</i></button>
 			</form>
-            <span class="btn_right"><label style="font-size: 20px;"><?=empty($NDATE)?"":$NDATE?></label></span>
+            <div class="gsflexst">
+            <span class="btn_right"><label style="font-size: 20px; margin-right:20px;"><?=empty($NDATE)?"":$NDATE?></label></span>
             <span class="btni btn_right add_itemnum" style="max-height:34px;" data-type="<?php echo $this->data['subpos'];?>"><span class="material-icons">add</span></span>	
+            </div>
 			</div>
 
 			<div class="tbl-content">

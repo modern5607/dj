@@ -68,10 +68,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$no = $pageNum+$i+1;
 					$sumqty = $row->QT2+$row->QT3+$row->QT4;
 					$yn = ($row->END_YN <> "Y")?"N":"Y";
-
 					$xxqty = (($row->XQTY-$row->QTY) > 0)?$row->XQTY-$row->QTY:0;
-
 					$ax1 = ($row->SB_DATE != "")?"Y":"N";
+					
 				?>
 				<tr>
 					<td class="cen"><?php echo $no;?></td>

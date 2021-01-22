@@ -42,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>no</th>
 						<th>작업지시번호</th>
 						<th>BL NO</th>
-						<th>품명</th>
+						<th>품목</th>
 						<th>수량</th>
 						<th>수주일자</th>
 						<th>납기일자</th>

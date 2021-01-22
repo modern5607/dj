@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		
 			<label for="">BL_NO</label>
 			<input type="text" name="bno" value="<?php echo $str['bno']?>" size="15" />					
-			<label for="">품명</label>
+			<label for="">품목</label>
 			<input type="text" name="iname" value="<?php echo $str['iname']?>" size="15" />
 			<label for="">MSAB</label>
 			<input type="text" name="mscode" value="<?php echo $str['mscode']?>" size="6" onkeypress="press(this.form)" />

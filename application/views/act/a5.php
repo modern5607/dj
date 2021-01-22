@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		?>
 		</select>
 
-		<label for="v3">품목</label>
+		<label for="v3">품명</label>
 		<input type="text"autocomplete="off" name="v3" id="v3" value="<?php echo $str['v3']?>">
 				
 		<button class="search_submit"><i class="material-icons">search</i></button>

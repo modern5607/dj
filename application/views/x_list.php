@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>no</th>
 						<th>LOT NO</th>
 						<th>BL NO</th>
-						<th>품명</th>
+						<th>품목</th>
 						<th>생산라인</th>
 						<th>MSAB</th>
 						<th>구분</th>

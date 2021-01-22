@@ -770,9 +770,7 @@ SQL;
 		
 
 		$sql=<<<SQL
-		SELECT A.*
-		FROM(
-			(SELECT
+			SELECT
 				TAH.ACT_DATE, TA.ITEM_NM, TA.QTY, TIT.IN_QTY, TIT.`1_QTY` as QT1, TIT.`2_QTY` as QT2, TIT.`3_QTY` as QT3, TIT.`4_QTY` as QT4,	DATE_FORMAT(TAH.DEL_DATE, '%Y-%m-%d') as DEL_DATE, TIT.CU_DATE, TIT.SB_DATE, TIT.CG_DATE, TS.COLOR, TA.END_YN, TA.REMARK,
 				TBR.CUST_NM as BIZ_NAME, TIT.IDX, TIT.RECYCLE,
 				(SELECT B.QTY FROM T_ITEM_STOCK as B WHERE B.ITEM_IDX = TA.ITEMS_IDX AND B.SERIESD_IDX = TA.SERIESD_IDX) as XQTY
@@ -785,43 +783,10 @@ SQL;
 			WHERE
 				1
 				{$where}
+			ORDER BY ACT_DATE DESC
 			LIMIT
-				{$start}, {$limit})
-				UNION
-				(SELECT
-					'',
-					'',
-					SUM(TA.QTY),
-					SUM(TIT.IN_QTY),
-					SUM(TIT.`1_QTY`) AS QT1,
-					SUM(TIT.`2_QTY`) AS QT2,
-					SUM(TIT.`3_QTY`) AS QT3,
-					SUM(TIT.`4_QTY`) AS QT4,
-					'',
-					'',
-					'',
-					'',
-					'',
-					'',
-					'',
-					'',
-					'',
-					'',
-					''
-				FROM
-					T_ACT_D AS TA
-					LEFT JOIN T_ACT_H AS TAH ON ( TAH.IDX = TA.H_IDX )
-					LEFT JOIN T_INVENTORY_TRANS AS TIT ON ( TIT.ACT_D_IDX = TA.IDX )
-					LEFT JOIN T_SERIES_D AS TS ON ( TS.IDX = TA.SERIESD_IDX )
-					LEFT JOIN T_BIZ_REG AS TBR ON ( TBR.IDX = TAH.BIZ_IDX ) 
-				WHERE 
-					1
-					{$where} )) AS A
+				{$start}, {$limit}
 
-				ORDER BY
-				A.ACT_DATE DESC,
-				A.ITEM_NM ASC,
-				A.COLOR ASC
 SQL;
 		
 		$query = $this->db->query($sql);
@@ -1228,6 +1193,7 @@ SQL;
 		}
 
 		$sql=<<<SQL
+		SELECT AA.* FROM (
 			SELECT
 				C.ACT_DATE,
 				A.IDX,
@@ -1247,6 +1213,9 @@ SQL;
 			WHERE
 				1
 				{$where}
+			ORDER BY 
+				C.ACT_DATE ASC
+		) AS AA
 			UNION
 			SELECT
 				'',
@@ -1259,13 +1228,14 @@ SQL;
 			WHERE
 				1
 				{$where}
+				
 SQL;
 
 		$query = $this->db->query($sql);
 		
 
 		//$query = $this->db->get();
-		//echo $this->db->last_query();
+		echo $this->db->last_query();
 		$data['SLIST'] = $query->result();
 
 		return $data;

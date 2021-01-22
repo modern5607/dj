@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         
 
-        <label for="v3">품목</label>
+        <label for="v3">품명</label>
         <input type="text" autocomplete="off" name="v3" id="v3" value="<?php echo $str['v3']?>">
 
 
@@ -43,7 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <th>No</th>
                         <th>일자</th>
                         <th>시리즈</th>
-                        <th>품목</th>
+                        <th>품명</th>
                         <th>수량</th>
                         <th>비고</th>
                     </tr>

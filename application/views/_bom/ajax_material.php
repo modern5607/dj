@@ -16,7 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td colspan="3"><input type="text" name="COMPONENT" value="<?php echo (!empty($materialInfo)?$materialInfo->COMPONENT:"");?>" class="form_input input_100" /></td>
 				</tr>
 				<tr>
-					<th class="w120">품명</th>
+					<th class="w120">품목</th>
 					<td colspan="3"><input type="text" name="COMPONENT_NM" value="<?php echo (!empty($materialInfo)?$materialInfo->COMPONENT_NM:"");?>" class="form_input input_100" /></td>
 				</tr>
 				<tr>
