@@ -138,7 +138,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 $num = $i+1;
                                 if($row->SE_NAME == "합계"){?>
                             <tr style="background:#f3f8fd;">
-                                <td colspan="3" class="right"><strong>합계</strong></td>
+                                <td colspan="4" class="right"><strong>합계</strong></td>
                                 <td></td>
                                 <td></td>
                                 <td class="right"><?=number_format($row->QTY)?></td>
