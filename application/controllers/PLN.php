@@ -343,6 +343,7 @@ class PLN extends CI_Controller {
 		$params['END_YN'] = "N";
 		$params['INSERT_ID']   = $this->session->userdata('user_id');
 		$params['INSERT_DATE'] = date("Y-m-d H:i:s",time());
+		$params['mod'] = $mod;
 
 		$num = $this->pln_model->ajax_plnHead_insert($params);
 		if($num > 0){
@@ -367,17 +368,26 @@ class PLN extends CI_Controller {
 
 	public function ajax_plnHead_update()
 	{
-		$params['IDX'] = $this->input->post("IDX");
-		$params['ACT_DATE'] = $this->input->post("ACT_DATE");
-		$params['BIZ_IDX'] = $this->input->post("CUST");
-		$params['ACT_NAME'] = $this->input->post("ACT_NAME");
-		$params['DEL_DATE'] = $this->input->post("DEL_DATE");
-		$params['REMARK'] = $this->input->post("REMARK");
-		$params['ORD_TEXT'] = $this->input->post("ORD_TEXT");
-		$params['UPDATE_ID']   = $this->session->userdata('user_id');
-		$params['UPDATE_DATE'] = date("Y-m-d H:i:s",time());
+		$params['IDX'] 			= $this->input->post("IDX");
+		$params['ACT_DATE'] 	= $this->input->post("ACT_DATE");
+		$params['BIZ_IDX'] 		= $this->input->post("CUST");
+		$params['ACT_NAME'] 	= $this->input->post("ACT_NAME");
+		$params['DEL_DATE'] 	= $this->input->post("DEL_DATE");
+		$params['REMARK']		= $this->input->post("REMARK");
+		$params['ORD_TEXT'] 	= $this->input->post("ORD_TEXT");
+		$params['UPDATE_ID']   	= $this->session->userdata('user_id');
+		$params['UPDATE_DATE'] 	= date("Y-m-d H:i:s",time());
 
-		$this->pln_model->ajax_plnHead_insert($params);
+		$num = $this->pln_model->ajax_plnHead_update($params);
+		if($num > 0){
+			$data['status'] = "ok";
+			$data['msg'] = "수주가 변경되었습니다.";
+		}else{
+			$data['status'] = "";
+			$data['msg'] = "수주등록에 실패했습니다. 관리자에게 문의하세요";
+		}
+
+		echo json_encode($data);
 
 	}
 

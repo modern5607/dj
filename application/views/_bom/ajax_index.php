@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td colspan="3"><input type="text" name="BL_NO" value="<?php echo (!empty($bomInfo)?$bomInfo->BL_NO:"");?>" class="form_input input_100" /></td>
 				</tr>
 				<tr>
-					<th class="w120">품명<span class="re"></span></th>
+					<th class="w120">품목<span class="re"></span></th>
 					<td colspan="3"><input type="text" name="ITEM_NAME" value="<?php echo (!empty($bomInfo)?$bomInfo->ITEM_NAME:"");?>" class="form_input input_100" /></td>
 				</tr>
 				<tr>

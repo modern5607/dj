@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		?>
 		</select>
 
-		<label for="v2">품목</label>
+		<label for="v2">품명</label>
 		<input type="text"autocomplete="off" name="v2" id="v2" value="<?php echo $str['v2']?>">
 
 		<label for="component_nm">자재명</label>
@@ -48,8 +48,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<thead>
 					<tr>
 						<th>No</th>
-						<th>일자</th>
-						<th>품목</th>
+						<th>자재출고일</th>
+						<th>품명</th>
 						<th>수량</th>
 						<th>자재명</th>
 						<th>출고량</th>
