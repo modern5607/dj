@@ -70,12 +70,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$count=0;
 					$countin=0;
 					$countsum=0;
+					$remark=0;
 				foreach($List as $i=>$row){ 
 					$no = $pageNum+$i+1;
 					$sumqty = $row->QT2+$row->QT3+$row->QT4;
-					$count += $row->QTY;
-					$countin += $row->IN_QTY;
-					$countsum += $row->QT2+$row->QT3+$row->QT4;
+					if($row->ACT_DATE == "합계"){
+						$count = $row->QTY;
+						$countin = $row->IN_QTY;
+						$countsum = $sumqty;
+						$remark = $row->DEL_DATE;
+					}else{
 				?>
 				<tr>
 					<td class="cen"><?php echo $no;?></td>
@@ -90,16 +94,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="cen"><?php echo $row->SB_DATE; ?></td>
 					<td class="cen"><?php echo $row->CG_DATE; ?></td>
 				</tr>
-						
-
 				<?php
-				}
+				}}
 				?>
 				<tr style="background:#f3f8fd;">
-					<td colspan="4" style="text-align:right;"><strong>총 합계</strong></td>
+					<td colspan="2" style="text-align:right;"><strong>총 수량</strong></td>
+					<td class="right"><strong><?php echo number_format($remark); ?></strong></td>
+					<td colspan="" style="text-align:right;"><strong>총 합계</strong></td>
 					<td class="right"><strong><?php echo number_format($count); ?></strong></td>
-					<td class="right"><?php echo number_format($countin); ?></td>
-					<td class="right"><?php echo number_format($countsum); ?></td>
+					<td class="right"><strong><?php echo number_format($countin); ?></strong></td>
+					<td class="right"><strong><?php echo number_format($countsum); ?></strong></td>
 					<td colspan="4" class="right"></td>
 				</tr>
 				<?php

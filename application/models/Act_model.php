@@ -121,7 +121,7 @@ SQL;
 		$this->db->limit($limit,$start);
 		$query = $this->db->get("t_items_trans");
 
-		
+		// echo $this->db->Last_query();
 		return $query->result();
 	}
 
@@ -195,7 +195,7 @@ SQL;
 				{$where}
 			UNION
 			SELECT
-				'',
+				COUNT(B.ITEM_NAME),
 				'합계' AS TEXT,
 				'',
 				SUM(A.IN_QTY),
@@ -668,6 +668,8 @@ SQL;
 		}
 
 		$sql=<<<SQL
+		SELECT AA.* FROM
+			(
 			SELECT
 				TAH.ACT_DATE, TA.ITEM_NM, TA.QTY, TIT.IN_QTY, TIT.`2_QTY` as QT2, TIT.`3_QTY` as QT3, TIT.`4_QTY` as QT4,	DATE_FORMAT(TAH.DEL_DATE, '%Y-%m-%d') as DEL_DATE, TIT.CU_DATE, TIT.SB_DATE, TIT.CG_DATE, TS.COLOR
 			FROM
@@ -681,10 +683,20 @@ SQL;
 			ORDER BY
 				 TAH.ACT_DATE DESC, TA.ITEM_NM ASC, TS.COLOR ASC
 			LIMIT
-				{$start}, {$limit}
+				{$start}, {$limit} ) AS AA
+				UNION ALL
+		SELECT '합계','',SUM(TA.QTY),SUM(TIT.IN_QTY),SUM(TIT.2_QTY),SUM(TIT.3_QTY),SUM(TIT.4_QTY),COUNT(ITEM_NM),'','','',''
+		FROM
+			T_ACT_D AS TA
+			LEFT JOIN T_ACT_H AS TAH ON ( TAH.IDX = TA.H_IDX )
+			LEFT JOIN T_INVENTORY_TRANS AS TIT ON ( TIT.ACT_D_IDX = TA.IDX )
+			LEFT JOIN T_SERIES_D AS TS ON ( TS.IDX = TA.SERIESD_IDX ) 
+		WHERE
+			1
+			{$where}
 SQL;
 		$query = $this->db->query($sql);
-		
+		echo $this->db->Last_query();
 		return $query->result();
 
 	}

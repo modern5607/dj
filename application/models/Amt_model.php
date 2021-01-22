@@ -93,12 +93,14 @@ class Amt_model extends CI_Model {
 				) as AA
 			
 			UNION
-			SELECT '','합계' AS TEXT,B.COMPONENT_NM, '' UNIT, SUM(IN_QTY) IN_QTY,'' 
+			SELECT COUNT(B.COMPONENT_NM),'합계' AS TEXT,B.COMPONENT_NM, '' UNIT, SUM(IN_QTY) IN_QTY,'' 
 			FROM 
-				T_COMPONENT_TRANS A, T_COMPONENT B
-			WHERE A.COMP_IDX = B.IDX
-			AND A.KIND = 'IN'
-			{$where}
+			djsmart.T_COMPONENT_TRANS A, 
+			djsmart.T_COMPONENT B
+			WHERE 
+				A.COMP_IDX = B.IDX AND
+				A.KIND = 'IN'
+				{$where}
 			GROUP BY COMP_IDX
 SQL;
 
@@ -111,7 +113,7 @@ SQL;
 		//$this->db->order_by("A.TRANS_DATE ASC");
 		//$this->db->limit($limit,$start);
 		$query = $this->db->query($sql);
-		
+		//echo $this->db->Last_query();
 		return $query->result();
 	}
 
@@ -237,7 +239,7 @@ SQL;
 					ORDER BY A.TRANS_DATE DESC
 				) as AA
 			UNION ALL
-			SELECT '','합계' AS TEXT,B.COMPONENT_NM, B.UNIT, SUM(OUT_QTY) OUT_QTY,'','',SUM(A.COL1)
+			SELECT COUNT(TI.ITEM_NAME),'합계' AS TEXT,B.COMPONENT_NM, B.UNIT, SUM(OUT_QTY) OUT_QTY,'','',SUM(A.COL1)
 			FROM 
 				T_COMPONENT_TRANS A, T_COMPONENT B,T_ITEMS TI
 			WHERE A.COMP_IDX = B.IDX
@@ -256,7 +258,7 @@ SQL;
 		//$this->db->order_by("A.TRANS_DATE ASC");
 		//$this->db->limit($limit,$start);
 		$query = $this->db->query($sql);
-		
+		 //echo $this->db->Last_query();
 		return $query->result();
 	}
 

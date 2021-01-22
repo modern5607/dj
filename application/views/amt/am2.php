@@ -48,10 +48,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php 
 				if(!empty($List)){
 				$count=0;
+				$remark=0;
 				foreach($List as $i=>$row){ 
 					$no = $i+1; 
 					if($row->CUST_NM == "합계"){
 						$count += $row->IN_QTY;
+						$remark += $row->TRANS_DATE;
 					}else{
 				?>
 				<tr>
@@ -68,7 +70,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}
 				?>
 				<tr style="background:#f3f8fd;">
-					<td colspan="4" style="text-align:right;"><strong>총 합계</strong></td>
+					<td colspan="2" style="text-align:right;"><strong>총 수량</strong></td>
+					<td class="right"><strong><?php echo number_format($remark); ?></strong></td>
+					<td colspan="1" style="text-align:right;"><strong>총 합계</strong></td>
 					<!-- <td class="cen"><?php echo $row->COMPONENT_NM; ?></td> -->
 					<td class="right"><strong><?php echo number_format($count); ?></strong></td>
 					<td class="cen">KG</td>

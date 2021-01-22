@@ -95,13 +95,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</tr>
 					</thead>
 					<tbody>
-					<?php $totalQty = 0;?>
 					<?php if(!empty($RList)){ ?>
 					<?php
 					$totalQty = 0;
+					$count = 0;
 					foreach($RList as $i=>$row){
 						$num = $i+1;
+						if($row->SERIES_NM == "합계"){
 						$totalQty += $row->IN_QTY;
+						$count += $row->TRANS_IDX;
+						}else{
 					?>
 					
 
@@ -117,7 +120,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							data-shqty="<?php echo $row->SH_QTY; ?>">삭제</span></td>
 						</tr>
 
-					<?php
+					<?php }
 					}
 					}
 					if(empty($RList)){
@@ -126,7 +129,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php }else{
 						?>
 						<tr style="background:#f3f8fd;">
-							<td colspan="3" style="text-align:right"><strong>총 합계</strong></td>
+							<td colspan="1" style="text-align:right"><strong>총 수량</strong></td>
+							<td style="text-align:right"><?php echo number_format($count);?></td>
+							<td colspan="1" style="text-align:right"><strong>총 합계</strong></td>
 							<td style="text-align:right"><?php echo number_format($totalQty);?></td>
 							<td colspan="2"></td>
 						</tr>
