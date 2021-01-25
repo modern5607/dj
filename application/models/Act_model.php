@@ -157,17 +157,17 @@ SQL;
 		// $this->db->join("t_series_h as H","H.IDX = B.SERIES_IDX","LEFT");
 		
 		if(!empty($param['V1']) && $param['V1'] != ""){
-			$where .= "AND B.SERIES_IDX={$param['V1']}";
+			$where .= " AND B.SERIES_IDX={$param['V1']}";
 		}
 		if(!empty($param['COMPONENT']) && $param['COMPONENT'] != ""){
-			$where .= "AND B.ITEM_NO LIKE '%{$param['COMPONENT']}%'";
+			$where .= " AND B.ITEM_NO LIKE '%{$param['COMPONENT']}%'";
 		}
 
 		if(!empty($param['COMPONENT_NM']) && $param['COMPONENT_NM'] != ""){
-			$where .= "AND B.ITEM_NAME LIKE '%{$param['COMPONENT_NM']}%'";
+			$where .= " AND B.ITEM_NAME LIKE '%{$param['COMPONENT_NM']}%'";
 		}
 		if($date != ""){
-			$where .= "AND A.TRANS_DATE = '{$date}'";
+			$where .= " AND A.TRANS_DATE = '{$date}'";
 		}
 		
 		if(!empty($param['BK'])){
@@ -176,7 +176,7 @@ SQL;
 			$GJGB = $param['GJGB'];
 		}
 
-		$where .="AND GJ_GB = '{$GJGB}'";
+		$where .=" AND GJ_GB = '{$GJGB}'";
 
 		$sql=<<<SQL
 			SELECT
@@ -782,27 +782,41 @@ SQL;
 		
 
 		$sql=<<<SQL
+			SELECT AA.* FROM(
 			SELECT
 				TAH.ACT_DATE, TA.ITEM_NM, TA.QTY, TIT.IN_QTY, TIT.`1_QTY` as QT1, TIT.`2_QTY` as QT2, TIT.`3_QTY` as QT3, TIT.`4_QTY` as QT4,	DATE_FORMAT(TAH.DEL_DATE, '%Y-%m-%d') as DEL_DATE, TIT.CU_DATE, TIT.SB_DATE, TIT.CG_DATE, TS.COLOR, TA.END_YN, TA.REMARK,
-				TBR.CUST_NM as BIZ_NAME, TIT.IDX, TIT.RECYCLE,
-				(SELECT B.QTY FROM T_ITEM_STOCK as B WHERE B.ITEM_IDX = TA.ITEMS_IDX AND B.SERIESD_IDX = TA.SERIESD_IDX) as XQTY
+				TBR.CUST_NM as BIZ_NAME, TIT.IDX, TIT.RECYCLE, B.QTY  as XQTY
 			FROM
 				T_ACT_D as TA
 				LEFT JOIN T_ACT_H as TAH ON(TAH.IDX = TA.H_IDX)
 				LEFT JOIN T_INVENTORY_TRANS as TIT ON(TIT.ACT_D_IDX = TA.IDX)
 				LEFT JOIN T_SERIES_D as TS ON(TS.IDX = TA.SERIESD_IDX)
 				LEFT JOIN T_BIZ_REG as TBR ON(TBR.IDX = TAH.BIZ_IDX)
+				LEFT JOIN T_ITEM_STOCK as B ON( B.ITEM_IDX = TA.ITEMS_IDX AND B.SERIESD_IDX = TA.SERIESD_IDX)
 			WHERE
 				1
 				{$where}
 			ORDER BY ACT_DATE DESC
 			LIMIT
 				{$start}, {$limit}
-
+			) AS AA
+			UNION
+			SELECT
+				COUNT(ITEM_NM),'합계',SUM(TA.QTY),SUM(IN_QTY),SUM(1_QTY),SUM(2_QTY),SUM(3_QTY),SUM(4_QTY),'','','','','','','','','','',SUM(B.QTY)
+				FROM
+				T_ACT_D as TA
+				LEFT JOIN T_ACT_H as TAH ON(TAH.IDX = TA.H_IDX)
+				LEFT JOIN T_INVENTORY_TRANS as TIT ON(TIT.ACT_D_IDX = TA.IDX)
+				LEFT JOIN T_SERIES_D as TS ON(TS.IDX = TA.SERIESD_IDX)
+				LEFT JOIN T_BIZ_REG as TBR ON(TBR.IDX = TAH.BIZ_IDX)
+				LEFT JOIN T_ITEM_STOCK as B ON( B.ITEM_IDX = TA.ITEMS_IDX AND B.SERIESD_IDX = TA.SERIESD_IDX)
+			WHERE
+				1
+				{$where}
 SQL;
 		
 		$query = $this->db->query($sql);
-		echo $this->db->last_query();
+		// echo $this->db->last_query();
 		
 		return $query->result();
 
@@ -1185,23 +1199,23 @@ SQL;
 		$data['JH_QTY'] = $query->row()->JH_QTY;
 		$data['ITEM_NAME'] = $query->row()->ITEM_NAME;
 		if($code != ""){
-		$where.= "AND A.ITEMS_IDX = '{$code}'";
+		$where.= " AND A.ITEMS_IDX = '{$code}'";
 		}
 
-		$where.="AND (A.END_YN <> 'Y' OR A.END_YN IS NULL)";
-		$where.="AND (A.SIU_YN <> 'Y' OR A.END_YN IS NULL)";
+		$where.=" AND (A.END_YN <> 'Y' OR A.END_YN IS NULL)";
+		$where.=" AND (A.SIU_YN <> 'Y' OR A.END_YN IS NULL)";
 
 		
 		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
-			$where .= "AND C.ACT_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'";
+			$where .= " AND C.ACT_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'";
 		}
 		
 		if(!empty($param['V1']) && $param['V1'] != ""){
-			$where .= "AND C.BIZ_IDX = {$param['V1']}";
+			$where .= " AND C.BIZ_IDX = {$param['V1']}";
 		}
 
 		if(!empty($param['V2']) && $param['V2'] != ""){
-			$where .= "AND B.SERIES_IDX = {$param['V2']}";
+			$where .= " AND B.SERIES_IDX = {$param['V2']}";
 		}
 
 		$sql=<<<SQL

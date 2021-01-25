@@ -69,7 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<!-- <label for="component_stock">자재재고량</label> -->
 						<input style="text-align: right" type="hidden" name="XQTY" id="XQTY" readonly value="<?php if(!empty($detail)){ echo round($detail['STOCK']); }?>">	
 					</div>
-					
+					<span class="btn_right"><label style="font-size: 20px; padding-right:20px;"><?=$detpos?></label></span>
 					<span class="btni btn_right add_compnum" style="max-height:34px;"><span class="material-icons">add</span></span>	
 				</div>
 			</div>
@@ -93,6 +93,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					foreach($RList as $i=>$row){
 						$num = $pageNum+$i+1;
+						if($row->COMPONENT == "합계"){
+							$count = $row->IN_QTY;
+						}else{
 					?>
 
 						<tr>
@@ -105,9 +108,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</tr>
 
 					<?php
-					}
-					}
-					if(empty($RList)){
+					}}
+					?>
+						<tr style="background:#f3f8fd;">
+							<td colspan="3" style="text-align:right;"><strong>총 합계</strong></td>
+							<td class="right"><strong><?php echo number_format($count); ?></strong></td>
+							<td class="cen">KG</td>
+							<td class="cen"></td>
+						</tr>
+					<?php
+					}else{
 					?>
 						<tr><td colspan="15" style='color:#999; padding:40px 0;'>등록된 자재수량정보가 없습니다.</td></tr>
 					<?php } ?>

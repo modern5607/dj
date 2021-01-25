@@ -10,7 +10,8 @@ class PO extends CI_Controller {
 		parent::__construct();
 
 		$this->data['pos'] = $this->uri->segment(1);
-        $this->data['subpos'] = $this->uri->segment(2);
+		$this->data['subpos'] = $this->uri->segment(2);
+		$this->data['detpos'] = $this->uri->segment(3);
 		
 		$this->load->helper('test');
 		$this->load->model(array('pln_model','main_model','amt_model'));

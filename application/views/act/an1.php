@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$yn = ($row->END_YN <> "Y")?"N":"Y";
 					$xxqty = (($row->XQTY-$row->QTY) > 0)?$row->XQTY-$row->QTY:0;
 					$ax1 = ($row->SB_DATE != "")?"Y":"N";
-					
+					if($row->ITEM_NM != "합계"){
 				?>
 				<tr>
 					<td class="cen"><?php echo $no;?></td>
@@ -89,7 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						
 
 				<?php
-				}
+				}}
 				}else{
 				
 				?>

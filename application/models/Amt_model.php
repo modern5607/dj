@@ -155,27 +155,42 @@ SQL;
 
 	public function component_trans_numlist($date='',$param)
 	{
-		$this->db->select("B.*,A.IDX as AIDX, A.IN_QTY");
-		$this->db->from("t_component_trans as A");
-		$this->db->join("t_component as B","B.IDX = A.COMP_IDX");
-		$this->db->where("KIND","IN");
-		$this->db->order_by("TRANS_DATE", "DESC");
-		
+		$where="";
 		if(!empty($param['COMPONENT']) && $param['COMPONENT'] != ""){
-			$this->db->like("B.COMPONENT",$param['COMPONENT']);
+			$where .= " AND B.COMPONENT LIKE '%{$param['COMPONENT']}%'";
 		}
-
 		if(!empty($param['COMPONENT_NM']) && $param['COMPONENT_NM'] != ""){
-			$this->db->like("B.COMPONENT_NM",$param['COMPONENT_NM']);
+			$where .= " AND B.COMPONENT_NM LIKE '%{$param['COMPONENT_NM']}%'";
 		}
-
 		if($date != ""){
-			$this->db->where("A.TRANS_DATE",$date);
+			$where .= " AND A.TRANS_DATE = '{$date}'";
 		}
-		$query = $this->db->get();
 
+		$sql=<<<SQL
+			SELECT 
+			B.COMPONENT,
+			B.COMPONENT_NM,
+			A.IDX AS AIDX,
+			B.UNIT,
+			A.IN_QTY
+		FROM
+			t_component_trans AS A
+		JOIN t_component AS B ON B.IDX = A.COMP_IDX 
+		WHERE
+			KIND = 'IN' 
+			{$where}
+		UNION
+		SELECT
+			'합계','','',COUNT(COMPONENT_NM),SUM(IN_QTY)
+		FROM
+			t_component_trans AS A
+			JOIN t_component AS B ON B.IDX = A.COMP_IDX 
+		WHERE
+			KIND = 'IN' 
+			{$where}
+SQL;
+		$query = $this->db->query($sql);
 		//echo $this->db->Last_query();
-		
 		return $query->result();
 	}
 
