@@ -10,8 +10,8 @@ class Biz_model extends CI_Model {
 
 
 
-	/* ��ü ����Ʈ */
-	public function get_bizReg_list($param)
+	/* 업체관리 */
+	public function get_bizReg_list($param,$start=0,$limit=20)
 	{
 		if(!empty($param['CUST_NM']) && $param['CUST_NM'] != ""){
 			$this->db->like("CUST_NM",$param['CUST_NM']);
@@ -26,9 +26,32 @@ class Biz_model extends CI_Model {
 			$this->db->like("CUST_TYPE",$param['CUST_TYPE']);
 		}
 
+		$this->db->limit($limit,$start);
 		$res = $this->db->get("T_BIZ_REG");
+		// echo $this->db->last_query();
+		
 		return $res->result();
 
+	}
+
+	public function get_bizReg_list_cut($param)
+	{
+		if(!empty($param['CUST_NM']) && $param['CUST_NM'] != ""){
+			$this->db->like("CUST_NM",$param['CUST_NM']);
+		}
+		if(!empty($param['ADDRESS']) && $param['ADDRESS'] != ""){
+			$this->db->like("ADDRESS",$param['ADDRESS']);
+		}
+		if(!empty($param['CUST_NAME']) && $param['CUST_NAME'] != ""){
+			$this->db->like("CUST_NAME",$param['CUST_NAME']);
+		}
+		if(!empty($param['CUST_TYPE']) && $param['CUST_TYPE'] != ""){
+			$this->db->like("CUST_TYPE",$param['CUST_TYPE']);
+		}
+		$this->db->select("COUNT(*) as CUT");
+		$res = $this->db->get("T_BIZ_REG");
+		// echo $this->db->last_query();
+		return $res->row()->CUT;
 	}
 
 	

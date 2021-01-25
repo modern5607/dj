@@ -211,8 +211,6 @@ class MDM extends CI_Controller {
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
         $config['total_rows'] = $this->data['cnt'];
-
-
 		$config['full_tag_open'] = "<ul class='pagination'>";
 		$config['full_tag_close'] = '</ul>';
 		$config['num_tag_open'] = '<li>';
@@ -231,8 +229,6 @@ class MDM extends CI_Controller {
 		$config['next_link'] = 'Next Page<i class="fa fa-long-arrow-right"></i>';
 		$config['next_tag_open'] = '<li>';
 		$config['next_tag_close'] = '</li>';
-
-
 		$this->pagination->initialize($config);
         $this->data['pagenation'] = $this->pagination->create_links();
 
@@ -273,7 +269,49 @@ class MDM extends CI_Controller {
 
 
 		$data['title'] = "업체등록";
-		$data['bizList']   = $this->biz_model->get_bizReg_list($params); 
+		
+		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
+		
+		//PAGINATION
+		$config['per_page'] = $data['perpage'];
+		$config['page_query_string'] = true;
+		$config['query_string_segment'] = "pageNum";
+		$config['reuse_query_string'] = TRUE;
+
+        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+        //$start = $config['per_page'] * ($pageNum - 1);
+		
+		$start = $pageNum;
+		$data['pageNum'] = $start;
+		$data['bizList']   = $this->biz_model->get_bizReg_list($params,$start,$config['per_page']); 
+		$this->data['cnt'] = $this->biz_model->get_bizReg_list_cut($params);
+		echo $this->data['cnt'];
+		/* pagenation start */
+
+		$this->load->library("pagination");
+		$config['base_url'] = base_url(uri_string());
+        $config['total_rows'] = $this->data['cnt'];
+		$config['full_tag_open'] = "<ul class='pagination'>";
+		$config['full_tag_close'] = '</ul>';
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li class="active"><a href="#">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		$config['prev_link'] = '<i class="fa fa-long-arrow-left"></i>Previous Page';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+		$config['next_link'] = 'Next Page<i class="fa fa-long-arrow-right"></i>';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		$this->pagination->initialize($config);
+		$this->data['pagenation'] = $this->pagination->create_links();
+		
 		$this->load->view('/biz/index',$data);
 	}
 	

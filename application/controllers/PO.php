@@ -234,7 +234,6 @@ class PO extends CI_Controller {
 		$data['List'] = $this->amt_model->component_trans_am2list($params,$start,$config['per_page']);
 		$this->data['cnt'] = $this->amt_model->component_trans_cnt($params);
 		
-		
 		/* pagenation start */
 
 		$this->load->library("pagination");

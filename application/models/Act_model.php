@@ -67,7 +67,7 @@ SQL;
 	$query = $this->db->query($sql);
 
 
-	echo $this->db->last_query();
+	// echo $this->db->last_query();
 		return $query->result();
 		
 	}
@@ -1495,6 +1495,70 @@ SQL;
 
 
 	public function act_a102_list($param,$start=0,$limit=20)
+	{
+		$this->db->query('SET SESSION sql_mode = ""');
+
+		$where = '';
+		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
+			$where .= " AND A.CU_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'";
+		}
+
+		if(!empty($param['V1']) && $param['V1'] != ""){
+			$where .= " AND D.SERIES_IDX = '{$param['V1']}'";
+		}
+
+		if(!empty($param['V2']) && $param['V2'] != ""){
+			$where .= " AND B.ITEM_NM LIKE '%{$param['V2']}%'";
+		}
+
+		if(!empty($param['V3']) && $param['V3'] != ""){
+			$where .= " AND D.COLOR = '{$param['V3']}'";
+		}
+
+
+		$sql=<<<SQL
+			SELECT 
+				AA.*, H.SERIES_NM
+			FROM 
+				(
+					SELECT
+						A.CU_DATE,
+						B.ITEM_NM,
+						D.COLOR,
+						B.QTY,
+						A.IN_QTY,
+						A.REMARK,
+						D.SERIES_IDX
+					FROM
+						T_INVENTORY_TRANS A
+						LEFT JOIN T_ACT_D as B ON(B.IDX = A.ACT_D_IDX)
+						LEFT JOIN T_ACT_H as C ON(C.IDX = A.ACT_IDX)
+						LEFT JOIN T_SERIES_D as D ON(D.IDX = A.SERIESD_IDX)
+					WHERE
+						A.KIND = 'IN' AND
+						A.GJ_GB = 'CU'
+						{$where}
+					ORDER BY C.ACT_DATE DESC
+				) as AA
+			LEFT JOIN `t_series_h` as `H` ON `H`.`IDX` = `AA`.`SERIES_IDX`
+			UNION
+			SELECT '합계' AS TEXT, B.ITEM_NM, D.COLOR, SUM(B.QTY) as QTY, SUM(A.IN_QTY) as IN_QTY,'','',''
+			FROM 
+				T_INVENTORY_TRANS A
+				LEFT JOIN T_ACT_D as B ON(B.IDX = A.ACT_D_IDX)
+				LEFT JOIN T_ACT_H as C ON(C.IDX = A.ACT_IDX)
+				LEFT JOIN T_SERIES_D as D ON(D.IDX = A.SERIESD_IDX)
+			WHERE 
+				A.KIND = 'IN' AND
+				A.GJ_GB = 'CU'
+				{$where}
+SQL;
+		$query = $this->db->query($sql);
+		echo $this->db->last_query();
+		
+		return $query->result();
+	}
+	public function act_a102_cut($param,$start=0,$limit=20)
 	{
 		$this->db->query('SET SESSION sql_mode = ""');
 
