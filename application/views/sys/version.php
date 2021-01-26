@@ -95,13 +95,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<tr>
 										<th><label class="l_id">버전</label></th>
 										<td>
-											<input type="text" name="VER_NO" class="form_input input_100" id="VER_NO" value="">
+											<input type="text" name="VER_NO" class="form_input input_100" id="VER_NO" value="" autocomplete="off">
 										</td>
 									</tr>
 									<tr>
 										<th><label class="l_id">비고</label></th>
 										<td>
-											<textarea name="VER_REMARK" id="VER_REMARK" class="form_input input_100"></textarea>
+											<textarea name="VER_REMARK" id="VER_REMARK" class="form_input input_100" autocomplete="off"></textarea>
 										</td>
 									</tr>
 									
