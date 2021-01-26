@@ -75,9 +75,9 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '127.0.0.1',  //'221.144.12.7',
-	'username' => 'root',
-	'password' => '12345678',
+	'hostname' => '221.144.12.7',  //'221.144.12.7',
+	'username' => 'djsmart',
+	'password' => 'intertech3',
 	'database' => 'djsmart',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',

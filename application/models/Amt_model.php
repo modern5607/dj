@@ -247,17 +247,8 @@ SQL;
 			{$where}
 			GROUP BY COMP_IDX
 SQL;
-
-		
-		//$subquery1 = "(SELECT C.CUST_NM FROM t_biz_reg as C WHERE C.IDX = A.BIZ_IDX) as CUST_NM";
-
-		//$this->db->select("A.TRANS_DATE,{$subquery1}, B.COMPONENT_NM, B.UNIT, A.IN_QTY, A.REMARK");
-		//$this->db->from("t_component_trans as A");
-		//$this->db->join("t_component as B","B.IDX = A.COMP_IDX");
-		//$this->db->order_by("A.TRANS_DATE ASC");
-		//$this->db->limit($limit,$start);
 		$query = $this->db->query($sql);
-		 //echo $this->db->Last_query();
+		//  echo $this->db->Last_query();
 		return $query->result();
 	}
 
@@ -275,20 +266,32 @@ SQL;
 		if(!empty($param['COMPONENT_NM']) && $param['COMPONENT_NM'] != ""){
 			$where .= " AND B.COMPONENT_NM LIKE '%{$param['COMPONENT_NM']}%'";
 		}
+		if(!empty($param['V1']) && $param['V1'] != ""){
+			$where .= " AND TI.SERIES_IDX = '{$param['V1']}'";
+		}
+
+		if(!empty($param['V2']) && $param['V2'] != ""){
+			$where .= " AND TI.ITEM_NAME LIKE '%{$param['V2']}%'";
+		}
 
 
 
 		$sql=<<<SQL
 			SELECT 
-				COUNT(A.IDX) as CUT
+				COUNT(*) AS CUT
 			FROM 
 				T_COMPONENT_TRANS A,
-				T_COMPONENT B
-			WHERE A.COMP_IDX = B.IDX
-			AND A.KIND = 'OUT'
-			{$where}
+				T_COMPONENT B,
+				T_ITEMS TI 
+			WHERE 
+				A.COMP_IDX = B.IDX
+				AND TI.IDX = A.ITEM_IDX 
+				AND A.KIND = 'OUT'
+				{$where}
 SQL;
 		$query = $this->db->query($sql);
+		echo $this->db->last_query();
+		
 		return $query->row()->CUT;
 
 	}

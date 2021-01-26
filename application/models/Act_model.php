@@ -147,7 +147,7 @@ SQL;
 		return $query->row()->CUT;
 	}
 
-	/* 정형실적 오른쪽 리스트 */
+	/* 성형실적,정형실적 오른쪽 리스트 */
 	public function item_trans_numlist($date='',$param)
 	{
 		$where='';
@@ -213,7 +213,7 @@ SQL;
 
 
 		$query = $this->db->query($sql);
-		ECHO $this->db->last_query();
+		// ECHO $this->db->last_query();
 		return $query->result();
 	}
 
@@ -268,6 +268,8 @@ SQL;
 
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
+		// echo $this->db->last_query();
+		
 		return $query->result();
 	}
 	
@@ -298,7 +300,7 @@ SQL;
 
 		//$this->db->group_by("B.H_IDX");
 		$query = $this->db->get();
-		
+		echo $query->row()->CNT;
 		return $query->row()->CNT;
 	}
 
@@ -593,7 +595,7 @@ SQL;
 			
 SQL;
 		$query = $this->db->query($sql);
-		ECHO $this->db->last_query();
+		// ECHO $this->db->last_query();
 		return $query->result();
 	}
 
@@ -696,7 +698,7 @@ SQL;
 			{$where}
 SQL;
 		$query = $this->db->query($sql);
-		echo $this->db->Last_query();
+		// echo $this->db->Last_query();
 		return $query->result();
 
 	}
@@ -802,7 +804,7 @@ SQL;
 SQL;
 		
 		$query = $this->db->query($sql);
-		echo $this->db->last_query();
+		// echo $this->db->last_query();
 		
 		return $query->result();
 
@@ -955,7 +957,7 @@ SQL;
 				{$start},{$limit}
 SQL;
 		$query = $this->db->query($sql);
-		 echo $this->db->last_query();
+		//  echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -1247,7 +1249,7 @@ SQL;
 		
 
 		//$query = $this->db->get();
-		echo $this->db->last_query();
+		// echo $this->db->last_query();
 		$data['SLIST'] = $query->result();
 
 		return $data;
@@ -1539,10 +1541,19 @@ SQL;
 						A.GJ_GB = 'CU'
 						{$where}
 					ORDER BY C.ACT_DATE DESC
-				) as AA
-			LEFT JOIN `t_series_h` as `H` ON `H`.`IDX` = `AA`.`SERIES_IDX`
+					LIMIT {$start},{$limit}
+				) as AA LEFT JOIN `t_series_h` as `H` ON `H`.`IDX` = `AA`.`SERIES_IDX`
+			
 			UNION
-			SELECT '합계' AS TEXT, B.ITEM_NM, D.COLOR, SUM(B.QTY) as QTY, SUM(A.IN_QTY) as IN_QTY,'','',''
+			SELECT 
+				'합계' AS TEXT,
+				'' AS ITEM_NM,
+				'' AS COLOR,
+				SUM(B.QTY) as QTY,
+			    SUM(A.IN_QTY) as IN_QTY,
+			    '',
+			    '',
+			    ''
 			FROM 
 				T_INVENTORY_TRANS A
 				LEFT JOIN T_ACT_D as B ON(B.IDX = A.ACT_D_IDX)
@@ -1554,7 +1565,7 @@ SQL;
 				{$where}
 SQL;
 		$query = $this->db->query($sql);
-		echo $this->db->last_query();
+		// echo $this->db->last_query();
 		
 		return $query->result();
 	}
@@ -1582,7 +1593,7 @@ SQL;
 
 		$sql=<<<SQL
 			SELECT 
-				AA.*, H.SERIES_NM
+				COUNT(*) AS CUT
 			FROM 
 				(
 					SELECT
@@ -1603,25 +1614,12 @@ SQL;
 						A.GJ_GB = 'CU'
 						{$where}
 					ORDER BY C.ACT_DATE DESC
-					-- LIMIT 0, 3
 				) as AA
-			LEFT JOIN `t_series_h` as `H` ON `H`.`IDX` = `AA`.`SERIES_IDX`
-			UNION
-			SELECT '합계' AS TEXT, B.ITEM_NM, D.COLOR, SUM(B.QTY) as QTY, SUM(A.IN_QTY) as IN_QTY,'','',''
-			FROM 
-				T_INVENTORY_TRANS A
-				LEFT JOIN T_ACT_D as B ON(B.IDX = A.ACT_D_IDX)
-				LEFT JOIN T_ACT_H as C ON(C.IDX = A.ACT_IDX)
-				LEFT JOIN T_SERIES_D as D ON(D.IDX = A.SERIESD_IDX)
-			WHERE 
-				A.KIND = 'IN' AND
-				A.GJ_GB = 'CU'
-				{$where}
-			GROUP BY A.ITEMS_IDX
-			-- LIMIT 0, 5 1111
+			
 SQL;
 		$query = $this->db->query($sql);
-		return $query->result();
+		// echo $query->row()->CUT;
+		return $query->row()->CUT;
 	}
 
 	public function get_inventory_info($IDX)
@@ -1965,12 +1963,14 @@ SQL;
 					WHERE
 						1
 						{$where}
+					LIMIT {$start},{$limit}
 				) as AA
 			
 			UNION
 			SELECT 
-				'',
-				'합계' AS TEXT,C.ITEM_NM, 
+				'' AS ACT_DATE,
+				'합계' AS ITEM_NM,
+				'' AS COLOR,
 				SUM(C.QTY) as QTY,
 				SUM(A.IN_QTY) as IN_QTY,
 				SUM(A.`1_QTY`) as QTY1,
@@ -1989,21 +1989,70 @@ SQL;
 			ORDER BY ACT_DATE DESC
 SQL;
 
-			
-
-		
-		//$subquery1 = "(SELECT C.CUST_NM FROM t_biz_reg as C WHERE C.IDX = A.BIZ_IDX) as CUST_NM";
-
-		//$this->db->select("A.TRANS_DATE,{$subquery1}, B.COMPONENT_NM, B.UNIT, A.IN_QTY, A.REMARK");
-		//$this->db->from("t_component_trans as A");
-		//$this->db->join("t_component as B","B.IDX = A.COMP_IDX");
-		//$this->db->order_by("A.TRANS_DATE ASC");
-		//$this->db->limit($limit,$start);
 		$query = $this->db->query($sql);
+		// echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
+	public function act_a11_2_cut($param,$start=0,$limit=20)
+	{
+		
+		$this->db->query('SET SESSION sql_mode = ""');
 
+		$where = '';
+		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
+			$where .= " AND B.ACT_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'";
+		}
+
+		if(!empty($param['V1']) && $param['V1'] != ""){
+			$where .= " AND D.SERIES_IDX = '{$param['V1']}'";
+		}
+
+		if(!empty($param['V2']) && $param['V2'] != ""){
+			$where .= " AND C.ITEM_NM LIKE '%{$param['V2']}%'";
+		}
+
+		if(!empty($param['V3']) && $param['V3'] != ""){
+			$where .= " AND D.COLOR LIKE '%{$param['V3']}%'";
+		}
+
+		$where .= " AND A.GJ_GB = 'SB'";
+
+
+		$sql=<<<SQL
+			SELECT 
+				COUNT(*) AS CUT
+			FROM 
+				(
+					SELECT
+						B.ACT_DATE,
+						C.ITEM_NM,
+						D.COLOR,
+						C.QTY,
+						A.IN_QTY,
+						A.`1_QTY` as QTY1,
+						A.`2_QTY` as QTY2,
+						A.`3_QTY` as QTY3,
+						A.`4_QTY` as QTY4
+					FROM
+						T_INVENTORY_TRANS A
+						LEFT JOIN T_ACT_H as B ON(B.IDX = A.ACT_IDX)
+						LEFT JOIN T_ACT_D as C ON(C.IDX = A.ACT_D_IDX)
+						LEFT JOIN T_SERIES_D as D ON(D.IDX = A.SERIESD_IDX)
+					WHERE
+						1
+						{$where}
+				) as AA
+			
+			
+SQL;
+
+		$query = $this->db->query($sql);
+		// echo $this->db->last_query();
+		
+		return $query->row()->CUT;
+	}
 
 
 	public function print_actpln($param,$start=0,$limit=20)

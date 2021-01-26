@@ -884,7 +884,7 @@ class ACT2 extends CI_Controller {
 		
 		$data['title'] = "실적현황";
 		$data['List'] = $this->act_model->act_a102_list($params,$start,$config['per_page']);
-		$this->data['cnt'] = 0;//$this->act_model->act_a102_cut($params);
+		$this->data['cnt'] = $this->act_model->act_a102_cut($params);
 
 		
 
@@ -1207,7 +1207,7 @@ class ACT2 extends CI_Controller {
 		
 		$data['title'] = "실적현황";
 		$data['List'] = $this->act_model->act_a11_2_list($params,$start,$config['per_page']);
-		$this->data['cnt'] = 0;//$this->act_model->act_a102_cut($params);
+		$this->data['cnt'] = $this->act_model->act_a11_2_cut($params);
 		
 		
 
