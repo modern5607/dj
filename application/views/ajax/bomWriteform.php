@@ -90,7 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script>
-
+$("input").attr("autocomplete", "off");
 
 $(".search_submit").on("click",function(){
 

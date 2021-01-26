@@ -23,6 +23,11 @@ class Act_model extends CI_Model {
 			$where .= " AND TI.ITEM_NAME LIKE '%{$param['V3']}%'";
 		}
 
+		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
+			$where .=" AND TIT.TRANS_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'";
+		}
+
+
 		// if(!empty($param['V4']) && $param['V4'] != ""){
 		// 	$this->db->where("B.ITEM_NM",$param['V4']);
 		// }
@@ -50,6 +55,7 @@ class Act_model extends CI_Model {
 				WHERE
 					TI.SH_QTY > 0
 					{$where}
+				ORDER BY  TRANS_DATE DESC, ITEM_NAME, SERIES_NM
 				LIMIT {$start}, {$limit}
 			) as AA
 		UNION ALL
@@ -61,7 +67,6 @@ class Act_model extends CI_Model {
 		WHERE 
 			TI.SH_QTY > 0
 			{$where}
-		ORDER BY  TRANS_DATE DESC, ITEM_NAME, SERIES_NM
 SQL;
 
 	$query = $this->db->query($sql);
@@ -84,6 +89,10 @@ SQL;
 
 		if(!empty($param['V4']) && $param['V4'] != ""){
 			$this->db->where("B.ITEM_NM",$param['V4']);
+		}
+
+		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
+			$this->db->where(" TRANS_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'");
 		}
 
 		$this->db->select("COUNT(*) as CUT");

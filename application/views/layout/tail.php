@@ -59,8 +59,7 @@ $(".menu01_li").on("click",function(){
 });
 
 //input autocoamplete off
-$("input").attr("autocomplete", "off"); 
-
+$("input").attr("autocomplete", "off");
 //pageignation
 $(".limitset select").on("change", function() {
     var qstr = "<?php echo $qstr ?>";

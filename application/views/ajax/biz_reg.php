@@ -150,6 +150,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script>
+$("input").attr("autocomplete", "off");
 
 $(".submitBtn").on("click",function(){
 

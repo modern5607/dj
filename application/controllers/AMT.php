@@ -557,7 +557,7 @@ class AMT extends CI_Controller {
 	public function ajax_componentNum_form()
 	{
 		$data['title'] = "자재입고관리";
-		$data['CUST'] = $this->main_model->get_custlist();
+		$data['CUST'] = $this->main_model->get_buyerlist();
 		$data['COMP'] = $this->main_model->ajax_component_select();
 		
 		if($this->input->post("mode") == "mod"){

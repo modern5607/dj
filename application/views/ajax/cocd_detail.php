@@ -146,6 +146,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script>
+$("input").attr("autocomplete", "off");
 //editor 추가
 $('#REMARK').summernote({
     height:100,

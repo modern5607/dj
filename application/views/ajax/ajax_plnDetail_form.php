@@ -79,6 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
+$("input").attr("autocomplete", "off");
 
 var HIDX = "<?php echo $HIDX ?>"; //수주idx
 $("#s1").on("change",function(){

@@ -714,6 +714,13 @@ class Main_model extends CI_Model {
 		$query = $this->db->get("t_biz_reg");
 		return $query->result();
 	}
+	public function get_buyerlist()
+	{
+		$this->db->where('CUST_TYPE="buyer"');
+		$this->db->where('CUST_USE="Y"');
+		$query = $this->db->get("t_biz_reg");
+		return $query->result();
+	}
 
 
 	public function get_seriesh_select()

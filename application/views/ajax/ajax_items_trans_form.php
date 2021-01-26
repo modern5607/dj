@@ -89,6 +89,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
+$("input").attr("autocomplete", "off");
+
 var HIDX = "<?php echo $HIDX ?>"; //수주idx
 $("#s1").on("change", function() {
     var idx = $(this).val();
@@ -135,7 +137,7 @@ $(".sh_submit").on("click", function() {
                     //html += "<td>"+info.COLOR+"</td>";
                     html += "<td>";
                     html +=
-                        "	<input type='text' name='QTY[]' class='form_select' size='4' value='' />";
+                        "	<input type='text' autocomplete='off' name='QTY[]' class='form_select' size='4' value='' />";
                     html += "	<input type='hidden' name='ITEM_IDX[]' value='" + info.IDX +
                         "' />";
                     html += "	<input type='hidden' name='ITEM_NM[]' value='" + info
@@ -144,7 +146,7 @@ $(".sh_submit").on("click", function() {
                     //html += "	<input type='hidden' name='H_IDX[]' value='"+HIDX+"' />";				
                     html += "</td>";
                     html +=
-                        "<td><input type='text' name='REMARK[]' class='form_select' value='' /></td>";
+                        "<td><input type='text' autocomplete='off' name='REMARK[]' class='form_select' value='' /></td>";
                     html += "</tr>";
                     html +=
                         "<script type='text/javascript'>$('.calendar').datetimepicker({format:'Y-m-d',timepicker:false,lang:'ko-KR'});<\/script>";

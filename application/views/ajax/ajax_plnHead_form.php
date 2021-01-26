@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr>
 							<th><label class="ACT_DATE"><span class="re"></span>수주일자</label></th>
 							<td>
-								<input type="text" name="ACT_DATE" id="ACT_DATE" value="<?php echo (!empty($data->ACT_DATE))?$data->ACT_DATE:"";?>" class="form_input input_100 calendar">
+								<input autocomplete="off" type="text" name="ACT_DATE" id="ACT_DATE" value="<?php echo (!empty($data->ACT_DATE))?$data->ACT_DATE:"";?>" class="form_input input_100 calendar">
 
 							</td>
 						</tr>
@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								if(!empty($CUST)){
 								?>
 								<select name="CUST" class="form_input select_call">
-									<option value="">:전체:</option>
+									<option value="">전체</option>
 								<?php
 									foreach($CUST as $cust){
 										$select = ($data->BIZ_IDX == $cust->IDX)?"selected":"";
@@ -54,25 +54,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr>
 							<th><label class="ACT_NAME"><span class="re"></span>수주명</label></th>
 							<td>
-								<input type="text" name="ACT_NAME" id="ACT_NAME" value="<?php echo (!empty($data->ACT_NAME))?$data->ACT_NAME:"";?>" class="form_input input_100">
+								<input autocomplete="off" type="text" name="ACT_NAME" id="ACT_NAME" value="<?php echo (!empty($data->ACT_NAME))?$data->ACT_NAME:"";?>" class="form_input input_100">
 							</td>
 						</tr>
 						<tr>
 							<th><label class="DEL_DATE">납품일자</label></th>
 							<td>
-								<input type="text" name="DEL_DATE" id="DEL_DATE" value="<?php echo (!empty($data->DEL_DATE))?$data->DEL_DATE:"";?>" class="form_input input_100 calendar">
+								<input autocomplete="off" type="text" name="DEL_DATE" id="DEL_DATE" value="<?php echo (!empty($data->DEL_DATE))?$data->DEL_DATE:"";?>" class="form_input input_100 calendar">
 							</td>
 						</tr>
 						<tr>
 							<th><label class="REMARK">기타세부사항</label></th>
 							<td>
-								<input type="text" name="REMARK" id="REMARK" value="<?php echo (!empty($data->REMARK))?$data->REMARK:"";?>" class="form_input input_100">
+								<input autocomplete="off" type="text" name="REMARK" id="REMARK" value="<?php echo (!empty($data->REMARK))?$data->REMARK:"";?>" class="form_input input_100">
 							</td>
 						</tr>
 						<tr>
 							<th><label class="ORD_TEXT">특이사항</label></th>
 							<td>
-								<input type="text" name="ORD_TEXT" id="ORD_TEXT" value="<?php echo (!empty($data->ORD_TEXT))?$data->ORD_TEXT:"";?>" class="form_input input_100">
+								<input autocomplete="off" type="text" name="ORD_TEXT" id="ORD_TEXT" value="<?php echo (!empty($data->ORD_TEXT))?$data->ORD_TEXT:"";?>" class="form_input input_100">
 							</td>
 						</tr>
 						
@@ -109,7 +109,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <script type="text/javascript">
 <!--
-
+$("input").attr("autocomplete", "off");
 
 
 $(".modBtn").on("click",function(){
@@ -160,8 +160,6 @@ $(".submitBtn").on("click",function(){
 	var formData = new FormData($("#ajaxform")[0]);
 	var $this = $(this);
 
-	
-
 	if($("input[name='ACT_DATE']").val() == ""){
 		alert("수주일자를 입력하세요");
 		$("input[name='ACT_DATE']").focus();
@@ -183,7 +181,7 @@ $(".submitBtn").on("click",function(){
 	
 
 	$.ajax({
-		url  : "<?php echo base_url('PLN/ajax_plnHead_insert')?>",
+		url  : "<?php echo base_url('/PLN/ajax_plnHead_insert')?>",
 		type : "POST",
 		data : formData,
 		//asynsc : true,

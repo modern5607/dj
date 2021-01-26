@@ -145,27 +145,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-$(".mod_detail").on("click",function(){
-	var ipgo = $(this).parents("tr").find("td").eq(4).text();
-	var stock = $(this).parents("tr").find("input[name^='C_QTY']").val();
-	var qty = $("input[name='XQTY']").val();
-	var idx = $(this).data("idx");
-	var cQty = qty-(ipgo-stock);
-	if(qty-(ipgo-stock) < 0 ){
-		alert("자재 입고변경 값이 현 자재 재고량 보다 적습니다.");
-		return false;
-	}
 
-
-	
-	$.post("<?php echo base_url('PO/am1_listupdate')?>",{idx:idx,stock:stock,cQty:cQty},function(data){
-		if(data > 0){
-			location.reload();
-		}
-	});
-
-
-});
 
 $(".mod_delete").on("click",function(){
 	var idx = $(this).data("idx");

@@ -334,16 +334,14 @@ class PLN extends CI_Controller {
 	public function ajax_plnHead_insert()
 	{
 
-		$params['ACT_DATE'] = $this->input->post("ACT_DATE");
-		$params['BIZ_IDX'] = $this->input->post("CUST");
-		$params['ACT_NAME'] = $this->input->post("ACT_NAME");
-		$params['DEL_DATE'] = $this->input->post("DEL_DATE");
-		$params['REMARK'] = $this->input->post("REMARK");
-		$params['ORD_TEXT'] = $this->input->post("ORD_TEXT");
-		$params['END_YN'] = "N";
-		$params['INSERT_ID']   = $this->session->userdata('user_id');
-		$params['INSERT_DATE'] = date("Y-m-d H:i:s",time());
-		$params['mod'] = $mod;
+		$params['ACT_DATE'] 	= $this->input->post("ACT_DATE");
+		$params['BIZ_IDX'] 		= $this->input->post("CUST");
+		$params['ACT_NAME'] 	= $this->input->post("ACT_NAME");
+		$params['DEL_DATE'] 	= $this->input->post("DEL_DATE");
+		$params['REMARK']		= $this->input->post("REMARK");
+		$params['ORD_TEXT'] 	= $this->input->post("ORD_TEXT");
+		$params['INSERT_ID']   	= $this->session->userdata('user_id');
+		$params['INSERT_DATE'] 	= date("Y-m-d H:i:s",time());
 
 		$num = $this->pln_model->ajax_plnHead_insert($params);
 		if($num > 0){

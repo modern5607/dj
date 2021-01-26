@@ -131,6 +131,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </form>
 
 <script>
+$("input").attr("autocomplete", "off");
+
 $("input[name='REGDATE']").datetimepicker({
 	format:'Y-m-d',
 	timepicker:false,

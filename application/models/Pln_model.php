@@ -142,7 +142,6 @@ class Pln_model extends CI_Model {
 			"DEL_DATE"    => $params['DEL_DATE'],
 			"BIZ_IDX"     => $params['BIZ_IDX'],
 			"REMARK"      => $params['REMARK'],
-			"END_YN"      => $params['END_YN'],
 			"ORD_TEXT"    => $params['ORD_TEXT'],
 			"INSERT_DATE" => $params['INSERT_DATE'],
 			"INSERT_ID"   => $params['INSERT_ID'],

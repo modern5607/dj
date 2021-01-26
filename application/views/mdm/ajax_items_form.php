@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <tr>
                             <th><label class="l_id"><span class="re"></span>품번</label></th>
                             <td>
-                                <input type="text" name="ITEM_NO" id="ITEM_NO"
+                                <input type="text" name="ITEM_NO" id="ITEM_NO" 
                                     value="<?php echo isset($data->ITEM_NO)?$data->ITEM_NO:"";?>"
                                     class="form_input input_100">
                             </td>
@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <tr>
                             <th><label class="l_id"><span class="re"></span>품명</label></th>
                             <td>
-                                <input type="text" name="ITEM_NAME" id="ITEM_NAME"
+                                <input type="text" name="ITEM_NAME" id="ITEM_NAME" 
                                     value="<?php echo isset($data->ITEM_NAME)?$data->ITEM_NAME:"";?>"
                                     class="form_input input_100">
                             </td>
@@ -40,7 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <tr>
                             <th><label class="l_id"><span class="re"></span>규격</label></th>
                             <td>
-                                <input type="text" name="SPEC" id="SPEC"
+                                <input type="text" name="SPEC" id="SPEC" 
                                     value="<?php echo isset($data->SPEC)?$data->SPEC:"";?>"
                                     class="form_input input_100">
                             </td>
@@ -98,7 +98,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <tr>
                             <th><label class="l_id"><span class="re"></span>점토중량</label></th>
                             <td>
-                                <input type="text" name="JT_QTY" id="JT_QTY"
+                                <input type="text" name="JT_QTY" id="JT_QTY" 
                                     value="<?php echo isset($data->JT_QTY)?number_format($data->JT_QTY):"";?>"
                                     class="form_input input_100">
                             </td>
@@ -161,6 +161,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
+$("input").attr("autocomplete", "off");
 //수정
 $(".modBtn").on("click", function() {
     var formData = new FormData($("#itemsform")[0]);
@@ -275,8 +276,8 @@ $(".submitBtn").on("click", function() {
 		return false;
 	}
 	
-	if($("select[name='BIZ_IDX']").val() == ""){
-		alert("주고객을 선택하세요");
+    if($("input[name='JT_QTY']").val() == ""){
+		alert("점토중량을 입력하세요");
 		return false;
 	}
 

@@ -88,6 +88,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
+$("input").attr("autocomplete", "off");
+
 var HIDX = "<?php echo $HIDX ?>"; //수주idx
 
 var BK = "<?php echo (!empty($BK))?$BK:"";?>";
@@ -139,7 +141,7 @@ $(".sh_submit").on("click", function() {
                     html += "<td style='text-align:center;'>" + info.SH_QTY + "</td>";
                     html += "<td>";
                     html +=
-                        "	<input type='text' name='QTY[]' class='form_select' size='4' value='' />";
+                        "	<input type='text' autocomplete='off' name='QTY[]' class='form_select' size='4' value='' />";
                     html += "	<input type='hidden' name='ITEM_IDX[]' value='" + info.IDX +
                         "' />";
                     html += "	<input type='hidden' name='ITEM_NM[]' value='" + info
@@ -149,7 +151,7 @@ $(".sh_submit").on("click", function() {
                     html += "</td>";
 
                     html +=
-                        "<td><input type='text' name='REMARK[]' class='form_select' value='' /></td>";
+                        "<td><input type='text' autocomplete='off' name='REMARK[]' class='form_select' value='' /></td>";
                     html += "</tr>";
 
                 });
