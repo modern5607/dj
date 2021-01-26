@@ -100,10 +100,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</tbody>
 				</table>
 				</div>
-
-				
-			
 		</li>
+		
 		<li style="width:400px">
 			
 		<?php if(!empty($OIDX)){ ?>	
