@@ -98,13 +98,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}}
 				?>
 				<tr style="background:#f3f8fd;">
-					<td colspan="2" style="text-align:right;"><strong>총 수량</strong></td>
-					<td class="right"><strong><?php echo number_format($remark); ?></strong></td>
-					<td colspan="" style="text-align:right;"><strong>총 합계</strong></td>
+					<td colspan="3" style="text-align:right;"><strong>총 합계</strong></td>
+					<td></td>
 					<td class="right"><strong><?php echo number_format($count); ?></strong></td>
 					<td class="right"><strong><?php echo number_format($countin); ?></strong></td>
 					<td class="right"><strong><?php echo number_format($countsum); ?></strong></td>
-					<td colspan="4" class="right"></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
 				</tr>
 				<?php
 				}else{

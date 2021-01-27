@@ -849,7 +849,7 @@ SQL;
 SQL;
 		
 		$query = $this->db->query($sql);
-		echo $this->db->last_query();
+		// echo $this->db->last_query();
 		
 		return $query->result();
 
