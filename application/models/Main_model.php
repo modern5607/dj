@@ -429,8 +429,16 @@ class Main_model extends CI_Model {
 	public function get_cocdHead_list()
 	{
 		$res = $this->db->get("T_COCD_H");
+		// echo $this->db->last_query();
+		
 		return $res->result();
 
+	}
+
+	public function get_cocdHead_cut()
+	{
+		$res = $this->db->get("T_COCD_H");
+		return $res->num_rows();
 	}
 
 	/* 공통코드 Detail 리스트 */
@@ -481,6 +489,21 @@ class Main_model extends CI_Model {
 
 		$res = $this->db->get("t_series_h");
 		return $res->result();
+	}
+
+	public function get_seriesHead_cut($param)
+	{
+		$this->db->select("COUNT(*) AS CUT");
+		if(!empty($param['V1']) && $param['V1'] != ""){
+			$this->db->like("SERIES_NM",$param['V1']);
+		}
+
+		if(!empty($param['V2']) && $param['V2'] != ""){
+			$this->db->where("USE_YN",$param['V2']);
+		}
+
+		$res = $this->db->get("t_series_h");
+		return $res->row()->CUT;
 	}
 
 	/* 시리즈 Detail 리스트 */

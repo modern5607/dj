@@ -137,8 +137,10 @@ SQL;
 
 	public function item_trans_cnt($param)
 	{
+		$where='';
 		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
-			$this->db->where(" TRANS_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'");
+			// $this->db->where(" TRANS_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'");
+			$where .="AND TRANS_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'";
 		}
 
 		if(!empty($param['BK'])){
@@ -147,10 +149,30 @@ SQL;
 			$GJGB = $param['GJGB'];
 		}
 
-		$this->db->where("GJ_GB",$GJGB);
+		// $this->db->where("GJ_GB",$GJGB);
+		$where .="AND GJ_GB = '{$GJGB}'";
 
-		$this->db->select("COUNT(IDX) as CUT");
-		$query = $this->db->get("t_items_trans");
+		$sql=<<<SQL
+			SELECT
+				COUNT(*) AS CUT
+			FROM
+			(
+				SELECT
+					TRANS_DATE
+				FROM
+					T_ITEMS_TRANS
+				WHERE
+					1
+					{$where}
+				GROUP BY
+					TRANS_DATE
+
+			) AS AA
+
+SQL;
+		$query = $this->db->query($sql);
+
+		// echo $this->db->last_query();
 		
 		
 		return $query->row()->CUT;
@@ -309,7 +331,7 @@ SQL;
 
 		//$this->db->group_by("B.H_IDX");
 		$query = $this->db->get();
-		echo $query->row()->CNT;
+		// echo $query->row()->CNT;
 		return $query->row()->CNT;
 	}
 
@@ -827,7 +849,7 @@ SQL;
 SQL;
 		
 		$query = $this->db->query($sql);
-		// echo $this->db->last_query();
+		echo $this->db->last_query();
 		
 		return $query->result();
 
@@ -1194,8 +1216,9 @@ SQL;
 			GROUP BY A.ITEMS_IDX
 SQL;
 		$query = $this->db->query($sql);
-		$data = $query->num_rows();
 		
+		
+		$data = $query->num_rows();
 		return $data;
 
 		
