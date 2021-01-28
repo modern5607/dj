@@ -70,6 +70,7 @@ SQL;
 			$this->db->where("LEVEL",$param['LEVEL']);
 		}
 		$res = $this->db->get("t_member");
+		
 		return $res->row()->CUT;
 	}
 

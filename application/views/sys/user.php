@@ -77,6 +77,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</tbody>
 			</table>
 		</div>
+		<div class="pagination">
+			<?php echo $this->data['pagenation'];?>
+			<?php
+			if($this->data['cnt'] > 20){
+			?>
+			<div class="limitset">
+				<select name="per_page">
+					<option value="20" <?php echo ($perpage == 20)?"selected":"";?>>20</option>
+					<option value="50" <?php echo ($perpage == 50)?"selected":"";?>>50</option>
+					<option value="80" <?php echo ($perpage == 80)?"selected":"";?>>80</option>
+					<option value="100" <?php echo ($perpage == 100)?"selected":"";?>>100</option>
+				</select>
+			</div>
+			<?php
+			}	
+			?>
+		</div>
 	</div>
 </div>
 
@@ -95,7 +112,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-<!--
+
 
 
 var modchk = false;
