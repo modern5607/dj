@@ -237,7 +237,7 @@ $(".form_submit").on("click", function() {
     var formData = new FormData($("#ajaxform")[0]);
     var $this = $(this);
 
-    var qty = $("input[name='XQTY']").val();
+    var qty = $("input[name='XQTY']").val();    //정형재고수량
     var tCount = 0;
     var sjqty = 0;
     var num = 0;
@@ -303,6 +303,7 @@ $(".form_submit").on("click", function() {
                 }, 1000);
 
                 chkHeadCode = false;
+                window.reload();
 
             }
         },

@@ -54,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </tbody>
 
                 </table>
-                
+
             </div>
             <div class="pagination">
                 <?php echo $this->data['pagenation'];?>
@@ -74,7 +74,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			?>
             </div>
 
-            
+
         </li>
 
         <li style="width:calc(100% - 430px);">
@@ -146,7 +146,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?php echo $row->ITEM_NAME; ?></td>
                             <td class="right"><?php echo number_format($row->IN_QTY); ?></td>
                             <td><?php echo $row->REMARK;?></td>
-                            <td><span class="btn del_items" data-idx="<?php echo $row->TRANS_IDX; //detail idx?>"
+                            <td><span class="btn del_items" data-idx="<?=$row->TRANS_IDX;?>"
                                     data-inqty="<?php echo $row->IN_QTY; ?>"
                                     data-shqty="<?php echo $row->SH_QTY; ?>">삭제</span></td>
                         </tr>
@@ -177,11 +177,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
             </div>
-            
+
         </li>
-        
+
     </ul>
-    
+
 
 </div>
 
@@ -240,23 +240,27 @@ $(".del_items").on("click", function() {
     var idx = $(this).data("idx");
     var inqty = $(this).data("inqty");
     var shqty = $(this).data("shqty");
+
+    console.log("idx: %s inqty: %s shqty %s", idx, inqty, shqty);
     if (!shqty) {
         shqty = 0
     }
+
     if (inqty > shqty) {
         alert(`삭제할 수 없습니다.재고가 ${shqty}개 남았습니다.`);
         return false;
     }
     if (confirm('삭제하시겠습니까?') !== false) {
-        $.post("<?php echo base_url('ACT/ajax_del_items_trans')?>", {
+
+        $.get("<?php echo base_url('ACT/ajax_del_items_trans')?>", {
             idx: idx
         }, function(data) {
-            if (data.statu != "") {
+            if (data.status != "") {
                 alert(data.msg);
                 location.reload();
             }
         }, "JSON");
-    }
+     }
 });
 
 

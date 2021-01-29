@@ -295,8 +295,6 @@ class CI_Calendar {
 		$out .= "\n".$this->replacements['week_row_end']."\n";
 
 		// Build the main body of the calendar
-
-		
 		
 		while ($day <= $total_days)
 		{
@@ -304,23 +302,15 @@ class CI_Calendar {
 
 			for ($i = 0; $i < 7; $i++)
 			{
-				
 				if ($day > 0 && $day <= $total_days)
 				{
-					
 					$out .= ($is_current_month === TRUE && $day == $cur_day) ? $this->replacements['cal_cell_start_today'] : $this->replacements['cal_cell_start'];
-					
-					$day = (strlen($day)==1)?"0".$day:$day;
-					
+
 					if (isset($data[$day]))
 					{
-						
 						// Cells with content
 						$temp = ($is_current_month === TRUE && $day == $cur_day) ?
 								$this->replacements['cal_cell_content_today'] : $this->replacements['cal_cell_content'];
-
-						
-						
 						$out .= str_replace(array('{content}', '{day}'), array($data[$day], $day), $temp);
 					}
 					else
@@ -328,8 +318,6 @@ class CI_Calendar {
 						// Cells with no content
 						$temp = ($is_current_month === TRUE && $day == $cur_day) ?
 								$this->replacements['cal_cell_no_content_today'] : $this->replacements['cal_cell_no_content'];
-
-						$day = (strlen($day)==1)?"0".$day:$day;
 						$out .= str_replace('{day}', $day, $temp);
 					}
 
@@ -345,14 +333,10 @@ class CI_Calendar {
 						// Day of previous month
 						$prev_month = $this->adjust_date($month - 1, $year);
 						$prev_month_days = $this->get_total_days($prev_month['month'], $prev_month['year']);
-						
-						$day = (strlen($day)==1)?"0".$day:$day;
-
 						$out .= str_replace('{day}', $prev_month_days + $day, $this->replacements['cal_cell_other']);
 					}
 					else
 					{
-						$day = (strlen($day)==1)?"0".$day:$day;
 						// Day of next month
 						$out .= str_replace('{day}', $day - $total_days, $this->replacements['cal_cell_other']);
 					}

@@ -1249,6 +1249,4 @@ class ACT2 extends CI_Controller {
 
 	}
 
-
-
 }

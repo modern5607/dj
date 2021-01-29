@@ -943,7 +943,7 @@ class MDM extends CI_Controller {
 		$data['pageNum'] = $start;
 
 		$data['series_headList'] = $this->main_model->get_seriesHead_list($params,$start,$config['per_page']);
-		$this->data['cnt'] = (int)$this->main_model->get_seriesHead_cut($params);
+		$this->data['cnt'] = $this->main_model->get_seriesHead_cut($params);
 		$data['series_detailList'] = $this->main_model->get_seriesDetail_list($hid,$params);
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 

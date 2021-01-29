@@ -130,7 +130,8 @@ SQL;
 		$this->db->limit($limit,$start);
 		$query = $this->db->get("t_items_trans");
 
-		// echo $this->db->Last_query();
+		// echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
@@ -244,7 +245,7 @@ SQL;
 
 
 		$query = $this->db->query($sql);
-		// ECHO $this->db->last_query();
+		ECHO $this->db->last_query();
 		return $query->result();
 	}
 
@@ -432,7 +433,6 @@ SQL;
 
 	public function ajax_del_items_trans($idx)
 	{
-		
 		$this->db->trans_start();
 
 		$this->db->select("A.*,B.JT_QTY");
@@ -440,6 +440,7 @@ SQL;
 		$this->db->join("t_items as B","B.IDX = A.ITEMS_IDX");
 		$this->db->where("A.IDX",$idx);
 		$query = $this->db->get();
+		
 		$chkinfo = $query->row();
 
 		$this->db->set("SH_QTY","SH_QTY - {$chkinfo->IN_QTY}",false);
@@ -449,6 +450,7 @@ SQL;
 		$this->db->set("STOCK","STOCK + ({$chkinfo->IN_QTY}*{$chkinfo->JT_QTY})",false);
 		$this->db->where("COMPONENT","CLAY");
 		$this->db->update("t_component");
+		
 
 		$this->db->where("COMP_IDX",1);
 		$this->db->where("TRANS_DATE",$chkinfo->TRANS_DATE);
@@ -465,7 +467,7 @@ SQL;
 		if ($this->db->trans_status() !== FALSE){
 			$data = 1;
 		}
-
+		
 		return $data;
 
 	}
@@ -849,7 +851,7 @@ SQL;
 SQL;
 		
 		$query = $this->db->query($sql);
-		// echo $this->db->last_query();
+		echo $this->db->last_query();
 		
 		return $query->result();
 
@@ -1182,6 +1184,8 @@ SQL;
 		$this->db->group_by("A.ITEM_NM, A.ITEMS_IDX");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
+		echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
@@ -1237,7 +1241,7 @@ SQL;
 		}
 
 		$where.=" AND (A.END_YN <> 'Y' OR A.END_YN IS NULL)";
-		$where.=" AND (A.SIU_YN <> 'Y' OR A.END_YN IS NULL)";
+		$where.=" AND (A.SIU_YN <> 'Y' OR A.SIU_YN IS NULL)";
 
 		
 		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
@@ -1295,7 +1299,7 @@ SQL;
 		
 
 		//$query = $this->db->get();
-		// echo $this->db->last_query();
+		echo $this->db->last_query();
 		$data['SLIST'] = $query->result();
 
 		return $data;

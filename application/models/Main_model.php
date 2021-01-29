@@ -503,6 +503,7 @@ class Main_model extends CI_Model {
 		}
 
 		$res = $this->db->get("t_series_h");
+		
 		return $res->row()->CUT;
 	}
 

@@ -897,7 +897,7 @@ class ACT extends CI_Controller {
 
 	public function ajax_del_items_trans()
 	{
-		$idx = $this->input->post("idx");
+		$idx = $this->input->get("idx");
 		$num = $this->act_model->ajax_del_items_trans($idx);
 		if($num > 0){
 			$data['status'] = "ok";
