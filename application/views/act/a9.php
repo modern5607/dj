@@ -125,7 +125,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <td class="right"><?php echo $row->IN_QTY; ?></td>
                                         <td><?php echo $row->REMARK;?></td>
                                         <td><span class="btn del_items"
-                                                data-idx="<?php echo $row->TRANS_IDX; //detail idx?>">삭제</span></td>
+                                        data-idx="<?php echo $row->TRANS_IDX; //detail idx?>" 
+                                        data-inqty="<?php echo $row->IN_QTY; ?>"
+                                        data-jhqty="<?php echo $row->JH_QTY; ?>">삭제</span></td>
                                     </tr>
                                 <?php 
                                 }
@@ -194,9 +196,17 @@ $(".add_itemnum").on("click", function() {
 
 });
 
-
 $(".del_items").on("click", function() {
     var idx = $(this).data("idx");
+	var inqty = $(this).data("inqty");
+	var jhqty = $(this).data("jhqty");
+	if(!jhqty){
+		jhqty=0
+	}
+	if(inqty > jhqty){
+		alert(`삭제할 수 없습니다.재고가 ${jhqty}개 남았습니다.`);
+		return false;
+	}
     if (confirm('삭제하시겠습니까?') !== false) {
         $.post("<?php echo base_url('ACT/ajax_del_items_trans_a9')?>", {
             idx: idx

@@ -185,7 +185,7 @@ SQL;
 				B.ITEM_NAME,
 				A.IN_QTY,
 				A.REMARK ,
-				B.SH_QTY
+				B.JH_QTY
 			FROM
 				t_items_trans AS A
 				JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
@@ -1061,7 +1061,11 @@ SQL;
 						A.ITEMS_IDX = B.IDX AND 
 						A.KIND = 'IN'
 						{$where}
-						LIMIT {$start}, {$limit}
+					ORDER BY 
+						TRANS_DATE DESC, ITEM_NAME
+					LIMIT 
+						{$start}, {$limit}
+					
 				) as AA
 			LEFT JOIN `t_series_h` as `H` ON `H`.`IDX` = `AA`.`SERIES_IDX` 
 			UNION ALL
@@ -1073,11 +1077,13 @@ SQL;
 				A.ITEMS_IDX = B.IDX
 				AND A.KIND = 'IN'  
 				{$where}
-			ORDER BY  TRANS_DATE DESC, ITEM_NAME, SERIES_NM
+				ORDER BY
+						TRANS_DATE DESC, ITEM_NAME,SERIES_NM
+			
 SQL;
 
 		$query = $this->db->query($sql);
-		 //echo $this->db->last_query();
+		 echo $this->db->last_query();
 		return $query->result();
 	}
 
