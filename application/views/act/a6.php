@@ -66,8 +66,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$sumqty = $row->QT2+$row->QT3+$row->QT4;
 					$mQty = (($row->QT1-$row->QTY) > 0)?$row->QT1-$row->QTY:"0";//잉여재고
 					$yn = ($row->END_YN <> "Y")?"N":"Y";
-					if($row->ITEM_NM != "합계"){
-				?>
+                    ?>
                     <tr>
                         <td class="cen"><?php echo $no;?></td>
                         <td class="cen"><?php echo $row->ACT_DATE;?></td>
@@ -81,34 +80,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <td class="cen"><?php echo $yn; ?></td>
                         <td class="cen"><?php echo $row->CG_DATE; ?></td>
                     </tr>
-
-
-                    <?php
-				}
-				else
-				{?>
-					 <tr style="background:#f3f8fd;">
-                        <td colspan="3" class="right"><strong><?php echo $row->ITEM_NM; ?></strong></td>
-                        <td class="cen"><?php echo $row->COLOR; ?></td>
-                        <td class="right"><?php echo number_format($row->QTY); ?></td>
-                        <td class="right"><?php echo number_format($row->QT1); ?></td>
-                        <td class="right"><?php echo number_format($mQty); ?></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-
-				<?php }
-			}
-		}else{
-				
-				?>
-
+                <?php } 
+		        }else{ ?>
                     <tr>
                         <td colspan="15" class="list_none">실적정보가 없습니다.</td>
                     </tr>
-
                     <?php
 				}	
 				?>

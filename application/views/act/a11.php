@@ -93,7 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php
 					if(empty($List)){
 					?>
-						<tr><td colspan="7" style='color:#999; padding:40px 0;'>실적정보가 없습니다.</td></tr>
+						<tr><td colspan="8" style='color:#999; padding:40px 0;'>실적정보가 없습니다.</td></tr>
 					<?php
 					}
 					?>
