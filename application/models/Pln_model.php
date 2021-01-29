@@ -193,9 +193,12 @@ class Pln_model extends CI_Model {
 		if(!empty($params['s3']) && $params['s3'] != ""){
 			$this->db->where("SERIESD_IDX",$params['s3']);
 		}
-		$this->db->where("COLOR_USE_YN","Y");
+		$this->db->where("USE_YN","Y");
+		$this->db->where("SERIESD_USE_YN","Y");
+		$this->db->where("SERIESH_USE_YN","Y");
+		$this->db->where("ITEM_USE_YN","Y");
 
-		$query = $this->db->get("t_item_series_v");
+		$query = $this->db->get("t_item_stock_v");
 		
 		
 		return $query->result();

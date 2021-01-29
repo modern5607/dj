@@ -402,8 +402,9 @@ SQL;
 			$this->db->where("SERIESD_IDX",$params['s3']);
 		}
 		
+		$this->db->where("USE_YN","Y");
 		$query = $this->db->get("t_items");
-		
+		// echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -972,7 +973,7 @@ SQL;
 				LEFT JOIN T_ITEMS as TI ON(TI.IDX = TIS.ITEM_IDX)
 				LEFT JOIN T_SERIES_D as TSD ON(TSD.IDX = TIS.SERIESD_IDX)
 			WHERE
-				1
+				TSD.USE_YN = "Y"
 				{$where}
 			ORDER BY 
 				TI.IDX, TIS.SERIESD_IDX
@@ -1560,14 +1561,13 @@ SQL;
 						LEFT JOIN T_ACT_H as C ON(C.IDX = A.ACT_IDX)
 						LEFT JOIN T_SERIES_D as D ON(D.IDX = A.SERIESD_IDX)
 					WHERE
-						A.KIND = 'IN' AND
-						A.GJ_GB = 'CU'
+						A.KIND = 'IN'
 						{$where}
 					ORDER BY C.ACT_DATE DESC
 					LIMIT {$start},{$limit}
 				) as AA LEFT JOIN `t_series_h` as `H` ON `H`.`IDX` = `AA`.`SERIES_IDX`
 			
-			UNION
+			UNION ALL
 			SELECT 
 				'합계' AS TEXT,
 				'' AS ITEM_NM,
@@ -1583,8 +1583,7 @@ SQL;
 				LEFT JOIN T_ACT_H as C ON(C.IDX = A.ACT_IDX)
 				LEFT JOIN T_SERIES_D as D ON(D.IDX = A.SERIESD_IDX)
 			WHERE 
-				A.KIND = 'IN' AND
-				A.GJ_GB = 'CU'
+				A.KIND = 'IN'
 				{$where}
 SQL;
 		$query = $this->db->query($sql);
@@ -1960,7 +1959,7 @@ SQL;
 			$where .= " AND D.COLOR LIKE '%{$param['V3']}%'";
 		}
 
-		$where .= " AND A.GJ_GB = 'SB'";
+		$where .= " AND A.GJ_GB != 'CU'";
 
 
 		$sql=<<<SQL
@@ -2192,5 +2191,96 @@ SQL;
 		return $this->db->affected_rows();
 	}
 
+	/* 성형정형재고 */
+	public function act_am11_list($param,$start=0,$limit=20)
+	{
+		if(!empty($param['V1']) && $param['V1'] != ""){
+			$this->db->where("D.SERIES_IDX",$param['V1']);
+		}
+		
+		if(!empty($param['V2']) && $param['V2'] != ""){
+			$this->db->where("B.ITEM_NM",$param['V2']);
+		}
+		
+		$this->db->select("TSH.SERIES_NM, ITEM_NO, ITEM_NAME, SH_QTY, JH_QTY");
+		$this->db->from("t_items as ti");
+		$this->db->join("t_series_h as tsh","tsh.idx=ti.series_idx","LEFT");
+		$this->db->where("ti.use_yn = 'Y' AND tsh.use_yn = 'Y' AND (SH_QTY > 0 OR JH_QTY > 0)");
+		$this->db->limit($limit,$start);
+		$this->db->order_by("series_idx");
+			
+		$query = $this->db->get();
+		
+		return $query->result();
+		
+	}
 
+	public function act_am11_cut($param)
+	{
+		if(!empty($param['V1']) && $param['V1'] != ""){
+			$this->db->where("D.SERIES_IDX",$param['V1']);
+		}
+		
+		if(!empty($param['V2']) && $param['V2'] != ""){
+			$this->db->where("B.ITEM_NM",$param['V2']);
+		}
+
+		$this->db->select("COUNT(*) as CUT");
+		$this->db->from("t_items as ti");
+		$this->db->join("t_series_h as tsh","tsh.idx=ti.series_idx","LEFT");
+		$this->db->where("ti.use_yn = 'Y' AND tsh.use_yn = 'Y' AND (SH_QTY > 0 OR JH_QTY > 0)");
+		$query = $this->db->get();
+		return $query->row()->CUT;
+
+	}
+
+		/* 시유재고 */
+		public function act_am12_list($param,$start=0,$limit=20)
+		{
+			if(!empty($param['V1']) && $param['V1'] != ""){
+				$this->db->where("D.SERIES_IDX",$param['V1']);
+			}
+			
+			if(!empty($param['V2']) && $param['V2'] != ""){
+				$this->db->where("B.ITEM_NM",$param['V2']);
+			}
+			
+			$this->db->select("B.ITEM_NM,D.COLOR,SUM(A.IN_QTY) as IN_QTY,H.SERIES_NM, SERIES_IDX ");
+			$this->db->from("T_INVENTORY_TRANS A");
+			$this->db->join("T_ACT_D AS B","B.IDX = A.ACT_D_IDX ","LEFT");
+			$this->db->join("T_SERIES_D AS D ","D.IDX = A.SERIESD_IDX ","LEFT");
+			$this->db->join("T_SERIES_H AS H","H.IDX = D.SERIES_IDX ","LEFT");
+			$this->db->where("A.KIND = 'IN' AND A.GJ_GB='CU'");
+			$this->db->group_by("ITEM_NM,COLOR,SERIES_NM,SERIES_IDX");
+			$this->db->limit($limit,$start);
+			
+			$this->db->get();
+
+			$sql = $this->db->last_query();
+			
+			$query = $this->db->query("SELECT AA.* FROM (". $sql.")as AA ORDER BY SERIES_IDX");
+			
+			return $query->result();
+		}
+	
+		public function act_am12_cut($param)
+		{
+			if(!empty($param['V1']) && $param['V1'] != ""){
+				$this->db->where("D.SERIES_IDX",$param['V1']);
+			}
+			
+			if(!empty($param['V2']) && $param['V2'] != ""){
+				$this->db->where("B.ITEM_NM",$param['V2']);
+			}
+	
+			$this->db->select("COUNT(*) as CUT");
+			$this->db->from("T_INVENTORY_TRANS A");
+			$this->db->join("T_ACT_D AS B","B.IDX = A.ACT_D_IDX ","LEFT");
+			$this->db->join("T_SERIES_D AS D ","D.IDX = A.SERIESD_IDX ","LEFT");
+			$this->db->join("T_SERIES_H AS H","H.IDX = D.SERIES_IDX ","LEFT");
+			$this->db->where("A.KIND = 'IN' AND A.GJ_GB='CU'");
+			$query = $this->db->get();
+			return $query->row()->CUT;
+	
+		}
 }

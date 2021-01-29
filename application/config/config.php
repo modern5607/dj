@@ -89,6 +89,9 @@ $config['site_title']['ACT2']['a11'] = "선별작업실적";
 $config['site_title']['ACT2']['a11_1'] = "선별작업실적2";
 $config['site_title']['ACT2']['a11_2'] = "선별작업실적현황";
 
+$config['site_title']['ACT2']['am1_1'] = "성형/정형 재고";
+$config['site_title']['ACT2']['am1_2'] = "시유 재고";
+
 
 $config['site_tel'] = "010-0000-0000";
 

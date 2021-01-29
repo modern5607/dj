@@ -128,6 +128,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <a href="<?php echo base_url('AMT/am1')?>" class="menu_a <?php echo ($this->data['pos'] == "AMT")?"on":"";?>" >재고/수불관리</a>
                         <ul class="menu02" <?php echo ($this->data['pos'] == "AMT")?"style='display:block'":"";?>>
                             <li><a href="<?php echo base_url('AMT/am1')?>" class="<?php echo ($this->data['subpos'] == "am1")?"on":"";?>"><i class="material-icons">memory</i>완제품 재고내역</a></li>
+                            <li><a href="<?php echo base_url('AMT/am1_1')?>" class="<?php echo ($this->data['subpos'] == "am1_1")?"on":"";?>"><i class="material-icons">memory</i>성형/정형 재고내역</a></li>
+                            <li><a href="<?php echo base_url('AMT/am1_2')?>" class="<?php echo ($this->data['subpos'] == "am1_2")?"on":"";?>"><i class="material-icons">memory</i>시유 재고내역</a></li>
 							<li><a href="<?php echo base_url('AMT/am2')?>" class="<?php echo ($this->data['subpos'] == "am2")?"on":"";?>"><i class="material-icons">memory</i>재생 재고내역</a></li>
 							<li><a href="<?php echo base_url('AMT/am3')?>" class="<?php echo ($this->data['subpos'] == "am3")?"on":"";?>"><i class="material-icons">memory</i>재고조정</a></li>
 							<li><a href="<?php echo base_url('AMT/am4')?>" class="<?php echo ($this->data['subpos'] == "am4")?"on":"";?>"><i class="material-icons">memory</i>출고등록</a></li>
