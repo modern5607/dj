@@ -216,6 +216,7 @@ SQL;
 				H.SERIES_NM,
 				B.ITEM_NAME,
 				A.IN_QTY,
+				C.CUST_NM,
 				A.REMARK ,
 				B.JH_QTY,
 				B.SH_QTY
@@ -223,6 +224,7 @@ SQL;
 				t_items_trans AS A
 				JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
 				LEFT JOIN t_series_h AS H ON H.IDX = B.SERIES_IDX 
+				LEFT JOIN t_biz_reg AS C ON B.BIZ_IDX
 			WHERE
 				1
 				{$where}
@@ -234,11 +236,13 @@ SQL;
 				SUM(A.IN_QTY),
 				'',
 				'',
+				'',
 				''
 			FROM
 				t_items_trans AS A
 				JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
 				LEFT JOIN t_series_h AS H ON H.IDX = B.SERIES_IDX
+				LEFT JOIN t_biz_reg AS C ON B.BIZ_IDX
 			WHERE
 				1
 				{$where}
@@ -247,7 +251,7 @@ SQL;
 
 
 		$query = $this->db->query($sql);
-		// ECHO $this->db->last_query();
+		 //ECHO $this->db->last_query();
 		return $query->result();
 	}
 
@@ -838,19 +842,7 @@ SQL;
 			LIMIT
 				{$start}, {$limit}
 			) AS AA
-			UNION
-			SELECT
-				COUNT(ITEM_NM),'합계',SUM(TA.QTY),SUM(IN_QTY),SUM(1_QTY),SUM(2_QTY),SUM(3_QTY),SUM(4_QTY),'','','','','','','','','','',SUM(B.QTY)
-				FROM
-				T_ACT_D as TA
-				LEFT JOIN T_ACT_H as TAH ON(TAH.IDX = TA.H_IDX)
-				LEFT JOIN T_INVENTORY_TRANS as TIT ON(TIT.ACT_D_IDX = TA.IDX)
-				LEFT JOIN T_SERIES_D as TS ON(TS.IDX = TA.SERIESD_IDX)
-				LEFT JOIN T_BIZ_REG as TBR ON(TBR.IDX = TAH.BIZ_IDX)
-				LEFT JOIN T_ITEM_STOCK as B ON( B.ITEM_IDX = TA.ITEMS_IDX AND B.SERIESD_IDX = TA.SERIESD_IDX)
-			WHERE
-				1
-				{$where}
+			
 SQL;
 		
 		$query = $this->db->query($sql);

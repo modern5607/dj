@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                         <tr <?php echo ($NDATE == $row->TRANS_DATE)?"class='over'":"";?>>
                             <td class="cen"><?php echo $no; ?></td>
-                            <td class="cen"><a href='<?php echo base_url($this->data['pos'].'/'.$this->data['subpos'].'/').$row->TRANS_DATE
+                            <td class="cen"><a class="link_s1" href='<?php echo base_url($this->data['pos'].'/'.$this->data['subpos'].'/').$row->TRANS_DATE
 							?>'><?php echo $row->TRANS_DATE;?></a></td>
                         </tr>
 
@@ -115,6 +115,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>시리즈</th>
 							<th>품명</th>
 							<th>수량</th>
+                            <th>거래처</th>
 							<th>비고</th>
 							<th></th>
 						</tr>
@@ -129,8 +130,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <td colspan="2" style="text-align:right;"><strong><?php echo $row->SERIES_NM; ?></strong></td>
                                         <td></td>
                                         <td class="right"><strong><?php echo number_format($row->IN_QTY); ?></strong></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td colspan="4"></td>
                                     </tr>
                                 <?php
                                 }
@@ -141,6 +141,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <td><?php echo $row->SERIES_NM; ?></td>
                                         <td><?php echo $row->ITEM_NAME; ?></td>
                                         <td class="right"><?php echo number_format($row->IN_QTY); ?></td>
+                                        <td><?php echo $row->CUST_NM;?></td>
                                         <td><?php echo $row->REMARK;?></td>
                                         <td><span class="btn del_items"
                                         data-idx="<?php echo $row->TRANS_IDX; //detail idx?>" 
@@ -154,7 +155,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					if(empty($RList)){
 					?>
                         <tr>
-                            <td colspan="6" style='color:#999; padding:40px 0;'>등록된 실적정보가 없습니다.</td>
+                            <td colspan="10" style='color:#999; padding:40px 0;'>등록된 실적정보가 없습니다.</td>
                         </tr>
                         <?php } ?>
                     </tbody>

@@ -193,7 +193,7 @@ SQL;
 			{$where}
 SQL;
 		$query = $this->db->query($sql);
-		//echo $this->db->Last_query();
+		echo $this->db->Last_query();
 		return $query->result();
 	}
 

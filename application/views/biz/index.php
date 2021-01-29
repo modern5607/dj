@@ -14,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <label for="a2">주소</label>
         <input type="text" name="a2" id="a2" value="<?php echo $str['a2']?>">
 
-        <label for="a3">당담자</label>
+        <label for="a3">담당자</label>
         <input type="text" name="a3" id="a3" value="<?php echo $str['a3']?>">
 
         <label for="a4">거래관계</label>
