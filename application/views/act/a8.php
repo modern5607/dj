@@ -103,8 +103,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 </form>
                 <div class="gsflexst">
-                    <span class="btn_right"><label
-                            style="font-size: 20px; padding-right:20px;"><?=empty($NDATE)?"":$NDATE?></label></span>
+                    <span class="btn_right"><p
+                            style="font-size: 20px; padding-right:20px; color:#999;"><?=empty($NDATE)?"":$NDATE?></p></span>
                     <span class="btni btn_right add_itemnum" style="max-height:34px;"
                         data-type="<?php echo $this->data['subpos'];?>"><span class="material-icons">add</span></span>
                 </div>

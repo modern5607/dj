@@ -86,7 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<!-- <label for="component_stock">자재재고량</label> -->
 						<input style="text-align: right" type="hidden" name="XQTY" id="XQTY" readonly value="<?php if(!empty($detail)){ echo round($detail['STOCK']); }?>">	
 					</div>
-					<span class="btn_right"><label style="font-size: 20px; padding-right:20px;"><?=$detpos?></label></span>
+					<span class="btn_right"><p style="font-size: 20px; padding-right:20px; color:#999;"><?=$detpos?></p></span>
 					<span class="btni btn_right add_compnum" style="max-height:34px;"><span class="material-icons">add</span></span>	
 				</div>
 			</div>
