@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <link href="<?php echo base_url('_static/css/jquery.datetimepicker.min.css')?>" rel="stylesheet">
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js')?>"></script>
 
-<div class="body_cont_float">
+<div class="body_cont_float2">
 	<ul>
 		<li style="width:calc(100% - 400px);">
 				
@@ -99,7 +99,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					?>
 					</tbody>
 				</table>
+				
 				</div>
+				<div class="pagination">
+                <?php echo $this->data['pagenation'];?>
+                <?php
+			if($this->data['cnt'] > 20){
+			?>
+                <div class="limitset">
+                    <select name="per_page">
+                        <option value="20" <?php echo ($perpage == 20)?"selected":"";?>>20</option>
+                        <option value="50" <?php echo ($perpage == 50)?"selected":"";?>>50</option>
+                        <option value="80" <?php echo ($perpage == 80)?"selected":"";?>>80</option>
+                        <option value="100" <?php echo ($perpage == 100)?"selected":"";?>>100</option>
+                    </select>
+                </div>
+                <?php
+			}	
+			?>
+            </div>
 		</li>
 		
 		<li style="width:400px">

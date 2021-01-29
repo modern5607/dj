@@ -130,15 +130,18 @@ SQL;
 		$this->db->limit($limit,$start);
 		$query = $this->db->get("t_items_trans");
 
-		// echo $this->db->Last_query();
+		// echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
 
 	public function item_trans_cnt($param)
 	{
+		$where='';
 		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
-			$this->db->where(" TRANS_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'");
+			// $this->db->where(" TRANS_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'");
+			$where .="AND TRANS_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'";
 		}
 
 		if(!empty($param['BK'])){
@@ -147,10 +150,30 @@ SQL;
 			$GJGB = $param['GJGB'];
 		}
 
-		$this->db->where("GJ_GB",$GJGB);
+		// $this->db->where("GJ_GB",$GJGB);
+		$where .="AND GJ_GB = '{$GJGB}'";
 
-		$this->db->select("COUNT(IDX) as CUT");
-		$query = $this->db->get("t_items_trans");
+		$sql=<<<SQL
+			SELECT
+				COUNT(*) AS CUT
+			FROM
+			(
+				SELECT
+					TRANS_DATE
+				FROM
+					T_ITEMS_TRANS
+				WHERE
+					1
+					{$where}
+				GROUP BY
+					TRANS_DATE
+
+			) AS AA
+
+SQL;
+		$query = $this->db->query($sql);
+
+		// echo $this->db->last_query();
 		
 		
 		return $query->row()->CUT;
@@ -222,7 +245,7 @@ SQL;
 
 
 		$query = $this->db->query($sql);
-		// ECHO $this->db->last_query();
+		ECHO $this->db->last_query();
 		return $query->result();
 	}
 
@@ -309,7 +332,7 @@ SQL;
 
 		//$this->db->group_by("B.H_IDX");
 		$query = $this->db->get();
-		echo $query->row()->CNT;
+		// echo $query->row()->CNT;
 		return $query->row()->CNT;
 	}
 
@@ -411,7 +434,6 @@ SQL;
 
 	public function ajax_del_items_trans($idx)
 	{
-		
 		$this->db->trans_start();
 
 		$this->db->select("A.*,B.JT_QTY");
@@ -419,6 +441,7 @@ SQL;
 		$this->db->join("t_items as B","B.IDX = A.ITEMS_IDX");
 		$this->db->where("A.IDX",$idx);
 		$query = $this->db->get();
+		
 		$chkinfo = $query->row();
 
 		$this->db->set("SH_QTY","SH_QTY - {$chkinfo->IN_QTY}",false);
@@ -428,6 +451,7 @@ SQL;
 		$this->db->set("STOCK","STOCK + ({$chkinfo->IN_QTY}*{$chkinfo->JT_QTY})",false);
 		$this->db->where("COMPONENT","CLAY");
 		$this->db->update("t_component");
+		
 
 		$this->db->where("COMP_IDX",1);
 		$this->db->where("TRANS_DATE",$chkinfo->TRANS_DATE);
@@ -444,7 +468,7 @@ SQL;
 		if ($this->db->trans_status() !== FALSE){
 			$data = 1;
 		}
-
+		
 		return $data;
 
 	}
@@ -828,7 +852,7 @@ SQL;
 SQL;
 		
 		$query = $this->db->query($sql);
-		// echo $this->db->last_query();
+		echo $this->db->last_query();
 		
 		return $query->result();
 
@@ -1161,6 +1185,8 @@ SQL;
 		$this->db->group_by("A.ITEM_NM, A.ITEMS_IDX");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
+		echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
@@ -1195,8 +1221,9 @@ SQL;
 			GROUP BY A.ITEMS_IDX
 SQL;
 		$query = $this->db->query($sql);
-		$data = $query->num_rows();
 		
+		
+		$data = $query->num_rows();
 		return $data;
 
 		
@@ -1215,7 +1242,7 @@ SQL;
 		}
 
 		$where.=" AND (A.END_YN <> 'Y' OR A.END_YN IS NULL)";
-		$where.=" AND (A.SIU_YN <> 'Y' OR A.END_YN IS NULL)";
+		$where.=" AND (A.SIU_YN <> 'Y' OR A.SIU_YN IS NULL)";
 
 		
 		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
@@ -1273,7 +1300,7 @@ SQL;
 		
 
 		//$query = $this->db->get();
-		// echo $this->db->last_query();
+		echo $this->db->last_query();
 		$data['SLIST'] = $query->result();
 
 		return $data;

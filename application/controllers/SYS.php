@@ -183,6 +183,7 @@ class SYS extends CI_Controller {
 		
 		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
 		
+		
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;

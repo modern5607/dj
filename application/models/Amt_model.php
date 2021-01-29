@@ -30,17 +30,21 @@ class Amt_model extends CI_Model {
 
 	public function component_trans_cnt($param)
 	{
-		//$this->db->query('SET SESSION sql_mode = ""');
+		$this->db->query('SET SESSION sql_mode = ""');
 
 		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
-			$this->db->where(" TRANS_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'");
+			$this->db->where("TRANS_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'");
 		}
 
 		$this->db->select("COUNT(IDX) as CUT");
+		$this->db->where(" KIND = 'IN'");
+		$this->db->group_by("TRANS_DATE");
 		$query = $this->db->get("t_component_trans");
 		
-		
-		return $query->row()->CUT;
+		// echo $this->db->last_query();
+		$data= $query->num_rows();
+		// echo $data;
+		return $data;
 	}
 
 
@@ -305,7 +309,7 @@ SQL;
 				{$where}
 SQL;
 		$query = $this->db->query($sql);
-		echo $this->db->last_query();
+		// echo $this->db->last_query();
 		
 		return $query->row()->CUT;
 

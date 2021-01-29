@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script>
-<!--
+
 
 $(".xday").on("click",function(){
 	
@@ -84,7 +84,4 @@ $(document).on("click","h2 > span.close",function(){
 	
 });
 
-
-
--->
 </script>

@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="body_cont_float2">
     <ul>
-        <li style="width:400px">
+        <li style="width:420px">
 
             <div id="" class="bc_search">
                 <form>
@@ -84,8 +84,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </table>
             </div>
 
+            <div class="pagination">
+                <?php echo $this->data['pagenation'];?>
+                <?php
+			if($this->data['cnt'] > 20){
+			?>
+                <div class="limitset">
+                    <select name="per_page">
+                        <option value="20" <?php echo ($perpage == 20)?"selected":"";?>>20</option>
+                        <option value="50" <?php echo ($perpage == 50)?"selected":"";?>>50</option>
+                        <option value="80" <?php echo ($perpage == 80)?"selected":"";?>>80</option>
+                        <option value="100" <?php echo ($perpage == 100)?"selected":"";?>>100</option>
+                    </select>
+                </div>
+                <?php
+			}	
+			?>
+            </div>
+
+
         </li>
-        <li style="width:calc(100% - 400px);">
+        <li style="width:calc(100% - 420px);">
             <form name="ajaxform" id="ajaxform">
 
                 <div class="bc_header none_padding">
@@ -218,7 +237,7 @@ $(".form_submit").on("click", function() {
     var formData = new FormData($("#ajaxform")[0]);
     var $this = $(this);
 
-    var qty = $("input[name='XQTY']").val();
+    var qty = $("input[name='XQTY']").val();    //정형재고수량
     var tCount = 0;
     var sjqty = 0;
     var num = 0;
@@ -284,6 +303,7 @@ $(".form_submit").on("click", function() {
                 }, 1000);
 
                 chkHeadCode = false;
+                window.reload();
 
             }
         },
