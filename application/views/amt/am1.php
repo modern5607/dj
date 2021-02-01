@@ -84,7 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="gsflexst">
 					<div style="margin:0 10px;">
 						<!-- <label for="component_stock">자재재고량</label> -->
-						<input style="text-align: right" type="hidden" name="XQTY" id="XQTY" readonly value="<?php if(!empty($detail)){ echo round($detail['STOCK']); }?>">	
+						<input style="text-align: right" type="hidden" name="XQTY" id="XQTY" readonly value="<?php echo !empty($detail)?round($detail['STOCK']):""?>">	
 					</div>
 					<span class="btn_right"><p style="font-size: 20px; padding-right:20px; color:#999;"><?=$detpos?></p></span>
 					<span class="btni btn_right add_compnum" style="max-height:34px;"><span class="material-icons">add</span></span>	
@@ -166,14 +166,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $(".mod_delete").on("click",function(){
 	var idx = $(this).data("idx");
-	var qty = $("input[name='XQTY']").val();	//점토 총합계
-	var inqty = $(this).parents("tr").find("td").eq(4).text();
+	var qty = $("input[name='XQTY']").val();	//점토 총합계 hidden
+	var inqty = $(this).parents("tr").find("td").eq(3).text();	//입고량
 	var comp = $(this).parents("tr").find("td").eq(1).text(); //자재코드
 	inqty = parseInt(inqty.replace(/,/g,""));
-	console.log(idx);
+	qty = parseInt(qty.replace(/,/g,""));
+	console.log("qty: %d inqty :%d",qty,inqty);
 	var cQty = qty-inqty;
 	console.log("cqty : "+ cQty);
 
+	if(cQty<0)
+	{
+		alert("error : 점토 재고가 입고량보다 적습니다. 현재 점토 재고: "+number_format(qty));
+		location.reload();
+		return;
+	}
 	
 	if(inqty>qty){
 		alert("자재 입고변경 값이 현 자재 재고량 보다 큽니다.");

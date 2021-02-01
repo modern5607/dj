@@ -72,7 +72,7 @@ SQL;
 	$query = $this->db->query($sql);
 
 
-	// echo $this->db->last_query();
+	 echo $this->db->last_query();
 		return $query->result();
 		
 	}
@@ -1018,6 +1018,8 @@ SQL;
 
 		if(!empty($param['AM1']) && $param['AM1'] != ""){
 			$where .= " AND (TIS.QTY > 0 || (SELECT SUM(B.QTY) FROM T_ACT_D as B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX) > 0 ) ";
+		}else{
+			$where .= " AND TI.USE_YN = 'Y' ";
 		}
 		if(empty($param['COLOR'])){
 			$where .= " AND TIS.USE_YN = 'Y' ";
@@ -1032,7 +1034,7 @@ SQL;
 			$where .= " AND TI.ITEM_NAME LIKE '%{$param['V3']}%'";
 		}
 		if(!empty($param['V4']) && $param['V4'] != ""){
-			$where .= " AND TSD.COLOR LIKE '%{$param['V4']}%' ";
+			$where .= " AND COLOR LIKE '%{$param['V4']}%' ";
 		}
 
 		$sql=<<<SQL
@@ -1043,14 +1045,13 @@ SQL;
 				LEFT JOIN T_ITEMS as TI ON(TI.IDX = TIS.ITEM_IDX)
 				LEFT JOIN T_SERIES_D as TSD ON(TSD.IDX = TIS.SERIESD_IDX)
 			WHERE
-				1
+				TSD.USE_YN = "Y"
 				{$where}
 			ORDER BY 
 				TI.IDX, TIS.SERIESD_IDX
-			LIMIT
-				{$start},{$limit}
 SQL;
 		$query = $this->db->query($sql);
+		// echo $this->db->last_query();
 		
 		return $query->row()->CUT;
 	}

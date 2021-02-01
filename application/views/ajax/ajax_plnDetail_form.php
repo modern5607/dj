@@ -153,18 +153,27 @@ $(".submitBtn").on("click",function(){
 
 	var formData = new FormData($("#ajaxform")[0]);
 	var $this = $(this);
-
+	var inputcount=0;
 	if(num == 0){
 		alert('수주항목을 선택해주세요.');
 		return false;
 	}
+	// console.log($("input[name='QTY[]'][class='form_select']").parent().parent().children().eq(1).html());
+	$("input[name='QTY[]'][class='form_select']").each(function(index,item){
+		console.log($(item).val());
+		if($(item).val() !="")
+		{
+			inputcount++;
+		}
+	});
 
-	if ($('.form_select').val() == "") {
-        alert('수량을 입력해주세요.');
+	if(inputcount==0 || inputcount=="")
+	{
+		alert('수량을 입력해주세요.');
         $(".form_select").val('');
         $(".form_select").eq(0).focus();
         return false;
-    }
+	}
 
 
 	$.ajax({

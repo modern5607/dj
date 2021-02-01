@@ -193,7 +193,7 @@ SQL;
 			{$where}
 SQL;
 		$query = $this->db->query($sql);
-		//echo $this->db->Last_query();
+		// echo $this->db->Last_query();
 		return $query->result();
 	}
 
@@ -267,7 +267,7 @@ SQL;
 			GROUP BY COMP_IDX
 SQL;
 		$query = $this->db->query($sql);
-		//  echo $this->db->Last_query();
+		 echo $this->db->Last_query();
 		return $query->result();
 	}
 
@@ -507,7 +507,8 @@ public function component_count($date='',$param)
 		
 		$query = $this->db->get();
 		$data['STOCK'] = $query->row()->STOCK;
-
+		// echo $this->db->last_query();
+		
 		return $data;		
 	}
 
