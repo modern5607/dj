@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>시리즈</th>
 						<th>품명</th>
 						<th>색상</th>					
-						<th>현재고량</th>
+						<th>재고량</th>
 						<th>출고대기수량</th>
 						<th></th>
 					</tr>
@@ -122,7 +122,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $('select[name=useyn]').on('change',function(){
 
 	if($(this).data('qty') > 0 ){
-		alert('현재고량이 남아있습니다.');
+		alert('현재 재고량이 남아있습니다.');
 		$(this).children().eq(0).prop("selected", true);
 		return false;
 	}

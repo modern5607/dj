@@ -999,7 +999,7 @@ SQL;
 				LEFT JOIN T_ITEMS as TI ON(TI.IDX = TIS.ITEM_IDX)
 				LEFT JOIN T_SERIES_D as TSD ON(TSD.IDX = TIS.SERIESD_IDX)
 			WHERE
-				TSD.USE_YN = "Y"
+				1
 				{$where}
 			ORDER BY 
 				TI.IDX, TIS.SERIESD_IDX
@@ -1007,7 +1007,7 @@ SQL;
 				{$start},{$limit}
 SQL;
 		$query = $this->db->query($sql);
-		//  echo $this->db->last_query();
+		 echo $this->db->last_query();
 		return $query->result();
 	}
 

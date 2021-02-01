@@ -60,7 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <th>색상</th>
                         <th>작업완료</th>
                         <th>수주수량</th>
-                        <th>현재고량</th>
+                        <th>재고량</th>
                         <th>출고여부</th>
                         <th>예상재고</th>
                         <th>비고</th>
