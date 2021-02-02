@@ -976,7 +976,7 @@ SQL;
 		$where = "";
 		
 		if(!empty($param['AM1']) && $param['AM1'] != ""){
-			$where .= " AND (TIS.QTY > 0 || (SELECT SUM(B.QTY) FROM T_ACT_D as B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX) > 0 ) ";
+			$where .= " AND (TIS.QTY > 0 OR (SELECT IFNULL(SUM(B.QTY), 0) FROM T_ACT_D AS B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX AND STATUS != 'CC') > 0) ";
 		}else{
 			$where .= " AND TI.USE_YN = 'Y' ";
 		}
@@ -1033,22 +1033,6 @@ SQL;
 				LEFT JOIN T_SERIES_D as TSD ON(TSD.IDX = TIS.SERIESD_IDX)
 			WHERE
 				1
-				AND (
-					TIS.QTY > 0 
-					OR (
-					SELECT 
-						IFNULL(
-						SUM(B.QTY), 
-						0
-						) 
-					FROM 
-						T_ACT_D AS B 
-					WHERE 
-						B.ITEMS_IDX = TIS.ITEM_IDX 
-						AND B.SERIESD_IDX = TIS.SERIESD_IDX 
-						AND STATUS != "CC"
-					) > 0
-				) 
 				{$where}
 			ORDER BY 
 				TI.IDX, TIS.SERIESD_IDX
@@ -1066,7 +1050,7 @@ SQL;
 		$where = "";
 
 		if(!empty($param['AM1']) && $param['AM1'] != ""){
-			$where .= " AND (TIS.QTY > 0 || (SELECT SUM(B.QTY) FROM T_ACT_D as B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX) > 0 ) ";
+			$where .= " AND (TIS.QTY > 0 OR (SELECT IFNULL(SUM(B.QTY), 0) FROM T_ACT_D AS B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX AND STATUS != 'CC') > 0) ";
 		}else{
 			$where .= " AND TI.USE_YN = 'Y' ";
 		}
@@ -1096,8 +1080,6 @@ SQL;
 			WHERE
 				TSD.USE_YN = "Y"
 				{$where}
-			ORDER BY 
-				TI.IDX, TIS.SERIESD_IDX
 SQL;
 		$query = $this->db->query($sql);
 		// echo $this->db->last_query();
