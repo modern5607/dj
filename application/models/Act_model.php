@@ -72,7 +72,7 @@ SQL;
 	$query = $this->db->query($sql);
 
 
-	 echo $this->db->last_query();
+	//  echo $this->db->last_query();
 		return $query->result();
 		
 	}
@@ -308,14 +308,17 @@ SQL;
 	}
 	
 
-	public function get_inventory_count()
+	public function get_inventory_count($param)
 	{
-		$this->db->select("count(*) as CNT");
+		$this->db->select("A.IDX, B.H_IDX, C.ACT_DATE, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY,F.CUST_NM,E.SERIES_NM");
 		$this->db->from("t_inventory_trans as A");
 		$this->db->join("t_act_h as C","C.IDX = A.ACT_IDX","LEFT");
 		$this->db->join("t_act_d as B","B.IDX = A.ACT_D_IDX","LEFT");
 		$this->db->join("t_series_d as D","D.IDX = A.SERIESD_IDX","LEFT");
-		
+		$this->db->join("T_BIZ_REG AS F ","C.BIZ_IDX = F.IDX","LEFT");
+		$this->db->join("T_SERIES_H AS E ","E.IDX = D.SERIES_IDX","LEFT");
+
+
 		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
 			$this->db->where("C.ACT_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'");
 		}
@@ -329,13 +332,22 @@ SQL;
 		}
 
 		if(!empty($param['V3']) && $param['V3'] != ""){
-			$this->db->where("B.ITEM_NM",$param['V3']);
+			//$this->db->where("B.ITEM_NM",$param['V3']);
+			$this->db->like("B.ITEM_NM",$param['V3']);
 		}
 
-		//$this->db->group_by("B.H_IDX");
+		//if(!empty($param['V4']) && $param['V4'] != ""){
+			$this->db->where("A.GJ_GB",'CU');
+		//}
+		
+		// $this->db->select("A.IDX, B.H_IDX, C.ACT_DATE, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY,(SELECT E.SERIES_NM FROM T_SERIES_H as E WHERE E.IDX = D.SERIES_IDX) as SE_NAME");
+		$this->db->order_by("ACT_DATE", "DESC");
+		$this->db->order_by("ITEM_NM","ASC");
+		$this->db->order_by("CUST_NM","ASC");
 		$query = $this->db->get();
-		// echo $query->row()->CNT;
-		return $query->row()->CNT;
+
+		// echo $query->num_rows();
+		return $query->num_rows();
 	}
 
 
@@ -1194,7 +1206,7 @@ SQL;
 		$this->db->group_by("A.ITEM_NM, A.ITEMS_IDX");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
-		// echo $this->db->last_query();
+		echo $this->db->last_query();
 		
 		return $query->result();
 	}

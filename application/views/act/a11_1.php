@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                         <tr <?php echo ($NDATE == $row->SB_DATE)?"class='over'":"";?>>
                             <td class="cen"><?php echo $no; ?></td>
-                            <td class="cen"><a href='<?php echo base_url($this->data['pos'].'/a11_1/').$row->SB_DATE
+                            <td class="cen"><a href='<?php echo base_url($this->data['pos'].'/a11_1/').$row->SB_DATE."?sdate=".$str['sdate']."&"."edate=".$str['edate']
 							?>'><?php echo $row->SB_DATE;?></a></td>
                         </tr>
                         <?php
