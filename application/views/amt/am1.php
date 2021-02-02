@@ -178,7 +178,7 @@ $(".mod_delete").on("click",function(){
 
 	if(cQty<0)
 	{
-		alert("error : 점토 재고가 입고량보다 적습니다. 현재 점토 재고: "+number_format(qty));
+		alert("현재 점토 재고가 입고량보다 적습니다. \n점토 재고: "+number_format(qty));
 		location.reload();
 		return;
 	}

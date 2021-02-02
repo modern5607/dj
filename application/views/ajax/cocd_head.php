@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="register_form">
 			<fieldset class="form_1">
 				<legend>이용정보</legend>
-				<table>
+				<table class="nhover">
 					<tbody>
 						<tr>
 							<th><label class="l_id">코드</label></th>

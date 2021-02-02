@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	
 
 	<div class="tbl-content" style="padding-top:10px">
-		<table class="none_border" cellpadding="0" cellspacing="0" border="0" width="100%">
+		<table class="none_border nhover" cellpadding="0" cellspacing="0" border="0" width="100%">
 			<tbody>
 			<tr><th colspan="4" style="font-size:15px; border-bottom:1px solid red;">개인정보</th></tr>
 				<tr>
@@ -89,7 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<div class="tbl-content">
 		
-		<table class="none_border" cellpadding="0" cellspacing="0" border="0" width="100%">
+		<table class="none_border nhover" cellpadding="0" cellspacing="0" border="0" width="100%">
 			<tbody>
 			<tr><th colspan="4" style="font-size:15px; border-bottom:1px solid red;">추가정보</th></tr>
 				<tr>

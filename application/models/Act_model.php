@@ -1016,7 +1016,7 @@ SQL;
 				{$start},{$limit}
 SQL;
 		$query = $this->db->query($sql);
-		 echo $this->db->last_query();
+		// echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -1203,7 +1203,7 @@ SQL;
 		$this->db->group_by("A.ITEM_NM, A.ITEMS_IDX");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
-		echo $this->db->last_query();
+		// echo $this->db->last_query();
 		
 		return $query->result();
 	}
@@ -2369,7 +2369,7 @@ SQL;
 				{$start},{$limit}
 SQL;
 		$query = $this->db->query($sql);
-		 echo $this->db->last_query();
+		// echo $this->db->last_query();
 		return $query->result();
 	}
 

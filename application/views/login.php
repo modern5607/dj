@@ -32,7 +32,7 @@
     <div class="login_box">
     <header><h2><i class="material-icons">assignment_ind</i>로그인</h2></header>
 	<form name="userloginform" action="<?php echo base_url('/register/login_exec');?>" method="post" style="margin-top:20px">
-        <table>
+        <table class="nhover">
             <tbody>
                 <tr>
                     <!--<th><label for="ID">아이디</label></th>-->

@@ -423,7 +423,7 @@ SQL;
 
 		$query = $this->db->where("IDX",$params['ACT_IDX'])
 						->get("T_ACT_D");
-		echo $this->db->last_query();
+		// echo $this->db->last_query();
 		
 		$actinfo = $query->row();
 		

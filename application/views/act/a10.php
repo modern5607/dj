@@ -112,7 +112,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <?php if(!empty($detail)){ ?>
 
                     <div class="ac_table">
-                        <table>
+                        <table class="nhover">
                             <tr>
                                 <th>작업일자</th>
                                 <td><input type="text" name="XDATE" value="<?php echo date("Y-m-d",time());?>" autocomplet="off" class="calendar">

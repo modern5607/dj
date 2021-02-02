@@ -65,8 +65,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <td><strong><?php echo $row->COLOR; ?></strong></td>
                         <td class="right"><?php echo number_format($row->QTY); ?></td>
                         <td class="cen">
-                            <input style="text-align:right" type="number" name="OUT_QTY[]" class="form_input1"
-                                value="<?php echo $row->QTY; ?>" size="6" max="<?= $row->MAXQTY ?>">
+                            <input style="text-align:right; width:100px" type="number" name="OUT_QTY[]" class="form_input1"
+                                value="<?php echo $row->QTY; ?>" max="<?= $row->MAXQTY ?>" min="<?php echo $row->QTY; ?>">
                             <input type="hidden" name="QTY[]" value="<?php echo $row->QTY; ?>">
                         </td>
                         <td class="cen"><input type="text" name="OUT_DATE[]" class="form_input1 calendar"
