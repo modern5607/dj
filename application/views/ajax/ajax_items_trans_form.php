@@ -142,16 +142,16 @@ $(".sh_submit").on("click", function() {
                         "' />";
                     html += "	<input type='hidden' name='ITEM_NM[]' value='" + info
                         .ITEM_NAME + "' />";
-                    //html += "	<input type='hidden' name='SERIESD_IDX[]' value='"+info.SERIESD_IDX+"' />";
+                    html += "	<input type='hidden' name='JT_QTY[]' value='"+info.JT_QTY+"' />";
                     //html += "	<input type='hidden' name='H_IDX[]' value='"+HIDX+"' />";				
                     html += "</td>";
                     html +=
                         "<td><input type='text' autocomplete='off' name='REMARK[]' class='form_select' value='' /></td>";
                     html += "</tr>";
-                    html +=
-                        "<script type='text/javascript'>$('.calendar').datetimepicker({format:'Y-m-d',timepicker:false,lang:'ko-KR'});<\/script>";
 
                 });
+                    html +=
+                        "<script type='text/javascript'>$('.calendar').datetimepicker({format:'Y-m-d',timepicker:false,lang:'ko-KR'});<\/script>";
             } else {
                 html +=
                     "<tr><td colspan='4' style='text-align:center; color:#999;'>품목이 없습니다.</td></tr>"
@@ -165,6 +165,19 @@ $(".sh_submit").on("click", function() {
 
 
 $(".submitBtn").on("click", function() {
+    var trc = $('.form_3 tbody tr').length;
+    var count = 0;
+    var max = <?php echo($component[0]->STOCK) ?>;
+    
+    for (var i = 0; i <trc; i++) {
+        var stock = $("input[name^='QTY']").eq(i).val()
+        var acc = $("input[name^='JT_QTY']").eq(i).val()
+        count += (stock* acc)
+    };
+    if(max < count){
+        alert('자재가 부족합니다.')
+        return false;
+    }
 
     var formData = new FormData($("#ajaxform")[0]);
     var $this = $(this);

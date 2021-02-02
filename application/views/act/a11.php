@@ -11,7 +11,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				
 				<div id="" class="bc_search">
 				<form>
-					
+					<label for="sdate">수주일</label>
+						<input type="text" name="sdate" class="sdate calendar" value="" size="12" autocomplete="off"/> ~ 
+						
+						<input type="text" name="edate" class="edate calendar" value="" size="12" autocomplete="off"/>
+
 					<input type='hidden' name='n' value='1'/>
 					<label for="v1">거래처</label>
 					<select name="v1">
@@ -44,14 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					<!--label for="v4">CU만보기</label>
 					<input type="checkbox" name="v4" id="v4" value="1" <?php echo (!empty($str['v4']) && $str['v4'] == 1)?"checked":"";?> /-->
-
-					
-					<label for="sdate">수주일</label>
-					<input type="text" name="sdate" class="sdate calendar" value="" size="12" autocomplete="off"/> ~ 
-					
-					<input type="text" name="edate" class="edate calendar" value="" size="12" autocomplete="off"/>
 					<span class="nbsp"></span>
-					
 					<button class="search_submit"><i class="material-icons">search</i></button>
 				</form>
 				</div>

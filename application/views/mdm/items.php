@@ -48,6 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>품번</th>
 						<th>품명</th>
 						<th>규격</th>
+						<th>후처리유무</th>
 						<th>사용유무</th>
 						<th></th>
 					</tr>
@@ -59,6 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="cen"><?php echo $row->ITEM_NO; ?></td>
 					<td><?php echo $row->ITEM_NAME; ?></td>
 					<td><?php echo $row->SPEC; ?></td>
+					<td class="cen"><?php echo ($row->KS_YN == "Y") ? "사용" : "미사용"; ?></td>
 					<td class="cen"><?php echo ($row->USE_YN == "Y") ? "사용" : "미사용"; ?></td>
 					<td class="cen">
 						<span class="btn register_update" data-idx="<?php echo $row->IDX;?>">수정</span>

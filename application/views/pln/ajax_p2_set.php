@@ -32,7 +32,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr>
 							<th>내용<span class="re"></span></th>
 							<td>
-								<input type="text" name="REMARK" class="form_input input_100" value="<?php echo (!empty($INFO))?$INFO->REMARK:""; ?>" style="padding:6px 10px;">
+								<textarea name="REMARK" class="form_input input_100" id="" rows="5"><?php echo (!empty($INFO))?$INFO->REMARK:""; ?></textarea>
+								<!-- <textarea name="" id="" cols="30" rows="10"></textarea> -->
 							</td>
 						</tr>
 						

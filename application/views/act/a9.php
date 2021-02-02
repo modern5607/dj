@@ -101,7 +101,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<button class="search_submit"><i class="material-icons">search</i></button>
 			</form>
             <div class="gsflexst">
-            <span class="btn_right"><p style="font-size: 20px; margin-right:20px; color: #999;"><?=empty($NDATE)?"":$NDATE?></p></span>
+            <span class="btn_right"><p style="font-size: 20px; margin-right:20px; color: #194bff;"><?=empty($NDATE)?"":$NDATE?></p></span>
             <span class="btni btn_right add_itemnum" style="max-height:34px;" data-type="<?php echo $this->data['subpos'];?>"><span class="material-icons">add</span></span>	
             </div>
 			</div>
@@ -114,7 +114,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>No</th>
 							<th>시리즈</th>
 							<th>품명</th>
-							<th>수량</th>
+							<th>실적수량</th>
+							<th>불량수량</th>
 							<th>비고</th>
 							<th></th>
 						</tr>
@@ -125,12 +126,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					        foreach($RList as $i=>$row){
                                 $num = $i+1;
                                 if($row->SERIES_NM == "합계"){ ?>
-                                    <tr style="background:#f3f8fd;">
-                                        <td colspan="2" style="text-align:right;"><strong><?php echo $row->SERIES_NM; ?></strong></td>
-                                        <td></td>
+                                    <tr style="background:#f3f8fd;" class="nhover">
+                                        <td colspan="3" style="text-align:right;"><strong><?php echo $row->SERIES_NM; ?></strong></td>
                                         <td class="right"><strong><?php echo number_format($row->IN_QTY); ?></strong></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td class="right"><strong><?php echo number_format($row->BQTY); ?></strong></td>
+                                        <td colspan="2"></td>
                                     </tr>
                                 <?php
                                 }
@@ -141,6 +141,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <td><?php echo $row->SERIES_NM; ?></td>
                                         <td><?php echo $row->ITEM_NAME; ?></td>
                                         <td class="right"><?php echo number_format($row->IN_QTY); ?></td>
+                                        <td class="right"><?php echo number_format($row->BQTY); ?></td>
                                         <td><?php echo $row->REMARK;?></td>
                                         <td><span class="btn del_items"
                                         data-idx="<?php echo $row->TRANS_IDX; //detail idx?>" 
@@ -154,7 +155,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					if(empty($RList)){
 					?>
                         <tr>
-                            <td colspan="6" style='color:#999; padding:40px 0;'>등록된 실적정보가 없습니다.</td>
+                            <td colspan="10" style='color:#999; padding:40px 0;'>등록된 실적정보가 없습니다.</td>
                         </tr>
                         <?php } ?>
                     </tbody>

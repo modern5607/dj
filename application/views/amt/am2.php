@@ -69,7 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					}
 				}
 				?>
-				<tr style="background:#f3f8fd;">
+				<tr style="background:#f3f8fd;" class="nhover">
 					<td colspan="2" style="text-align:right;"><strong>총 수량</strong></td>
 					<td class="right"><strong><?php echo number_format($remark); ?></strong></td>
 					<td colspan="1" style="text-align:right;"><strong>총 합계</strong></td>

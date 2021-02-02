@@ -63,7 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<!-- <a href="<?php echo base_url('MDM');?>" class="alink" style="float:left;">전체코드보기</a> -->
 					<div style="display:flex;flex-direction: row-reverse;align-items: flex-end;">
 					<span class="btni btn_right add_detail" data-hidx="<?php echo $H_IDX;?>"><span class="material-icons">add</span></span>
-					<span class=""><p style="font-size: 20px; padding-right:20px; color:#999"><?php echo $headList[$H_IDX-1]->NAME ?></p></span>
+					<span class=""><p style="font-size: 20px; padding-right:20px; color:#194bff"><?php echo $headList[$H_IDX-1]->NAME ?></p></span>
 					</div>
 					
 				<?php } ?>

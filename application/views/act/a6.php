@@ -87,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}
 				else
 				{?>
-					 <tr style="background:#f3f8fd;">
+					 <tr style="background:#f3f8fd;" class="nhover">
                         <td colspan="3" class="right"><strong><?php echo $row->ITEM_NM; ?></strong></td>
                         <td class="cen"><?php echo $row->COLOR; ?></td>
                         <td class="right"><?php echo number_format($row->QTY); ?></td>
