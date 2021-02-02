@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			
 			<fieldset class="form_3">
 				
-				<table>
+				<table class="nhover">
 					<tbody>
 						<tr>
 							<th>날짜<span class="re"></span></th>
