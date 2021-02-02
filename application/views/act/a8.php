@@ -104,7 +104,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </form>
                 <div class="gsflexst">
                     <span class="btn_right"><p
-                            style="font-size: 20px; padding-right:20px; color:#999;"><?=empty($NDATE)?"":$NDATE?></p></span>
+                            style="font-size: 20px; padding-right:20px; color:#194bff;"><?=empty($NDATE)?"":$NDATE?></p></span>
                     <span class="btni btn_right add_itemnum" style="max-height:34px;"
                         data-type="<?php echo $this->data['subpos'];?>"><span class="material-icons">add</span></span>
                 </div>
@@ -161,7 +161,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </tr>
                         <?php }else{
 						?>
-                        <tr style="background:#f3f8fd;">
+                        <tr style="background:#f3f8fd;" class="nhover">
                             <td colspan="1" style="text-align:right"><strong>총 수량</strong></td>
                             <td style="text-align:right"><?php echo number_format($count);?></td>
                             <td colspan="1" style="text-align:right"><strong>총 합계</strong></td>

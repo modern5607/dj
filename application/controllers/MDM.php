@@ -487,6 +487,7 @@ class MDM extends CI_Controller {
 			'BK_YN' => $this->input->post("BK_YN"),
 			'JT_QTY' => $this->input->post("JT_QTY"),
 			'BIZ_IDX' => $this->input->post("BIZ_IDX"),
+			'KS_YN' => $this->input->post("KS_YN"),
 			'USE_YN' => $this->input->post("USE_YN"),
 			'COL1' => '',
 			'COL2' => '',

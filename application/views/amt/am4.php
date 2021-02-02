@@ -66,11 +66,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <td class="right"><?php echo number_format($row->QTY); ?></td>
                         <td class="cen">
                             <input style="text-align:right" type="number" name="OUT_QTY[]" class="form_input1"
-                                value="<?php echo $row->QTY; ?>" size="6">
+                                value="<?php echo $row->QTY; ?>" size="6" max="<?= $row->MAXQTY ?>">
                             <input type="hidden" name="QTY[]" value="<?php echo $row->QTY; ?>">
                         </td>
                         <td class="cen"><input type="text" name="OUT_DATE[]" class="form_input1 calendar"
-                                value="<?= date("Y-m-d H:i:s") ?>" /> </td>
+                                value="<?= date("Y-m-d") ?>" /> </td>
                         <!-- <td class="cen"><input type="text" name="OUT_DATE[]" class="form_input1" value=""></td> -->
                         <td class="cen"><span class="btn mod_stock" data-actidx="<?php echo $row->ACT_IDX;?>"
                                 data-maxqty="<?php echo $row->MAXQTY;?>">출고</span></td>
@@ -230,7 +230,7 @@ $(".mod_stock").on("click", function() {
 
 
 $(".calendar").datetimepicker({
-    format: 'Y-m-d H:i:s',
+    format: 'Y-m-d',
     timepicker: false,
     lang: 'ko-KR'
 });

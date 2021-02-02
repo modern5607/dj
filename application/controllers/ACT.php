@@ -813,6 +813,7 @@ class ACT extends CI_Controller {
 			return $this->load->view('/ajax/ajax_items_trans_a9_form',$data);
 		}else{
 			$data['title'] = "성형실적등록";
+			$data['component'] = $this->act_model->get_component_stock();
 			return $this->load->view('/ajax/ajax_items_trans_form',$data);
 		}
 	}
@@ -876,6 +877,7 @@ class ACT extends CI_Controller {
 				$params['REMARK'][$key] = $this->input->post("REMARK")[$key];
 				//$params['H_IDX'][$key] = $this->input->post("H_IDX")[$key];
 				$params['transdate'] = $this->input->post("transdate");
+				$params['BQTY'] = $this->input->post("BQTY");
 			}
 		}
 
@@ -1125,7 +1127,20 @@ class ACT extends CI_Controller {
 		$this->load->view('/act/ajax_print',$data);
 	}
 
+	public function ajax_a12_ksupdate()
+	{
+		$param['IDX'] = $this->input->post("idx");
+		$param['5_QTY'] = $this->input->post("stock");
+		$param['KS_DATE'] = $this->input->post("cont");
+		$param['KIND'] = $this->input->post("kind");
+		$param['GJ_GB'] = $this->input->post("gjgb");
 
+		
+		$data = $this->act_model->ajax_a12_ksupdate($param);
+		
+		echo $data;
+		
+	}
 
 
 }

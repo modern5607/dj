@@ -60,20 +60,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>일자</th>
 						<th>시리즈</th>
 						<th>품목</th>
-						<th>수량</th>
+						<th>실적수량</th>
+						<th>불량수량</th>
 						<th>BK여부</th>
 					</tr>
 				</thead>
 				<tbody>
 				<?php
 				if(!empty($List)){
-					$count=0;
-					$remark=0;
 				foreach($List as $i=>$row){ 
 					$no = $pageNum+$i+1;
 					if($row->ITEM_NAME == "합계"){
-						$count += $row->IN_QTY;
-						$remark += $row->REMARK;
+				?>
+					<tr style="background:#f3f8fd;" class="nhover">
+						<td colspan="2" style="text-align:right;"><strong>총 수량</strong></td>
+						<td class="right"><strong><?php echo number_format($row->REMARK); ?></strong></td>
+						<td colspan="1" style="text-align:right;"><strong>총 합계</strong></td>
+						<td class="right"><strong><?php echo number_format($row->IN_QTY); ?></strong></td>
+						<td class="right"><strong><?php echo number_format($row->BQTY); ?></strong></td>
+						<td colspan="1" class="cen"></td>
+					</tr>
+				<?php
 					}else{
 				?>
 				<tr>
@@ -82,6 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td><?php echo $row->SERIES_NM; ?></td>
 					<td><?php echo $row->ITEM_NAME; ?></td>
 					<td class="right"><?php echo number_format($row->IN_QTY); ?></td>
+					<td class="right"><?php echo number_format($row->BQTY); ?></td>
 					<td class="cen"><?=$row->BK;?></td>
 					
 				</tr>
@@ -92,15 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				<?php
 				}
-				?>
-				<tr style="background:#f3f8fd;">
-					<td colspan="2" style="text-align:right;"><strong>총 수량</strong></td>
-					<td class="right"><strong><?php echo number_format( $remark); ?></strong></td>
-					<td colspan="1" style="text-align:right;"><strong>총 합계</strong></td>
-					<td class="right"><strong><?php echo number_format( $count); ?></strong></td>
-					<td colspan="1" class="cen"></td>
-				</tr>
-				<?php
+				
 				}else{
 				
 				?>

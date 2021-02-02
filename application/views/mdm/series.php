@@ -102,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</form>
 				</div>
 				<div class="gsflexst">
-				<span class="btn_right"><p style="font-size: 20px; padding-right:20px; color:#999;">
+				<span class="btn_right"><p style="font-size: 20px; padding-right:20px; color:#194bff;">
 					<?php if($series_detailList){
 						echo $series_detailList[0]->SERIES_NM; 
 					}else{

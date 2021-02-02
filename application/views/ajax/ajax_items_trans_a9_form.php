@@ -51,13 +51,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>No</th>
                             <th>품명</th>
                             <th>성형재고</th>
-                            <th>수량</th>
+                            <th>실적 수량</th>
+                            <th>불량 수량</th>
                             <th>비고</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="5" style="text-align:center; color:#999;"> 시리즈를 선택하세요 </td>
+                            <td colspan="10" style="text-align:center; color:#999;"> 시리즈를 선택하세요 </td>
                         </tr>
                     </tbody>
                 </table>
@@ -139,19 +140,21 @@ $(".sh_submit").on("click", function() {
                     html += "<td>" + info.ITEM_NAME + "</td>";
                     //html += "<td>"+info.COLOR+"</td>";
                     html += "<td style='text-align:center;'>" + info.SH_QTY + "</td>";
-                    html += "<td>";
+
+                    html += "<td style='text-align:center;'>";
                     html +=
-                        "	<input type='text' autocomplete='off' name='QTY[]' class='form_select' size='4' value='' />";
+                        "	<input style='text-align:right;' type='text' autocomplete='off' name='QTY[]' class='form_select qty_this' size='4' value='' />";
                     html += "	<input type='hidden' name='ITEM_IDX[]' value='" + info.IDX +
                         "' />";
                     html += "	<input type='hidden' name='ITEM_NM[]' value='" + info
                         .ITEM_NAME + "' />";
                     //html += "	<input type='hidden' name='SERIESD_IDX[]' value='"+info.SERIESD_IDX+"' />";
-                    //html += "	<input type='hidden' name='H_IDX[]' value='"+HIDX+"' />";				
                     html += "</td>";
 
+                    html += "<td style='text-align:center;'><input style='text-align:right;' type='text' name='BQTY[]' autocomplete='off' class='form_select qty_this' size='4' value='0'/></td>";
+
                     html +=
-                        "<td><input type='text' autocomplete='off' name='REMARK[]' class='form_select' value='' /></td>";
+                        "<td style='text-align:center;'><input type='text' autocomplete='off' name='REMARK[]' class='form_select' value='' /></td>";
                     html += "</tr>";
 
                 });
@@ -214,16 +217,14 @@ $(".submitBtn").on("click", function() {
 });
 
 if (BK == 0) {
-    $(document).on("change", "input[name^='QTY']", function() {
-        var SQTY = $(this).parents("tr").find("td:eq(2)").text();
-        var QTY = $(this).val();
+    $(document).on("change", ".qty_this", function() {
+        var SQTY = $(this).parents("tr").find("td:eq(2)").text()*1;
+        var BQTY = $(this).parents("tr").find("input[name^='BQTY']").val()*1;
+        var QTY = $(this).parents("tr").find("input[name^='QTY']").val()*1;
 
         $this = $(this);
 
-        SQTY = SQTY * 1;
-
-
-        if (SQTY < QTY) {
+        if (SQTY < QTY+BQTY) {
             alert('성형재고보다 수량을 낮게 해주세요');
             $this.val('');
             $this.focus();

@@ -64,14 +64,14 @@ class Amt_model extends CI_Model {
 		}
 
 		if(!empty($param['CUSTOMER']) && $param['CUSTOMER'] != ""){
-			$where .= " AND (SELECT CUST_NM FROM djsmart.T_BIZ_REG WHERE IDX = A.BIZ_IDX) LIKE '%{$param['CUSTOMER']}%'";
+			$where .= " AND (SELECT CUST_NM FROM T_BIZ_REG WHERE IDX = A.BIZ_IDX) LIKE '%{$param['CUSTOMER']}%'";
 		}
 
 
 		$sql=<<<SQL
 			SELECT 
 				AA.TRANS_DATE,
-				(SELECT CUST_NM FROM djsmart.T_BIZ_REG WHERE IDX = AA.BIZ_IDX) CUST_NM, 
+				(SELECT CUST_NM FROM T_BIZ_REG WHERE IDX = AA.BIZ_IDX) CUST_NM, 
 				AA.COMPONENT_NM, 
 				AA.UNIT, 
 				AA.IN_QTY, 
@@ -80,15 +80,15 @@ class Amt_model extends CI_Model {
 				(
 					SELECT
 						A.TRANS_DATE,
-						(SELECT CUST_NM FROM djsmart.T_BIZ_REG WHERE IDX = A.BIZ_IDX) CUST_NM, 
+						(SELECT CUST_NM FROM T_BIZ_REG WHERE IDX = A.BIZ_IDX) CUST_NM, 
 						B.COMPONENT_NM, 
 						B.UNIT, 
 						A.IN_QTY, 
 						A.REMARK,
 						A.BIZ_IDX
 					FROM
-						djsmart.T_COMPONENT_TRANS A, 
-						djsmart.T_COMPONENT B
+						T_COMPONENT_TRANS A, 
+						T_COMPONENT B
 					WHERE
 						A.COMP_IDX = B.IDX AND 
 						A.KIND = 'IN'
@@ -98,8 +98,8 @@ class Amt_model extends CI_Model {
 			UNION
 			SELECT COUNT(B.COMPONENT_NM),'합계' AS TEXT,B.COMPONENT_NM, '' UNIT, SUM(IN_QTY) IN_QTY,'' 
 			FROM 
-			djsmart.T_COMPONENT_TRANS A, 
-			djsmart.T_COMPONENT B
+			T_COMPONENT_TRANS A, 
+			T_COMPONENT B
 			WHERE 
 				A.COMP_IDX = B.IDX AND
 				A.KIND = 'IN'
@@ -225,7 +225,7 @@ SQL;
 		$sql=<<<SQL
 			SELECT 
 				AA.TRANS_DATE,
-				(SELECT CUST_NM FROM djsmart.T_BIZ_REG WHERE IDX = AA.BIZ_IDX) CUST_NM, 
+				(SELECT CUST_NM FROM T_BIZ_REG WHERE IDX = AA.BIZ_IDX) CUST_NM, 
 				AA.COMPONENT_NM, 
 				AA.UNIT, 
 				AA.OUT_QTY, 
@@ -236,7 +236,7 @@ SQL;
 				(
 					SELECT
 						A.TRANS_DATE,
-						(SELECT CUST_NM FROM djsmart.T_BIZ_REG WHERE IDX = A.BIZ_IDX) CUST_NM, 
+						(SELECT CUST_NM FROM T_BIZ_REG WHERE IDX = A.BIZ_IDX) CUST_NM, 
 						B.COMPONENT_NM, 
 						B.UNIT, 
 						A.OUT_QTY, 
@@ -246,9 +246,9 @@ SQL;
 						A.COL1,
 						TI.ITEM_NAME
 					FROM
-						djsmart.T_COMPONENT_TRANS A, 
-						djsmart.T_COMPONENT B,
-						djsmart.T_ITEMS TI
+						T_COMPONENT_TRANS A, 
+						T_COMPONENT B,
+						T_ITEMS TI
 					WHERE
 						A.COMP_IDX = B.IDX 
 						AND TI.IDX = A.ITEM_IDX
@@ -371,7 +371,7 @@ SQL;
 			$this->db->like("TAD.ITEM_NM",$params['V3']);
 		}
 
-		$this->db->where("TAD.STATUS","SB");
+		$this->db->where("TIS.QTY >= TAD.QTY");
 		$this->db->where("COALESCE(TAD.END_YN,'N') <>","Y");
 
 		$query = $this->db->select("TAH.ACT_DATE, TAD.IDX as ACT_IDX, TAD.ITEM_NM, TAD.QTY,TSH.SERIES_NM, TSD.COLOR, TIS.QTY AS MAXQTY")
@@ -383,6 +383,7 @@ SQL;
 						->limit($limit, $start)
 						->order_by("TAH.ACT_DATE","ASC")
 						->get();
+						// echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -397,13 +398,15 @@ SQL;
 			$this->db->where("TAD.ITEM_NM",$params['V3']);
 		}
 
-		$this->db->where("TAD.STATUS","SB");
+		$this->db->where("TIS.QTY >= TAD.QTY");
 		$this->db->where("COALESCE(TAD.END_YN,'N') <>","Y");
 
 		$query = $this->db->select("COUNT(*) as CUT")
 						->from("T_ACT_D as TAD")
 						->join("T_ACT_H as TAH","TAH.IDX = TAD.H_IDX","LEFT")
 						->join("T_SERIES_D as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
+						->join("T_SERIES_H as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
+						->join("T_ITEM_STOCK as TIS","TIS.ITEM_IDX = TAD.ITEMS_IDX AND TIS.SERIESD_IDX = TSD.IDX","LEFT")
 						->get();
 		return $query->row()->CUT;
 	}

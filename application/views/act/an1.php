@@ -69,16 +69,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <tbody>
                     <?php
 				if(!empty($List)){
-					$sumxxqty=0;
 				foreach($List as $i=>$row){ 
 					$no = $pageNum+$i+1;
-					$sumqty = $row->QT2+$row->QT3+$row->QT4;
-					$yn = ($row->END_YN <> "Y")?"N":"Y";
-					$xxqty = (($row->XQTY-$row->QTY) > 0)?$row->XQTY-$row->QTY:0;
+
+                    $yn = ($row->END_YN == "Y")?"Y":"N";
+                    if($yn == "N"){
+                        $xxqty = (($row->XQTY-$row->QTY) > 0)?$row->XQTY-$row->QTY:0;
+                    }else{
+                        $xxqty = $row->XQTY;
+                    }
 					
 					$ax1 = ($row->SB_DATE != "")?"Y":"N";
 					if($row->ITEM_NM != "합계"){
-						$sumxxqty+=$xxqty;
 				?>
                     <tr>
                         <td class="cen"><?php echo $no;?></td>
@@ -139,5 +141,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-//-->
+$("input[name='sdate'],input[name='edate']").datetimepicker({
+    format: 'Y-m-d',
+    timepicker: false,
+    lang: 'ko-KR'
+});
+
 </script>

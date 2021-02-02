@@ -156,7 +156,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             foreach($detail['SLIST'] as $i=>$row){
                                 $num = $i+1;
                                 if($row->SE_NAME == "합계"){?>
-                            <tr style="background:#f3f8fd;">
+                            <tr style="background:#f3f8fd;" class="nhover">
                                 <td colspan="4" class="right"><strong>합계</strong></td>
                                 <td></td>
                                 <td></td>

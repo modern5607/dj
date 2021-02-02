@@ -88,7 +88,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php
 				}
 				?>
-				<tr style="background:#f3f8fd;">
+				<tr style="background:#f3f8fd;" class="nhover">
 					<td colspan="2"><strong>총 합계</strong></td>
 					<td class="right"><?php echo number_format($count); ?></td>
 					<td class="right"><?php echo number_format($incount); ?></td>

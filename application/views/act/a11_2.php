@@ -57,6 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>2급</th>
 						<th>파손</th>
 						<th>시유</th>
+						<th>후처리</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -66,8 +67,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$incount=0;
 					$count1=0;
 					$count2=0;
-					$countx=0;
-					$glazing=0;
+					$count3=0;
+					$count4=0;
+					$count5=0;
 				foreach($List as $i=>$row){ 
 					$no = $pageNum+$i+1;
 					if($row->ITEM_NM == "합계"){
@@ -75,8 +77,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						$incount += $row->IN_QTY;
 						$count1 += $row->QTY1;
 						$count2 += $row->QTY2;
-						$countx += $row->QTY3;
-						$glazing += $row->QTY4;
+						$count3 += $row->QTY3;
+						$count4 += $row->QTY4;
+						$count5 += $row->QTY5;
 					}else{
 				
 				?>
@@ -92,6 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="right"><?php echo number_format($row->QTY2); ?></td>
 					<td class="right"><?php echo number_format($row->QTY3); ?></td>
 					<td class="right"><?php echo number_format($row->QTY4); ?></td>
+					<td class="right"><?php echo number_format($row->QTY5); ?></td>
 					
 				</tr>
 				<?php
@@ -102,15 +106,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php
 				}
 				?>
-				<tr style="background:#f3f8fd;">
+				<tr style="background:#f3f8fd;" class="nhover">
 					<td colspan="4" class="right"><strong>총 합계</strong></td>
 					<td class="right"><?php echo number_format($count); ?></td>
 					<td class="right"><?php echo number_format($incount); ?></td>
 					<td class="right"><strong><?php echo number_format($count1); ?></strong></td>
 					<td class="right"><?php echo number_format($count1); ?></td>
 					<td class="right"><?php echo number_format($count2); ?></td>
-					<td class="right"><?php echo number_format($countx); ?></td>
-					<td class="right"><?php echo number_format($glazing); ?></td>
+					<td class="right"><?php echo number_format($count3); ?></td>
+					<td class="right"><?php echo number_format($count4); ?></td>
+					<td class="right"><?php echo number_format($count5); ?></td>
 				</tr>
 				<?php
 				}else{
