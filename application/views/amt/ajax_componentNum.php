@@ -12,10 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <div class="formContainer">
-	<div style="background:#eceff5; padding:20px 15px;">
-		
-		
-	</div>
+	<!-- <div style="background:#eceff5; padding:20px 15px;"></div> -->
 	<form name="ajaxform" id="ajaxform">
 
 			
@@ -24,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			
 			<fieldset class="form_3">
 				
-				<table>
+				<table class="nhover">
 					<tbody>
 						<tr>
 							<th>자재<span class="re"></span></th>

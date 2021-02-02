@@ -14,15 +14,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <input type="hidden" name="IDX" value="<?php echo isset($memInfo)?$memInfo->IDX:"";?>">
 
 
-<div class="formContainer">
+<div class="formContainer" style="padding:10px;">
 	<div class="bdcont_100">
 		<div class="bc__box100">
 
 
-			<div class="tbl-content">
-				<h3>사원정보</h3>
-				<table class="none_border" cellpadding="0" cellspacing="0" border="0" width="100%">
+			<div class="tbl-content" style="padding-top:10px">
+				<table class="none_border nhover" cellpadding="0" cellspacing="0" border="0" width="100%">
 					<tbody>
+					<tr><th colspan="4" style="font-size:15px; border-bottom:1px solid red;">사원정보</tr></th>
 						<tr>
 							<th>사원번호</th>
 							<td>
@@ -55,9 +55,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 
 			<div class="tbl-content">
-				<h3>수령계좌</h3>
-				<table class="none_border" cellpadding="0" cellspacing="0" border="0" width="100%">
+				<table class="none_border nhover" cellpadding="0" cellspacing="0" border="0" width="100%">
 					<tbody>
+					<tr><th colspan="4" style="font-size:15px; border-bottom:1px solid red;">수령계좌</tr></th>
 						<tr>
 							<th>은행명</th>
 							<td>

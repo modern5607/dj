@@ -76,7 +76,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <li style="width:calc(100% - 430px);">
 
             <div id="" class="bc_search" style="background:#f8f8f8;">
-                작업일자 : <strong style='font-size:16px;'><?php echo $NDATE?></strong>
+                작업일자 : <strong style='font-size:16px; color:#194bff'><?php echo $NDATE?></strong>
             </div>
 
 

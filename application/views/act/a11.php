@@ -125,7 +125,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="bc_header none_padding">
 								
 					<div class="ac_table">
-						<table>
+						<table class="nhover">
 							<tbody><tr>
 								<th>작업일자</th>
 								<td colspan="3"><input type="text" name="A1" class="input_100 calendar" value="<?php echo date('Y-m-d',time())?>"></td>

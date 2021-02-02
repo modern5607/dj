@@ -103,7 +103,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?php if(!empty($headInfo)){ //hid값이 없는경우는 노출안됨 ?>
 
                 <div class="ac_table">
-                    <table style="margin-bottom: 6px;">
+                    <table style="margin-bottom: 6px;" class="nhover">
                         <tr>
                             <!--th>수주일자</th>
 								<td><?php echo substr($headInfo->ACT_DATE,0,10); ?></td-->

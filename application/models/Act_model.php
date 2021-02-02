@@ -999,16 +999,56 @@ SQL;
 		
 		$sql=<<<SQL
 			SELECT
-				TI.ITEM_NAME, TIS.ITEM_IDX, TIS.SERIESD_IDX, 
-				TSD.SERIES_IDX, TSD.COLOR, TIS.QTY, TIS.USE_YN,
-				(SELECT A.SERIES_NM FROM T_SERIES_H as A WHERE A.IDX = TSD.SERIES_IDX) as SE_NAME,
-				(SELECT SUM(B.QTY) FROM T_ACT_D as B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX AND STATUS != "CC") as EQTY
+				TI.ITEM_NAME, 
+				TIS.ITEM_IDX, 
+				TIS.SERIESD_IDX, 
+				TSD.SERIES_IDX, 
+				TSD.COLOR, 
+				TIS.QTY, 
+				TIS.USE_YN, 
+				(
+					SELECT 
+					A.SERIES_NM 
+					FROM 
+					T_SERIES_H AS A 
+					WHERE 
+					A.IDX = TSD.SERIES_IDX
+				) AS SE_NAME, 
+				(
+					SELECT 
+					IFNULL(
+						SUM(B.QTY), 
+						0
+					) 
+					FROM 
+					T_ACT_D AS B 
+					WHERE 
+					B.ITEMS_IDX = TIS.ITEM_IDX 
+					AND B.SERIESD_IDX = TIS.SERIESD_IDX 
+					AND STATUS != "CC"
+				) AS EQTY 
 			FROM
 				T_ITEM_STOCK as TIS
 				LEFT JOIN T_ITEMS as TI ON(TI.IDX = TIS.ITEM_IDX)
 				LEFT JOIN T_SERIES_D as TSD ON(TSD.IDX = TIS.SERIESD_IDX)
 			WHERE
 				1
+				AND (
+					TIS.QTY > 0 
+					OR (
+					SELECT 
+						IFNULL(
+						SUM(B.QTY), 
+						0
+						) 
+					FROM 
+						T_ACT_D AS B 
+					WHERE 
+						B.ITEMS_IDX = TIS.ITEM_IDX 
+						AND B.SERIESD_IDX = TIS.SERIESD_IDX 
+						AND STATUS != "CC"
+					) > 0
+				) 
 				{$where}
 			ORDER BY 
 				TI.IDX, TIS.SERIESD_IDX
@@ -1016,7 +1056,7 @@ SQL;
 				{$start},{$limit}
 SQL;
 		$query = $this->db->query($sql);
-		 echo $this->db->last_query();
+		// echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -1203,7 +1243,7 @@ SQL;
 		$this->db->group_by("A.ITEM_NM, A.ITEMS_IDX");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
-		echo $this->db->last_query();
+		// echo $this->db->last_query();
 		
 		return $query->result();
 	}
@@ -2369,7 +2409,7 @@ SQL;
 				{$start},{$limit}
 SQL;
 		$query = $this->db->query($sql);
-		 echo $this->db->last_query();
+		// echo $this->db->last_query();
 		return $query->result();
 	}
 
