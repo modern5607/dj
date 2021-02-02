@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>자재코드</th>
 						<th>자재명</th>
 						<th>단위</th>
-						<th>현재고량</th>
+						<th>재고량</th>
 						<th>비교재고량</th>
 						<th class="rl_board">차이</th>
 						<th>입고일</th>

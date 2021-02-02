@@ -43,7 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>시리즈</th>
 						<th>품명</th>
 						<th>색상</th>					
-						<th>현재고량</th>
+						<th>재고량</th>
 						<th>출고대기수량</th>
 					</tr>
 				</thead>

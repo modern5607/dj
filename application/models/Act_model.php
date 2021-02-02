@@ -72,7 +72,7 @@ SQL;
 	$query = $this->db->query($sql);
 
 
-	// echo $this->db->last_query();
+	//  echo $this->db->last_query();
 		return $query->result();
 		
 	}
@@ -313,9 +313,9 @@ SQL;
 	}
 	
 
-	public function get_inventory_count()
+	public function get_inventory_count($param)
 	{
-		$this->db->select("count(*) as CNT");
+		$this->db->select("A.IDX, B.H_IDX, C.ACT_DATE, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY,F.CUST_NM,E.SERIES_NM");
 		$this->db->from("t_inventory_trans as A");
 		$this->db->join("t_act_h as C","C.IDX = A.ACT_IDX","LEFT");
 		$this->db->join("t_act_d as B","B.IDX = A.ACT_D_IDX","LEFT");
@@ -337,13 +337,22 @@ SQL;
 		}
 
 		if(!empty($param['V3']) && $param['V3'] != ""){
+			//$this->db->where("B.ITEM_NM",$param['V3']);
 			$this->db->like("B.ITEM_NM",$param['V3']);
 		}
 
-		//$this->db->group_by("B.H_IDX");
+		//if(!empty($param['V4']) && $param['V4'] != ""){
+			$this->db->where("A.GJ_GB",'CU');
+		//}
+		
+		// $this->db->select("A.IDX, B.H_IDX, C.ACT_DATE, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY,(SELECT E.SERIES_NM FROM T_SERIES_H as E WHERE E.IDX = D.SERIES_IDX) as SE_NAME");
+		$this->db->order_by("ACT_DATE", "DESC");
+		$this->db->order_by("ITEM_NM","ASC");
+		$this->db->order_by("CUST_NM","ASC");
 		$query = $this->db->get();
-		// echo $query->row()->CNT;
-		return $query->row()->CNT;
+
+		// echo $query->num_rows();
+		return $query->num_rows();
 	}
 
 
@@ -999,7 +1008,7 @@ SQL;
 				LEFT JOIN T_ITEMS as TI ON(TI.IDX = TIS.ITEM_IDX)
 				LEFT JOIN T_SERIES_D as TSD ON(TSD.IDX = TIS.SERIESD_IDX)
 			WHERE
-				TSD.USE_YN = "Y"
+				1
 				{$where}
 			ORDER BY 
 				TI.IDX, TIS.SERIESD_IDX
@@ -1007,7 +1016,7 @@ SQL;
 				{$start},{$limit}
 SQL;
 		$query = $this->db->query($sql);
-		//  echo $this->db->last_query();
+		 echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -1018,6 +1027,8 @@ SQL;
 
 		if(!empty($param['AM1']) && $param['AM1'] != ""){
 			$where .= " AND (TIS.QTY > 0 || (SELECT SUM(B.QTY) FROM T_ACT_D as B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX) > 0 ) ";
+		}else{
+			$where .= " AND TI.USE_YN = 'Y' ";
 		}
 		if(empty($param['COLOR'])){
 			$where .= " AND TIS.USE_YN = 'Y' ";
@@ -1032,7 +1043,7 @@ SQL;
 			$where .= " AND TI.ITEM_NAME LIKE '%{$param['V3']}%'";
 		}
 		if(!empty($param['V4']) && $param['V4'] != ""){
-			$where .= " AND TSD.COLOR LIKE '%{$param['V4']}%' ";
+			$where .= " AND COLOR LIKE '%{$param['V4']}%' ";
 		}
 
 		$sql=<<<SQL
@@ -1043,14 +1054,13 @@ SQL;
 				LEFT JOIN T_ITEMS as TI ON(TI.IDX = TIS.ITEM_IDX)
 				LEFT JOIN T_SERIES_D as TSD ON(TSD.IDX = TIS.SERIESD_IDX)
 			WHERE
-				1
+				TSD.USE_YN = "Y"
 				{$where}
 			ORDER BY 
 				TI.IDX, TIS.SERIESD_IDX
-			LIMIT
-				{$start},{$limit}
 SQL;
 		$query = $this->db->query($sql);
+		// echo $this->db->last_query();
 		
 		return $query->row()->CUT;
 	}
@@ -1193,7 +1203,7 @@ SQL;
 		$this->db->group_by("A.ITEM_NM, A.ITEMS_IDX");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
-		// echo $this->db->last_query();
+		echo $this->db->last_query();
 		
 		return $query->result();
 	}

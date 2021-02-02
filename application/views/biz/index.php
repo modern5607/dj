@@ -20,8 +20,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <label for="a4">거래관계</label>
         <select name="a4" id="a4">
             <option value="">전체</option>
-            <option value="buyer">매입처</option>
-            <option value="customer">매출처</option>
+            <option value="buyer" <?= ($str['a4']=='buyer')?'selected':''?>>매입처</option>
+            <option value="customer"<?= ($str['a4']=='customer')?'selected':''?>>매출처</option>
         </select>
 
         <button class="search_submit"><i class="material-icons">search</i></button>

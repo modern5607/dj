@@ -193,7 +193,7 @@ SQL;
 			{$where}
 SQL;
 		$query = $this->db->query($sql);
-		echo $this->db->Last_query();
+		// echo $this->db->Last_query();
 		return $query->result();
 	}
 
@@ -383,7 +383,8 @@ SQL;
 						->limit($limit, $start)
 						->order_by("TAH.ACT_DATE","ASC")
 						->get();
-						// echo $this->db->last_query();
+		// echo $this->db->last_query();
+		
 		return $query->result();
 	}
 
@@ -422,6 +423,8 @@ SQL;
 
 		$query = $this->db->where("IDX",$params['ACT_IDX'])
 						->get("T_ACT_D");
+		echo $this->db->last_query();
+		
 		$actinfo = $query->row();
 		
 		if(!empty($actinfo)){
@@ -510,7 +513,8 @@ public function component_count($date='',$param)
 		
 		$query = $this->db->get();
 		$data['STOCK'] = $query->row()->STOCK;
-
+		// echo $this->db->last_query();
+		
 		return $data;		
 	}
 
