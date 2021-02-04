@@ -33,6 +33,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <input type="text" autocomplete="off" name="actnm" class="actnm"
                         value="<?php echo (!empty($str['actnm']) && $str['actnm'] != "")?$str['actnm']:"";?>"
                         size="12" />
+                    <label for="cg">납품현황</label>
+                    <select name="cg" id="cg">
+                        <option value="" <?php echo ($str['cg'] == "Y")?"":"selected";?>>전체</option>
+                        <option value="N" <?php echo ($str['cg'] == "N")?"selected":"";?>>준비중</option>
+                        <option value="Y" <?php echo ($str['cg'] == "Y")?"selected":"";?>>납품완료</option>
+                    </select>
                     <button class="search_submit"><i class="material-icons">search</i></button>
                 </form>
                 <span class="btni btn_right add_head" style="max-height:34px;"><span
@@ -47,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>수주명</th>
                             <th>거래처</th>
                             <th>수주일</th>
-                            <th>수정</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>

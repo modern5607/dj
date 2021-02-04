@@ -24,6 +24,9 @@ class Pln_model extends CI_Model {
 		if(!empty($param['ACTNM']) && $param['ACTNM'] != ""){
 			$this->db->like("A.ACT_NAME",$param['ACTNM']);			
 		}
+		if(!empty($param['CG']) && $param['CG'] != ""){
+			$this->db->WHERE("A.END_YN = \"{$param['CG']}\"");			
+		}
 
 		$this->db->from("t_act_h as A");
 		$this->db->join("t_biz_reg as B","B.IDX = A.BIZ_IDX");
@@ -145,6 +148,7 @@ class Pln_model extends CI_Model {
 			"ORD_TEXT"    => $params['ORD_TEXT'],
 			"INSERT_DATE" => $params['INSERT_DATE'],
 			"INSERT_ID"   => $params['INSERT_ID'],
+			"END_YN"	  => "N"
 		);
 		$this->db->insert("t_act_h",$data);
 		return $this->db->insert_id();

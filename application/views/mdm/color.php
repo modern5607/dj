@@ -46,8 +46,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>시리즈</th>
 						<th>품명</th>
 						<th>색상</th>					
-						<th>재고량</th>
 						<th>출고대기수량</th>
+						<th>재고량</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -62,8 +62,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="cen"><?php echo $row->SE_NAME;?></td>
 					<td><strong><?php echo $row->ITEM_NAME; ?></strong></td>
 					<td class="cen"><?php echo $row->COLOR; ?></td>
-					<td class="right"><?php echo number_format($row->QTY); ?></td>
-					<td class="right"><?php echo number_format($row->EQTY); ?></td>
+					<td class="right" style="width:15%"><?php echo number_format($row->EQTY); ?></td>
+					<td class="right" style="width:15%"><?php echo number_format($row->QTY); ?></td>
 					<td class="right">
 						<select name="useyn" 
 						data-seriesd="<?php echo $row->SERIESD_IDX ?>"

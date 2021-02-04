@@ -65,11 +65,13 @@ class PLN extends CI_Controller {
 		$data['str']['edate'] = $this->input->get('edate'); //수주일
 		$data['str']['custnm'] = $this->input->get('custnm'); //거래처
 		$data['str']['actnm'] = $this->input->get('actnm'); //수주명
+		$data['str']['cg'] = $this->input->get('cg'); //수주명
 		
 		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
 		$params['EDATE'] = date("Y-m-d");
 		$params['CUSTNM'] = "";
 		$params['ACTNM'] = "";
+		$params['CG'] = "";
 
 		$data['HIDX'] = (!empty($hidx))?$hidx:"";
 
@@ -92,6 +94,11 @@ class PLN extends CI_Controller {
 		if(!empty($data['str']['actnm'])){
 			$params['ACTNM'] = $data['str']['actnm'];
 			$data['qstr'] .= "&actnm=".$data['str']['actnm'];
+			
+		}
+		if(!empty($data['str']['cg'])){
+			$params['CG'] = $data['str']['cg'];
+			$data['qstr'] .= "&cg=".$data['str']['cg'];
 			
 		}
 

@@ -46,13 +46,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>거래처</th>
                         <th>수주일자</th>
                         <th>품명</th>
                         <th>색상</th>
                         <th>수주수량</th>
                         <th>제작수량</th>
                         <th>잉여재고</th>
-                        <th>거래처</th>
                         <th>제작완료</th>
                         <th>출고여부</th>
                         <th>출고일</th>
@@ -69,16 +69,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     ?>
                     <tr>
                         <td class="cen"><?php echo $no;?></td>
+                        <td class="cen"><?php echo $row->BIZ_NAME; ?></td>
                         <td class="cen"><?php echo $row->ACT_DATE;?></td>
                         <td><strong><?php echo $row->ITEM_NM; ?></strong></td>
                         <td class="cen"><?php echo $row->COLOR; ?></td>
                         <td class="right"><?php echo number_format($row->QTY); ?></td>
                         <td class="right"><?php echo number_format($row->QT1); ?></td>
                         <td class="right"><?php echo number_format($mQty); ?></td>
-                        <td class="cen"><?php echo $row->BIZ_NAME; ?></td>
                         <td class="cen"><?php echo $row->CG_DATE; ?></td>
                         <td class="cen"><?php echo $yn; ?></td>
-                        <td class="cen"><?php echo $row->CG_DATE; ?></td>
+                        <td class="cen"><?php echo $row->TRANS_DATE; ?></td>
                     </tr>
                 <?php } 
 		        }else{ ?>

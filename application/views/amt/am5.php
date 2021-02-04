@@ -49,14 +49,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>수주일자</th>
+                        <th>출고일</th>
                         <th>거래처</th>
                         <th>시리즈</th>
                         <th>품명</th>
                         <th>색상</th>
                         <th>주문수량</th>
                         <th>출고수량</th>
-                        <th>출고일</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -70,7 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <tr>
                         <td class="cen"><?php echo $no;?></td>
                         <td class="cen"><?php echo $row->ACT_DATE;?></td>
-                        <td class="cen"><?php echo $row->CUST_NM;?></td>
+                        <td class="cen"><?php echo $row->SERIES_NM;?></td>
                         <td class="cen"><?php echo $row->SERIES_NM;?></td>
                         <td><strong><?php echo $row->ITEM_NM; ?></strong></td>
                         <td><strong><?php echo $row->COLOR; ?></strong></td>
@@ -80,9 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 value="<?php echo $row->QTY; ?>" max="<?= $row->MAXQTY ?>" min="<?php echo $row->QTY; ?>">
                             <input type="hidden" name="QTY[]" value="<?php echo $row->QTY; ?>">
                         </td>
-                        <td class="cen"><input type="text" name="OUT_DATE[]" class="form_input1 calendar"
-                                value="<?= date("Y-m-d") ?>" /> </td>
-                        <!-- <td class="cen"><input type="text" name="OUT_DATE[]" class="form_input1" value=""></td> -->
+                
                         <td class="cen"><span class="btn mod_stock" data-actidx="<?php echo $row->ACT_IDX;?>"
                                 data-maxqty="<?php echo $row->MAXQTY;?>">출고</span></td>
                     </tr>

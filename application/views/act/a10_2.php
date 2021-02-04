@@ -56,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <th>품목</th>
                         <th>색상</th>
                         <th>수주수량</th>
-                        <th>수량</th>
+                        <th>시유수량</th>
                         <th>비고</th>
                     </tr>
                 </thead>
