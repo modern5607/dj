@@ -265,6 +265,7 @@ SQL;
 			AND A.KIND = 'OUT'
 			{$where}
 			GROUP BY COMP_IDX
+			LIMIT {$start},{$limit}
 SQL;
 		$query = $this->db->query($sql);
 		//  echo $this->db->Last_query();

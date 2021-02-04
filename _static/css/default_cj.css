@@ -110,7 +110,7 @@ a {text-decoration:none}
 
 
 
-.tbl-content {max-height:700px; overflow-y:auto; margin-bottom:15px;}
+.tbl-content {max-height:1200px; overflow-y:auto; margin-bottom:15px;}
 .tbl-content table { border-collapse:collapse; border-top:2px solid #ff5b5b; border-bottom:2px solid #888; font-size: 1em; }
 .tbl-content table.none_border{border-top:1px solid #ddd; border-bottom:1px solid #ddd;}
 
