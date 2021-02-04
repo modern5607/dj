@@ -363,6 +363,10 @@ SQL;
 
 	public function act_am4_list($params, $start=0, $limit=20)
 	{
+		if((!empty($params['SDATE']) && $params['SDATE'] != "") && (!empty($params['EDATE']) && $params['EDATE'] != "")){
+			$this->db->where(" TAH.ACT_DATE BETWEEN '{$params['SDATE']}' AND '{$params['EDATE']}'");
+		}
+
 		if(!empty($params['V1']) && $params['V1'] != ""){
 			$this->db->where("TSD.SERIES_IDX",$params['V1']);
 		}
@@ -371,16 +375,23 @@ SQL;
 			$this->db->like("TAD.ITEM_NM",$params['V3']);
 		}
 
-		$this->db->where("TIS.QTY >= TAD.QTY");
+		if(!empty($params['CG']) && $params['CG'] != ""){
+			$this->db->where("TIS.QTY < TAD.QTY");
+		}else{
+			$this->db->where("TIS.QTY >= TAD.QTY");
+		}
+
 		$this->db->where("COALESCE(TAD.END_YN,'N') <>","Y");
 
-		$query = $this->db->select("TAH.ACT_DATE, TAD.IDX as ACT_IDX, TAD.ITEM_NM, TAD.QTY,TSH.SERIES_NM, TSD.COLOR, TIS.QTY AS MAXQTY")
+		$query = $this->db->select("TAH.ACT_DATE, TAD.IDX as ACT_IDX, TAD.ITEM_NM, TAD.QTY,TSH.SERIES_NM, TSD.COLOR, TIS.QTY AS MAXQTY, TBR.CUST_NM")
 						->from("T_ACT_D as TAD")
 						->join("T_ACT_H as TAH","TAH.IDX = TAD.H_IDX","LEFT")
 						->join("T_SERIES_D as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
 						->join("T_SERIES_H as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
 						->join("T_ITEM_STOCK as TIS","TIS.ITEM_IDX = TAD.ITEMS_IDX AND TIS.SERIESD_IDX = TSD.IDX","LEFT")
+						->join("T_BIZ_REG AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
 						->limit($limit, $start)
+						->order_by("TAH.ACT_DATE IS NULL", 'ASC', FALSE)
 						->order_by("TAH.ACT_DATE","ASC")
 						->get();
 		// echo $this->db->last_query();
@@ -391,6 +402,11 @@ SQL;
 
 	public function act_am4_cut($params)
 	{
+
+		if((!empty($params['SDATE']) && $params['SDATE'] != "") && (!empty($params['EDATE']) && $params['EDATE'] != "")){
+			$this->db->where(" TAH.ACT_DATE BETWEEN '{$params['SDATE']}' AND '{$params['EDATE']}'");
+		}
+
 		if(!empty($params['V1']) && $params['V1'] != ""){
 			$this->db->where("TSD.SERIES_IDX",$params['V1']);
 		}
@@ -399,7 +415,12 @@ SQL;
 			$this->db->where("TAD.ITEM_NM",$params['V3']);
 		}
 
-		$this->db->where("TIS.QTY >= TAD.QTY");
+		if(!empty($params['CG']) && $params['CG'] != ""){
+			$this->db->where("TIS.QTY < TAD.QTY");
+		}else{
+			$this->db->where("TIS.QTY >= TAD.QTY");
+		}
+
 		$this->db->where("COALESCE(TAD.END_YN,'N') <>","Y");
 
 		$query = $this->db->select("COUNT(*) as CUT")
