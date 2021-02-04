@@ -41,12 +41,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>불량내역</th>
 					</tr>
 				</thead>
-				<tbody>
+				
 				<?php
 				if(!empty($List)){
-				
-				
-				
 				foreach($List as $i=>$row){
 					$chkn = 0;
 					$no = $pageNum+$i+1;
@@ -64,6 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					//echo $row->QT2."-".$row->QT3."-".$row->QT4."<br>";
 					
 				?>
+				<tbody class="a7">
 				<tr class="<?php echo $trclass;?>">
 					<td class="cen" rowspan="<?php echo $chkn;?>"><?php echo $no;?></td>
 					<td class="cen" rowspan="<?php echo $chkn;?>"><?php echo $row->ACT_DATE;?></td>

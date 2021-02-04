@@ -229,7 +229,7 @@ span.xn{background:#c3c3c3}
 .bc__box header .search_submit{ border:none; background:#414350; color:#fff; padding:4px 15px; text-align:center;}
 .bc__box header .search_submit i { font-size: 1.7em; }
 .bc__box header:after{clear:both; display:block; visibility:hidden; content:""}
-.calendar { background: url(/rain_code1/_static/img/calendar.png) no-repeat right; background-position: 95%;}
+.calendar { background: url(/_static/img/calendar.png) no-repeat right; background-position: 95%;}
 
 .bc__box100 {padding:10px;}
 .bc__box100 header{margin-bottom:7px;}

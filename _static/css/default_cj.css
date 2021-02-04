@@ -151,6 +151,7 @@ a.alink{border:1px solid #ddd; padding:5px 8px; line-height:24px; font-size:14px
 
 table:not(.nhover) tbody tr:not(.nhover) td{ transition: all 0.3s;}
 table:not(.nhover) tbody tr:not(.nhover):hover td{ background:#f3e9e9; }
+tbody.a7:hover td{ background:#f3e9e9; }
 a:visited{color:#194bff;}
 
 
