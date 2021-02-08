@@ -24,12 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </select>
             <label for="s2">품명</label>
             <input type="text" name="s2" id="s2" class="form_input" autocomplete="off" style="width:120px;">
-            <!--select name="s2" id="s2" class="form_input select_call" style="width:120px;">
-				<option value="">품명</option>
-			</select>
-			<select name="s3" id="s3" class="form_input select_call" style="width:120px;">
-				<option value="">색상</option>
-			</select-->
+
             <button class="sh_submit"><i class="material-icons">search</i></button>
         </div>
         <input type="text" name="transdate" class="calendar"
@@ -51,8 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>No</th>
                             <th>품명</th>
                             <th>성형재고</th>
-                            <th>실적 수량</th>
-                            <th>불량 수량</th>
+                            <th>지시 수량</th>
                             <th>비고</th>
                         </tr>
                     </thead>
@@ -153,8 +147,6 @@ $(".sh_submit").on("click", function() {
                     //html += "	<input type='hidden' name='SERIESD_IDX[]' value='"+info.SERIESD_IDX+"' />";
                     html += "</td>";
 
-                    html += "<td style='text-align:center;'><input style='text-align:right;' type='text' name='BQTY[]' autocomplete='off' class='form_select qty_this' size='4' value='0'/></td>";
-
                     html +=
                         "<td style='text-align:center;'><input type='text' autocomplete='off' name='REMARK[]' class='form_select' value='' /></td>";
                     html += "</tr>";
@@ -162,7 +154,7 @@ $(".sh_submit").on("click", function() {
                 });
             } else {
                 html +=
-                    "<tr><td colspan='5' style='text-align:center; color:#999;'>품목이 없습니다.</td></tr>"
+                    "<tr><td colspan='10' style='text-align:center; color:#999;'>품목이 없습니다.</td></tr>"
             }
             $(".form_3 table tbody").html(html);
         }
@@ -177,10 +169,10 @@ $(".submitBtn").on("click", function() {
     var formData = new FormData($("#ajaxform")[0]);
     var $this = $(this);
     formData.append('transdate', $("input[name='transdate']").val());
-
+    formData.append('GJGB', "JH");
 
     $.ajax({
-        url: "<?php echo base_url('ACT/ajax_act_a9_items_trans_insert')?>",
+        url: "<?php echo base_url('ORD/ajax_act_items_order_insert')?>",
         type: "POST",
         data: formData,
         //asynsc : true,
@@ -218,22 +210,18 @@ $(".submitBtn").on("click", function() {
     });
 });
 
-if (BK == 0) {
-    $(document).on("change", ".qty_this", function() {
-        var SQTY = $(this).parents("tr").find("td:eq(2)").text()*1;
-        var BQTY = $(this).parents("tr").find("input[name^='BQTY']").val()*1;
-        var QTY = $(this).parents("tr").find("input[name^='QTY']").val()*1;
+$(document).on("change", ".qty_this", function() {
+    var SQTY = $(this).parents("tr").find("td:eq(2)").text()*1;
+    var QTY = $(this).parents("tr").find("input[name^='QTY']").val()*1;
+    $this = $(this);
 
-        $this = $(this);
-
-        if (SQTY < QTY+BQTY) {
-            alert('성형재고보다 수량을 낮게 해주세요');
-            $this.val('');
-            $this.focus();
-            return false;
-        }
-    });
-}
+    if (SQTY < QTY) {
+        alert('성형재고보다 수량을 낮게 해주세요');
+        $this.val('');
+        $this.focus();
+        return false;
+    }
+});
 
 $("input[name='ACT_DATE'],#DEL_DATE,.calendar").datetimepicker({
     format: 'Y-m-d',
@@ -241,9 +229,4 @@ $("input[name='ACT_DATE'],#DEL_DATE,.calendar").datetimepicker({
     lang: 'ko-KR'
 });
 
-
-
-
-
-//-->
 </script>

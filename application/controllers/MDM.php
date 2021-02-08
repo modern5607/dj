@@ -219,7 +219,7 @@ class MDM extends CI_Controller {
 		$params['SERIES_IDX'] = "";
 		$params['COMPONENT'] = "";
 		$params['COMPONENT_NM'] = "";
-		$params['USE_YN'] = "";
+		$params['USE_YN'] = "Y";
 
 		$data['qstr'] = "?P";
 		if(!empty($data['str']['component'])){

@@ -5,6 +5,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <link href="<?php echo base_url('_static/css/jquery.datetimepicker.min.css')?>" rel="stylesheet">
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js')?>"></script>
 
+<style>
+.claim_insert{
+    cursor: pointer;
+    color: #194bff;
+}
+</style>
 <div class="bc_header">
     <form id="items_formupdate">
         <label for="sdate">일자</label>
@@ -40,6 +46,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <label for="v3">품목</label>
         <input type="text" autocomplete="off" name="v3" id="v3" value="<?php echo $str['v3']?>">
+        
+        <label for="claim">클레임</label>
+            <select name="claim" id="claim">
+             <?php $selected = ($str['claim'] == "1")?"selected":"";?>
+                <option value="">전체</option>
+                <option value="1"  <?php echo($str['claim'] == "1")?"selected":"";?>>클레임 품목</option>
+                <option value="2"  <?php echo($str['claim'] == "2")?"selected":"";?>>클레임 제외</option>
+            </select>
 
         <button class="search_submit"><i class="material-icons">search</i></button>
     </form>
@@ -73,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				?>
                     <tr>
                         <td class="cen"><?php echo $no;?></td>
-                        <td class="cen"><?php echo $row->TRANS_DATE;?></td>
+                        <td class="cen"><span class="claim_insert" data-idx="<?php echo $row->ACT_IDX;?>"><?php echo $row->TRANS_DATE;?></span></td>
                         <td class="cen"><?php echo $row->CUST_NM;?></td>
                         <td class="cen"><?php echo $row->SERIES_NM;?></td>
                         <td><strong><?php echo $row->ITEM_NM; ?></strong></td>
@@ -90,7 +104,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				?>
 
                     <tr>
-                        <td colspan="15" class="list_none">실적정보가 없습니다.</td>
+                        <td colspan="15" class="list_none"><?php echo($str['claim'] == "1")?"클레임":"제품";?> 내역이 없습니다.</td>
                     </tr>
 
                     <?php
@@ -144,6 +158,29 @@ $(".calendar").datetimepicker({
     format: 'Y-m-d',
     timepicker: false,
     lang: 'ko-KR'
+});
+
+
+$(".claim_insert").on("click",function(){
+	var idx = $(this).data("idx");
+
+	$("#pop_container").fadeIn();
+	$(".info_content").animate({
+		top : "50%"
+	},500);
+
+	modchk = true;
+
+	$.ajax({
+		url:"<?php echo base_url('amt/ajax_claim_insert')?>",
+		type : "post",
+		data : {idx:idx},
+		dataType : "html",
+		success : function(data){
+			$(".ajaxContent").html(data);
+		}
+		
+	});
 });
 
 </script>

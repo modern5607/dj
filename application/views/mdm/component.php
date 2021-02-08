@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		<label for="use">사용유무</label>
 		<select name="useyn" id="use">
-			<option value=''>전체</option>
+			<option value='A' <?php echo ($str['use'] == "A")?"selected":"";?>>전체</option>
 			<option value="Y" <?php echo ($str['use'] == "Y")?"selected":"";?>>사용</option>
 			<option value="N" <?php echo ($str['use'] == "N")?"selected":"";?>>미사용</option>
 		</select>	

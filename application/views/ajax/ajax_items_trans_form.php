@@ -116,13 +116,16 @@ $("#s1").on("change", function() {
 $(".sh_submit").on("click", function() {
     var s1 = $("#s1").val();
     var s2 = $("#s2").val();
+	var type = 'SH';
+    
     $.ajax({
         url: "<?php echo base_url('ACT/ajax_itemsindex_pop')?>",
         type: "POST",
         datatype: "JSON",
         data: {
             s1: s1,
-            s2: s2
+            s2: s2,
+            type: type
         },
         success: function(data) {
 

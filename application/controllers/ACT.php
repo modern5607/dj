@@ -823,7 +823,7 @@ class ACT extends CI_Controller {
 	{
 		$params['s1'] = $this->input->post("s1");
 		$params['s2'] = $this->input->post("s2");
-		//alert($params['s2']);
+		$params['type'] = $this->input->post("type");
 		
 		$data = $this->act_model->ajax_itemv_pop($params);
 		echo json_encode($data);
