@@ -130,11 +130,15 @@ class MDM extends CI_Controller {
 		$data['str']['itemno'] = $this->input->get('itemno'); //item no
 		$data['str']['itemname'] = $this->input->get('itemname'); //item name
 		$data['str']['use'] = $this->input->get('use'); //use yn
+		$data['str']['seriesname'] = $this->input->get('seriesname'); //seriesname
+		$data['str']['ks'] = $this->input->get('ks'); //후처리
 		
 		$params['SERIES_IDX'] = "";
 		$params['ITEM_NO'] = "";
 		$params['ITEM_NAME'] = "";
-		$params['USE_YN'] = "";
+		$params['USE_YN'] = "Y";
+		$params['SERIES_NM'] = "";
+		$params['KS_YN'] = "A";
 
 		$data['qstr'] = "?P";
 		if(!empty($data['str']['series'])){
@@ -153,6 +157,16 @@ class MDM extends CI_Controller {
 			$params['USE_YN'] = $data['str']['use'];
 			$data['qstr'] .= "&use=".$data['str']['use'];
 		}
+		if(!empty($data['str']['seriesname'])){
+			$params['SERIES_NM'] = $data['str']['seriesname'];
+			$data['qstr'] .= "&seriesname=".$data['str']['seriesname'];
+		}
+		if(!empty($data['str']['ks'])){
+			$params['KS_YN'] = $data['str']['ks'];
+			$data['qstr'] .= "&ks=".$data['str']['ks'];
+		}
+
+		
 
 		
 		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;

@@ -12,8 +12,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 					<label for="v2">사용여부</label>
 					<select name="v2">
-						<option value="">전체</option>		
-						<option value="Y" <?php echo ($str['v2'] == "Y")?"selected":"";?>>사용</option>
+						<option value="A" <?php echo ($str['v2'] == "A")?"selected":"";?>>전체</option>		
+						<option value="Y" <?php echo ($str['v2'] != "A")?"selected":"";?>>사용</option>
 						<option value="N" <?php echo ($str['v2'] == "N")?"selected":"";?>>미사용</option>		
 					</select>	
 					<span style="display: inline-block;width: 10px;"></span>
@@ -94,8 +94,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<input type="text" name="cnm" size="12" value="<?php echo $str['cnm']?>">
 						<label for="duse">사용여부</label>
 							<select name="dv2">
-								<option value="">전체</option>		
-								<option value="Y" <?php echo ($str['dv2'] == "Y")?"selected":"";?>>사용</option>
+								<option value="A" <?php echo ($str['dv2'] == "A")?"selected":"";?>>전체</option>		
+								<option value="Y" <?php echo ($str['dv2'] != "A")?"selected":"";?>>사용</option>
 								<option value="N" <?php echo ($str['dv2'] == "N")?"selected":"";?>>미사용</option>		
 							</select>	
 						<button class="search_submit"><i class="material-icons">search</i></button>

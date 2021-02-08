@@ -111,24 +111,32 @@ class Main_model extends CI_Model {
 	public function get_items_list($param,$start=0,$limit=20)
 	{
 		if(!empty($param['SERIES_IDX']) && $param['SERIES_IDX'] != ""){
-			$this->db->where("SERIES_IDX",$param['SERIES_IDX']);
+			$this->db->where("A.SERIES_IDX",$param['SERIES_IDX']);
 		}
 
 		if(!empty($param['ITEM_NO']) && $param['ITEM_NO'] != ""){
-			$this->db->like("ITEM_NO",$param['ITEM_NO']);
+			$this->db->like("A.ITEM_NO",$param['ITEM_NO']);
 		}
 
 		if(!empty($param['ITEM_NAME']) && $param['ITEM_NAME'] != ""){
-			$this->db->like("ITEM_NAME",$param['ITEM_NAME']);
+			$this->db->like("A.ITEM_NAME",$param['ITEM_NAME']);
 		}
 
-		if(!empty($param['USE_YN']) && $param['USE_YN'] != ""){
-			$this->db->where("USE_YN",$param['USE_YN']);
+		if(!empty($param['USE_YN']) && $param['USE_YN'] != "A"){
+			$this->db->where("A.USE_YN",$param['USE_YN']);
 		}
 
+		if(!empty($param['KS_YN']) && $param['KS_YN'] != "A"){
+			$this->db->where("A.KS_YN",$param['KS_YN']);
+		}
+		$this->db->select("*");
+		$this->db->from("t_items as A");
+		$this->db->join("t_series_h as B","B.IDX = A.SERIES_IDX","LEFT");
+		$this->db->order_by("B.SERIES_NM","ASC");
+		$this->db->order_by("A.ITEM_NAME","ASC");
 		$this->db->limit($limit,$start);
-		$this->db->order_by("SERIES_IDX","ASC");
-		$query = $this->db->get("t_items");
+		$query = $this->db->get();
+		//echo $this->db->last_query();
 
 		return $query->result();
 	}
@@ -152,6 +160,10 @@ class Main_model extends CI_Model {
 		if(!empty($param['USE_YN']) && $param['USE_YN'] != ""){
 			$this->db->where("USE_YN",$param['USE_YN']);
 		}
+
+		if(!empty($param['KS_YN']) && $param['KS_YN'] != ""){
+			$this->db->where("KS_YN",$param['KS_YN']);
+		}
 		
 		$query = $this->db->get("t_items");
 		return $query->row()->CUT;
@@ -168,11 +180,12 @@ class Main_model extends CI_Model {
 			$this->db->like("COMPONENT_NM",$param['COMPONENT_NM']);
 		}
 
-		if(!empty($param['USE_YN']) && $param['USE_YN'] != "A"){
+		if(!empty($param['USE_YN']) && $param['USE_YN'] != "Y"){
 			$this->db->where("USE_YN",$param['USE_YN']);
 		}
 
 		$this->db->limit($limit,$start);
+		$this->db->order_by("COMPONENT_NM");
 		$query = $this->db->get("t_component");
 
 		
@@ -485,11 +498,14 @@ class Main_model extends CI_Model {
 			$this->db->like("SERIES_NM",$param['V1']);
 		}
 
-		if(!empty($param['V2']) && $param['V2'] != ""){
+		if(!empty($param['V2']) && $param['V2'] != "A"){
 			$this->db->where("USE_YN",$param['V2']);
 		}
 
+		$this->db->select("*");
+		$this->db->order_by("SERIES_NM");
 		$res = $this->db->get("t_series_h");
+		echo $this->db->last_query();
 		return $res->result();
 	}
 
@@ -518,7 +534,7 @@ class Main_model extends CI_Model {
 		if($sid){
 			$this->db->where("D.SERIES_IDX",$sid);
 		}
-		if(!empty($params['DV2']) && $params['DV2'] != ""){
+		if(!empty($params['DV2']) && $params['DV2'] != "A"){
 			$this->db->like("D.USE_YN",$params['DV2']);
 		}
 		if(!empty($params['COLORCD']) && $params['COLORCD'] != ""){
@@ -529,7 +545,7 @@ class Main_model extends CI_Model {
 			$this->db->like("COLOR",$params['COLOERNM']);
 		}
 
-		$this->db->order_by("D.IDX","ASC");
+		$this->db->order_by("D.COLOR","ASC");
 		$res = $this->db->get();
 		return $res->result();
 
