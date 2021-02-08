@@ -136,7 +136,7 @@ class Main_model extends CI_Model {
 		$this->db->order_by("A.ITEM_NAME","ASC");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
-		//echo $this->db->last_query();
+		// echo $this->db->last_query();
 
 		return $query->result();
 	}
@@ -144,29 +144,33 @@ class Main_model extends CI_Model {
 
 	public function get_items_cnt($param)
 	{
-		$this->db->select("COUNT(*) CUT");
 		if(!empty($param['SERIES_IDX']) && $param['SERIES_IDX'] != ""){
-			$this->db->where("SERIES_IDX",$param['SERIES_IDX']);
+			$this->db->where("A.SERIES_IDX",$param['SERIES_IDX']);
 		}
 
 		if(!empty($param['ITEM_NO']) && $param['ITEM_NO'] != ""){
-			$this->db->where("ITEM_NO",$param['ITEM_NO']);
+			$this->db->like("A.ITEM_NO",$param['ITEM_NO']);
 		}
 
 		if(!empty($param['ITEM_NAME']) && $param['ITEM_NAME'] != ""){
-			$this->db->where("ITEM_NAME",$param['ITEM_NAME']);
+			$this->db->like("A.ITEM_NAME",$param['ITEM_NAME']);
 		}
 
-		if(!empty($param['USE_YN']) && $param['USE_YN'] != ""){
-			$this->db->where("USE_YN",$param['USE_YN']);
+		if(!empty($param['USE_YN']) && $param['USE_YN'] != "A"){
+			$this->db->where("A.USE_YN",$param['USE_YN']);
 		}
 
-		if(!empty($param['KS_YN']) && $param['KS_YN'] != ""){
-			$this->db->where("KS_YN",$param['KS_YN']);
+		if(!empty($param['KS_YN']) && $param['KS_YN'] != "A"){
+			$this->db->where("A.KS_YN",$param['KS_YN']);
 		}
-		
-		$query = $this->db->get("t_items");
-		return $query->row()->CUT;
+		$this->db->select("*");
+		$this->db->from("t_items as A");
+		$this->db->join("t_series_h as B","B.IDX = A.SERIES_IDX","LEFT");
+		$this->db->order_by("B.SERIES_NM","ASC");
+		$this->db->order_by("A.ITEM_NAME","ASC");
+		$query = $this->db->get();
+		// echo $this->db->last_query();
+		return $query->num_rows();
 	}
 
 	public function get_component_list($param,$start=0,$limit=20)
@@ -505,7 +509,7 @@ class Main_model extends CI_Model {
 		$this->db->select("*");
 		$this->db->order_by("SERIES_NM");
 		$res = $this->db->get("t_series_h");
-		echo $this->db->last_query();
+		// echo $this->db->last_query();
 		return $res->result();
 	}
 
