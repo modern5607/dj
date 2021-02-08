@@ -990,7 +990,7 @@ SQL;
 		if(!empty($param['V1']) && $param['V1'] != ""){
 			$where .= " AND TSD.SERIES_IDX = '{$param['V1']}'";
 		}
-		if(!empty($param['V2']) && $param['V2'] != ""){
+		if(!empty($param['V2']) && $param['V2'] != "A"){
 			$where .= " AND TIS.USE_YN = '{$param['V2']}'";
 		}	
 		if(!empty($param['V3']) && $param['V3'] != ""){
@@ -1631,7 +1631,7 @@ SQL;
 					WHERE
 						A.KIND = 'IN'
 						{$where}
-					ORDER BY C.ACT_DATE DESC
+						ORDER BY A.CU_DATE DESC
 					LIMIT {$start},{$limit}
 				) as AA LEFT JOIN `t_series_h` as `H` ON `H`.`IDX` = `AA`.`SERIES_IDX`
 			

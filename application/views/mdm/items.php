@@ -24,10 +24,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<label for="itemname">품명</label>
 		<input type="itemname" name="itemname" id="itemname" value="<?php echo $str['itemname']?>">
 
+		<label for="ks">후처리 유무</label>
+		<select name="ks" id="ks">
+			<option value="A" <?php echo ($str['ks'] == "A")?"selected":"";?>>전체</option>
+			<option value="Y" <?php echo ($str['ks'] == "Y")?"selected":"";?>>사용</option>
+			<option value="N" <?php echo ($str['ks'] == "N")?"selected":"";?>>미사용</option>
+		</select>
+
 		<label for="use">사용유무</label>
 		<select name="use" id="use">
-			<option value="" selected>전체</option>
-			<option value="Y" <?php echo ($str['use'] == "Y")?"selected":"";?>>사용</option>
+			<option value="A" <?php echo ($str['use'] == "A")?"selected":"";?>>전체</option>
+			<option value="Y" <?php echo ($str['use'] != "A")?"selected":"";?>>사용</option>
 			<option value="N" <?php echo ($str['use'] == "N")?"selected":"";?>>미사용</option>
 		</select>	
 		
@@ -45,6 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<thead>
 					<tr>
 						<th>No</th>
+						<th>시리즈명</ht>
 						<th>품번</th>
 						<th>품명</th>
 						<th>규격</th>
@@ -57,6 +65,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php foreach($itemsList as $i=>$row){ $no = $pageNum+$i+1; ?>
 				<tr>
 					<td class="cen"><?php echo $no; ?></td>
+					<td class="cen"><?php echo $row->SERIES_NM; ?></td>
 					<td class="cen"><?php echo $row->ITEM_NO; ?></td>
 					<td><?php echo $row->ITEM_NAME; ?></td>
 					<td><?php echo $row->SPEC; ?></td>
