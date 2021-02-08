@@ -54,8 +54,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td class="cen"><?php echo $no; ?></td>
 								<td><?php echo $row->SERIES_NM; ?></td>
 								<td><?php echo $row->ITEM_NAME; ?></td>
-								<td class="right"><?php echo number_format($row->JH_QTY); ?></td>
 								<td style="text-align:right;"><?php echo number_format($row->SH_QTY); ?></td>
+								<td style="text-align:right;"><?php echo number_format($row->JH_QTY); ?></td>
 							</tr>
 					<?php 
 					}

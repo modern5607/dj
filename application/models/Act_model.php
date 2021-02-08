@@ -14,31 +14,16 @@ class Act_model extends CI_Model {
 	{
 		$where = '';
 		if(!empty($param['V1']) && $param['V1'] != ""){
-			// $this->db->where("TI.SERIES_IDX",$param['V1']);
 			$where .= " AND TI.SERIES_IDX = '{$param['V1']}'";
 		}
 		
 		if(!empty($param['V3']) && $param['V3'] != ""){
-			// $this->db->like("TI.ITEM_NAME",$param['V3']);
 			$where .= " AND TI.ITEM_NAME LIKE '%{$param['V3']}%'";
 		}
 
 		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
 			$where .=" AND TIT.TRANS_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'";
 		}
-
-
-		// if(!empty($param['V4']) && $param['V4'] != ""){
-		// 	$this->db->where("B.ITEM_NM",$param['V4']);
-		// }
-
-		// $this->db->select("TIT.TRANS_DATE, TI.ITEM_NAME, TIT.IN_QTY, TIT.REMARK, TSH.SERIES_NM");
-		// $this->db->from("T_ITEMS as TI");
-		// $this->db->join("T_ITEMS_TRANS as TIT","TIT.ITEMS_IDX = TI.IDX","LEFT");
-		// $this->db->join("T_SERIES_H as TSH","TSH.IDX = TI.SERIES_IDX","LEFT");
-		// $this->db->where("TI.SH_QTY > 0");
-		// $this->db->limit($limit,$start);
-		// $query = $this->db->get();
 		
 
 		$sql=<<<SQL
@@ -54,6 +39,7 @@ class Act_model extends CI_Model {
 					LEFT JOIN T_SERIES_H AS TSH ON TSH.IDX = TI.SERIES_IDX
 				WHERE
 					TI.SH_QTY > 0
+					AND TIT.GJ_GB != "CC"
 					{$where}
 				ORDER BY  TRANS_DATE DESC, ITEM_NAME, SERIES_NM
 				LIMIT {$start}, {$limit}
@@ -62,10 +48,11 @@ class Act_model extends CI_Model {
 		SELECT '','합계', SUM(IN_QTY) as IN_QTY, COUNT(TI.ITEM_NAME),""
 		FROM 
 		T_ITEMS TI
-					LEFT JOIN T_ITEMS_TRANS AS TIT ON TIT.ITEMS_IDX = TI.IDX
-					LEFT JOIN T_SERIES_H AS TSH ON TSH.IDX = TI.SERIES_IDX
+			LEFT JOIN T_ITEMS_TRANS AS TIT ON TIT.ITEMS_IDX = TI.IDX
+			LEFT JOIN T_SERIES_H AS TSH ON TSH.IDX = TI.SERIES_IDX
 		WHERE 
 			TI.SH_QTY > 0
+			AND TIT.GJ_GB != "CC"
 			{$where}
 SQL;
 
@@ -100,6 +87,7 @@ SQL;
 		$this->db->join("T_ITEMS_TRANS as TIT","TIT.ITEMS_IDX = TI.IDX","LEFT");
 		$this->db->join("T_SERIES_H as TSH","TSH.IDX = TI.SERIES_IDX","LEFT");
 		$this->db->where("TI.SH_QTY > 0");
+		$this->db->where("TIT.GJ_GB != 'CC'");
 		$query = $this->db->get();
 		return $query->row()->CUT;
 	}
@@ -437,11 +425,13 @@ SQL;
 		$this->db->where("SERIES_IDX",$params['s1']);
 		
 		if(!empty($params['s2']) && $params['s2'] != ""){
-			//$this->db->where("ITEM_IDX",$params['s2']);
 			$this->db->like("ITEM_NAME",$params['s2']);
 		}
 		if(!empty($params['s3']) && $params['s3'] != ""){
 			$this->db->where("SERIESD_IDX",$params['s3']);
+		}
+		if($params['type'] == "JH"){
+			$this->db->where("SH_QTY > 0");
 		}
 		
 		$this->db->where("USE_YN","Y");
@@ -1793,7 +1783,7 @@ SQL;
 
 		$this->db->select("IDX, SB_DATE");
 		$this->db->group_by("SB_DATE");
-		$this->db->order_by("SB_DATE ASC");
+		$this->db->order_by("SB_DATE DESC");
 		//$this->db->limit($limit,$start);
 		$query = $this->db->get("t_inventory_trans");
 		return $query->result();
@@ -2265,7 +2255,7 @@ SQL;
 	public function act_am11_list($param,$start=0,$limit=20)
 	{
 		if(!empty($param['V1']) && $param['V1'] != ""){
-			$this->db->where("D.SERIES_IDX",$param['V1']);
+			$this->db->where("TI.SERIES_IDX",$param['V1']);
 		}
 		
 		if(!empty($param['V2']) && $param['V2'] != ""){
@@ -2288,7 +2278,7 @@ SQL;
 	public function act_am11_cut($param)
 	{
 		if(!empty($param['V1']) && $param['V1'] != ""){
-			$this->db->where("D.SERIES_IDX",$param['V1']);
+			$this->db->where("TI.SERIES_IDX",$param['V1']);
 		}
 		
 		if(!empty($param['V2']) && $param['V2'] != ""){

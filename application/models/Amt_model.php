@@ -392,7 +392,6 @@ SQL;
 						->join("T_ITEM_STOCK as TIS","TIS.ITEM_IDX = TAD.ITEMS_IDX AND TIS.SERIESD_IDX = TSD.IDX","LEFT")
 						->join("T_BIZ_REG AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
 						->limit($limit, $start)
-						->order_by("TAH.ACT_DATE IS NULL", 'ASC', FALSE)
 						->order_by("TAH.ACT_DATE","ASC")
 						->get();
 		// echo $this->db->last_query();
@@ -430,6 +429,7 @@ SQL;
 						->join("T_SERIES_D as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
 						->join("T_SERIES_H as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
 						->join("T_ITEM_STOCK as TIS","TIS.ITEM_IDX = TAD.ITEMS_IDX AND TIS.SERIESD_IDX = TSD.IDX","LEFT")
+						->join("T_BIZ_REG AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
 						->get();
 		return $query->row()->CUT;
 	}
@@ -582,5 +582,125 @@ public function component_count($date='',$param)
 		// if(empty($param['IDX'] || $param['IDX']=="")
 		// 	return;
 		return $this->db->affected_rows();
+	}
+
+
+	public function act_am5_list($params, $start=0, $limit=20)
+	{
+		if((!empty($params['SDATE']) && $params['SDATE'] != "") && (!empty($params['EDATE']) && $params['EDATE'] != "")){
+			$this->db->where(" TIS.TRANS_DATE BETWEEN '{$params['SDATE']}' AND '{$params['EDATE']}'");
+		}
+
+		if(!empty($params['V1']) && $params['V1'] != ""){
+			$this->db->where("TSD.SERIES_IDX",$params['V1']);
+		}
+
+		if(!empty($params['V3']) && $params['V3'] != ""){
+			$this->db->like("TAD.ITEM_NM",$params['V3']);
+		}
+
+		if(!empty($params['CUST']) && $params['CUST'] != ""){
+			$this->db->where("TAH.BIZ_IDX",$params['CUST']);
+		}
+
+		if(!empty($params['CLAIM']) && $params['CLAIM'] != ""){
+			if($params['CLAIM'] == "1"){
+				$this->db->where("(TC.REMARK != '' AND TC.INSERT_DATE IS NOT NULL)",NULL,FALSE);
+			}else{
+				$this->db->where("(TC.REMARK = '' OR TC.INSERT_DATE IS NULL)",NULL,FALSE);
+			}
+		}
+		
+
+		$this->db->where("TAD.END_YN","Y");
+
+		$query = $this->db->select("TIS.TRANS_DATE, TBR.CUST_NM, TSH.SERIES_NM, TAD.ITEM_NM, TSD.COLOR, TAD.QTY, TIS.OUT_QTY, TIS.ACT_IDX, TC.INSERT_DATE AS CLAIM_DATE")
+						->from("T_ITEMS_TRANS AS TIS")
+						->join("T_ACT_D as TAD","TAD.IDX = TIS.ACT_IDX","LEFT")
+						->join("T_ACT_H as TAH","TAH.IDX = TAD.H_IDX","LEFT")
+						->join("T_SERIES_D as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
+						->join("T_SERIES_H as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
+						->join("T_BIZ_REG AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
+						->join("T_CLAIM AS TC","TC.ACT_IDX = TAD.IDX","LEFT")
+						->limit($limit, $start)
+						->order_by("TIS.TRANS_DATE","DESC")
+						->order_by("TSH.IDX","ASC")
+						->order_by("TIS.ITEMS_IDX","ASC")
+						->order_by("TSD.IDX","ASC")
+						->get();
+		// echo $this->db->last_query();
+		
+		return $query->result();
+	}
+
+
+	public function act_am5_cut($params)
+	{
+		if((!empty($params['SDATE']) && $params['SDATE'] != "") && (!empty($params['EDATE']) && $params['EDATE'] != "")){
+			$this->db->where("TIS.TRANS_DATE BETWEEN '{$params['SDATE']}' AND '{$params['EDATE']}'");
+		}
+
+		if(!empty($params['V1']) && $params['V1'] != ""){
+			$this->db->where("TSD.SERIES_IDX",$params['V1']);
+		}
+
+		if(!empty($params['V3']) && $params['V3'] != ""){
+			$this->db->like("TAD.ITEM_NM",$params['V3']);
+		}
+
+		if(!empty($params['CUST']) && $params['CUST'] != ""){
+			$this->db->where("TAH.BIZ_IDX",$params['CUST']);
+		}
+
+		if(!empty($params['CLAIM']) && $params['CLAIM'] != ""){
+			if($params['CLAIM'] == "1"){
+				$this->db->where("TC.INSERT_DATE IS NOT NULL",NULL,FALSE);
+			}else{
+				$this->db->where("TC.INSERT_DATE IS NULL",NULL,FALSE);
+			}
+		}
+
+		$this->db->where("TAD.END_YN","Y");
+
+		$query = $this->db->select("COUNT(*) as CUT")
+						->from("T_ITEMS_TRANS AS TIS")
+						->join("T_ACT_D as TAD","TAD.IDX = TIS.ACT_IDX","LEFT")
+						->join("T_ACT_H as TAH","TAH.IDX = TAD.H_IDX","LEFT")
+						->join("T_SERIES_D as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
+						->join("T_SERIES_H as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
+						->join("T_BIZ_REG AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
+						->join("T_CLAIM AS TC","TC.ACT_IDX = TAD.IDX","LEFT")
+						->get();
+		return $query->row()->CUT;
+	}
+
+	public function get_items_info($idx)
+	{
+		$data = $this->db->select("TAD.*, TSD.COLOR, TIS.OUT_QTY, TC.REMARK AS CLAIM, TC.ACT_IDX AS CIDX")
+						->where(array('TAD.IDX'=>$idx))
+						->from("T_ACT_D as TAD")
+						->join("T_SERIES_D as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
+						->join("T_ITEMS_TRANS AS TIS","TAD.IDX = TIS.ACT_IDX","LEFT")
+						->join("T_CLAIM AS TC","TAD.IDX = TC.ACT_IDX","LEFT")
+						->get();
+		return $data->row();
+	}
+
+	public function ajax_insert_claim($params)
+	{
+		if($params['UPD'] == "1"){
+			$this->db->set("REMARK",$params['REMARK'])
+					->set("ACT_IDX",$params['IDX'])
+					->set("INSERT_DATE",$params['DATE'])
+					->where("ACT_IDX",$params['IDX']);
+			$this->db->update("T_CLAIM");
+		}else{
+			$this->db->set("REMARK",$params['REMARK'])
+					->set("ACT_IDX",$params['IDX'])
+					->set("INSERT_DATE",$params['DATE']);
+			$this->db->insert("T_CLAIM");
+		}
+
+		return $this->db->insert_id();
 	}
 }

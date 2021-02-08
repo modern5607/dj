@@ -83,6 +83,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </ul>
                     </li>
                     <li class="menu01_li">
+                        <a href="<?php echo base_url('ORD/o1')?>" class="menu_a <?php echo ($this->data['pos'] == "ORD")?"on":"";?>">공정별작업지시</a>
+                        <ul class="menu02" <?php echo ($this->data['pos'] == "ORD")?"style='display:block'":"";?>>
+                            <li><a href="<?php echo base_url('ORD/o1')?>" class="<?php echo ($this->data['subpos'] == "o1")?"on":"";?>"><i class="material-icons">dvr</i>성형작업지시</a></li>
+                            <li><a href="<?php echo base_url('ORD/o2')?>" class="<?php echo ($this->data['subpos'] == "o2")?"on":"";?>"><i class="material-icons">dvr</i>정형작업지시</a></li>
+                            <li><a href="<?php echo base_url('ORD/o3')?>" class="<?php echo ($this->data['subpos'] == "o3")?"on":"";?>"><i class="material-icons">dvr</i>시유작업지시</a></li>
+                            <li><a href="<?php echo base_url('ORD/o4')?>" class="<?php echo ($this->data['subpos'] == "o4")?"on":"";?>"><i class="material-icons">dvr</i>선별작업지시</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu01_li">
                         <a href="<?php echo base_url('ACT')?>" class="menu_a <?php echo ($this->data['pos'] == "ACT")?"on":"";?>" >생산관리</a>
                         <ul class="menu02" <?php echo ($this->data['pos'] == "ACT")?"style='display:block'":"";?>>
                             

@@ -559,16 +559,16 @@ class AMT extends CI_Controller {
 		$data['str']['v2'] = $this->input->get('v2');
 		$data['str']['v3'] = $this->input->get('v3');
 		$data['str']['v4'] = $this->input->get('v4');
-		$data['str']['cg'] = $this->input->get('cg');
+		$data['str']['cust'] = $this->input->get('cust');
 
-		$params['SDATE'] = '';
-		$params['EDATE'] = '';
+		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+		$params['EDATE'] = date("Y-m-d");
 		
 		$params['V1'] = "";
 		$params['V2'] = "";
 		$params['V3'] = "";
 		$params['V4'] = "";
-		$params['CG'] = "";
+		$params['CUST'] = "";
 
 		$data['qstr'] = "?P";
 		
@@ -599,9 +599,9 @@ class AMT extends CI_Controller {
 			$params['V4'] = $data['str']['v4'];
 			$data['qstr'] .= "&v4=".$data['str']['v4'];
 		}
-		if(!empty($data['str']['cg'])){
-			$params['CG'] = $data['str']['cg'];
-			$data['qstr'] .= "&cg=".$data['str']['cg'];
+		if(!empty($data['str']['cust'])){
+			$params['CUST'] = $data['str']['cust'];
+			$data['qstr'] .= "&cust=".$data['str']['cust'];
 		}
 
 		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
@@ -619,12 +619,13 @@ class AMT extends CI_Controller {
 		
 		
 		$data['title'] = "";
-		$data['List'] = $this->amt_model->act_am4_list($params,$start,$config['per_page']);
-		$this->data['cnt'] = $this->amt_model->act_am4_cut($params);
+		$data['List'] = $this->amt_model->act_am5_list($params,$start,$config['per_page']);
+		$this->data['cnt'] = $this->amt_model->act_am5_cut($params);
 
 		
 
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
+		$data['CUST'] = $this->main_model->get_custlist();
 
 
 		
@@ -665,9 +666,124 @@ class AMT extends CI_Controller {
 	public function am6()
 	{
 		check_pageLevel();
+
+		$data['str'] = array(); //검색어관련
+		
+		$data['str']['sdate'] = $this->input->get('sdate');
+		$data['str']['edate'] = $this->input->get('edate');
+
+		$data['str']['v1'] = $this->input->get('v1');
+		$data['str']['v2'] = $this->input->get('v2');
+		$data['str']['v3'] = $this->input->get('v3');
+		$data['str']['v4'] = $this->input->get('v4');
+		$data['str']['cust'] = $this->input->get('cust');
+		$data['str']['claim'] = $this->input->get('claim');
+
+		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+		$params['EDATE'] = date("Y-m-d");
+		
+		$params['V1'] = "";
+		$params['V2'] = "";
+		$params['V3'] = "";
+		$params['V4'] = "";
+		$params['CUST'] = "";
+		$params['CLAIM'] = "";
+
+		$data['qstr'] = "?P";
+		
+		if(!empty($data['str']['sdate'])){
+			$params['SDATE'] = $data['str']['sdate'];
+			$data['qstr'] .= "&sdate=".$data['str']['sdate'];
+		}
+
+		if(!empty($data['str']['edate'])){
+			$params['EDATE'] = $data['str']['edate'];
+			$data['qstr'] .= "&edate=".$data['str']['edate'];
+		}
+		
+		
+		if(!empty($data['str']['v1'])){
+			$params['V1'] = $data['str']['v1'];
+			$data['qstr'] .= "&v1=".$data['str']['v1'];
+		}
+		if(!empty($data['str']['v2'])){
+			$params['V2'] = $data['str']['v2'];
+			$data['qstr'] .= "&v2=".$data['str']['v2'];
+		}
+		if(!empty($data['str']['v3'])){
+			$params['V3'] = $data['str']['v3'];
+			$data['qstr'] .= "&v3=".$data['str']['v3'];
+		}
+		if(!empty($data['str']['v4'])){
+			$params['V4'] = $data['str']['v4'];
+			$data['qstr'] .= "&v4=".$data['str']['v4'];
+		}
+		if(!empty($data['str']['cust'])){
+			$params['CUST'] = $data['str']['cust'];
+			$data['qstr'] .= "&cust=".$data['str']['cust'];
+		}
+		if(!empty($data['str']['claim'])){
+			$params['CLAIM'] = $data['str']['claim'];
+			$data['qstr'] .= "&claim=".$data['str']['claim'];
+		}
+
+		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
+		
+		//PAGINATION
+		$config['per_page'] = $data['perpage'];
+		$config['page_query_string'] = true;
+		$config['query_string_segment'] = "pageNum";
+		$config['reuse_query_string'] = TRUE;
+
+        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+		
+		$start = $pageNum;
+		$data['pageNum'] = $start;
+		
+		
+		$data['title'] = "";
+		$data['List'] = $this->amt_model->act_am5_list($params,$start,$config['per_page']);
+		$this->data['cnt'] = $this->amt_model->act_am5_cut($params);
+
+		
+
+		$data['SERIES'] = $this->main_model->get_seriesh_select();
+		$data['CUST'] = $this->main_model->get_custlist();
+
+
+		
+		/* pagenation start */
+
+		$this->load->library("pagination");
+		$config['base_url'] = base_url(uri_string());
+        $config['total_rows'] = $this->data['cnt'];
+
+
+		$config['full_tag_open'] = "<ul class='pagination'>";
+		$config['full_tag_close'] = '</ul>';
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li class="active"><a href="#">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		$config['prev_link'] = '<i class="fa fa-long-arrow-left"></i>Previous Page';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+		$config['next_link'] = 'Next Page<i class="fa fa-long-arrow-right"></i>';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+
+
+		$this->pagination->initialize($config);
+        $this->data['pagenation'] = $this->pagination->create_links();
+
+		$this->load->view('/amt/am6',$data);
 	}
-
-
 
 
 	public function ajax_componentNum_form()
@@ -870,4 +986,38 @@ class AMT extends CI_Controller {
 		$this->load->view('/amt/am1_2',$data);
 	}
 
+
+	public function ajax_claim_insert()
+	{
+		$mode = $this->input->post("mode");
+		$idx  = $this->input->post("idx");
+
+		$data = array();
+		if(!empty($idx)){
+			$data['itemInfo'] = $this->amt_model->get_items_info($idx);
+		}
+		
+		$this->load->view('/amt/ajax_claim_insert',$data);
+	}
+
+
+	public function insert_claim()
+	{
+		date_default_timezone_set('Asia/Seoul');
+		$params = array(
+			'REMARK' => $this->input->post("remark"),
+			'DATE' => date("Y-m-d h:i:s"),
+			'IDX' => $this->input->post("idx"),
+			'UPD' => $this->input->post("upd"),
+		);
+
+
+
+		$data = $this->amt_model->ajax_insert_claim($params);
+		$msg = "등록되었습니다.";
+	
+		if($data > 0){
+			echo $msg;
+		}
+	}
 }

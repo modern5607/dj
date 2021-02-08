@@ -168,7 +168,7 @@ class Main_model extends CI_Model {
 			$this->db->like("COMPONENT_NM",$param['COMPONENT_NM']);
 		}
 
-		if(!empty($param['USE_YN']) && $param['USE_YN'] != ""){
+		if(!empty($param['USE_YN']) && $param['USE_YN'] != "A"){
 			$this->db->where("USE_YN",$param['USE_YN']);
 		}
 
