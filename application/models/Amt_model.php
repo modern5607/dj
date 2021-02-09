@@ -393,7 +393,7 @@ SQL;
 						->join("T_BIZ_REG AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
 						->limit($limit, $start)
 						->order_by("TAH.ACT_DATE","ASC")
-						->order_by("TAD.SERIESD_IDX","ASC")
+						->order_by("tsh.SERIES_NM","ASC")
 						->order_by("TAD.ITEM_NM")
 						->order_by("COLOR","ASC")
 						->get();
@@ -627,7 +627,7 @@ public function component_count($date='',$param)
 						->join("T_CLAIM AS TC","TC.ACT_IDX = TAD.IDX","LEFT")
 						->limit($limit, $start)
 						->order_by("TIS.TRANS_DATE","DESC")
-						->order_by("TSH.IDX","ASC")
+						->order_by("TSH.SERIES_NM","ASC")
 						->order_by("TAD.ITEM_NM","ASC")
 						->order_by("TSD.COLOR","ASC")
 						->get();

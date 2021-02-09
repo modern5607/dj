@@ -755,6 +755,7 @@ class Main_model extends CI_Model {
 	//거래처리스트
 	public function get_custlist()
 	{
+		$this->db->order_by('cust_nm');
 		$this->db->where('CUST_TYPE="customer"');
 		$this->db->where('CUST_USE="Y"');
 		$query = $this->db->get("t_biz_reg");
@@ -762,15 +763,17 @@ class Main_model extends CI_Model {
 	}
 	public function get_buyerlist()
 	{
+		$this->db->order_by('cust_nm');
 		$this->db->where('CUST_TYPE="buyer"');
 		$this->db->where('CUST_USE="Y"');
 		$query = $this->db->get("t_biz_reg");
 		return $query->result();
 	}
-
-
+	
+	
 	public function get_seriesh_select()
-	{
+	{	
+		$this->db->order_by('series_nm');
 		$query = $this->db->get("t_series_h");
 		return $query->result();
 	}
@@ -778,6 +781,7 @@ class Main_model extends CI_Model {
 	
 	public function ajax_component_select()
 	{
+		$this->db->order_by('component_nm');
 		$query = $this->db->get("t_component");
 		return $query->result();
 	}

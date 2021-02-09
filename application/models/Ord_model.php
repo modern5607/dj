@@ -123,6 +123,8 @@ SQL;
 			WHERE
 				1
 				{$where}
+			order by
+				SERIES_NM,ITEM_NAME
 SQL;
 
 
@@ -304,6 +306,8 @@ SQL;
 			WHERE
 				1
 				{$where}
+			order by
+				SERIES_NM, ITEM_NAME, COLOR
 SQL;
 
 

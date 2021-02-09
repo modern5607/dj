@@ -41,7 +41,7 @@ class Act_model extends CI_Model {
 					TI.SH_QTY > 0
 					AND TIT.GJ_GB != "CC"
 					{$where}
-				ORDER BY  TRANS_DATE DESC, ITEM_NAME, SERIES_NM
+				ORDER BY  TRANS_DATE DESC, SERIES_NM, ITEM_NAME, SERIES_NM
 				LIMIT {$start}, {$limit}
 			) as AA
 		UNION ALL
@@ -233,7 +233,7 @@ SQL;
 				1
 				{$where}
 			ORDER BY
-				IDX, ITEM_NAME
+				SERIES_NM, ITEM_NAME
 SQL;
 
 
@@ -634,7 +634,9 @@ SQL;
 				AND A.KIND = 'IN'
 				{$where}
 			ORDER BY
-				TRANS_DATE DESC
+				TRANS_DATE DESC,
+				SERIES_NM,
+				ITEM_NAME
 			
 SQL;
 		$query = $this->db->query($sql);
@@ -737,7 +739,7 @@ SQL;
 			LEFT JOIN T_ACT_H AS TAH ON ( TAH.IDX = TA.H_IDX )
 			LEFT JOIN T_INVENTORY_TRANS AS TIT ON ( TIT.ACT_D_IDX = TA.IDX )
 			LEFT JOIN T_SERIES_D AS TS ON ( TS.IDX = TA.SERIESD_IDX ) 
-				LEFT JOIN T_ITEMS_TRANS as TIS ON(TIS.ACT_IDX = TA.IDX)
+			LEFT JOIN T_ITEMS_TRANS as TIS ON(TIS.ACT_IDX = TA.IDX)
 		WHERE
 			1
 			{$where}
@@ -930,7 +932,9 @@ SQL;
 				(`4_QTY` > 0 OR `2_QTY` > 0 OR `3_QTY` > 0)
 				{$where}
 			ORDER BY
-				TAH.ACT_DATE DESC
+				TAH.ACT_DATE DESC,
+				ITEM_NM,
+				COLOR
 			LIMIT
 				{$start}, {$limit}
 SQL;
@@ -1025,7 +1029,7 @@ SQL;
 				1
 				{$where}
 			ORDER BY 
-			SERIES_IDX, ITEM_NAME, COLOR
+			SE_NAME, ITEM_NAME, COLOR
 			LIMIT
 				{$start},{$limit}
 SQL;
@@ -1121,8 +1125,7 @@ SQL;
 						A.ITEMS_IDX = B.IDX AND 
 						A.KIND = 'IN'
 						{$where}
-					ORDER BY 
-						TRANS_DATE DESC, SERIES_IDX, ITEM_NAME
+					
 					LIMIT 
 						{$start}, {$limit}
 				) as AA
@@ -1136,6 +1139,8 @@ SQL;
 				A.ITEMS_IDX = B.IDX
 				AND A.KIND = 'IN'  
 				{$where}
+			ORDER BY 
+				TRANS_DATE DESC, SERIES_NM, ITEM_NAME
 				
 			
 SQL;
@@ -1211,6 +1216,7 @@ SQL;
 		
 
 		$this->db->group_by("A.ITEM_NM, A.ITEMS_IDX");
+		$this->db->order_by("ITEM_NM");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
 		// echo $this->db->last_query();
@@ -1644,7 +1650,7 @@ SQL;
 				{$where}
 			ORDER BY
 				CU_DATE DESC,
-				SERIES_IDX,
+				SERIES_NM,
 				ITEM_NM,
 				COLOR
 SQL;
@@ -2274,7 +2280,7 @@ SQL;
 		$this->db->join("t_series_h as tsh","tsh.idx=ti.series_idx","LEFT");
 		$this->db->where("ti.use_yn = 'Y' AND tsh.use_yn = 'Y' AND (SH_QTY > 0 OR JH_QTY > 0)");
 		$this->db->limit($limit,$start);
-		$this->db->order_by("series_idx");
+		$this->db->order_by("SERIES_NM, ITEM_NAME");
 			
 		$query = $this->db->get();
 		
@@ -2325,7 +2331,7 @@ SQL;
 
 		$sql = $this->db->last_query();
 		
-		$query = $this->db->query("SELECT AA.* FROM (". $sql.")as AA ORDER BY SERIES_IDX,ITEM_NM,COLOR");
+		$query = $this->db->query("SELECT AA.* FROM (". $sql.")as AA ORDER BY SERIES_NM,ITEM_NM,COLOR");
 		// echo $this->db->last_query();
 		return $query->result();
 	}
@@ -2384,7 +2390,7 @@ SQL;
 				AND TI.KS_YN = 'Y' 
 				{$where}
 			ORDER BY 
-				TAH.ACT_DATE ASC, TI.ITEM_NAME, TSD.COLOR
+				TAH.ACT_DATE ASC, SE_NAME, TI.ITEM_NAME, TSD.COLOR
 			LIMIT
 				{$start},{$limit}
 SQL;
@@ -2493,7 +2499,7 @@ SQL;
 				TIT.KIND = "OTM"
 				{$where}
 			ORDER BY 
-				TI.IDX
+				KS_DATE, SE_NAME, ITEM_NAME, COLOR
 			LIMIT
 				{$start},{$limit}
 SQL;
