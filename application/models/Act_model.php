@@ -171,10 +171,6 @@ SQL;
 	public function item_trans_numlist($date='',$param)
 	{
 		$where='';
-		//$this->db->select("B.*, A.IN_QTY, A.REMARK, A.IDX as TRANS_IDX, H.SERIES_NM");
-		// $this->db->from("t_items_trans as A");
-		// $this->db->join("t_items as B","B.IDX = A.ITEMS_IDX");
-		// $this->db->join("t_series_h as H","H.IDX = B.SERIES_IDX","LEFT");
 		
 		if(!empty($param['V1']) && $param['V1'] != ""){
 			$where .= " AND B.SERIES_IDX={$param['V1']}";
@@ -199,25 +195,26 @@ SQL;
 		$where .=" AND GJ_GB = '{$GJGB}'";
 
 		$sql=<<<SQL
+		SELECT AA.* FROM (
 			SELECT
 				A.IDX AS TRANS_IDX,
 				H.SERIES_NM,
 				B.ITEM_NAME,
 				A.IN_QTY,
-				C.CUST_NM,
 				A.REMARK ,
 				B.JH_QTY,
 				B.SH_QTY,
-				A.BQTY
+				A.BQTY,
+				H.IDX
 			FROM
 				t_items_trans AS A
 				JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
 				LEFT JOIN t_series_h AS H ON H.IDX = B.SERIES_IDX 
-				LEFT JOIN t_biz_reg AS C ON B.BIZ_IDX
 			WHERE
 				1
 				{$where}
-			UNION
+		) AS AA
+			UNION ALL
 			SELECT
 				COUNT(B.ITEM_NAME),
 				'합계' AS TEXT,
@@ -226,22 +223,22 @@ SQL;
 				'',
 				'',
 				'',
-				'',
-				SUM(A.BQTY)
+				SUM(A.BQTY),
+				''
 			FROM
 				t_items_trans AS A
 				JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
 				LEFT JOIN t_series_h AS H ON H.IDX = B.SERIES_IDX
-				LEFT JOIN t_biz_reg AS C ON B.BIZ_IDX
 			WHERE
 				1
 				{$where}
-				
+			ORDER BY
+				IDX, ITEM_NAME
 SQL;
 
 
 		$query = $this->db->query($sql);
-		 //ECHO $this->db->last_query();
+		// ECHO $this->db->last_query();
 		return $query->result();
 	}
 
@@ -623,7 +620,7 @@ SQL;
 						A.ITEMS_IDX = B.IDX AND 
 						A.KIND = 'IN'
 						{$where}
-					ORDER BY A.TRANS_DATE DESC
+					ORDER BY A.TRANS_DATE DESC, SERIES_IDX, ITEM_NAME
 					LIMIT {$start}, {$limit}
 				) as AA
 				LEFT JOIN `t_series_h` as `H` ON `H`.`IDX` = `AA`.`SERIES_IDX`
@@ -636,7 +633,8 @@ SQL;
 				A.ITEMS_IDX = B.IDX
 				AND A.KIND = 'IN'
 				{$where}
-
+			ORDER BY
+				TRANS_DATE DESC
 			
 SQL;
 		$query = $this->db->query($sql);
@@ -847,7 +845,8 @@ SQL;
 				1
 				{$where}
 			ORDER BY ACT_DATE DESC,
-					ITEM_NM,
+					TA.ITEM_NM,
+					COLOR,
 					QTY
 			LIMIT
 				{$start}, {$limit}
@@ -1026,7 +1025,7 @@ SQL;
 				1
 				{$where}
 			ORDER BY 
-				TI.IDX, TIS.SERIESD_IDX
+			SERIES_IDX, ITEM_NAME, COLOR
 			LIMIT
 				{$start},{$limit}
 SQL;
@@ -1123,10 +1122,9 @@ SQL;
 						A.KIND = 'IN'
 						{$where}
 					ORDER BY 
-						TRANS_DATE DESC, ITEM_NAME
+						TRANS_DATE DESC, SERIES_IDX, ITEM_NAME
 					LIMIT 
 						{$start}, {$limit}
-					
 				) as AA
 			LEFT JOIN `t_series_h` as `H` ON `H`.`IDX` = `AA`.`SERIES_IDX` 
 			UNION ALL
@@ -1138,8 +1136,7 @@ SQL;
 				A.ITEMS_IDX = B.IDX
 				AND A.KIND = 'IN'  
 				{$where}
-				ORDER BY
-						TRANS_DATE DESC, ITEM_NAME,SERIES_NM
+				
 			
 SQL;
 
@@ -1310,7 +1307,7 @@ SQL;
 				1
 				{$where}
 			ORDER BY 
-				C.ACT_DATE ASC
+				C.ACT_DATE ASC, COLOR
 		) AS AA
 			UNION
 			SELECT
@@ -1421,7 +1418,7 @@ SQL;
 
 		$this->db->select("CU_DATE");
 		$this->db->group_by("CU_DATE");
-		$this->db->order_by("CU_DATE ASC");
+		$this->db->order_by("CU_DATE DESC");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get("t_inventory_trans");
 		
@@ -1497,6 +1494,9 @@ SQL;
 		}
 		
 		$this->db->order_by("C.ACT_DATE","DESC");
+		$this->db->order_by("B.SERIESD_IDX");
+		$this->db->order_by("B.ITEM_NM");
+		$this->db->order_by("COLOR");
 		$query = $this->db->get();
 		
 		
@@ -1621,7 +1621,6 @@ SQL;
 					WHERE
 						A.KIND = 'IN'
 						{$where}
-						ORDER BY A.CU_DATE DESC
 					LIMIT {$start},{$limit}
 				) as AA LEFT JOIN `t_series_h` as `H` ON `H`.`IDX` = `AA`.`SERIES_IDX`
 			
@@ -1643,6 +1642,11 @@ SQL;
 			WHERE 
 				A.KIND = 'IN'
 				{$where}
+			ORDER BY
+				CU_DATE DESC,
+				SERIES_IDX,
+				ITEM_NM,
+				COLOR
 SQL;
 		$query = $this->db->query($sql);
 		// echo $this->db->last_query();
@@ -2068,7 +2072,10 @@ SQL;
 				1
 				{$where}
 			GROUP BY A.ITEMS_IDX
-			ORDER BY ACT_DATE DESC
+			ORDER BY 
+				ACT_DATE DESC,
+				ITEM_NM,
+				COLOR
 SQL;
 
 		$query = $this->db->query($sql);
@@ -2305,21 +2312,21 @@ SQL;
 			$this->db->where("B.ITEM_NM",$param['V2']);
 		}
 		
-		$this->db->select("B.ITEM_NM,D.COLOR,SUM(A.IN_QTY) as IN_QTY,H.SERIES_NM, SERIES_IDX ");
+		$this->db->select("B.ITEM_NM,D.COLOR,SUM(A.IN_QTY) as IN_QTY,H.SERIES_NM, SERIES_IDX, A.ITEMS_IDX, A.SERIESD_IDX ");
 		$this->db->from("T_INVENTORY_TRANS A");
 		$this->db->join("T_ACT_D AS B","B.IDX = A.ACT_D_IDX ","LEFT");
 		$this->db->join("T_SERIES_D AS D ","D.IDX = A.SERIESD_IDX ","LEFT");
 		$this->db->join("T_SERIES_H AS H","H.IDX = D.SERIES_IDX ","LEFT");
 		$this->db->where("A.KIND = 'IN' AND A.GJ_GB='CU'");
-		$this->db->group_by("ITEM_NM,COLOR,SERIES_NM,SERIES_IDX");
+		$this->db->group_by("ITEM_NM,COLOR,SERIES_NM,SERIES_IDX,A.ITEMS_IDX,A.SERIESD_IDX");
 		$this->db->limit($limit,$start);
 		
 		$this->db->get();
 
 		$sql = $this->db->last_query();
 		
-		$query = $this->db->query("SELECT AA.* FROM (". $sql.")as AA ORDER BY SERIES_IDX, ITEM_NM");
-		
+		$query = $this->db->query("SELECT AA.* FROM (". $sql.")as AA ORDER BY SERIES_IDX,ITEM_NM,COLOR");
+		// echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -2377,7 +2384,7 @@ SQL;
 				AND TI.KS_YN = 'Y' 
 				{$where}
 			ORDER BY 
-				TAH.ACT_DATE ASC, TIT.SERIESD_IDX, TIT.ITEMS_IDX
+				TAH.ACT_DATE ASC, TI.ITEM_NAME, TSD.COLOR
 			LIMIT
 				{$start},{$limit}
 SQL;

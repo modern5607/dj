@@ -338,8 +338,8 @@ SQL;
 		$this->db->join("T_ITEMS AS TI","TI.IDX = TAD.ITEMS_IDX");
 		$this->db->join("T_SERIES_H AS TSH","TSH.IDX = TI.SERIES_IDX");
 		$this->db->join("T_SERIES_D AS TSD","TSD.IDX = TAD.SERIESD_IDX");
-		$this->db->order_by("TAD.ITEMS_IDX");
-		$this->db->order_by("TAD.SERIESD_IDX");
+		$this->db->order_by("TAD.ITEM_NM");
+		$this->db->order_by("TSD.COLOR");
 		$query = $this->db->get();
 		
 		return $query->result();

@@ -123,16 +123,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tbody>
 					<?php 
                         if(!empty($RList)){
+                            $totalQty = 0 ;
+                            $count = 0 ;
+                            $bqty = 0 ;
 					        foreach($RList as $i=>$row){
                                 $num = $i+1;
-                                if($row->SERIES_NM == "합계"){ ?>
-                                    <tr style="background:#f3f8fd;" class="nhover">
-                                        <td colspan="3" style="text-align:right;"><strong><?php echo $row->SERIES_NM; ?></strong></td>
-                                        <td class="right"><strong><?php echo number_format($row->IN_QTY); ?></strong></td>
-                                        <td class="right"><strong><?php echo number_format($row->BQTY); ?></strong></td>
-                                        <td colspan="2"></td>
-                                    </tr>
-                                <?php
+                                if($row->SERIES_NM == "합계"){ 
+                                    $totalQty += $row->IN_QTY;
+						            $count += $row->TRANS_IDX;
+						            $bqty += $row->BQTY;
                                 }
                                 else
                                 { ?>
@@ -151,6 +150,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <?php 
                                 }
                             }
+                    ?>
+                        <tr style="background:#f3f8fd;" class="nhover">
+                            <td colspan="" style="text-align:right;"><strong>총 수량</strong></td>
+                            <td class="right"><strong><?php echo number_format($count); ?></strong></td>
+                            <td colspan="" style="text-align:right;"><strong>총 합계</strong></td>
+                            <td class="right"><strong><?php echo number_format($totalQty); ?></strong></td>
+                            <td class="right"><strong><?php echo number_format($bqty); ?></strong></td>
+                            <td colspan="2"></td>
+                        </tr>
+                    <?php
                         }
 					if(empty($RList)){
 					?>

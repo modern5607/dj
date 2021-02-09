@@ -115,6 +115,8 @@ class Pln_model extends CI_Model {
 		$this->db->select("A.*,B.COLOR");
 		$this->db->from("t_act_d as A");
 		$this->db->join("t_series_d as B","B.IDX = A.SERIESD_IDX");
+		$this->db->order_by("item_nm");
+		$this->db->order_by("COLOR");
 		
 		//if($idx != ""){
 			$this->db->where("H_IDX",$idx);

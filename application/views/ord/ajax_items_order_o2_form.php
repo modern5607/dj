@@ -134,17 +134,13 @@ $(".sh_submit").on("click", function() {
                     html += "<tr>";
                     html += "<td>" + (index + 1) + "</td>";
                     html += "<td>" + info.ITEM_NAME + "</td>";
-                    //html += "<td>"+info.COLOR+"</td>";
-                    html += "<td style='text-align:center;'>" + info.SH_QTY + "</td>";
+                    html += "<td style='text-align:center;'>" +  number_format(info.SH_QTY) + "</td>";
 
                     html += "<td style='text-align:center;'>";
                     html +=
                         "	<input style='text-align:right;' type='text' autocomplete='off' name='QTY[]' class='form_select qty_this' size='4' value='' />";
-                    html += "	<input type='hidden' name='ITEM_IDX[]' value='" + info.IDX +
-                        "' />";
-                    html += "	<input type='hidden' name='ITEM_NM[]' value='" + info
-                        .ITEM_NAME + "' />";
-                    //html += "	<input type='hidden' name='SERIESD_IDX[]' value='"+info.SERIESD_IDX+"' />";
+                    html += "	<input type='hidden' name='ITEM_IDX[]' value='" + info.IDX + "' />";
+                    html += "   <input type='hidden' name='STOCK[]' value='" + info.SH_QTY + "' />";
                     html += "</td>";
 
                     html +=
@@ -211,7 +207,7 @@ $(".submitBtn").on("click", function() {
 });
 
 $(document).on("change", ".qty_this", function() {
-    var SQTY = $(this).parents("tr").find("td:eq(2)").text()*1;
+    var SQTY = $(this).parents("tr").find("input[name^='STOCK']").val()*1;
     var QTY = $(this).parents("tr").find("input[name^='QTY']").val()*1;
     $this = $(this);
 
