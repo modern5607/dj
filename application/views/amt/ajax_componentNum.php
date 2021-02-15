@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<span class="material-icons close">clear</span>
 </h2>
 
-
+<?php date_default_timezone_set('Asia/Seoul'); ?>
 <div class="formContainer">
 	<!-- <div style="background:#eceff5; padding:20px 15px;"></div> -->
 	<form name="ajaxform" id="ajaxform">

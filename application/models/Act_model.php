@@ -593,13 +593,12 @@ SQL;
 
 		if(!empty($param['V3']) && $param['V3'] != ""){
 			$where .= " AND A.GJ_GB = '{$param['V3']}'";
-		}
-		// else{$where .= " AND A.GJ_GB like '%JH%'";}
-		$where .= " AND A.GJ_GB != 'SH'";
+		}else{
+			$where .= " AND A.GJ_GB != 'SH'";}
 
 		$sql=<<<SQL
 			SELECT 
-			AA.*, H.SERIES_NM
+			AA.*
 			FROM 
 				(
 					SELECT
@@ -607,7 +606,7 @@ SQL;
 						B.ITEM_NAME,
 						A.IN_QTY, 
 						A.REMARK,
-						B.SERIES_IDX,
+						H.SERIES_NM,
 						A.BQTY,
 						CASE
 							WHEN (A.GJ_GB = "JHBK") THEN "BK"
@@ -616,19 +615,23 @@ SQL;
 					FROM
 						T_ITEMS_TRANS A, 
 						T_ITEMS B
+						LEFT JOIN T_SERIES_H AS H ON H.IDX = B.SERIES_IDX
 					WHERE
 						A.ITEMS_IDX = B.IDX AND 
 						A.KIND = 'IN'
 						{$where}
-					ORDER BY A.TRANS_DATE DESC, SERIES_IDX, ITEM_NAME
+					ORDER BY 
+						A.TRANS_DATE DESC,
+						SERIES_NM,
+						ITEM_NAME
 					LIMIT {$start}, {$limit}
 				) as AA
-				LEFT JOIN `t_series_h` as `H` ON `H`.`IDX` = `AA`.`SERIES_IDX`
 			UNION ALL
-			SELECT '','합계' AS TEXT, SUM(IN_QTY) as IN_QTY,COUNT(B.ITEM_NAME),'', SUM(BQTY),'',''
+			SELECT '','합계' AS TEXT, SUM(IN_QTY) as IN_QTY,COUNT(B.ITEM_NAME),'', SUM(BQTY),''
 			FROM 
 				T_ITEMS_TRANS A, 
 				T_ITEMS B
+				LEFT JOIN T_SERIES_H AS H ON H.IDX = B.SERIES_IDX
 			WHERE 
 				A.ITEMS_IDX = B.IDX
 				AND A.KIND = 'IN'
@@ -662,9 +665,8 @@ SQL;
 
 		if(!empty($param['V3']) && $param['V3'] != ""){
 			$where .= " AND A.GJ_GB = '{$param['V3']}'";
-		}
-		// else{$where .= " AND A.GJ_GB like '%JH%'";}
-		$where .= " AND A.GJ_GB != 'SH'";
+		}else{
+			$where .= " AND A.GJ_GB != 'SH'";}
 		
 		$sql=<<<SQL
 			SELECT
@@ -846,10 +848,11 @@ SQL;
 			WHERE
 				1
 				{$where}
-			ORDER BY ACT_DATE DESC,
-					TA.ITEM_NM,
-					COLOR,
-					QTY
+			ORDER BY 
+				ACT_DATE DESC,
+				ITEM_NM,
+				COLOR,
+				QTY
 			LIMIT
 				{$start}, {$limit}
 			) AS AA
@@ -1102,14 +1105,16 @@ SQL;
 			$where .= " AND B.ITEM_NAME LIKE '%{$param['V2']}%'";
 		}
 
-		
-		$where .= " AND A.GJ_GB = 'SH'";
-		
+		if(!empty($param['V3']) && $param['V3'] != ""){
+			$where .= " AND A.GJ_GB = '{$param['V3']}'";
+		}else{
+			$where .= " AND A.GJ_GB = 'SH'";
+		}
 
 
 		$sql=<<<SQL
 			SELECT 
-				AA.*, H.SERIES_NM
+				AA.*
 			FROM 
 				(
 					SELECT
@@ -1117,24 +1122,26 @@ SQL;
 						B.ITEM_NAME,
 						A.IN_QTY, 
 						A.REMARK,
-						B.SERIES_IDX
+						H.SERIES_NM
 					FROM
 						T_ITEMS_TRANS A, 
 						T_ITEMS B
+					LEFT JOIN
+						T_SERIES_H AS H ON H.IDX = B.SERIES_IDX
 					WHERE
 						A.ITEMS_IDX = B.IDX AND 
 						A.KIND = 'IN'
 						{$where}
-					
 					LIMIT 
 						{$start}, {$limit}
 				) as AA
-			LEFT JOIN `t_series_h` as `H` ON `H`.`IDX` = `AA`.`SERIES_IDX` 
 			UNION ALL
-			SELECT '','합계' AS ITEM_NAME, SUM(IN_QTY) as IN_QTY, COUNT(IN_QTY),"","합계" AS TEXT
+			SELECT '','합계' AS ITEM_NAME, SUM(IN_QTY) as IN_QTY, COUNT(IN_QTY),"합계" AS TEXT
 			FROM 
 				T_ITEMS_TRANS A, 
 				T_ITEMS B
+			LEFT JOIN
+				T_SERIES_H AS H ON H.IDX = B.SERIES_IDX
 			WHERE 
 				A.ITEMS_IDX = B.IDX
 				AND A.KIND = 'IN'  
@@ -1169,9 +1176,9 @@ SQL;
 		if(!empty($param['V3']) && $param['V3'] != ""){
 			$where .= " AND A.GJ_GB = '{$param['V3']}'";
 		}else{
-			$where .= " AND A.GJ_GB like '%JH%'";
+			$where .= " AND A.GJ_GB = 'SH'";
 		}
-		
+
 		$sql=<<<SQL
 			SELECT
 				COUNT(A.ITEMS_IDX) as CUT
@@ -1608,7 +1615,7 @@ SQL;
 
 		$sql=<<<SQL
 			SELECT 
-				AA.*, H.SERIES_NM
+				AA.*
 			FROM 
 				(
 					SELECT
@@ -1618,35 +1625,41 @@ SQL;
 						B.QTY,
 						A.IN_QTY,
 						A.REMARK,
-						D.SERIES_IDX
+						H.SERIES_NM
 					FROM
 						T_INVENTORY_TRANS A
 						LEFT JOIN T_ACT_D as B ON(B.IDX = A.ACT_D_IDX)
 						LEFT JOIN T_ACT_H as C ON(C.IDX = A.ACT_IDX)
 						LEFT JOIN T_SERIES_D as D ON(D.IDX = A.SERIESD_IDX)
+						LEFT JOIN T_SERIES_H as H ON(H.IDX = D.SERIES_IDX)
 					WHERE
-						A.KIND = 'IN'
+						1
 						{$where}
+					ORDER BY
+						CU_DATE DESC,
+						SERIES_NM,
+						ITEM_NM,
+						COLOR
 					LIMIT {$start},{$limit}
-				) as AA LEFT JOIN `t_series_h` as `H` ON `H`.`IDX` = `AA`.`SERIES_IDX`
+				) as AA 
 			
 			UNION ALL
 			SELECT 
-				'합계' AS TEXT,
-				'' AS ITEM_NM,
+				'' AS TEXT,
+				'합계' AS ITEM_NM,
 				'' AS COLOR,
 				SUM(B.QTY) as QTY,
 			    SUM(A.IN_QTY) as IN_QTY,
-			    '',
-			    '',
+			    COUNT(A.IDX),
 			    ''
 			FROM 
 				T_INVENTORY_TRANS A
 				LEFT JOIN T_ACT_D as B ON(B.IDX = A.ACT_D_IDX)
 				LEFT JOIN T_ACT_H as C ON(C.IDX = A.ACT_IDX)
 				LEFT JOIN T_SERIES_D as D ON(D.IDX = A.SERIESD_IDX)
+				LEFT JOIN T_SERIES_H as H ON(H.IDX = D.SERIES_IDX)
 			WHERE 
-				A.KIND = 'IN'
+				1
 				{$where}
 			ORDER BY
 				CU_DATE DESC,
@@ -1683,28 +1696,17 @@ SQL;
 
 		$sql=<<<SQL
 			SELECT 
-				COUNT(*) AS CUT
-			FROM 
-				(
-					SELECT
-						A.CU_DATE,
-						B.ITEM_NM,
-						D.COLOR,
-						B.QTY,
-						A.IN_QTY,
-						A.REMARK,
-						D.SERIES_IDX
-					FROM
-						T_INVENTORY_TRANS A
-						LEFT JOIN T_ACT_D as B ON(B.IDX = A.ACT_D_IDX)
-						LEFT JOIN T_ACT_H as C ON(C.IDX = A.ACT_IDX)
-						LEFT JOIN T_SERIES_D as D ON(D.IDX = A.SERIESD_IDX)
-					WHERE
-						A.KIND = 'IN' AND
-						A.GJ_GB = 'CU'
-						{$where}
-					ORDER BY C.ACT_DATE DESC
-				) as AA
+				COUNT(A.IDX) AS CUT
+			FROM
+				T_INVENTORY_TRANS A
+				LEFT JOIN T_ACT_D as B ON(B.IDX = A.ACT_D_IDX)
+				LEFT JOIN T_ACT_H as C ON(C.IDX = A.ACT_IDX)
+				LEFT JOIN T_SERIES_D as D ON(D.IDX = A.SERIESD_IDX)
+				LEFT JOIN T_SERIES_H as H ON(H.IDX = D.SERIES_IDX)
+			WHERE
+				1
+				{$where}
+	
 			
 SQL;
 		$query = $this->db->query($sql);

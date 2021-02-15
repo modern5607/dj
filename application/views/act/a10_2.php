@@ -65,11 +65,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				if(!empty($List)){
 					$count=0;
 					$incount=0;
+					$stock=0;
 				foreach($List as $i=>$row){ 
 					$no = $pageNum+$i+1;
-					if($row->CU_DATE == "합계"){
+					if($row->ITEM_NM == "합계"){
 						$count += $row->QTY;
 						$incount += $row->IN_QTY;
+						$stock += $row->REMARK;
 					}else{
 				?>
                     <tr>
@@ -83,21 +85,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <td class="cen"><?php echo $row->REMARK; ?></td>
 
                     </tr>
-                    <?php
+                <?php
 					}
-				?>
-
-
-                    <?php
 				}
 				?>
                     <tr style="background:#f3f8fd;" class="nhover">
-                        <td colspan="5" style="text-align:right;"><strong>총 합계</strong></td>
+                        <td colspan="3" style="text-align:right;"><strong>총 수량</strong></td>
+                        <td class="right"><?php echo number_format( $stock); ?></td>
+                        <td colspan="" style="text-align:right;"><strong>총 합계</strong></td>
                         <td class="right"><?php echo number_format( $count); ?></td>
                         <td class="right"><strong><?php echo number_format( $incount); ?></strong></td>
                         <td class="cen"><?php //echo $row->REMARK; ?></td>
                     </tr>
-                    <?php
+                <?php
 				}else{
 				
 				?>
@@ -113,22 +113,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </table>
         </div>
         <div class="pagination">
-            <?php echo $this->data['pagenation'];?>
-            <?php
+			<?php echo $this->data['pagenation'];?>
+			<?php
 			if($this->data['cnt'] > 20){
 			?>
-            <div class="limitset">
-                <select name="per_page">
-                    <option value="20" <?php echo ($perpage == 20)?"selected":"";?>>20</option>
-                    <option value="50" <?php echo ($perpage == 50)?"selected":"";?>>50</option>
-                    <option value="80" <?php echo ($perpage == 80)?"selected":"";?>>80</option>
-                    <option value="100" <?php echo ($perpage == 100)?"selected":"";?>>100</option>
-                </select>
-            </div>
-            <?php
+			<div class="limitset">
+				<select name="per_page">
+					<option value="20" <?php echo ($perpage == 20)?"selected":"";?>>20</option>
+					<option value="50" <?php echo ($perpage == 50)?"selected":"";?>>50</option>
+					<option value="80" <?php echo ($perpage == 80)?"selected":"";?>>80</option>
+					<option value="100" <?php echo ($perpage == 100)?"selected":"";?>>100</option>
+				</select>
+			</div>
+			<?php
 			}	
 			?>
-        </div>
+		</div>
     </div>
 </div>
 

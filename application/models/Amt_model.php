@@ -94,6 +94,7 @@ class Amt_model extends CI_Model {
 						A.KIND = 'IN'
 						{$where}
 					ORDER BY A.TRANS_DATE DESC
+					LIMIT {$start},{$limit}
 				) as AA
 			UNION
 			SELECT COUNT(B.COMPONENT_NM),'합계' AS TEXT,B.COMPONENT_NM, '' UNIT, SUM(IN_QTY) IN_QTY,'' 
@@ -107,14 +108,6 @@ class Amt_model extends CI_Model {
 			GROUP BY COMP_IDX
 SQL;
 
-		
-		//$subquery1 = "(SELECT C.CUST_NM FROM t_biz_reg as C WHERE C.IDX = A.BIZ_IDX) as CUST_NM";
-
-		//$this->db->select("A.TRANS_DATE,{$subquery1}, B.COMPONENT_NM, B.UNIT, A.IN_QTY, A.REMARK");
-		//$this->db->from("t_component_trans as A");
-		//$this->db->join("t_component as B","B.IDX = A.COMP_IDX");
-		//$this->db->order_by("A.TRANS_DATE ASC");
-		//$this->db->limit($limit,$start);
 		$query = $this->db->query($sql);
 		// echo $this->db->last_query();
 		return $query->result();

@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="cen"><?php echo $num;?></td>
 					<td class="cen"><?php echo $row->VER_NO; ?></td>
 					<td class="cen"><?php echo $row->VER_REMARK; ?></td>
-					<td class="cen"><?php echo $row->INSERT_DATE; ?></td>
+					<td class="cen"><?php echo substr($row->INSERT_DATE,0,10); ?></td>
 					<td>
 						<span class="btn modi_Btn" data-idx="<?php echo $row->IDX;?>">수정</span>
 						<span class="btn deleteBtn" data-idx="<?php echo $row->IDX;?>">삭제</span>

@@ -422,6 +422,8 @@ class SYS extends CI_Controller {
 
 	public function upload_ver_form()
 	{
+		date_default_timezone_set('Asia/Seoul');
+		
 		$MIDX = $this->input->post("MIDX");
 		$param['VER_NO'] = $this->input->post("VER_NO");
 		$param['VER_REMARK'] = $this->input->post("VER_REMARK");

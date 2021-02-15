@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php echo $title;?>
     <span class="material-icons close">clear</span>
 </h2>
-
+<?php date_default_timezone_set('Asia/Seoul'); ?>
 
 
 <div class="formContainer">
