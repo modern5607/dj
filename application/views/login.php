@@ -1,6 +1,6 @@
 
 <style>
-    .login_back { width:100%; height:400px; background:url(/rain_code1/_static/img/shattered.png); position:absolute; left:0; top:0; }
+    .login_back { width:100%; height:400px; background:url(/_static/img/shattered.png); position:absolute; left:0; top:0; }
     .register_login { /*position:fixed; top:50%; left:58%; transform:translate(-58%,-58%); border:1px solid #ddd;*/ width:620px; height:235px; margin:250px auto; position:relative; top:0;
     box-shadow: 2px 3px 7px 4px #eee;
     -webkit-box-shadow: 2px 3px 7px 4px #eee;
@@ -13,7 +13,7 @@
     .login_box::after{ display:block;visibility:hidden;clear:both;content:"" }
     .login_btn { text-align:center; margin-top:30px; padding: 10px 20px; border:0; background: rgb(39, 73, 146); color:#fff; }
     .login_btn:hover { background: rgb(38, 62, 114); }
-    .register_login .hello { width:310px; height: 235px; float:left; background:url(/rain_code1/_static/img/login.JPG); }
+    .register_login .hello { width:310px; height: 235px; float:left; background:url(/_static/img/login.JPG); }
     .register_login .hello h2 { font-size:2em; margin-top:150px; padding:10px 10px 0; color:#fff; }
     .register_login .hello h3 { padding: 0px 10px 10px; font-size:1.8em; color:#fff }
 
