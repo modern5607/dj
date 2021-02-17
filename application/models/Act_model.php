@@ -1029,7 +1029,7 @@ SQL;
 				LEFT JOIN T_ITEMS as TI ON(TI.IDX = TIS.ITEM_IDX)
 				LEFT JOIN T_SERIES_D as TSD ON(TSD.IDX = TIS.SERIESD_IDX)
 			WHERE
-				1
+				TSD.USE_YN = "Y"
 				{$where}
 			ORDER BY 
 			SE_NAME, ITEM_NAME, COLOR
@@ -1057,7 +1057,7 @@ SQL;
 		if(!empty($param['V1']) && $param['V1'] != ""){
 			$where .= " AND TSD.SERIES_IDX = '{$param['V1']}'";
 		}
-		if(!empty($param['V2']) && $param['V2'] != ""){
+		if(!empty($param['V2']) && $param['V2'] != "A"){
 			$where .= " AND TIS.USE_YN = '{$param['V2']}'";
 		}	
 		if(!empty($param['V3']) && $param['V3'] != ""){
