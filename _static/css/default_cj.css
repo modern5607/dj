@@ -79,7 +79,7 @@ a {text-decoration:none}
 
 .body_cont_float2{height:100%;}
 .body_cont_float2 ul{height:100%;}
-.body_cont_float2 ul li{float:left; height:100%; display:block;}
+.body_cont_float2 ul li{float:left; min-height:100%; display:block;}
 .body_cont_float2 .pagination{height:0; margin:5px 0px;}
 .body_cont_float2 .pagination li{float: none; height:0; display: inline; width: 0;}
 .body_cont_float2 ul li:nth-child(1){width:60%; padding:20px; background:#f8f8f8; border-right:1px solid #ddd;}
@@ -117,7 +117,7 @@ a {text-decoration:none}
 .tbl-content table.none_border th{min-width:80px;}
     
 .tbl-content table th { border-bottom:1px solid #ddd; border-right : 1px solid #ddd; padding:10px;}
-.tbl-content table td { border-bottom:1px solid #ddd; border-right : 1px solid #ddd; padding:10px; word-break: break-all; white-space: inherit; }
+.tbl-content table td { border-bottom:1px solid #ddd; border-right : 1px solid #ddd; padding:6px 10px; word-break: break-all; white-space: inherit; }
 .tbl-content table td.rl_board{ border-left:2px solid #ff5b5b; border-right:2px solid #ff5b5b;}
 .tbl-content table td.list_none {padding:49px 0; color:#999; text-align:center;}
 
@@ -182,7 +182,7 @@ a:visited{color:#194bff;}
 
 .btn_right{float:right;}
 
-.bc_cont{margin:20px; /*height:80%;*/}
+.bc_cont{padding:20px; /*height:80%;*/}
 .bc_cont .cont_header{padding-left:20px; margin:20px 0; font-size:1.2em; display:none;}
 .bc_cont .cont_body{background:#fff; overflow:hidden; height:100%; padding:30px; border:1px solid #ddd; border-radius:20px;}
 

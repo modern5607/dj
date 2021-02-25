@@ -1139,8 +1139,8 @@ SQL;
 						A.ITEMS_IDX = B.IDX AND 
 						A.KIND = 'IN'
 						{$where}
-					LIMIT 
-						{$start}, {$limit}
+					ORDER BY TRANS_DATE DESC
+					LIMIT {$start}, {$limit}
 				) as AA
 			UNION ALL
 			SELECT '','합계' AS ITEM_NAME, SUM(IN_QTY) as IN_QTY, COUNT(IN_QTY),"합계" AS TEXT
@@ -1155,7 +1155,6 @@ SQL;
 				{$where}
 			ORDER BY 
 				TRANS_DATE DESC, SERIES_NM, ITEM_NAME
-				
 			
 SQL;
 
