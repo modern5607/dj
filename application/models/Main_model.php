@@ -786,6 +786,19 @@ class Main_model extends CI_Model {
 		return $query->result();
 	}
 
+	public function iot_insert($params) 
+	{
+		date_default_timezone_set('Asia/Seoul');
+		$sysDate = date("Y-m-d H:i:s",time());
 
+			$set = array(
+				"TEMP"		=> $params['TEMP'],
+				"HUM"       => $params['HUM'],
+				"DATE"		=> $sysDate,
+				"LOCATION"	=> $params['LOC']
+			);
+			
+           $this->db->insert("T_ENV",$set);
+	}
 
 }

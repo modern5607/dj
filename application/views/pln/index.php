@@ -170,7 +170,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?php echo $row->ITEM_NM; ?></td>
                             <td><?php echo $row->COLOR; ?></td>
                             <td class="right"><?php echo number_format($row->QTY);?></td>
-                            <td><span class="<?php echo ($row->STATUS == "CC")?"nbtn":"btn mod_detail" ?>" 
+                            <td><span class="<?php echo ($row->STATUS == "CG")?"nbtn":"btn mod_detail" ?>" 
                                 data-idx="<?php echo $row->IDX; ?>"
                                 data-name="<?php echo $row->ITEM_NM; ?>" 
                                 data-color="<?php echo $row->COLOR; ?>"

@@ -39,7 +39,7 @@ class Act_model extends CI_Model {
 					LEFT JOIN T_SERIES_H AS TSH ON TSH.IDX = TI.SERIES_IDX
 				WHERE
 					TI.SH_QTY > 0
-					AND TIT.GJ_GB != "CC"
+					AND TIT.GJ_GB != "CG"
 					{$where}
 				ORDER BY  TRANS_DATE DESC, SERIES_NM, ITEM_NAME, SERIES_NM
 				LIMIT {$start}, {$limit}
@@ -52,7 +52,7 @@ class Act_model extends CI_Model {
 			LEFT JOIN T_SERIES_H AS TSH ON TSH.IDX = TI.SERIES_IDX
 		WHERE 
 			TI.SH_QTY > 0
-			AND TIT.GJ_GB != "CC"
+			AND TIT.GJ_GB != "CG"
 			{$where}
 SQL;
 
@@ -87,7 +87,7 @@ SQL;
 		$this->db->join("T_ITEMS_TRANS as TIT","TIT.ITEMS_IDX = TI.IDX","LEFT");
 		$this->db->join("T_SERIES_H as TSH","TSH.IDX = TI.SERIES_IDX","LEFT");
 		$this->db->where("TI.SH_QTY > 0");
-		$this->db->where("TIT.GJ_GB != 'CC'");
+		$this->db->where("TIT.GJ_GB != 'CG'");
 		$query = $this->db->get();
 		return $query->row()->CUT;
 	}
@@ -111,6 +111,7 @@ SQL;
 		}
 
 		$this->db->where("GJ_GB",$GJGB);
+		$this->db->where("KIND","IN");
 
 		$this->db->select("IDX, TRANS_DATE");
 		$this->db->group_by("TRANS_DATE");
@@ -151,7 +152,7 @@ SQL;
 				FROM
 					T_ITEMS_TRANS
 				WHERE
-					1
+					KIND = "IN"
 					{$where}
 				GROUP BY
 					TRANS_DATE
@@ -211,7 +212,7 @@ SQL;
 				JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
 				LEFT JOIN t_series_h AS H ON H.IDX = B.SERIES_IDX 
 			WHERE
-				1
+				KIND = "IN"
 				{$where}
 		) AS AA
 			UNION ALL
@@ -230,7 +231,7 @@ SQL;
 				JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
 				LEFT JOIN t_series_h AS H ON H.IDX = B.SERIES_IDX
 			WHERE
-				1
+				KIND = "IN"
 				{$where}
 			ORDER BY
 				SERIES_NM, ITEM_NAME
@@ -355,37 +356,32 @@ SQL;
 			$this->db->where("IDX",$params['ITEM_IDX'][$k]);
 			$que = $this->db->get("T_ITEMS");
 			$chk = $que->row();
-
 			$qty = $qty*1;
 
-			
-			if(!empty($chk->IDX)){
-
-				$sql =<<<SQL
-				UPDATE
-					t_items
-				SET
-					SH_QTY = ({$chk->SH_QTY}+{$qty})
-				WHERE
-					IDX = $chk->IDX
-					
-SQL;
-				
-				$this->db->query($sql);
-				
-			}
+			// 직접 성형재고 추가
+// 			if(!empty($chk->IDX)){
+// 				$sql =<<<SQL
+// 				UPDATE
+// 					t_items
+// 				SET
+// 					SH_QTY = ({$chk->SH_QTY}+{$qty})
+// 				WHERE
+// 					IDX = $chk->IDX
+// SQL;
+// 				$this->db->query($sql);
+// 			}
 			
 			$JT_QTY = ($chk->JT_QTY == null)?1:$chk->JT_QTY;
 
-			
-
+			// 재료수량 차감
 			$this->db->set("STOCK","STOCK-({$qty} * {$JT_QTY})",FALSE);
 			$this->db->where("COMPONENT","CLAY");
 			$this->db->update("T_COMPONENT");
 
+			// 재고 차감 로그
 			$this->db->set("COMP_IDX",1); //clay 무조건
 			$this->db->set("TRANS_DATE",$datetime);
-			$this->db->set("KIND","OUT");
+			$this->db->set("KIND","OT");
 			$this->db->set("OUT_QTY",$qty*$JT_QTY);
 			$this->db->set("INSERT_ID",$username);
 			$this->db->set("INSERT_DATE",$datetime);
@@ -395,7 +391,7 @@ SQL;
 			$this->db->insert("t_component_trans");
 
 
-
+			
 			$datax = array(
 				//"H_IDX"        => $params['H_IDX'][$k],
 				"ITEMS_IDX"    => $params['ITEM_IDX'][$k],
@@ -461,7 +457,7 @@ SQL;
 
 		$this->db->where("COMP_IDX",1);
 		$this->db->where("TRANS_DATE",$chkinfo->TRANS_DATE);
-		$this->db->where("KIND","OUT");
+		$this->db->where("KIND","OT");
 		$this->db->where("OUT_QTY",$chkinfo->IN_QTY*$chkinfo->JT_QTY);
 		$this->db->delete("t_component_trans");
 
@@ -521,36 +517,47 @@ SQL;
 
 		foreach($params['QTY'] as $k => $qty){
 			
-			$this->db->where("IDX",$params['ITEM_IDX'][$k]);
-			$que = $this->db->get("T_ITEMS");
-			$chk = $que->row();
-
+			// $this->db->where("IDX",$params['ITEM_IDX'][$k]);
+			// $que = $this->db->get("T_ITEMS");
+			// $chk = $que->row();
+			
 			$qty = $qty*1;
-			$set = "";
+			// $set = "";
 			if($params['BK'] != 1){
-				$set = ", SH_QTY = SH_QTY-".$qty."-".$params['BQTY'][$k];
+				// $set = ", SH_QTY = SH_QTY-".$qty."-".$params['BQTY'][$k];
 				$GJ_GB = "JH";
+
+				$sql =<<<SQL
+				INSERT INTO T_ITEMS_TRANS
+				SET
+					ITEMS_IDX		= '{$params['ITEM_IDX'][$k]}',
+					TRANS_DATE		= '{$params['transdate']}',
+					KIND			= "OT",
+					GJ_GB			= "SH",
+					OUT_QTY			= '{$qty}',
+					REMARK			= '{$params['REMARK'][$k]}',
+					INSERT_ID		= '{$username}',
+					INSERT_DATE		= '{$datetime}'
+				
+SQL;
+				$this->db->query($sql);	
 			}else{
 				$GJ_GB = "JHBK";
 			}
 
 			
-			if(!empty($chk->IDX)){
-
-				$sql =<<<SQL
-				UPDATE
-					t_items
-				SET
-					JH_QTY = ({$chk->JH_QTY}+{$qty})
-					{$set}
-				WHERE
-					IDX = $chk->IDX
-					
-SQL;
-				
-				$this->db->query($sql);
-				
-			}
+// 			if(!empty($chk->IDX)){
+// 				$sql =<<<SQL
+// 				UPDATE
+// 					t_items
+// 				SET
+// 					JH_QTY = ({$chk->JH_QTY}+{$qty})
+// 					{$set}
+// 				WHERE
+// 					IDX = $chk->IDX
+// SQL;
+// 				$this->db->query($sql);
+// 			}
 			
 			
 			
@@ -976,7 +983,7 @@ SQL;
 		$where = "";
 		
 		if(!empty($param['AM1']) && $param['AM1'] != ""){
-			$where .= " AND (TIS.QTY > 0 OR (SELECT IFNULL(SUM(B.QTY), 0) FROM T_ACT_D AS B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX AND (STATUS IS NULL OR STATUS != 'CC')) > 0) ";
+			$where .= " AND (TIS.QTY > 0 OR (SELECT IFNULL(SUM(B.QTY), 0) FROM T_ACT_D AS B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX AND (STATUS IS NULL OR STATUS != 'CG')) > 0) ";
 		}else{
 			$where .= " AND TI.USE_YN = 'Y' ";
 		}
@@ -1022,7 +1029,7 @@ SQL;
 					WHERE 
 					B.ITEMS_IDX = TIS.ITEM_IDX 
 					AND B.SERIESD_IDX = TIS.SERIESD_IDX 
-					AND (STATUS IS NULL OR STATUS != "CC")
+					AND (STATUS IS NULL OR STATUS != "CG")
 				) AS EQTY 
 			FROM
 				T_ITEM_STOCK as TIS
@@ -1047,7 +1054,7 @@ SQL;
 		$where = "";
 
 		if(!empty($param['AM1']) && $param['AM1'] != ""){
-			$where .= " AND (TIS.QTY > 0 OR (SELECT IFNULL(SUM(B.QTY), 0) FROM T_ACT_D AS B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX AND STATUS != 'CC') > 0) ";
+			$where .= " AND (TIS.QTY > 0 OR (SELECT IFNULL(SUM(B.QTY), 0) FROM T_ACT_D AS B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX AND STATUS != 'CG') > 0) ";
 		}else{
 			$where .= " AND TI.USE_YN = 'Y' ";
 		}
@@ -1357,36 +1364,44 @@ SQL;
 		
 				
 		foreach($params['IN_QTY'] as $k => $qty){
-			
-			$this->db->where("IDX",$params['ITEMS_IDX'][$k]);
-			$que = $this->db->get("T_ITEMS");
-			$chk = $que->row();
-
 			$qty = $qty*1;
 			
-			
-			if(!empty($chk->IDX)){
 
-				$sql =<<<SQL
-				UPDATE
-					t_items
-				SET
-					JH_QTY = ({$chk->JH_QTY}-{$qty})
-				WHERE
-					IDX = $chk->IDX
-					
-SQL;
-				
-				$this->db->query($sql);
-				
-			}
+// 			$this->db->where("IDX",$params['ITEMS_IDX'][$k]);
+// 			$que = $this->db->get("T_ITEMS");
+// 			$chk = $que->row();
+
+			
+// 			if(!empty($chk->IDX)){
+// 				$sql =<<<SQL
+// 				UPDATE
+// 					t_items
+// 				SET
+// 					JH_QTY = ({$chk->JH_QTY}-{$qty})
+// 				WHERE
+// 					IDX = $chk->IDX
+// SQL;
+// 				$this->db->query($sql);		
+// 			}
 
 
 			$this->db->set(array("SIU_YN"=>"Y","STATUS"=>"CU"));
 			$this->db->where("IDX",$params['AD_IDX'][$k]);
 			$this->db->update("t_act_d");
 			
-			
+			$sql =<<<SQL
+				INSERT INTO T_ITEMS_TRANS
+				SET
+					ITEMS_IDX		= '{$params['ITEMS_IDX'][$k]}',
+					TRANS_DATE		= '{$params['CU_DATE'][$k]}',
+					KIND			= "OT",
+					GJ_GB			= "JH",
+					OUT_QTY			= '{$qty}',
+					INSERT_ID		= '{$username}',
+					INSERT_DATE		= '{$datetime}'
+				
+SQL;
+				$this->db->query($sql);	
 			
 
 			$datax = array(
@@ -1734,6 +1749,7 @@ SQL;
 		$set = array(
 			"SB_DATE"	=> $param['SB_DATE'],
 			"GJ_GB"     => "SB",
+			"KIND"     	=> "OT",
 			"1_QTY" 	=> $param['1_QTY'],
 			"2_QTY" 	=> $param['2_QTY'],
 			"3_QTY"	    => $param['3_QTY'],

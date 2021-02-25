@@ -245,7 +245,7 @@ SQL;
 					WHERE
 						A.COMP_IDX = B.IDX 
 						AND TI.IDX = A.ITEM_IDX
-						AND A.KIND = 'OUT'
+						AND A.KIND = 'OT'
 						{$where}
 					ORDER BY A.TRANS_DATE DESC
 				) as AA
@@ -255,7 +255,7 @@ SQL;
 				T_COMPONENT_TRANS A, T_COMPONENT B,T_ITEMS TI
 			WHERE A.COMP_IDX = B.IDX
 			AND TI.IDX = A.ITEM_IDX
-			AND A.KIND = 'OUT'
+			AND A.KIND = 'OT'
 			{$where}
 			GROUP BY COMP_IDX
 			LIMIT {$start},{$limit}
@@ -299,7 +299,7 @@ SQL;
 			WHERE 
 				A.COMP_IDX = B.IDX
 				AND TI.IDX = A.ITEM_IDX 
-				AND A.KIND = 'OUT'
+				AND A.KIND = 'OT'
 				{$where}
 SQL;
 		$query = $this->db->query($sql);
@@ -447,35 +447,35 @@ SQL;
 		
 		if(!empty($actinfo)){
 			
-			$this->db->where(array("ITEM_IDX"=>$actinfo->ITEMS_IDX, "SERIESD_IDX"=>$actinfo->SERIESD_IDX));
-			$query = $this->db->get("T_ITEM_STOCK");
-			$stockinfo = $query->row();
+			// $this->db->where(array("ITEM_IDX"=>$actinfo->ITEMS_IDX, "SERIESD_IDX"=>$actinfo->SERIESD_IDX));
+			// $query = $this->db->get("T_ITEM_STOCK");
+			// $stockinfo = $query->row();
 
-			if($params['QTY'] > $stockinfo->QTY){
-				$data['status'] = "N";
-				$data['msg']    = "재고 수량이 부족합니다.";
-				return $data;
-				exit;
-			}
+			// if($params['QTY'] > $stockinfo->QTY){
+			// 	$data['status'] = "N";
+			// 	$data['msg']    = "재고 수량이 부족합니다.";
+			// 	return $data;
+			// 	exit;
+			// }
 
-			$this->db->set("QTY","QTY-{$params['QTY']}",false);
-			$this->db->where(array("ITEM_IDX"=>$stockinfo->ITEM_IDX, "SERIESD_IDX"=>$stockinfo->SERIESD_IDX));
-			$this->db->update("T_ITEM_STOCK");
+			// $this->db->set("QTY","QTY-{$params['QTY']}",false);
+			// $this->db->where(array("ITEM_IDX"=>$stockinfo->ITEM_IDX, "SERIESD_IDX"=>$stockinfo->SERIESD_IDX));
+			// $this->db->update("T_ITEM_STOCK");
 
 			$this->db->trans_start();
 			
-			$this->db->set(array("STATUS"=>"CC","END_YN"=>'Y'))
+			$this->db->set(array("STATUS"=>"CG","END_YN"=>'Y'))
 				->where("IDX",$params['ACT_IDX'])
 				->update("T_ACT_D");
 
-			$this->db->set(array("OUT_QTY"=>$params['QTY'], "CG_DATE"=>$params['XDATE'], "GJ_GB"=>'CC'))
+			$this->db->set(array("OUT_QTY"=>$params['QTY'], "CG_DATE"=>$params['XDATE'], "GJ_GB"=>'CG', "KIND"=>'OT'))
 					->where("ACT_D_IDX",$params['ACT_IDX'])
-					->update("T_INVENTORY_TRANS");
+					->insert("T_INVENTORY_TRANS");
 
 			$this->db->set("ITEMS_IDX",$actinfo->ITEMS_IDX)
 					->set("TRANS_DATE",$params['XDATE'])
-					->set("KIND","OUT")
-					->set("GJ_GB","CC")
+					->set("KIND","OT")
+					->set("GJ_GB","CG")
 					->set("ACT_IDX",$actinfo->IDX)
 					->set("OUT_QTY",$params['QTY']);
 			$this->db->insert("T_ITEMS_TRANS");
