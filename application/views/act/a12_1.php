@@ -8,6 +8,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="bc_header">
 	<form id="items_formupdate">
 
+	<label for="sdate">후처리일자</label>
+		<input type="text" name="sdate" class="sdate calendar"
+			value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>"
+			size="12" /> ~
+
+		<input type="text" name="edate" class="edate calendar"
+			value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>"
+			size="12" />
+
 		<label for="v1">시리즈</label>
 		<select name="v1">
 			<option value="">전체</option>
@@ -77,7 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				?>
 
 					<tr>
-						<td colspan="15" class="list_none">재고내역 정보가 없습니다.</td>
+						<td colspan="15" class="list_none">실적정보가 없습니다.</td>
 					</tr>
 
 				<?php
@@ -133,5 +142,9 @@ $(".del_stock").on("click",function(){
 
 });
 
-//-->
+$("input[name='sdate'],input[name='edate'],.calendar").datetimepicker({
+    format: 'Y-m-d',
+    timepicker: false,
+    lang: 'ko-KR'
+});
 </script>

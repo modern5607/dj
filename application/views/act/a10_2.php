@@ -88,8 +88,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?php
 					}
 				}
-				?>
-                    <tr style="background:#f3f8fd;" class="nhover">
+                if($count != 0){?>
+				    <tr style="background:#f3f8fd;" class="nhover">
                         <td colspan="3" style="text-align:right;"><strong>총 수량</strong></td>
                         <td class="right"><?php echo number_format( $stock); ?></td>
                         <td colspan="" style="text-align:right;"><strong>총 합계</strong></td>
@@ -97,10 +97,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <td class="right"><strong><?php echo number_format( $incount); ?></strong></td>
                         <td class="cen"><?php //echo $row->REMARK; ?></td>
                     </tr>
-                <?php
-				}else{
-				
-				?>
+                    <?php
+				}}
+				if(empty($List) || $count == 0)
+				{?>
 
                     <tr>
                         <td colspan="15" class="list_none">실적정보가 없습니다.</td>
@@ -179,49 +179,6 @@ function memberformChk(f) {
 
 }
 
-
-$(".add_items").on("click", function() {
-
-    $("#pop_container").fadeIn();
-    $(".info_content").animate({
-        top: "50%"
-    }, 500);
-
-    $.ajax({
-        url: "<?php echo base_url('MDM/ajax_set_component')?>",
-        type: "post",
-        dataType: "html",
-        success: function(data) {
-            $(".ajaxContent").html(data);
-        }
-
-    });
-
-});
-
-$(".comp_update").on("click", function() {
-    var idx = $(this).data("idx");
-
-    $("#pop_container").fadeIn();
-    $(".info_content").animate({
-        top: "50%"
-    }, 500);
-
-    modchk = true;
-
-    $.ajax({
-        url: "<?php echo base_url('MDM/ajax_set_component')?>",
-        type: "post",
-        data: {
-            idx: idx
-        },
-        dataType: "html",
-        success: function(data) {
-            $(".ajaxContent").html(data);
-        }
-
-    });
-});
 
 $("input[name='sdate'],input[name='edate']").datetimepicker({
     format: 'Y-m-d',

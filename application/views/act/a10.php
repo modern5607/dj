@@ -11,8 +11,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div id="" class="bc_search">
                 <form>
                     <label for="sdate">수주일</label>
-                    <input style="width:139px" type="text" name="sdate" class="sdate calendar" value=""size="12" /> ~
-                    <input style="width:139px;" type="text" name="edate" class="edate calendar" value="" size="12" />
+                    <input style="width:139px" type="text" name="sdate" class="sdate calendar" value="<?= $str['sdate'] ?>"size="12" /> ~
+                    <input style="width:139px;" type="text" name="edate" class="edate calendar" value="<?= $str['edate'] ?>" size="12" />
                     <div>
                         <label for="v2">거래처</label>
                         <select name="v1" style="width:295px;margin-top: 5px;">
@@ -65,7 +65,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
+                    <?php
+                    if(!empty($List)){
 					foreach($List as $i=>$row){
 						$no = $pageNum+$i+1;
 					?>
@@ -78,7 +79,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </tr>
 
                         <?php
-					}
+					}}else{
+                        ?>
+                    <tr>
+                        <td colspan="15" class="list_none">실적정보가 없습니다.</td>
+                    </tr>
+                        <?php
+                    }
 					?>
                     </tbody>
                 </table>

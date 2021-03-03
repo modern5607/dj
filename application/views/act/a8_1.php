@@ -79,7 +79,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td class="right"><?php echo number_format($row->IN_QTY); ?></td>
 							</tr>
 					<?php }
-					}?>
+					}
+                    if($count != 0){?>
                     <tr style="background:#f3f8fd;" class="nhover">
                         <td colspan="2" style="text-align:right;"><strong>총 수량</strong></td>
                         <td class="right"><strong><?php echo $remark?></strong></td>
@@ -87,8 +88,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <td class="right"><strong><?php echo number_format($count); ?></strong></td>
                     </tr>
                     <?php
-				}
-				if(empty($List))
+				}}
+				if(empty($List) || $count == 0)
 				{?>
 				<tr>
 					<td colspan="15" class="list_none">실적정보가 없습니다.</td>

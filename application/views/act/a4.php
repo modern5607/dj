@@ -96,6 +96,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</tr>
 				<?php
 				}}
+				if($count != 0){
 				?>
 				<tr style="background:#f3f8fd;" class="nhover">
 					<td colspan="2" style="text-align:right;"><strong>총 수량</strong></td>
@@ -107,8 +108,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td colspan="4" class="right"></td>
 				</tr>
 				<?php
-				}else{
-				
+				}}
+				if(empty($List) || $count == 0){
 				?>
 
 					<tr>

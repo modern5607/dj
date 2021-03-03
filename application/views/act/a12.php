@@ -81,7 +81,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				?>
 
 					<tr>
-						<td colspan="15" class="list_none">재고내역 정보가 없습니다.</td>
+						<td colspan="15" class="list_none">실적정보가 없습니다.</td>
 					</tr>
 
 				<?php

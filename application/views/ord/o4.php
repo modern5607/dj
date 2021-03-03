@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
+                    <?php if(!empty($List)){
 					foreach($List as $i=>$row){
 						$no = $pageNum+$i+1;
 					?>
@@ -45,7 +45,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </tr>
 
                         <?php
-					}
+                    }}else{
+                        ?>
+                        <tr>
+                            <td colspan="6" style='color:#999; padding:40px 0;'>등록된 작업지시가 없습니다.</td>
+                        </tr>
+                        <?php
+                    }
 					?>
                     </tbody>
 

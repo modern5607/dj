@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
+                    <?php if(!empty($List)){
 					foreach($List as $i=>$row){
 						$no = $pageNum+$i+1;
 					?>
@@ -45,7 +45,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </tr>
 
                         <?php
-					}
+                    }}else{
+                        ?>
+                        <tr>
+                            <td colspan="6" style='color:#999; padding:40px 0;'>등록된 작업지시가 없습니다.</td>
+                        </tr>
+                        <?php
+                    }
 					?>
                     </tbody>
 
@@ -148,14 +154,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                         <?php }
 					}
-					}
-					if(empty($RList)){
-					?>
-                        <tr>
-                            <td colspan="6" style='color:#999; padding:40px 0;'>등록된 작업지시가 없습니다.</td>
-                        </tr>
-                        <?php }else{
-						?>
+                    ?>
                         <tr style="background:#f3f8fd;" class="nhover">
                             <td colspan="1" style="text-align:right"><strong>총 수량</strong></td>
                             <td style="text-align:right"><?php echo number_format($count);?></td>
@@ -163,8 +162,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td style="text-align:right"><?php echo number_format($totalQty);?></td>
                             <td colspan="2"></td>
                         </tr>
-                        <?php
-					} ?>
+                    <?php
+					}
+					if(empty($RList) || $count == 0){
+					?>
+                        <tr>
+                            <td colspan="6" style='color:#999; padding:40px 0;'>등록된 작업지시가 없습니다.</td>
+                        </tr>
+                    <?php } ?>
                     </tbody>
                     <tfoot>
                     </tfoot>

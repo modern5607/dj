@@ -72,7 +72,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $count = $row->IN_QTY;
                 $remark = $row->REMARK;
                 }
-                }?>
+                }
+                if($remark != 0){?>
 				    <tr style="background:#f3f8fd;" class="nhover">
                         <td colspan="2" style="text-align:right;"><strong>총 수량</strong></td>
                         <td class="right"><?php echo $remark; ?></td>
@@ -81,8 +82,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <td class="cen"></td>
                     </tr>
 				<?php
-			}
-			else{?>
+			}}
+            if(empty($List) || $remark == 0){
+            ?>
 				<tr>
 					<td colspan="15" class="list_none">정보가 없습니다.</td>
 				</tr>

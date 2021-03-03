@@ -39,17 +39,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</thead>
 					<tbody>
 					<?php
+                    if(!empty($List)){
 					foreach($List as $i=>$row){
 						$no = $pageNum+$i+1;
 					?>
 
 						<tr <?php echo ($NDATE == $row->CU_DATE)?"class='over'":"";?>>
 							<td class="cen"><?php echo $no; ?></td>
-							<td class="cen"><a href='<?php echo base_url('ACT2/'.$this->data['subpos'].'/').$row->CU_DATE
-							?>'><?php echo $row->CU_DATE;?></a></td>
+							<td class="cen"><a href='<?php echo base_url('ACT2/'.$this->data['subpos'].'/').$row->CU_DATE.'?sdate='.$str['sdate'].'&edate='.$str['edate'] ?>'><?php echo $row->CU_DATE;?></a></td>
 						</tr>
 
 					<?php
+					}}else{
+						?>
+					<tr>
+                        <td colspan="15" class="list_none">실적정보가 없습니다.</td>
+                    </tr>
+						<?php
 					}
 					?>
 					</tbody>

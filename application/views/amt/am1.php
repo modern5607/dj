@@ -35,6 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</thead>
 					<tbody>
 					<?php
+					if(!empty($List)){
 					foreach($List as $i=>$row){
 						$no = $i+1;
 					?>
@@ -46,6 +47,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</tr>
 
 					<?php
+					}}else{
+						?>
+				<tr>
+					<td colspan="15" class="list_none">입고정보가 없습니다.</td>
+				</tr>
+						<?php
 					}
 					?>
 					</tbody>

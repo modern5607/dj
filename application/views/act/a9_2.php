@@ -65,24 +65,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>BK여부</th>
 					</tr>
 				</thead>
-				<tbody>
-				<?php
-				if(!empty($List)){
-				foreach($List as $i=>$row){ 
-					$no = $pageNum+$i+1;
-					if($row->ITEM_NAME == "합계"){
-				?>
-					<tr style="background:#f3f8fd;" class="nhover">
-						<td colspan="2" style="text-align:right;"><strong>총 수량</strong></td>
-						<td class="right"><strong><?php echo number_format($row->REMARK); ?></strong></td>
-						<td colspan="1" style="text-align:right;"><strong>총 합계</strong></td>
-						<td class="right"><strong><?php echo number_format($row->IN_QTY); ?></strong></td>
-						<td class="right"><strong><?php echo number_format($row->BQTY); ?></strong></td>
-						<td colspan="1" class="cen"></td>
-					</tr>
-				<?php
-					}else{
-				?>
+		<tbody>
+                <?php
+				if(!empty($List))
+				{
+                    $count=0;
+					foreach($List as $i=>$row){
+						$no = $pageNum+$i+1;
+						if($row->ITEM_NAME == "합계")
+						{
+                            $count = $row->REMARK;
+                            $inqty = $row->IN_QTY;
+                            $bqty = $row->BQTY;
+						    }else{ 
+                        ?>
 				<tr>
 					<td class="cen"><?php echo $no; ?></td>
 					<td class="cen"><?php echo $row->TRANS_DATE; ?></td>
@@ -91,28 +87,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="right"><?php echo number_format($row->IN_QTY); ?></td>
 					<td class="right"><?php echo number_format($row->BQTY); ?></td>
 					<td class="cen"><?=$row->BK;?></td>
-					
+				</tr>
+					<?php }
+					}
+                    if($count != 0){?>
+				<tr style="background:#f3f8fd;" class="nhover">
+					<td colspan="2" style="text-align:right;"><strong>총 수량</strong></td>
+					<td class="right"><strong><?php echo number_format($count); ?></strong></td>
+					<td colspan="1" style="text-align:right;"><strong>총 합계</strong></td>
+					<td class="right"><strong><?php echo number_format($inqty); ?></strong></td>
+					<td class="right"><strong><?php echo number_format($bqty); ?></strong></td>
+					<td colspan="1" class="cen"></td>
 				</tr>
 				<?php
-					}
-				?>
-		
-
-				<?php
-				}
-				
-				}else{
-				
-				?>
-
-					<tr>
-						<td colspan="15" class="list_none">실적정보가 없습니다.</td>
-					</tr>
-
-				<?php
-				}	
-				?>
-				</tbody>
+				}}
+				if(empty($List) || $count == 0)
+				{?>
+				<tr>
+					<td colspan="15" class="list_none">실적정보가 없습니다.</td>
+				</tr>
+			<?php }?>
+                </tbody>
 			</table>
 		</div>
 		<div class="pagination">

@@ -12,9 +12,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div id="" class="bc_search">
 				<form>
 					<label for="sdate">수주일</label>
-						<input type="text" name="sdate" class="sdate calendar" value="" size="12" autocomplete="off"/> ~ 
+						<input type="text" name="sdate" class="sdate calendar" value="<?= $str['sdate'] ?>" size="12" autocomplete="off"/> ~ 
 						
-						<input type="text" name="edate" class="edate calendar" value="" size="12" autocomplete="off"/>
+						<input type="text" name="edate" class="edate calendar" value="<?= $str['edate'] ?>" size="12" autocomplete="off"/>
 
 					<input type='hidden' name='n' value='1'/>
 					<label for="v1">거래처</label>

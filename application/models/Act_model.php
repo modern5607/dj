@@ -1508,9 +1508,9 @@ SQL;
 			$this->db->where("A.CU_DATE",$date);
 		}
 		
-		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
-			$this->db->where("C.ACT_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'");
-		}
+		// if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
+		// 	$this->db->where("C.ACT_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'");
+		// }
 		
 		if(!empty($param['V1']) && $param['V1'] != ""){
 			$this->db->where("C.BIZ_IDX",$param['V1']);
@@ -1525,7 +1525,7 @@ SQL;
 		$this->db->order_by("B.ITEM_NM");
 		$this->db->order_by("COLOR");
 		$query = $this->db->get();
-		
+		// echo $this->db->last_query();
 		
 		return $query->result();
 	}
@@ -2488,6 +2488,9 @@ SQL;
 	{		
 		$where = "";
 
+		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
+			$where .= " AND TIT.KS_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'";
+		}
 		if(!empty($param['V1']) && $param['V1'] != ""){
 			$where .= " AND TSD.SERIES_IDX = '{$param['V1']}'";
 		}
@@ -2516,7 +2519,7 @@ SQL;
 				TIT.KIND = "OTM"
 				{$where}
 			ORDER BY 
-				KS_DATE, SE_NAME, ITEM_NAME, COLOR
+				KS_DATE desc, SE_NAME, ITEM_NAME, COLOR
 			LIMIT
 				{$start},{$limit}
 SQL;
