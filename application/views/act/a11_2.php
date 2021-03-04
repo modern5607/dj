@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="bc_header">
 	<form id="items_formupdate">
 
-		<label for="sdate">일자</label>
+		<label for="sdate">선별일자</label>
 		<input type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>" size="12" /> ~ 
 		
 		<input type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>" size="12" />
@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<thead>
 					<tr>
 						<th>No</th>
-						<th>일자</th>
+						<th>선별일자</th>
 						<th>품명</th>
 						<th>색상</th>
 						<th>수주수량</th>
@@ -57,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>2급</th>
 						<th>파손</th>
 						<th>시유</th>
-						<th>후처리</th>
+						<!-- <th>후처리</th> -->
 					</tr>
 				</thead>
 				<tbody>
@@ -85,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				?>
 				<tr>
 					<td class="cen"><?php echo $no; ?></td>
-					<td class="cen"><?php echo $row->ACT_DATE; ?></td>
+					<td class="cen"><?php echo $row->SB_DATE; ?></td>
 					<td><?php echo $row->ITEM_NM; ?></td>
 					<td><?php echo $row->COLOR; ?></td>
 					<td class="right"><?php echo number_format($row->QTY); ?></td>
@@ -94,8 +94,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="right"><?php echo number_format($row->QTY1); ?></td>
 					<td class="right"><?php echo number_format($row->QTY2); ?></td>
 					<td class="right"><?php echo number_format($row->QTY3); ?></td>
-					<td class="right"><?php echo number_format($row->QTY4); ?></td>
-					<td class="right"><?php echo number_format($row->QTY5); ?></td>
+					<td style="text-align:right"><?php echo number_format($row->QTY4); ?></td>
+					<!-- <td style="text-align:right"><?php echo number_format($row->QTY5); ?></td> -->
 					
 				</tr>
 				<?php
@@ -114,8 +114,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="right"><?php echo number_format($count1); ?></td>
 					<td class="right"><?php echo number_format($count2); ?></td>
 					<td class="right"><?php echo number_format($count3); ?></td>
-					<td class="right"><?php echo number_format($count4); ?></td>
-					<td class="right"><?php echo number_format($count5); ?></td>
+					<td style="text-align:right"><?php echo number_format($count4); ?></td>
+					<!-- <td style="text-align:right"><?php echo number_format($count5); ?></td> -->
 				</tr>
 				<?php
 				}else{

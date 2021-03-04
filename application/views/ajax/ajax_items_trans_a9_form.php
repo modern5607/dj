@@ -162,7 +162,7 @@ $(".sh_submit").on("click", function() {
                 });
             } else {
                 html +=
-                    "<tr><td colspan='5' style='text-align:center; color:#999;'>품목이 없습니다.</td></tr>"
+                    "<tr><td colspan='8' style='text-align:center; color:#999;'>품목이 없습니다.</td></tr>"
             }
             $(".form_3 table tbody").html(html);
         }

@@ -72,7 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="cen"><?php echo ($row->KS_YN == "Y") ? "사용" : "미사용"; ?></td>
 					<td class="cen"><?php echo ($row->USE_YN == "Y") ? "사용" : "미사용"; ?></td>
 					<td class="cen">
-						<span class="btn register_update" data-idx="<?php echo $row->IDX;?>">수정</span>
+						<span class="btn register_update" data-idx="<?php echo $row->IIDX;?>">수정</span>
 					</td>
 				</tr>
 		
