@@ -1355,6 +1355,23 @@ SQL;
 			$this->db->where("IDX",$params['AD_IDX'][$k]);
 			$this->db->update("t_act_d");
 			
+			$sql=<<<SQL
+				INSERT T_INVENTORY_TRANS
+				SET
+				ITEMS_IDX    = '{$params['ITEMS_IDX'][$k]}',
+				SERIESD_IDX  = '{$params['SERIESD_IDX'][$k]}',
+				CU_DATE      = '{$params['CU_DATE'][$k]}',
+				ACT_IDX      = '{$params['ACT_IDX'][$k]}',
+				ACT_D_IDX    = '{$params['AD_IDX'][$k]}',
+				KIND         = 'IN',
+				GJ_GB        = 'CU',
+				IN_QTY       = '{$qty}',
+				INSERT_ID    = '{$username}',
+				INSERT_DATE  = '{$datetime}'
+SQL;
+			$this->db->query($sql);	
+			$itemidx = $this->db->insert_id();
+			
 			$sql =<<<SQL
 				INSERT INTO T_ITEMS_TRANS
 				SET
@@ -1364,29 +1381,31 @@ SQL;
 					KIND			= "OT",
 					GJ_GB			= "JH",
 					OUT_QTY			= '{$qty}',
+					ITEM_IDX		= '{$itemidx}',
 					INSERT_ID		= '{$username}',
 					INSERT_DATE		= '{$datetime}'
 SQL;
 				$this->db->query($sql);	
 			
 
-			$datax = array(
-				//"H_IDX"        => $params['H_IDX'][$k],
-				"ITEMS_IDX"    => $params['ITEMS_IDX'][$k],
-				"SERIESD_IDX"  => $params['SERIESD_IDX'][$k],
-				"CU_DATE"      => $params['CU_DATE'][$k],
-				"ACT_IDX"      => $params['ACT_IDX'][$k],
-				"ACT_D_IDX"    => $params['AD_IDX'][$k],
-				"KIND"         => "IN",
-				"GJ_GB"        => "CU",
-				"IN_QTY"       => $qty,
-				"INSERT_ID"    => $username,
-				"INSERT_DATE"  => $datetime
-			);
-			array_push($datas,$datax);
+			// $datax = array(
+			// 	//"H_IDX"        => $params['H_IDX'][$k],
+			// 	"ITEMS_IDX"    => $params['ITEMS_IDX'][$k],
+			// 	"SERIESD_IDX"  => $params['SERIESD_IDX'][$k],
+			// 	"CU_DATE"      => $params['CU_DATE'][$k],
+			// 	"ACT_IDX"      => $params['ACT_IDX'][$k],
+			// 	"ACT_D_IDX"    => $params['AD_IDX'][$k],
+			// 	"KIND"         => "IN",
+			// 	"GJ_GB"        => "CU",
+			// 	"IN_QTY"       => $qty,
+			// 	"INSERT_ID"    => $username,
+			// 	"INSERT_DATE"  => $datetime
+			// );
+			// array_push($datas,$datax);
 		}
 
-		$this->db->insert_batch("t_inventory_trans",$datas);
+		// $this->db->insert_batch("t_inventory_trans",$datas);
+		// alert($this->db->insert_id());
 		return $this->db->affected_rows();
 	}
 
@@ -1562,9 +1581,10 @@ SQL;
 		$this->db->where("IDX",$idx);
 		$this->db->delete("t_inventory_trans");
 
-		$this->db->where("INSERT_DATE",$info->INSERT_DATE);
-		$this->db->where("ITEMS_IDX",$info->ITEMS_IDX);
-		$this->db->where("ACT_IDX",$info->ACT_IDX);
+		// $this->db->where("INSERT_DATE",$info->INSERT_DATE);
+		// $this->db->where("ITEMS_IDX",$info->ITEMS_IDX);
+		// $this->db->where("ACT_IDX",$info->ACT_IDX);
+		$this->db->where("ITEM_IDX",$info->IDX);
 		$this->db->delete("t_items_trans");
 		
 		$this->db->trans_complete();
@@ -2435,14 +2455,19 @@ SQL;
 	$datetime = date("Y-m-d H:i:s",time());
 	$username = $this->session->userdata("user_name");
 
+	$sql=<<<SQL
+		DELETE FROM T_INVENTORY_TRANS
+		WHERE IDX = '{$param['IDX']}'
+SQL;
+	$query = $this->db->query($sql);
 
-	$query = $this->db->set("OUT_QTY","{$param['5_QTY']}",FALSE)
-					->set("KS_DATE",$param['KS_DATE'])
-					->set("UPDATE_ID",$username)
-					->set("UPDATE_DATE",$datetime)
-					->set("KIND",$param['KIND'])
-					->set("GJ_GB",$param['GJ_GB'])
-					->insert("T_INVENTORY_TRANS");
+	// $query = $this->db->set("OUT_QTY","{$param['5_QTY']}",FALSE)
+	// 				->set("KS_DATE",$param['KS_DATE'])
+	// 				->set("UPDATE_ID",$username)
+	// 				->set("UPDATE_DATE",$datetime)
+	// 				->set("KIND",$param['KIND'])
+	// 				->set("GJ_GB",$param['GJ_GB'])
+	// 				->insert("T_INVENTORY_TRANS");
 	
 // 	$sql=<<<SQL
 // 		UPDATE 	T_ITEM_STOCK AS TIS
@@ -2497,7 +2522,7 @@ SQL;
 				{$start},{$limit}
 SQL;
 		$query = $this->db->query($sql);
-		//  echo $this->db->last_query();
+		 echo $this->db->last_query();
 		return $query->result();
 	}
 
