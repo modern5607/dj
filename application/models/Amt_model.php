@@ -468,8 +468,7 @@ SQL;
 				->where("IDX",$params['ACT_IDX'])
 				->update("T_ACT_D");
 
-			$this->db->set(array("OUT_QTY"=>$params['QTY'], "CG_DATE"=>$params['XDATE'], "GJ_GB"=>'CG', "KIND"=>'OT'))
-					->where("ACT_D_IDX",$params['ACT_IDX'])
+			$this->db->set(array("OUT_QTY"=>$params['QTY'], "CG_DATE"=>$params['XDATE'], "GJ_GB"=>'CG', "KIND"=>'OT', "ACT_D_IDX"=>$params['ACT_IDX']))
 					->insert("T_INVENTORY_TRANS");
 
 			$this->db->set("ITEMS_IDX",$actinfo->ITEMS_IDX)
