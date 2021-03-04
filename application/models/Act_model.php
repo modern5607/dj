@@ -284,6 +284,7 @@ SQL;
 
 		//if(!empty($param['V4']) && $param['V4'] != ""){
 			$this->db->where("A.GJ_GB",'CU');
+			$this->db->where("not exists (select * from t_act_d tad where A.ACT_D_IDX = tad.IDX and tad.END_YN = 'Y')");
 		//}
 		
 		// $this->db->select("A.IDX, B.H_IDX, C.ACT_DATE, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY,(SELECT E.SERIES_NM FROM T_SERIES_H as E WHERE E.IDX = D.SERIES_IDX) as SE_NAME");
@@ -389,9 +390,9 @@ SQL;
 		if(!empty($params['s3']) && $params['s3'] != ""){
 			$this->db->where("SERIESD_IDX",$params['s3']);
 		}
-		if($params['type'] == "JH"){
-			$this->db->where("SH_QTY > 0");
-		}
+		// if($params['type'] == "JH"){
+		// 	$this->db->where("SH_QTY > 0");
+		// }
 		
 		$this->db->where("USE_YN","Y");
 		$query = $this->db->get("t_items");
@@ -425,27 +426,18 @@ SQL;
 		
 		$this->db->trans_start();
 
-		$this->db->select("A.*,B.JT_QTY");
-		$this->db->from("t_items_trans as A");
-		$this->db->join("t_items as B","B.IDX = A.ITEMS_IDX");
-		$this->db->where("A.IDX",$idx);
-		$query = $this->db->get();
-		
-		$chkinfo = $query->row();
-
-		//재고조정
-		// $this->db->set("JH_QTY","JH_QTY - {$chkinfo->IN_QTY}",false);
-		// $this->db->set("SH_QTY","SH_QTY + {$chkinfo->IN_QTY}",false);
-		// $this->db->where("IDX",$chkinfo->ITEMS_IDX);
-		// $this->db->update("t_items");
+		// $this->db->select("A.*,B.JT_QTY");
+		// $this->db->from("t_items_trans as A");
+		// $this->db->join("t_items as B","B.IDX = A.ITEMS_IDX");
+		// $this->db->where("A.IDX",$idx);
+		// $query = $this->db->get();
+		// $chkinfo = $query->row();
 
 		$this->db->where("IDX",$idx);
 		$this->db->delete("t_items_trans");
 		
 		//OT 삭제
-		$this->db->where("INSERT_DATE",$chkinfo->INSERT_DATE);
-		$this->db->where("ITEMS_IDX",$chkinfo->ITEMS_IDX);
-		$this->db->where("ITEMS_IDX",$chkinfo->ITEMS_IDX);
+		$this->db->where("ITEM_IDX ",$idx);
 		$this->db->delete("t_items_trans");
 		
 		$this->db->trans_complete();
@@ -463,18 +455,12 @@ SQL;
 		
 		$this->db->trans_start();
 
-		$this->db->select("A.*,B.JT_QTY");
-		$this->db->from("t_items_trans as A");
-		$this->db->join("t_items as B","B.IDX = A.ITEMS_IDX");
-		$this->db->where("A.IDX",$idx);
-		$query = $this->db->get();
-		
-		$chkinfo = $query->row();
-
-		// $this->db->set("JH_QTY","JH_QTY - {$chkinfo->IN_QTY}",false);
-		// $this->db->set("SH_QTY","SH_QTY + {$chkinfo->IN_QTY}",false);
-		// $this->db->where("IDX",$chkinfo->ITEMS_IDX);
-		// $this->db->update("t_items");	//여기서부터 해야함 업데이트 삭제 해야함
+		// $this->db->select("A.*,B.JT_QTY");
+		// $this->db->from("t_items_trans as A");
+		// $this->db->join("t_items as B","B.IDX = A.ITEMS_IDX");
+		// $this->db->where("A.IDX",$idx);
+		// $query = $this->db->get();
+		// $chkinfo = $query->row();
 
 		$this->db->where("IDX",$idx);
 		$this->db->delete("t_items_trans");
@@ -1722,7 +1708,6 @@ SQL;
 		$set = array(
 			"SB_DATE"	=> $param['SB_DATE'],
 			"GJ_GB"     => "SB",
-			"KIND"     	=> "OT",
 			"1_QTY" 	=> $param['1_QTY'],
 			"2_QTY" 	=> $param['2_QTY'],
 			"3_QTY"	    => $param['3_QTY'],
@@ -1749,11 +1734,6 @@ SQL;
 			$this->db->set("STATUS","SB");
 			$this->db->where("IDX",$info->ACT_D_IDX);
 			$this->db->update("T_ACT_D");
-
-			
-			$this->db->set("QTY","QTY+{$param['1_QTY']}",FALSE);
-			$this->db->where(array("ITEM_IDX"=>$info->ITEMS_IDX,"SERIESD_IDX"=>$info->SERIESD_IDX));
-			$this->db->update("t_item_stock");
 
 		}
 
@@ -1793,15 +1773,15 @@ SQL;
 
 	public function get_a11_1_list_right($date, $param)
 	{
-		$this->db->select("A.IDX, B.H_IDX, C.ACT_DATE, A.`1_QTY` as QTY1, A.`2_QTY` as QTY2, A.`3_QTY` as QTY3, A.`4_QTY` as QTY4, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY");
+		$this->db->select("A.IDX, B.H_IDX, C.ACT_DATE, A.`1_QTY` as QTY1, A.`2_QTY` as QTY2, A.`3_QTY` as QTY3, A.`4_QTY` as QTY4, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY, B.END_YN");
 		$this->db->from("t_inventory_trans as A");
 		$this->db->join("t_act_h as C","C.IDX = A.ACT_IDX","LEFT");
 		$this->db->join("t_act_d as B","B.IDX = A.ACT_D_IDX","LEFT");
 		$this->db->join("t_series_d as D","D.IDX = A.SERIESD_IDX","LEFT");
 		
-		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
-			$this->db->where("A.SB_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'");
-		}
+		// if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
+		// 	$this->db->where("A.SB_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'");
+		// }
 		
 		if(!empty($param['V1']) && $param['V1'] != ""){
 			$this->db->where("C.BIZ_IDX",$param['V1']);
@@ -1824,7 +1804,7 @@ SQL;
 
 		//$this->db->limit($limit,$start);
 		$query = $this->db->get();
-		
+		// echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -1897,6 +1877,7 @@ SQL;
 		$set = array(
 			"SB_DATE"	=> '',
 			"GJ_GB"     => "CU",
+			"KIND"     	=> "IN",
 			"1_QTY" 	=> 0,
 			"2_QTY" 	=> 0,
 			"3_QTY"	    => 0,
@@ -1927,9 +1908,9 @@ SQL;
 		$this->db->update("t_inventory_trans");
 		if($this->db->affected_rows() > 0){
 			
-			// $this->db->set("QTY","QTY - {$info['QTY1']}",FALSE);
-			// $this->db->where(array("ITEM_IDX"=>$info['ITEMS_IDX'],"SERIESD_IDX"=>$info['SERIESD_IDX']));
-			// $this->db->update("t_item_stock");
+			$this->db->set("STATUS","CU");
+			$this->db->where("IDX",$info->ACT_D_IDX);
+			$this->db->update("T_ACT_D");
 			
 		}
 
@@ -2003,7 +1984,7 @@ SQL;
 
 		$where = '';
 		if((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")){
-			$where .= " AND B.ACT_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'";
+			$where .= " AND A.SB_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'";
 		}
 
 		if(!empty($param['V1']) && $param['V1'] != ""){
@@ -2027,7 +2008,7 @@ SQL;
 			FROM 
 				(
 					SELECT
-						B.ACT_DATE,
+						A.SB_DATE,
 						C.ITEM_NM,
 						D.COLOR,
 						C.QTY,
@@ -2070,7 +2051,7 @@ SQL;
 				{$where}
 			GROUP BY A.ITEMS_IDX
 			ORDER BY 
-				ACT_DATE DESC,
+				SB_DATE DESC,
 				ITEM_NM,
 				COLOR
 SQL;

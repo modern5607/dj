@@ -4,7 +4,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <link href="<?php echo base_url('_static/css/jquery.datetimepicker.min.css')?>" rel="stylesheet">
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js')?>"></script>
-
+<style>
+.ntdel{padding: 5px 7px;
+    background: #aaa;
+    font-size: 1.15em;
+    color: #fff;}
+</style>
 <div class="body_cont_float2">
     <ul>
         <li style="width:430px">
@@ -126,21 +131,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td class="right"><?php echo number_format($row->QTY);?></td>
                             <td class="right"><?php echo number_format($row->IN_QTY);?></td>
                             <td class="right"><?php echo number_format($row->QTY1);?></td>
-                            <td class="right" data-lastnum="<?php echo $row->QTY1;?>">
-                                <?php echo number_format($row->QTY1);?></td>
-                            <td class="cen"><input type="text"
-                                    style="text-align: right; border:1px solid #ddd; padding:5px 5px;" size="4"
-                                    name="QTY2" data-lastnum="<?php echo $row->QTY2;?>"
-                                    value="<?php echo number_format($row->QTY2);?>" /></td>
-                            <td class="cen"><input type="text"
-                                    style="text-align: right;border:1px solid #ddd; padding:5px 5px;" size="4"
-                                    name="QTY3" data-lastnum="<?php echo $row->QTY3;?>"
-                                    value="<?php echo number_format($row->QTY3);?>" /></td>
-                            <td class="cen"><input type="text"
-                                    style="text-align: right;border:1px solid #ddd; padding:5px 5px;" size="4"
-                                    name="QTY4" data-lastnum="<?php echo $row->QTY4;?>"
-                                    value="<?php echo number_format($row->QTY4);?>" /></td>
-                            <td><span class="btn del_items" data-idx="<?php echo $row->IDX;?>">삭제</span></td>
+                            <td class="right" data-lastnum="<?php echo $row->QTY1;?>"><?php echo number_format($row->QTY1);?></td>
+                            <td class="right"><?php echo number_format($row->QTY2);?></td>
+                            <!-- <input type="text" style="text-align: right; border:1px solid #ddd; padding:5px 5px;" 
+                            size="4" name="QTY2" data-lastnum="<?php echo $row->QTY2;?>" value="<?php echo number_format($row->QTY2);?>"/> -->
+                            <td class="right"><?php echo number_format($row->QTY3);?></td>
+                            <td class="right"><?php echo number_format($row->QTY4);?></td>
+                            <td><span class="<?php echo ($row->END_YN != 'Y')?'btn del_items':'ntdel' ?>" data-idx="<?php echo $row->IDX;?>">삭제</span></td>
                         </tr>
 
                         <?php
@@ -176,77 +173,40 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-$(".add_itemnum").on("click", function() {
+// $("input[name='QTY2'],input[name='QTY3'],input[name='QTY4']").on("change", function() {
 
-    var type = $(this).data("type");
+//     var qty2 = $(this).parents("tr").find("input[name='QTY2']").val();
+//     var qty3 = $(this).parents("tr").find("input[name='QTY3']").val();
+//     var qty4 = $(this).parents("tr").find("input[name='QTY4']").val();
 
-    $(".ajaxContent").html('');
+//     var orgNum = $(this).parents("tr").find("td:eq(5)");
+//     var setNum = $(this).parents("tr").find("td:eq(5)").text() - qty2 - qty3 - qty4;
 
-    $("#pop_container").fadeIn();
-    $(".info_content").animate({
-        top: "50%"
-    }, 500);
-
-    $.ajax({
-        url: "<?php echo base_url('ACT/ajax_itemNum_form')?>",
-        type: "POST",
-        dataType: "HTML",
-        data: {
-            mode: "add",
-            type: type
-        },
-        success: function(data) {
-            $(".ajaxContent").html(data);
-        },
-        error: function(xhr, textStatus, errorThrown) {
-            alert(xhr);
-            alert(textStatus);
-            alert(errorThrown);
-        }
-    })
-
-});
+//     var lastNum = $(this).data("lastnum");
 
 
+//     var IDX = $(this).parents("tr").find("input[name='IDX']").val();
+//     if (setNum < 0) {
+//         alert('시유수량을 초과할 수 없습니다.');
+//         $(this).val(lastNum);
+//         return false;
+//     }
 
-$("input[name='QTY2'],input[name='QTY3'],input[name='QTY4']").on("change", function() {
+//     $(this).parents("tr").find("td:eq(7)").text(setNum);
 
-    var qty2 = $(this).parents("tr").find("input[name='QTY2']").val();
-    var qty3 = $(this).parents("tr").find("input[name='QTY3']").val();
-    var qty4 = $(this).parents("tr").find("input[name='QTY4']").val();
+//     $.post("<?php echo base_url('ACT/ajax_a11_1_update')?>", {
+//         idx: IDX,
+//         qty1: setNum,
+//         qty2: qty2,
+//         qty3: qty3,
+//         qty4: qty4
+//     }, function(data) {
+//         if (data == 1) {
+//             //location.reload();
+//         }
+//     });
 
-    var orgNum = $(this).parents("tr").find("td:eq(5)");
-    var setNum = $(this).parents("tr").find("td:eq(5)").text() - qty2 - qty3 - qty4;
-
-    var lastNum = $(this).data("lastnum");
-
-
-    var IDX = $(this).parents("tr").find("input[name='IDX']").val();
-
-    if (setNum < 0) {
-        alert('시유수량을 초과할 수 없습니다.');
-        $(this).val(lastNum);
-        return false;
-    }
-
-
-
-
-    $(this).parents("tr").find("td:eq(7)").text(setNum);
-
-    $.post("<?php echo base_url('ACT/ajax_a11_1_update')?>", {
-        idx: IDX,
-        qty1: setNum,
-        qty2: qty2,
-        qty3: qty3,
-        qty4: qty4
-    }, function(data) {
-        if (data == 1) {
-            //location.reload();
-        }
-    });
-
-});
+// });
 
 
 
