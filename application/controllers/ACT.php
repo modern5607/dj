@@ -808,7 +808,7 @@ class ACT extends CI_Controller {
 			if($this->input->post("type") == "a9_1"){
 				$data['BK'] = 1;
 				$data['title'] = $data['title']."-BK";
-				
+				return $this->load->view('/ajax/ajax_items_trans_a9_bk_form',$data);
 			}
 			return $this->load->view('/ajax/ajax_items_trans_a9_form',$data);
 		}else{
@@ -927,6 +927,21 @@ class ACT extends CI_Controller {
 
 		echo json_encode($data);
 
+	}
+
+	public function ajax_del_items_trans_bk_a9()
+	{
+		$idx = $this->input->post("idx");
+		$num = $this->act_model->ajax_del_items_trans_bk_a9($idx);
+		if($num > 0){
+			$data['status'] = "ok";
+			$data['msg'] = "삭제되었습니다.";
+		}else{
+			$data['status'] = "no";
+			$data['msg'] = "삭제에 실패했습니다. 관리자에게 문의하세요";
+		}
+
+		echo json_encode($data);
 	}
 
 
