@@ -235,15 +235,18 @@ $(".del_items").on("click", function() {
     var idx = $(this).data("idx");
 	var inqty = $(this).data("inqty");
 	var jhqty = $(this).data("jhqty");
+    var bk = '<?=empty($BK)?"":$BK?>';
 	if(!jhqty){
 		jhqty=0
 	}
-	if(inqty > jhqty){
+	if(bk!=1 && inqty > jhqty){
 		alert(`삭제할 수 없습니다.재고가 ${jhqty}개 남았습니다.`);
 		return false;
 	}
     if (confirm('삭제하시겠습니까?') !== false) {
-        $.post("<?php echo base_url('ACT/ajax_del_items_trans_a9')?>", {
+        if(bk==1)
+        {
+            $.post("<?php echo base_url('ACT/ajax_del_items_trans_bk_a9')?>", {
             idx: idx
         }, function(data) {
             if (data.statu != "") {
@@ -251,6 +254,19 @@ $(".del_items").on("click", function() {
                 location.reload();
             }
         }, "JSON");
+        }
+        else
+        {
+            $.post("<?php echo base_url('ACT/ajax_del_items_trans_a9')?>", {
+            idx: idx
+        }, function(data) {
+            if (data.statu != "") {
+                alert(data.msg);
+                location.reload();
+            }
+        }, "JSON");
+        }
+        
     }
 });
 

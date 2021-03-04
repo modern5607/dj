@@ -486,12 +486,44 @@ SQL;
 		$this->db->join("t_items as B","B.IDX = A.ITEMS_IDX");
 		$this->db->where("A.IDX",$idx);
 		$query = $this->db->get();
+		
 		$chkinfo = $query->row();
 
 		$this->db->set("JH_QTY","JH_QTY - {$chkinfo->IN_QTY}",false);
 		$this->db->set("SH_QTY","SH_QTY + {$chkinfo->IN_QTY}",false);
 		$this->db->where("IDX",$chkinfo->ITEMS_IDX);
 		$this->db->update("t_items");
+
+		$this->db->where("IDX",$idx);
+		$this->db->delete("t_items_trans");
+		
+		$this->db->trans_complete();
+		
+		$data = 0;
+		if ($this->db->trans_status() !== FALSE){
+			$data = 1;
+		}
+
+		return $data;
+
+	}
+	public function ajax_del_items_trans_bk_a9($idx)
+	{
+		
+		$this->db->trans_start();
+
+		$this->db->select("A.*,B.JT_QTY");
+		$this->db->from("t_items_trans as A");
+		$this->db->join("t_items as B","B.IDX = A.ITEMS_IDX");
+		$this->db->where("A.IDX",$idx);
+		$query = $this->db->get();
+		
+		$chkinfo = $query->row();
+
+		// $this->db->set("JH_QTY","JH_QTY - {$chkinfo->IN_QTY}",false);
+		// $this->db->set("SH_QTY","SH_QTY + {$chkinfo->IN_QTY}",false);
+		// $this->db->where("IDX",$chkinfo->ITEMS_IDX);
+		// $this->db->update("t_items");	//여기서부터 해야함 업데이트 삭제 해야함
 
 		$this->db->where("IDX",$idx);
 		$this->db->delete("t_items_trans");
@@ -1953,9 +1985,9 @@ SQL;
 		$this->db->update("t_inventory_trans");
 		if($this->db->affected_rows() > 0){
 			
-			$this->db->set("QTY","QTY - {$info['QTY1']}",FALSE);
-			$this->db->where(array("ITEM_IDX"=>$info['ITEMS_IDX'],"SERIESD_IDX"=>$info['SERIESD_IDX']));
-			$this->db->update("t_item_stock");
+			// $this->db->set("QTY","QTY - {$info['QTY1']}",FALSE);
+			// $this->db->where(array("ITEM_IDX"=>$info['ITEMS_IDX'],"SERIESD_IDX"=>$info['SERIESD_IDX']));
+			// $this->db->update("t_item_stock");
 			
 		}
 
@@ -2349,7 +2381,7 @@ SQL;
 		$sql = $this->db->last_query();
 		
 		$query = $this->db->query("SELECT AA.* FROM (". $sql.")as AA ORDER BY SERIES_NM,ITEM_NM,COLOR");
-		// echo $this->db->last_query();
+		echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -2404,6 +2436,7 @@ SQL;
 				LEFT JOIN T_ACT_H as TAH ON(TAH.IDX = TIT.ACT_IDX)
 			WHERE
 				TIT.GJ_GB = "SB"
+				AND NOT EXISTS ( SELECT * FROM t_act_d tad WHERE tit.ACT_D_IDX = tad.IDX AND tad.END_YN = 'Y' )
 				AND TI.KS_YN = 'Y' 
 				{$where}
 			ORDER BY 

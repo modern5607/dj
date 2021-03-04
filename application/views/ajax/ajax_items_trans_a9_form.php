@@ -173,11 +173,23 @@ $(".sh_submit").on("click", function() {
 
 
 $(".submitBtn").on("click", function() {
-
+    var trc = $('.form_3 tbody tr').length;
     var formData = new FormData($("#ajaxform")[0]);
     var $this = $(this);
     formData.append('transdate', $("input[name='transdate']").val());
 
+
+    for (var i = 0; i <trc; i++) {
+        var stock = $("input[name^='QTY']").eq(i).val();
+
+        if(stock==='0')
+        {
+            alert('빈칸으로 남겨 놓으시거나 1개 이상의 수량을 입력해 주세요');
+            $("input[name^='QTY']").eq(i).val('');
+            $("input[name^='QTY']").eq(i).focus();
+            return;
+        }
+    };
 
     $.ajax({
         url: "<?php echo base_url('ACT/ajax_act_a9_items_trans_insert')?>",
@@ -225,7 +237,7 @@ if (BK == 0) {
         var QTY = $(this).parents("tr").find("input[name^='QTY']").val()*1;
 
         $this = $(this);
-
+       
         if (SQTY < QTY+BQTY) {
             alert('성형재고보다 수량을 낮게 해주세요');
             $this.val('');

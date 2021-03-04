@@ -1255,9 +1255,9 @@ class ACT2 extends CI_Controller {
 		
 		$data['str'] = array(); //검색어관련
 
-		$data['str']['v1'] = $this->input->get('v1');
+		$data['str']['v1'] = trim($this->input->get('v1'));
 		$data['str']['v2'] = $this->input->get('v2');
-		$data['str']['v3'] = $this->input->get('v3');
+		$data['str']['v3'] = trim($this->input->get('v3'));
 		$data['str']['v4'] = $this->input->get('v4');
 		
 		$params['V1'] = "";
