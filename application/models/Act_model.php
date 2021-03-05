@@ -1359,7 +1359,7 @@ SQL;
 				INSERT_DATE  = '{$datetime}'
 SQL;
 			$this->db->query($sql);
-			$itemidx = $this->db->insert_id();
+			// $itemidx = $this->db->insert_id();
 
 			$sql = <<<SQL
 				INSERT INTO T_ITEMS_TRANS
@@ -1370,7 +1370,6 @@ SQL;
 					KIND			= "OT",
 					GJ_GB			= "JH",
 					OUT_QTY			= '{$qty}',
-					ITEM_IDX		= '{$itemidx}',
 					INSERT_ID		= '{$username}',
 					INSERT_DATE		= '{$datetime}'
 SQL;
@@ -1830,7 +1829,7 @@ SQL;
 
 	public function ajax_a11_1_update($param)
 	{
-		$this->db->select("ITEMS_IDX, SERIESD_IDX, 1_QTY as QTY1");
+		$this->db->select("ITEMS_IDX, SERIESD_IDX, 1_QTY as QTY1,ACT_D_IDX");
 		$this->db->where("IDX", $param['IDX']);
 		$qu = $this->db->get("t_inventory_trans");
 		$info = $qu->row();
@@ -1852,16 +1851,18 @@ SQL;
 			->update("t_inventory_trans");
 
 		if ($this->db->affected_rows() > 0) {
+			$this->db->set("STATUS", "SB");
+			$this->db->where("IDX", $info->ACT_D_IDX);
+			$this->db->update("T_ACT_D");
+			// if ($SUMQ > 0) {
+			// 	$this->db->set("QTY", "QTY + {$SUMQ}", FALSE);
+			// } else {
+			// 	$this->db->set("QTY", "QTY {$SUMQ}", FALSE);
+			// }
 
-			if ($SUMQ > 0) {
-				$this->db->set("QTY", "QTY + {$SUMQ}", FALSE);
-			} else {
-				$this->db->set("QTY", "QTY {$SUMQ}", FALSE);
-			}
 
-
-			$this->db->where(array("ITEM_IDX" => $info->ITEMS_IDX, "SERIESD_IDX" => $info->SERIESD_IDX));
-			$this->db->update("t_item_stock");
+			// $this->db->where(array("ITEM_IDX" => $info->ITEMS_IDX, "SERIESD_IDX" => $info->SERIESD_IDX));
+			// $this->db->update("t_item_stock");
 		}
 
 		$this->db->trans_complete();
@@ -1877,7 +1878,7 @@ SQL;
 
 	public function ajax_a11_1_delete($idx)
 	{
-		$this->db->select("IDX, ITEMS_IDX, SERIESD_IDX, 1_QTY as QTY1, IMG_LINK1, IMG_LINK2, IMG_LINK3");
+		$this->db->select("IDX, ITEMS_IDX, SERIESD_IDX, 1_QTY as QTY1, IMG_LINK1, IMG_LINK2, IMG_LINK3, ACT_D_IDX");
 		$this->db->where("IDX", $idx);
 		$qu = $this->db->get("t_inventory_trans");
 		$info = $qu->row_array();
@@ -2250,7 +2251,7 @@ SQL;
 		}
 
 		if (!empty($param['V2']) && $param['V2'] != "") {
-			$this->db->where("B.ITEM_NM", $param['V2']);
+			$this->db->LIKE("ti.ITEM_NAME", $param['V2']);
 		}
 
 		$this->db->select("TSH.SERIES_NM, ITEM_NO, ITEM_NAME, SH_QTY, JH_QTY");
@@ -2272,7 +2273,7 @@ SQL;
 		}
 
 		if (!empty($param['V2']) && $param['V2'] != "") {
-			$this->db->where("B.ITEM_NM", $param['V2']);
+			$this->db->LIKE("ti.ITEM_NAME", $param['V2']);
 		}
 
 		$this->db->select("COUNT(*) as CUT");
@@ -2291,7 +2292,7 @@ SQL;
 		}
 
 		if (!empty($param['V2']) && $param['V2'] != "") {
-			$this->db->where("B.ITEM_NM", $param['V2']);
+			$this->db->like("B.ITEM_NM", $param['V2']);
 		}
 
 		$this->db->select("B.ITEM_NM,D.COLOR,SUM(A.IN_QTY) as IN_QTY,H.SERIES_NM, SERIES_IDX, A.ITEMS_IDX, A.SERIESD_IDX ");
