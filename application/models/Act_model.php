@@ -1888,7 +1888,6 @@ SQL;
 		$set = array(
 			"SB_DATE"	=> '',
 			"GJ_GB"     => "CU",
-			"KIND"     	=> "IN",
 			"1_QTY" 	=> 0,
 			"2_QTY" 	=> 0,
 			"3_QTY"	    => 0,
@@ -1920,7 +1919,7 @@ SQL;
 		if ($this->db->affected_rows() > 0) {
 
 			$this->db->set("STATUS", "CU");
-			$this->db->where("IDX", $info->ACT_D_IDX);
+			$this->db->where("IDX", $info['ACT_D_IDX']);
 			$this->db->update("T_ACT_D");
 		}
 
