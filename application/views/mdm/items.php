@@ -71,7 +71,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							<td class="cen"><?php echo $row->ITEM_NO; ?></td>
 							<td><?php echo $row->ITEM_NAME; ?></td>
 							<td><?php echo $row->SPEC; ?></td>
-							<td><?php echo number_format($row->JT_QTY) ?></td>
+							<td class="right"><?php echo number_format($row->JT_QTY) ?></td>
 							<td class="cen"><?php echo ($row->KS_YN == "Y") ? "사용" : "미사용"; ?></td>
 							<td class="cen"><?php echo ($row->USE_YN == "Y") ? "사용" : "미사용"; ?></td>
 							<td class="cen">
