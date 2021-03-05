@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class PLN extends CI_Controller {
+class PLN extends CI_Controller
+{
 
 	public $data;
 
@@ -10,132 +11,118 @@ class PLN extends CI_Controller {
 		parent::__construct();
 
 		$this->data['pos'] = $this->uri->segment(1);
-        $this->data['subpos'] = $this->uri->segment(2);
-		
-		$this->load->helper('test');
-		$this->load->model(array('pln_model','main_model'));
+		$this->data['subpos'] = $this->uri->segment(2);
 
-		if(!empty($this->config->item('site_title')[$this->data['pos']][$this->data['subpos']])){
+		$this->load->helper('test');
+		$this->load->model(array('pln_model', 'main_model'));
+
+		if (!empty($this->config->item('site_title')[$this->data['pos']][$this->data['subpos']])) {
 			$this->data['siteTitle'] = $this->config->item('site_title')[$this->data['pos']][$this->data['subpos']];
 		}
-
-		
-
 	}
 
 	public function _remap($method, $params = array())
 	{
-		if($this->input->is_ajax_request()){
-            if( method_exists($this, $method) ){
-                call_user_func_array(array($this,$method), $params);
-            }
-        }else{ //ajax가 아니면
-			
+		if ($this->input->is_ajax_request()) {
+			if (method_exists($this, $method)) {
+				call_user_func_array(array($this, $method), $params);
+			}
+		} else { //ajax가 아니면
+
 			if (method_exists($this, $method)) {
 
 				$user_id = $this->session->userdata('user_id');
 				$this->data['member_name'] = $this->session->userdata('user_name');
 
-				if(isset($user_id) && $user_id != ""){
-					
-					$this->load->view('/layout/header',$this->data);
-					call_user_func_array(array($this,$method), $params);
+				if (isset($user_id) && $user_id != "") {
+
+					$this->load->view('/layout/header', $this->data);
+					call_user_func_array(array($this, $method), $params);
 					$this->load->view('/layout/tail');
+				} else {
 
-				}else{
-
-					alert('로그인이 필요합니다.',base_url('register/login'));
-
+					alert('로그인이 필요합니다.', base_url('register/login'));
 				}
-
-            } else {
-                show_404();
-            }
-
-        }
-		
+			} else {
+				show_404();
+			}
+		}
 	}
 
 	/* 수주관리 */
-	public function index($hidx='')
+	public function index($hidx = '')
 	{
 		check_pageLevel();
 		$data['str'] = array(); //검색어관련
 		$data['str']['sdate'] = $this->input->get('sdate'); //수주일
 		$data['str']['edate'] = $this->input->get('edate'); //수주일
-		$data['str']['custnm'] = $this->input->get('custnm'); //거래처
-		$data['str']['actnm'] = $this->input->get('actnm'); //수주명
+		$data['str']['custnm'] = trim($this->input->get('custnm')); //거래처
+		$data['str']['actnm'] = trim($this->input->get('actnm')); //수주명
 		$data['str']['cg'] = $this->input->get('cg'); //수주명
-		
-		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+
+		$params['SDATE'] = date("Y-m-d", mktime(0, 0, 0, date("m"), 1, date("Y")));
 		$params['EDATE'] = date("Y-m-d");
 		$params['CUSTNM'] = "";
 		$params['ACTNM'] = "";
 		$params['CG'] = "";
 
-		$data['HIDX'] = (!empty($hidx))?$hidx:"";
+		$data['HIDX'] = (!empty($hidx)) ? $hidx : "";
 
 		$data['qstr'] = "?P";
-		if(!empty($data['str']['sdate'])){
+		if (!empty($data['str']['sdate'])) {
 			$params['SDATE'] = $data['str']['sdate'];
-			$data['qstr'] .= "&sdate=".$data['str']['sdate'];
-			
+			$data['qstr'] .= "&sdate=" . $data['str']['sdate'];
 		}
-		if(!empty($data['str']['edate'])){
+		if (!empty($data['str']['edate'])) {
 			$params['EDATE'] = $data['str']['edate'];
-			$data['qstr'] .= "&edate=".$data['str']['edate'];
-			
+			$data['qstr'] .= "&edate=" . $data['str']['edate'];
 		}
-		if(!empty($data['str']['custnm'])){
+		if (!empty($data['str']['custnm'])) {
 			$params['CUSTNM'] = $data['str']['custnm'];
-			$data['qstr'] .= "&custnm=".$data['str']['custnm'];
-			
+			$data['qstr'] .= "&custnm=" . $data['str']['custnm'];
 		}
-		if(!empty($data['str']['actnm'])){
+		if (!empty($data['str']['actnm'])) {
 			$params['ACTNM'] = $data['str']['actnm'];
-			$data['qstr'] .= "&actnm=".$data['str']['actnm'];
-			
+			$data['qstr'] .= "&actnm=" . $data['str']['actnm'];
 		}
-		if(!empty($data['str']['cg'])){
+		if (!empty($data['str']['cg'])) {
 			$params['CG'] = $data['str']['cg'];
-			$data['qstr'] .= "&cg=".$data['str']['cg'];
-			
+			$data['qstr'] .= "&cg=" . $data['str']['cg'];
 		}
 
-		
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
+
 		$data['NDATE'] = $hidx;
 
-		
-		$data['contList']   = $this->pln_model->get_pln_list($params,$start,$config['per_page']);
+
+		$data['contList']   = $this->pln_model->get_pln_list($params, $start, $config['per_page']);
 		$this->data['cnt']  = $this->pln_model->get_pln_count($params);
-		
-		if(empty($this->input->get('n'))){
+
+		if (empty($this->input->get('n'))) {
 			//상단정보
 			$data['headInfo']  = $this->pln_model->get_pln_info($hidx);
 			$data['detailList'] = $this->pln_model->get_pln_detail($hidx);
-			
-		}else{
+		} else {
 			$data['HIDX'] = null;
 		}
-		
+
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
@@ -159,8 +146,8 @@ class PLN extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
-		$this->load->view('/pln/index',$data);
+		$this->data['pagenation'] = $this->pagination->create_links();
+		$this->load->view('/pln/index', $data);
 	}
 
 
@@ -175,20 +162,20 @@ class PLN extends CI_Controller {
 		check_pageLevel();
 
 		$data['title'] = "";
-		
+
 		$prefs = array(
-				'start_day'    => 'sunday',
-				'month_type'   => 'short',
-				'day_type'     => 'short',
-				'show_next_prev'  => true,
-				'show_other_days' => false,
-				'next_prev_url'   => base_url('PLN/p2/')
+			'start_day'    => 'sunday',
+			'month_type'   => 'short',
+			'day_type'     => 'short',
+			'show_next_prev'  => true,
+			'show_other_days' => false,
+			'next_prev_url'   => base_url('PLN/p2/')
 		);
 
-		$year = (!empty($this->uri->segment(3)))?$this->uri->segment(3):date("Y",time());
-		$month = (!empty($this->uri->segment(4)))?$this->uri->segment(4):date("m",time());
+		$year = (!empty($this->uri->segment(3))) ? $this->uri->segment(3) : date("Y", time());
+		$month = (!empty($this->uri->segment(4))) ? $this->uri->segment(4) : date("m", time());
 
-		
+
 
 		$prefs['template'] = '
 
@@ -224,14 +211,14 @@ class PLN extends CI_Controller {
 				{cal_cell_start_other}<td class="other-month">{/cal_cell_start_other}
 
 				{cal_cell_content}
-					<div class="xday" data-date="'.$year.'-'.$month.'-{day}">
+					<div class="xday" data-date="' . $year . '-' . $month . '-{day}">
 						{day}
 						<div class="cont">{content}</div>
 					</div>
 				{/cal_cell_content}
 
 				{cal_cell_content_today}
-					<div class="xday highlight"  data-date="'.$year.'-'.$month.'-{day}">
+					<div class="xday highlight"  data-date="' . $year . '-' . $month . '-{day}">
 						{day}
 						<div class="cont">{content}</div>
 					</div>
@@ -239,12 +226,12 @@ class PLN extends CI_Controller {
 
 				{cal_cell_no_content}
 				
-					<div class="xday" data-date="'.$year.'-'.$month.'-{day}">{day}</div>			
+					<div class="xday" data-date="' . $year . '-' . $month . '-{day}">{day}</div>			
 				
 				{/cal_cell_no_content}
 
 				{cal_cell_no_content_today}
-					<div class="xday highlight" data-date="'.$year.'-'.$month.'-{day}">{day}</div>
+					<div class="xday highlight" data-date="' . $year . '-' . $month . '-{day}">{day}</div>
 				{/cal_cell_no_content_today}
 
 				{cal_cell_blank}&nbsp;{/cal_cell_blank}
@@ -263,17 +250,15 @@ class PLN extends CI_Controller {
 
 		$info = $this->pln_model->get_p2_list($year, $month);
 		$contArray = array();
-		foreach($info as $ndate){
-			list($y,$m,$d) = explode("-",$ndate->WOEK_DATE);
+		foreach ($info as $ndate) {
+			list($y, $m, $d) = explode("-", $ndate->WOEK_DATE);
 			$contArray[$d] = $ndate->REMARK;
 		}
 
 
-		$data['calendar'] = $this->calendar->generate($this->uri->segment(3), $this->uri->segment(4),$contArray);
+		$data['calendar'] = $this->calendar->generate($this->uri->segment(3), $this->uri->segment(4), $contArray);
 
-		$this->load->view('/pln/p2',$data);
-
-
+		$this->load->view('/pln/p2', $data);
 	}
 
 
@@ -281,14 +266,14 @@ class PLN extends CI_Controller {
 	{
 		$data['title'] = "생산계획등록";
 		$data['setDate'] = $this->input->post("xdate");
-		
-		$data['INFO'] = $this->pln_model->get_p2_info($this->input->post("xdate"));
-		
 
-		$this->load->view('/pln/ajax_p2_set',$data);
+		$data['INFO'] = $this->pln_model->get_p2_info($this->input->post("xdate"));
+
+
+		$this->load->view('/pln/ajax_p2_set', $data);
 	}
 
-	
+
 	public function ajax_p2_insert()
 	{
 		$params['WOEK_DATE'] = $this->input->post("WOEK_DATE");
@@ -313,12 +298,12 @@ class PLN extends CI_Controller {
 		$data['title'] = "수주등록";
 		$data['mode'] = $this->input->post("mode");
 		$data['CUST'] = $this->main_model->get_custlist();
-		
-		if($this->input->post("mode") == "mod"){
+
+		if ($this->input->post("mode") == "mod") {
 			$data['data'] = $this->pln_model->get_pln_info($this->input->post("IDX"));
 		}
 
-		return $this->load->view('/ajax/ajax_plnHead_form',$data);
+		return $this->load->view('/ajax/ajax_plnHead_form', $data);
 	}
 
 
@@ -328,13 +313,13 @@ class PLN extends CI_Controller {
 		$data['mode'] = $this->input->post("mode");
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 		$data['HIDX'] = $this->input->post("hidx");
-		
 
-		if($this->input->post("mode") == "mod"){
+
+		if ($this->input->post("mode") == "mod") {
 			$data['data'] = $this->pln_model->get_pln_info($this->input->post("IDX"));
 		}
 
-		return $this->load->view('/ajax/ajax_plnDetail_form',$data);
+		return $this->load->view('/ajax/ajax_plnDetail_form', $data);
 	}
 
 
@@ -348,19 +333,18 @@ class PLN extends CI_Controller {
 		$params['REMARK']		= $this->input->post("REMARK");
 		$params['ORD_TEXT'] 	= $this->input->post("ORD_TEXT");
 		$params['INSERT_ID']   	= $this->session->userdata('user_id');
-		$params['INSERT_DATE'] 	= date("Y-m-d H:i:s",time());
+		$params['INSERT_DATE'] 	= date("Y-m-d H:i:s", time());
 
 		$num = $this->pln_model->ajax_plnHead_insert($params);
-		if($num > 0){
+		if ($num > 0) {
 			$data['status'] = "ok";
 			$data['msg'] = "수주가 등록되었습니다.";
-		}else{
+		} else {
 			$data['status'] = "";
 			$data['msg'] = "수주등록에 실패했습니다. 관리자에게 문의하세요";
 		}
 
 		echo json_encode($data);
-
 	}
 
 
@@ -381,19 +365,18 @@ class PLN extends CI_Controller {
 		$params['REMARK']		= $this->input->post("REMARK");
 		$params['ORD_TEXT'] 	= $this->input->post("ORD_TEXT");
 		$params['UPDATE_ID']   	= $this->session->userdata('user_id');
-		$params['UPDATE_DATE'] 	= date("Y-m-d H:i:s",time());
+		$params['UPDATE_DATE'] 	= date("Y-m-d H:i:s", time());
 
 		$num = $this->pln_model->ajax_plnHead_update($params);
-		if($num > 0){
+		if ($num > 0) {
 			$data['status'] = "ok";
 			$data['msg'] = "수주가 변경되었습니다.";
-		}else{
+		} else {
 			$data['status'] = "";
 			$data['msg'] = "수주등록에 실패했습니다. 관리자에게 문의하세요";
 		}
 
 		echo json_encode($data);
-
 	}
 
 
@@ -402,7 +385,7 @@ class PLN extends CI_Controller {
 		$params['s1'] = $this->input->post("s1");
 		$params['s2'] = $this->input->post("s2");
 		$params['s3'] = $this->input->post("s3");
-		
+
 		$data = $this->pln_model->ajax_plnindex_pop($params);
 		echo json_encode($data);
 	}
@@ -410,10 +393,10 @@ class PLN extends CI_Controller {
 
 	public function ajax_act_detail_insert()
 	{
-		foreach($this->input->post("QTY") as $key => $qty){
-			if($qty == ""){
+		foreach ($this->input->post("QTY") as $key => $qty) {
+			if ($qty == "") {
 				continue;
-			}else{
+			} else {
 				$params['QTY'][$key] = $qty;
 				$params['ITEM_IDX'][$key] = $this->input->post("ITEM_IDX")[$key];
 				$params['ITEM_NM'][$key] = $this->input->post("ITEM_NM")[$key];
@@ -424,17 +407,16 @@ class PLN extends CI_Controller {
 		}
 
 		$num = $this->pln_model->ajax_act_detail_insert($params);
-		
-		if($num > 0){
+
+		if ($num > 0) {
 			$data['status'] = "ok";
 			$data['msg'] = "수주항목이 추가되었습니다.";
-		}else{
+		} else {
 			$data['status'] = "";
 			$data['msg'] = "수주항목 등록에 실패했습니다. 관리자에게 문의하세요";
 		}
 
 		echo json_encode($data);
-
 	}
 
 	//수주관리 목록 선택시 오른쪽에 나오는 상세 목록 삭제버튼
@@ -444,11 +426,5 @@ class PLN extends CI_Controller {
 		$data = array();
 		$data['result'] = $this->pln_model->deletedetail($params);
 		alert($data['result']);
-		
 	}
-	
-
-	
-
-
 }//class end

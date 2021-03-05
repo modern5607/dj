@@ -1,11 +1,12 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Main_model extends CI_Model {
+class Main_model extends CI_Model
+{
 
 	public function __construct()
 	{
-			parent::__construct();
+		parent::__construct();
 	}
 
 
@@ -27,14 +28,14 @@ class Main_model extends CI_Model {
 			'GJ_QTY'       => $param['item'][11],
 			'ACT_DATE'     => $param['item'][13],
 			'PLN_DATE'     => $param['item'][14],
-			'INSERT_DATE'  => date('Y-m-d H:i:s',time()),
+			'INSERT_DATE'  => date('Y-m-d H:i:s', time()),
 			'INSERT_ID'    => $this->session->userdata('user_name'),
-		);	
+		);
 
-		$this->db->insert($param['table'],$data);
+		$this->db->insert($param['table'], $data);
 	}
 
-	
+
 	/* T_COMPONENT_EX UPLOAD*/
 	public function set_component_data($param)
 	{
@@ -46,11 +47,11 @@ class Main_model extends CI_Model {
 			'UNIT'         => $param['item'][3],
 			'INTO_DATE'    => $param['item'][4],
 			'REPL_DATE'    => $param['item'][5],
-			'INSERT_DATE'  => date('Y-m-d H:i:s',time()),
+			'INSERT_DATE'  => date('Y-m-d H:i:s', time()),
 			'INSERT_ID'    => $this->session->userdata('user_name')
-		);	
-		
-		$this->db->insert($param['table'],$data);
+		);
+
+		$this->db->insert($param['table'], $data);
 	}
 
 
@@ -67,9 +68,9 @@ class Main_model extends CI_Model {
 			'QTY'          => $param['item'][5],
 			'GUBUN'        => $param['item'][6],
 			'STATE'        => $param['item'][7]
-		);	
-		
-		$this->db->insert($param['table'],$data);
+		);
+
+		$this->db->insert($param['table'], $data);
 	}
 
 
@@ -97,101 +98,100 @@ class Main_model extends CI_Model {
 	public function get_none_count()
 	{
 		$this->db->select("COUNT(*) AS XXX");
-		$this->db->where("TC.COMPONENT",NULL);
+		$this->db->where("TC.COMPONENT", NULL);
 		$this->db->from("T_COMPONENT as TC");
-		$this->db->join("T_COMPONENT_EX as EX","EX.COMPONENT = TC.COMPONENT AND EX.GJ_GB = TC.GJ_GB","right");
-		$this->db->order_by("TC.STOCK","ASC");
+		$this->db->join("T_COMPONENT_EX as EX", "EX.COMPONENT = TC.COMPONENT AND EX.GJ_GB = TC.GJ_GB", "right");
+		$this->db->order_by("TC.STOCK", "ASC");
 		$query = $this->db->get();
-				
-		return $query->row()->XXX;
 
+		return $query->row()->XXX;
 	}
 
 
-	public function get_items_list($param,$start=0,$limit=20)
+	public function get_items_list($param, $start = 0, $limit = 20)
 	{
-		if(!empty($param['SERIES_IDX']) && $param['SERIES_IDX'] != ""){
-			$this->db->where("A.SERIES_IDX",$param['SERIES_IDX']);
+		if (!empty($param['SERIES_IDX']) && $param['SERIES_IDX'] != "") {
+			$this->db->where("A.SERIES_IDX", $param['SERIES_IDX']);
 		}
 
-		if(!empty($param['ITEM_NO']) && $param['ITEM_NO'] != ""){
-			$this->db->like("A.ITEM_NO",$param['ITEM_NO']);
+		if (!empty($param['ITEM_NO']) && $param['ITEM_NO'] != "") {
+			$this->db->like("A.ITEM_NO", $param['ITEM_NO']);
 		}
 
-		if(!empty($param['ITEM_NAME']) && $param['ITEM_NAME'] != ""){
-			$this->db->like("A.ITEM_NAME",$param['ITEM_NAME']);
+		if (!empty($param['ITEM_NAME']) && $param['ITEM_NAME'] != "") {
+			$this->db->like("A.ITEM_NAME", $param['ITEM_NAME']);
 		}
 
-		if(!empty($param['USE_YN']) && $param['USE_YN'] != "A"){
-			$this->db->where("A.USE_YN",$param['USE_YN']);
+		if (!empty($param['USE_YN']) && $param['USE_YN'] != "A") {
+			$this->db->where("A.USE_YN", $param['USE_YN']);
 		}
 
-		if(!empty($param['KS_YN']) && $param['KS_YN'] != "A"){
-			$this->db->where("A.KS_YN",$param['KS_YN']);
+		if (!empty($param['KS_YN']) && $param['KS_YN'] != "A") {
+			$this->db->where("A.KS_YN", $param['KS_YN']);
 		}
-		$this->db->select("SERIES_NM, ITEM_NO, ITEM_NAME, SPEC, KS_YN, A.USE_YN, A.IDX");
+		$this->db->select("SERIES_NM, ITEM_NO, ITEM_NAME, SPEC, JT_QTY, KS_YN, A.USE_YN, A.IDX");
 		$this->db->from("t_items as A");
-		$this->db->join("t_series_h as B","B.IDX = A.SERIES_IDX","LEFT");
-		$this->db->order_by("B.SERIES_NM","ASC");
-		$this->db->order_by("A.ITEM_NAME","ASC");
-		$this->db->limit($limit,$start);
+		$this->db->join("t_series_h as B", "B.IDX = A.SERIES_IDX", "LEFT");
+		$this->db->order_by("B.SERIES_NM", "ASC");
+		$this->db->order_by("A.ITEM_NAME", "ASC");
+		$this->db->limit($limit, $start);
 		$query = $this->db->get();
-// echo $this->db->last_query();
+		//echo $this->db->last_query();
 		return $query->result();
 	}
 
 
 	public function get_items_cnt($param)
 	{
-		if(!empty($param['SERIES_IDX']) && $param['SERIES_IDX'] != ""){
-			$this->db->where("A.SERIES_IDX",$param['SERIES_IDX']);
+		if (!empty($param['SERIES_IDX']) && $param['SERIES_IDX'] != "") {
+			$this->db->where("A.SERIES_IDX", $param['SERIES_IDX']);
 		}
 
-		if(!empty($param['ITEM_NO']) && $param['ITEM_NO'] != ""){
-			$this->db->like("A.ITEM_NO",$param['ITEM_NO']);
+		if (!empty($param['ITEM_NO']) && $param['ITEM_NO'] != "") {
+			$this->db->like("A.ITEM_NO", $param['ITEM_NO']);
 		}
 
-		if(!empty($param['ITEM_NAME']) && $param['ITEM_NAME'] != ""){
-			$this->db->like("A.ITEM_NAME",$param['ITEM_NAME']);
+		if (!empty($param['ITEM_NAME']) && $param['ITEM_NAME'] != "") {
+			$this->db->like("A.ITEM_NAME", $param['ITEM_NAME']);
 		}
 
-		if(!empty($param['USE_YN']) && $param['USE_YN'] != "A"){
-			$this->db->where("A.USE_YN",$param['USE_YN']);
+		if (!empty($param['USE_YN']) && $param['USE_YN'] != "A") {
+			$this->db->where("A.USE_YN", $param['USE_YN']);
 		}
 
-		if(!empty($param['KS_YN']) && $param['KS_YN'] != "A"){
-			$this->db->where("A.KS_YN",$param['KS_YN']);
+		if (!empty($param['KS_YN']) && $param['KS_YN'] != "A") {
+			$this->db->where("A.KS_YN", $param['KS_YN']);
 		}
 		$this->db->select("*");
 		$this->db->from("t_items as A");
-		$this->db->join("t_series_h as B","B.IDX = A.SERIES_IDX","LEFT");
-		$this->db->order_by("B.SERIES_NM","ASC");
-		$this->db->order_by("A.ITEM_NAME","ASC");
+		$this->db->join("t_series_h as B", "B.IDX = A.SERIES_IDX", "LEFT");
+		$this->db->order_by("B.SERIES_NM", "ASC");
+		$this->db->order_by("A.ITEM_NAME", "ASC");
 		$query = $this->db->get();
-		
+
 		return $query->num_rows();
 	}
 
-	public function get_component_list($param,$start=0,$limit=20)
+	public function get_component_list($param, $start = 0, $limit = 20)
 	{
-		
-		if(!empty($param['COMPONENT']) && $param['COMPONENT'] != ""){
-			$this->db->like("COMPONENT",$param['COMPONENT']);
+
+		if (!empty($param['COMPONENT']) && $param['COMPONENT'] != "") {
+			$this->db->like("COMPONENT", $param['COMPONENT']);
 		}
 
-		if(!empty($param['COMPONENT_NM']) && $param['COMPONENT_NM'] != ""){
-			$this->db->like("COMPONENT_NM",$param['COMPONENT_NM']);
+		if (!empty($param['COMPONENT_NM']) && $param['COMPONENT_NM'] != "") {
+			$this->db->like("COMPONENT_NM", $param['COMPONENT_NM']);
 		}
 
-		if(!empty($param['USE_YN']) && $param['USE_YN'] != "Y"){
-			$this->db->where("USE_YN",$param['USE_YN']);
+		if (!empty($param['USE_YN']) && $param['USE_YN'] != "Y") {
+			$this->db->where("USE_YN", $param['USE_YN']);
 		}
 
-		$this->db->limit($limit,$start);
+		$this->db->limit($limit, $start);
 		$this->db->order_by("COMPONENT_NM");
 		$query = $this->db->get("t_component");
 
-		
+
 
 		return $query->result();
 	}
@@ -200,19 +200,19 @@ class Main_model extends CI_Model {
 	public function get_component_cnt($param)
 	{
 		$this->db->select("COUNT(*) CUT");
-		
-		if(!empty($param['COMPONENT']) && $param['COMPONENT'] != ""){
-			$this->db->where("COMPONENT",$param['COMPONENT']);
+
+		if (!empty($param['COMPONENT']) && $param['COMPONENT'] != "") {
+			$this->db->where("COMPONENT", $param['COMPONENT']);
 		}
 
-		if(!empty($param['COMPONENT_NM']) && $param['COMPONENT_NM'] != ""){
-			$this->db->where("COMPONENT_NM",$param['COMPONENT_NM']);
+		if (!empty($param['COMPONENT_NM']) && $param['COMPONENT_NM'] != "") {
+			$this->db->where("COMPONENT_NM", $param['COMPONENT_NM']);
 		}
 
-		if(!empty($param['USE_YN']) && $param['USE_YN'] != ""){
-			$this->db->where("USE_YN",$param['USE_YN']);
+		if (!empty($param['USE_YN']) && $param['USE_YN'] != "") {
+			$this->db->where("USE_YN", $param['USE_YN']);
 		}
-		
+
 		$query = $this->db->get("t_component");
 		return $query->row()->CUT;
 	}
@@ -220,15 +220,15 @@ class Main_model extends CI_Model {
 
 
 
-	
+
 	/* 공통코드 HEAD 등록 */
 	public function codeHead_update($param)
 	{
 
-		if($param['mod'] == 1){
+		if ($param['mod'] == 1) {
 
-			$dateTime = date("Y-m-d H:i:s",time());
-			
+			$dateTime = date("Y-m-d H:i:s", time());
+
 			$data = array(
 				'CODE'        => $param['CODE'],
 				'NAME'        => $param['NAME'],
@@ -238,12 +238,11 @@ class Main_model extends CI_Model {
 				'COL1'        => '',
 				'COL2'        => ''
 			);
-			$this->db->update("T_COCD_H",$data,array("IDX"=>$param['IDX']));
+			$this->db->update("T_COCD_H", $data, array("IDX" => $param['IDX']));
 			return $param['IDX'];
-		
-		}else{
+		} else {
 
-			$dateTime = date("Y-m-d H:i:s",time());
+			$dateTime = date("Y-m-d H:i:s", time());
 
 			$data = array(
 				'CODE'        => $param['CODE'],
@@ -254,14 +253,10 @@ class Main_model extends CI_Model {
 				'COL1'        => '',
 				'COL2'        => ''
 			);
-			$this->db->insert("T_COCD_H",$data);
+			$this->db->insert("T_COCD_H", $data);
 
 			return $this->db->insert_id();
-
 		}
-
-		
-
 	}
 
 
@@ -269,10 +264,10 @@ class Main_model extends CI_Model {
 	public function codeDetail_update($param)
 	{
 
-		if($param['mod'] == 1){
+		if ($param['mod'] == 1) {
 
-			$dateTime = date("Y-m-d H:i:s",time());
-			
+			$dateTime = date("Y-m-d H:i:s", time());
+
 
 			$data = array(
 				'H_IDX'           => $param['H_IDX'],
@@ -285,13 +280,12 @@ class Main_model extends CI_Model {
 				'COL1'        => '',
 				'COL2'        => ''
 			);
-			$this->db->update("T_COCD_D", $data, array("IDX"=>$param['IDX']));
+			$this->db->update("T_COCD_D", $data, array("IDX" => $param['IDX']));
 			return $param['IDX'];
-		
-		}else{
+		} else {
 
-			$dateTime = date("Y-m-d H:i:s",time());
-			
+			$dateTime = date("Y-m-d H:i:s", time());
+
 			$data = array(
 				'H_IDX'       => $param['H_IDX'],
 				'S_NO'        => $param['S_NO'],
@@ -303,27 +297,23 @@ class Main_model extends CI_Model {
 				'COL1'        => '',
 				'COL2'        => ''
 			);
-			
-			$this->db->insert("T_COCD_D",$data);
+
+			$this->db->insert("T_COCD_D", $data);
 
 			return $this->db->insert_id();
-
 		}
-
-		
-
 	}
 
-	
+
 	public function get_items_info($param)
 	{
-		if($param['upd']){
+		if ($param['upd']) {
 			$this->db->select("TI.*, SUM(TIS.QTY) AS QTY, SUM((SELECT SUM(B.QTY) FROM T_ACT_D as B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX)) as EQTY ");
-			$this->db->join("T_ITEM_STOCK as TIS","TI.IDX = TIS.ITEM_IDX","LEFT");
+			$this->db->join("T_ITEM_STOCK as TIS", "TI.IDX = TIS.ITEM_IDX", "LEFT");
 		}
 
-		$query = $this->db->where("IDX",$param['idx'])
-						->get("t_items as TI");
+		$query = $this->db->where("IDX", $param['idx'])
+			->get("t_items as TI");
 
 
 		return $query->row();
@@ -332,8 +322,8 @@ class Main_model extends CI_Model {
 
 	public function get_component_info($idx)
 	{
-		$query = $this->db->where("IDX",$idx)
-						->get("t_component");
+		$query = $this->db->where("IDX", $idx)
+			->get("t_component");
 		return $query->row();
 	}
 
@@ -342,10 +332,10 @@ class Main_model extends CI_Model {
 	/* 품목관리 등록 */
 	public function set_items_formUpdate($param)
 	{
-		$dateTime = date("Y-m-d H:i:s",time());
+		$dateTime = date("Y-m-d H:i:s", time());
 
 		//mod 0 : 신규등록 / 1 : 수정
-		if($param['mod'] == 1){
+		if ($param['mod'] == 1) {
 
 			$data = array(
 				'ITEM_NO'     => $param['ITEM_NO'],
@@ -364,11 +354,10 @@ class Main_model extends CI_Model {
 				'COL2'        => '',
 				'COL3'        => ''
 			);
-			$this->db->update("t_items", $data, array("IDX"=>$param['IDX']));
+			$this->db->update("t_items", $data, array("IDX" => $param['IDX']));
 			return $param['IDX'];
-		
-		}else{			
-			
+		} else {
+
 			$data = array(
 				'ITEM_NO'     => $param['ITEM_NO'],
 				'ITEM_NAME'   => $param['ITEM_NAME'],
@@ -386,20 +375,16 @@ class Main_model extends CI_Model {
 				'COL2'        => '',
 				'COL3'        => ''
 			);
-			
-			$this->db->insert("t_items",$data);
+
+			$this->db->insert("t_items", $data);
 			return $this->db->insert_id();
-
 		}
-
-		
-
 	}
 
 
 	public function set_component_formUpdate($param)
 	{
-		if($param['mod'] == 1){
+		if ($param['mod'] == 1) {
 
 			$data = array(
 				'COMPONENT'     => $param['COMPONENT'],
@@ -413,11 +398,10 @@ class Main_model extends CI_Model {
 				'COL2'        => '',
 				'COL3'        => ''
 			);
-			$this->db->update("t_component", $data, array("IDX"=>$param['IDX']));
+			$this->db->update("t_component", $data, array("IDX" => $param['IDX']));
 			return $param['IDX'];
-		
-		}else{			
-			
+		} else {
+
 			$data = array(
 				'COMPONENT'     => $param['COMPONENT'],
 				'COMPONENT_NM'   => $param['COMPONENT_NM'],
@@ -430,15 +414,11 @@ class Main_model extends CI_Model {
 				'COL2'        => '',
 				'COL3'        => ''
 			);
-			
-			$this->db->insert("t_component",$data);
+
+			$this->db->insert("t_component", $data);
 
 			return $this->db->insert_id();
-
 		}
-
-		
-
 	}
 
 
@@ -448,9 +428,8 @@ class Main_model extends CI_Model {
 	{
 		$res = $this->db->get("T_COCD_H");
 		// echo $this->db->last_query();
-		
-		return $res->result();
 
+		return $res->result();
 	}
 
 	public function get_cocdHead_cut()
@@ -464,23 +443,22 @@ class Main_model extends CI_Model {
 	{
 		$this->db->select("D.*,H.CODE as H_CODE");
 		$this->db->from("T_COCD_D as D");
-		$this->db->join("T_COCD_H as H","H.IDX = D.H_IDX");
+		$this->db->join("T_COCD_H as H", "H.IDX = D.H_IDX");
 		// if($hid){
-			$this->db->where("H_IDX",$hid);
+		$this->db->where("H_IDX", $hid);
 		// }
-		$this->db->order_by("S_NO","ASC");
+		$this->db->order_by("S_NO", "ASC");
 		$res = $this->db->get();
 
 		return $res->result();
-
 	}
 
-	
+
 	/* 공통코드 HEAD 상세정보 */
 	public function get_cocdHead_info($idx)
 	{
-		$res = $this->db->where("IDX",$idx)
-						->get("T_COCD_H");
+		$res = $this->db->where("IDX", $idx)
+			->get("T_COCD_H");
 		return $res->row();
 	}
 
@@ -488,8 +466,8 @@ class Main_model extends CI_Model {
 	/* 공통코드 Detail 상세정보 */
 	public function get_cocdDetail_info($idx)
 	{
-		$res = $this->db->where("IDX",$idx)
-						->get("T_COCD_D");
+		$res = $this->db->where("IDX", $idx)
+			->get("T_COCD_D");
 		return $res->row();
 	}
 
@@ -497,12 +475,12 @@ class Main_model extends CI_Model {
 	/* 시리즈 HEAD 리스트 */
 	public function get_seriesHead_list($param)
 	{
-		if(!empty($param['V1']) && $param['V1'] != ""){
-			$this->db->like("SERIES_NM",$param['V1']);
+		if (!empty($param['V1']) && $param['V1'] != "") {
+			$this->db->like("SERIES_NM", $param['V1']);
 		}
 
-		if(!empty($param['V2']) && $param['V2'] != "A"){
-			$this->db->where("USE_YN",$param['V2']);
+		if (!empty($param['V2']) && $param['V2'] != "A") {
+			$this->db->where("USE_YN", $param['V2']);
 		}
 
 		$this->db->select("*");
@@ -515,51 +493,50 @@ class Main_model extends CI_Model {
 	public function get_seriesHead_cut($param)
 	{
 		$this->db->select("COUNT(*) AS CUT");
-		if(!empty($param['V1']) && $param['V1'] != ""){
-			$this->db->like("SERIES_NM",$param['V1']);
+		if (!empty($param['V1']) && $param['V1'] != "") {
+			$this->db->like("SERIES_NM", $param['V1']);
 		}
 
-		if(!empty($param['V2']) && $param['V2'] != ""){
-			$this->db->where("USE_YN",$param['V2']);
+		if (!empty($param['V2']) && $param['V2'] != "") {
+			$this->db->where("USE_YN", $param['V2']);
 		}
 
 		$res = $this->db->get("t_series_h");
-		
+
 		return $res->row()->CUT;
 	}
 
 	/* 시리즈 Detail 리스트 */
-	public function get_seriesDetail_list($sid = "",$params)
+	public function get_seriesDetail_list($sid = "", $params)
 	{
 		$this->db->select("D.*, H.SERIES_NM");
 		$this->db->from("t_series_d as D");
-		$this->db->join("t_series_h as H","H.IDX = D.SERIES_IDX");
-		if($sid){
-			$this->db->where("D.SERIES_IDX",$sid);
+		$this->db->join("t_series_h as H", "H.IDX = D.SERIES_IDX");
+		if ($sid) {
+			$this->db->where("D.SERIES_IDX", $sid);
 		}
-		if(!empty($params['DV2']) && $params['DV2'] != "A"){
-			$this->db->like("D.USE_YN",$params['DV2']);
+		if (!empty($params['DV2']) && $params['DV2'] != "A") {
+			$this->db->like("D.USE_YN", $params['DV2']);
 		}
-		if(!empty($params['COLORCD']) && $params['COLORCD'] != ""){
-			$this->db->like("COLOR_CD",$params['COLORCD']);
-		}
-
-		if(!empty($params['COLOERNM']) && $params['COLOERNM'] != ""){
-			$this->db->like("COLOR",$params['COLOERNM']);
+		if (!empty($params['COLORCD']) && $params['COLORCD'] != "") {
+			$this->db->like("COLOR_CD", $params['COLORCD']);
 		}
 
-		$this->db->order_by("D.COLOR","ASC");
+		if (!empty($params['COLOERNM']) && $params['COLOERNM'] != "") {
+			$this->db->like("COLOR", $params['COLOERNM']);
+		}
+
+		$this->db->order_by("D.COLOR", "ASC");
 		$res = $this->db->get();
 		return $res->result();
-
 	}
 
-	
+
 	/* 시리즈 HEAD 상세정보 */
 	public function get_seriesHead_info($idx)
 	{
-		$res = $this->db->where("IDX",$idx)
-						->get("t_series_h");
+		$res = $this->db->where("IDX", $idx)
+			->get("t_series_h");
 		return $res->row();
 	}
 
@@ -567,18 +544,18 @@ class Main_model extends CI_Model {
 	/* 시리즈 Detail 상세정보 */
 	public function get_seriesDetail_info($idx)
 	{
-		$res = $this->db->where("IDX",$idx)
-						->get("t_series_d");
+		$res = $this->db->where("IDX", $idx)
+			->get("t_series_d");
 		return $res->row();
 	}
 
 	/* 시리즈 HEAD 등록 */
 	public function seriesHead_update($param)
 	{
-		if($param['mod'] == 1){
+		if ($param['mod'] == 1) {
 
-			$dateTime = date("Y-m-d H:i:s",time());
-			
+			$dateTime = date("Y-m-d H:i:s", time());
+
 			$data = array(
 				'SERIES'      => $param['SERIES'],
 				'SERIES_NM'   => $param['SERIES_NM'],
@@ -588,12 +565,11 @@ class Main_model extends CI_Model {
 				'COL1'        => '',
 				'COL2'        => ''
 			);
-			$this->db->update("t_series_h",$data,array("IDX"=>$param['IDX']));
+			$this->db->update("t_series_h", $data, array("IDX" => $param['IDX']));
 			return $param['IDX'];
-		
-		}else{
+		} else {
 
-			$dateTime = date("Y-m-d H:i:s",time());
+			$dateTime = date("Y-m-d H:i:s", time());
 
 			$data = array(
 				'SERIES'      => $param['SERIES'],
@@ -604,24 +580,20 @@ class Main_model extends CI_Model {
 				'COL1'        => '',
 				'COL2'        => ''
 			);
-			$this->db->insert("t_series_h",$data);
+			$this->db->insert("t_series_h", $data);
 
 			return $this->db->insert_id();
-
 		}
-
-		
-
 	}
 
 
 	/* 시리즈 Detail 등록 */
 	public function seriesDetail_update($param)
 	{
-		if($param['mod'] == 1){
+		if ($param['mod'] == 1) {
 
-			$dateTime = date("Y-m-d H:i:s",time());
-			
+			$dateTime = date("Y-m-d H:i:s", time());
+
 
 			$data = array(
 				'SERIES_IDX'  => $param['SERIES'],
@@ -633,13 +605,12 @@ class Main_model extends CI_Model {
 				'COL1'        => '',
 				'COL2'        => ''
 			);
-			$this->db->update("t_series_d", $data, array("IDX"=>$param['IDX']));
+			$this->db->update("t_series_d", $data, array("IDX" => $param['IDX']));
 			return $param['IDX'];
-		
-		}else{
+		} else {
 
-			$dateTime = date("Y-m-d H:i:s",time());
-			
+			$dateTime = date("Y-m-d H:i:s", time());
+
 			$data = array(
 				'SERIES_IDX'  => $param['SERIES'],
 				'COLOR_CD'    => $param['COLOR_CD'],
@@ -650,104 +621,100 @@ class Main_model extends CI_Model {
 				'COL1'        => '',
 				'COL2'        => ''
 			);
-			
-			$this->db->insert("t_series_d",$data);
+
+			$this->db->insert("t_series_d", $data);
 
 			return $this->db->insert_id();
-
 		}
-
-		
-
 	}
 
 
 	/* 코드중복검사 */
-	public function ajax_seriesHaedchk($object,$code)
+	public function ajax_seriesHaedchk($object, $code)
 	{
-		$this->db->where($object,$code);
-        $query = $this->db->get('t_series_h');
-         
-        if($query->num_rows() > 0){
-            return TRUE;
-        }else{
-            return FALSE;
-        }
+		$this->db->where($object, $code);
+		$query = $this->db->get('t_series_h');
+
+		if ($query->num_rows() > 0) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
 	}
 
 	/* 코드중복검사 */
-	public function ajax_seriesDetailchk($object,$code)
+	public function ajax_seriesDetailchk($object, $code)
 	{
-		$this->db->where($object,$code);
-        $query = $this->db->get('t_series_d');
-         
-        if($query->num_rows() > 0){
-            return TRUE;
-        }else{
-            return FALSE;
-        }
+		$this->db->where($object, $code);
+		$query = $this->db->get('t_series_d');
+
+		if ($query->num_rows() > 0) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
 	}
 
-	
+
 	/*
 	* 공통코드 헤드 삭제
 	* 공통코드 디테일정보도 같이 삭제한다.
 	*/
 	public function delete_cocdHead($code)
 	{
-		$res = $this->db->delete("T_COCD_H",array('CODE'=>$code));
-		$res1 = $this->db->delete("T_COCD_D",array('H_IDX'=>$code));
+		$res = $this->db->delete("T_COCD_H", array('CODE' => $code));
+		$res1 = $this->db->delete("T_COCD_D", array('H_IDX' => $code));
 
 		return $this->db->affected_rows();
 	}
 
 	public function delete_cocdDetail($idx)
 	{
-		$res = $this->db->delete("T_COCD_D",array('IDX'=>$idx));
+		$res = $this->db->delete("T_COCD_D", array('IDX' => $idx));
 		return $this->db->affected_rows();
 	}
 
 
 	/* 코드중복검사 */
-	public function ajax_cocdHaedchk($object,$code)
+	public function ajax_cocdHaedchk($object, $code)
 	{
-		$this->db->where($object,$code);
-        $query = $this->db->get('T_COCD_H');
-         
-        if($query->num_rows() > 0){
-            return TRUE;
-        }else{
-            return FALSE;
-        }
+		$this->db->where($object, $code);
+		$query = $this->db->get('T_COCD_H');
+
+		if ($query->num_rows() > 0) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
 	}
 
 	/* 코드중복검사 */
-	public function ajax_cocdDetailchk($object,$code)
+	public function ajax_cocdDetailchk($object, $code)
 	{
-		$this->db->where($object,$code);
-        $query = $this->db->get('T_COCD_D');
-         
-        if($query->num_rows() > 0){
-            return TRUE;
-        }else{
-            return FALSE;
-        }
+		$this->db->where($object, $code);
+		$query = $this->db->get('T_COCD_D');
+
+		if ($query->num_rows() > 0) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
 	}
 
 
 	/*
 	* 특정 공통코드의 디테일리스트를 호출
 	*/
-	public function get_selectInfo($fild,$set)
+	public function get_selectInfo($fild, $set)
 	{
 		$where[$fild] = $set;
 		$this->db->select("tch.IDX, tch.CODE, tch.NAME, tcd.CODE as D_CODE, tcd.NAME as D_NAME");
 		$this->db->from("t_cocd_d as tcd");
-		$this->db->join("t_cocd_h as tch","tch.IDX = tcd.H_IDX");
+		$this->db->join("t_cocd_h as tch", "tch.IDX = tcd.H_IDX");
 		$this->db->where($where);
 		$query = $this->db->get();
-		
-		return $query->result();		
+
+		return $query->result();
 	}
 
 
@@ -768,16 +735,16 @@ class Main_model extends CI_Model {
 		$query = $this->db->get("t_biz_reg");
 		return $query->result();
 	}
-	
-	
+
+
 	public function get_seriesh_select()
-	{	
+	{
 		$this->db->order_by('series_nm');
 		$query = $this->db->get("t_series_h");
 		return $query->result();
 	}
 
-	
+
 	public function ajax_component_select()
 	{
 		$this->db->order_by('component_nm');
@@ -785,19 +752,18 @@ class Main_model extends CI_Model {
 		return $query->result();
 	}
 
-	public function iot_insert($params) 
+	public function iot_insert($params)
 	{
 		date_default_timezone_set('Asia/Seoul');
-		$sysDate = date("Y-m-d H:i:s",time());
+		$sysDate = date("Y-m-d H:i:s", time());
 
-			$set = array(
-				"TEMP"		=> $params['TEMP'],
-				"HUM"       => $params['HUM'],
-				"DATE"		=> $sysDate,
-				"LOCATION"	=> $params['LOC']
-			);
-			
-           $this->db->insert("T_ENV",$set);
+		$set = array(
+			"TEMP"		=> $params['TEMP'],
+			"HUM"       => $params['HUM'],
+			"DATE"		=> $sysDate,
+			"LOCATION"	=> $params['LOC']
+		);
+
+		$this->db->insert("T_ENV", $set);
 	}
-
 }

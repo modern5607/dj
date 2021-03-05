@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class ACT extends CI_Controller {
+class ACT extends CI_Controller
+{
 
 	public $data;
 
@@ -10,63 +11,53 @@ class ACT extends CI_Controller {
 		parent::__construct();
 
 		$this->data['pos'] = $this->uri->segment(1);
-        $this->data['subpos'] = $this->uri->segment(2);
-		
-		$this->load->helper('test');
-		$this->load->model(array('pln_model','main_model','act_model'));
+		$this->data['subpos'] = $this->uri->segment(2);
 
-		if(!empty($this->config->item('site_title')[$this->data['pos']][$this->data['subpos']])){
+		$this->load->helper('test');
+		$this->load->model(array('pln_model', 'main_model', 'act_model'));
+
+		if (!empty($this->config->item('site_title')[$this->data['pos']][$this->data['subpos']])) {
 			$this->data['siteTitle'] = $this->config->item('site_title')[$this->data['pos']][$this->data['subpos']];
 		}
-
-		
-
 	}
 
 	public function _remap($method, $params = array())
 	{
-		if($this->input->is_ajax_request()){
-            if( method_exists($this, $method) ){
-                call_user_func_array(array($this,$method), $params);
-            }
-        }else{ //ajax가 아니면
-			
+		if ($this->input->is_ajax_request()) {
+			if (method_exists($this, $method)) {
+				call_user_func_array(array($this, $method), $params);
+			}
+		} else { //ajax가 아니면
+
 			if (method_exists($this, $method)) {
 
 				$user_id = $this->session->userdata('user_id');
 				$this->data['member_name'] = $this->session->userdata('user_name');
 
-				if(isset($user_id) && $user_id != ""){
-					
-					$this->load->view('/layout/header',$this->data);
-					call_user_func_array(array($this,$method), $params);
+				if (isset($user_id) && $user_id != "") {
+
+					$this->load->view('/layout/header', $this->data);
+					call_user_func_array(array($this, $method), $params);
 					$this->load->view('/layout/tail');
+				} else {
 
-				}else{
-
-					alert('로그인이 필요합니다.',base_url('register/login'));
-
+					alert('로그인이 필요합니다.', base_url('register/login'));
 				}
-
-            } else {
-                show_404();
-            }
-
-        }
-		
+			} else {
+				show_404();
+			}
+		}
 	}
 
 
-	
 
 
 
 
 
-	public function index($idx=0)
+
+	public function index($idx = 0)
 	{
-		
-		
 	}
 
 
@@ -75,92 +66,86 @@ class ACT extends CI_Controller {
 	public function a1() //보류
 	{
 		check_pageLevel();
-		
-		
-		
-
-
-
 	}
 
-	
+
 	//건조(재고)현황
 	public function a2()
 	{
 		check_pageLevel();
 
 		$data['str'] = array(); //검색어관련
-		
+
 		$data['str']['sdate'] = $this->input->get('sdate');
 		$data['str']['edate'] = $this->input->get('edate');
 
 		$data['str']['v1'] = $this->input->get('v1');
-		$data['str']['v4'] = $this->input->get('v4');
+		$data['str']['v4'] = trim($this->input->get('v4'));
 		$data['str']['v3'] = $this->input->get('v3');
 
-		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+		$params['SDATE'] = date("Y-m-d", mktime(0, 0, 0, date("m"), 1, date("Y")));
 		$params['EDATE'] = date("Y-m-d");
-		
+
 		$params['V1'] = "";
 		$params['V4'] = "";
 		$params['V3'] = "";
 
 		$data['qstr'] = "?P";
-		
-		if(!empty($data['str']['sdate'])){
+
+		if (!empty($data['str']['sdate'])) {
 			$params['SDATE'] = $data['str']['sdate'];
-			$data['qstr'] .= "&sdate=".$data['str']['sdate'];
+			$data['qstr'] .= "&sdate=" . $data['str']['sdate'];
 		}
 
-		if(!empty($data['str']['edate'])){
+		if (!empty($data['str']['edate'])) {
 			$params['EDATE'] = $data['str']['edate'];
-			$data['qstr'] .= "&edate=".$data['str']['edate'];
+			$data['qstr'] .= "&edate=" . $data['str']['edate'];
 		}
-		
-		
-		if(!empty($data['str']['v1'])){
-			$params['V1'] = $data['str']['v1'];
-			$data['qstr'] .= "&v1=".$data['str']['v1'];
-		}
-		if(!empty($data['str']['v3'])){
-			$params['V3'] = $data['str']['v3'];
-			$data['qstr'] .= "&v3=".$data['str']['v3'];
-		}
-		if(!empty($data['str']['v4'])){
-			$params['V4'] = $data['str']['v4'];
-			$data['qstr'] .= "&v4=".$data['str']['v4'];
-		}
-		
 
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+
+		if (!empty($data['str']['v1'])) {
+			$params['V1'] = $data['str']['v1'];
+			$data['qstr'] .= "&v1=" . $data['str']['v1'];
+		}
+		if (!empty($data['str']['v3'])) {
+			$params['V3'] = $data['str']['v3'];
+			$data['qstr'] .= "&v3=" . $data['str']['v3'];
+		}
+		if (!empty($data['str']['v4'])) {
+			$params['V4'] = $data['str']['v4'];
+			$data['qstr'] .= "&v4=" . $data['str']['v4'];
+		}
+
+
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
-		
+
+
 		$data['title'] = "";
-		$data['List'] = $this->act_model->act_a2_list($params,$start,$config['per_page']);
+		$data['List'] = $this->act_model->act_a2_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->act_model->act_a2_cut($params);
 
-		
+
 
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 
 
-		
+
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
@@ -184,10 +169,9 @@ class ACT extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
+		$this->data['pagenation'] = $this->pagination->create_links();
 
-		$this->load->view('/act/a2',$data);
-
+		$this->load->view('/act/a2', $data);
 	}
 
 
@@ -201,21 +185,18 @@ class ACT extends CI_Controller {
 	{
 		check_pageLevel();
 	}
-	
+
 	/* 선별작업일지 */
 	public function an3()
 	{
 		check_pageLevel();
 		$data['title'] = "";
-		$this->load->view('/act/an3',$data); //뷰페이지 중복
+		$this->load->view('/act/an3', $data); //뷰페이지 중복
 	}
 
 	public function an4()
 	{
 		check_pageLevel();
-
-
-		
 	}
 
 	public function an5()
@@ -224,83 +205,83 @@ class ACT extends CI_Controller {
 	}
 
 
-	
+
 	/* 공정별진행현황**/
 	public function a4()
 	{
 		check_pageLevel();
-		
+
 		$data['str'] = array(); //검색어관련
-		
+
 		$data['str']['sdate'] = $this->input->get('sdate');
 		$data['str']['edate'] = $this->input->get('edate');
 
 		$data['str']['v1'] = $this->input->get('v1');
-		$data['str']['v2'] = $this->input->get('v2');
+		$data['str']['v2'] = trim($this->input->get('v2'));
 		$data['str']['v3'] = $this->input->get('v3');
 
-		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+		$params['SDATE'] = date("Y-m-d", mktime(0, 0, 0, date("m"), 1, date("Y")));
 		$params['EDATE'] = date("Y-m-d");
-		
+
 		$params['V1'] = "";
 		$params['V2'] = "";
 		$params['V3'] = "";
 
 		$data['qstr'] = "?P";
-		
-		if(!empty($data['str']['sdate'])){
+
+		if (!empty($data['str']['sdate'])) {
 			$params['SDATE'] = $data['str']['sdate'];
-			$data['qstr'] .= "&sdate=".$data['str']['sdate'];
+			$data['qstr'] .= "&sdate=" . $data['str']['sdate'];
 		}
 
-		if(!empty($data['str']['edate'])){
+		if (!empty($data['str']['edate'])) {
 			$params['EDATE'] = $data['str']['edate'];
-			$data['qstr'] .= "&edate=".$data['str']['edate'];
-		}
-		
-		
-		if(!empty($data['str']['v1'])){
-			$params['V1'] = $data['str']['v1'];
-			$data['qstr'] .= "&v1=".$data['str']['v1'];
-		}
-		if(!empty($data['str']['v2'])){
-			$params['V2'] = $data['str']['v2'];
-			$data['qstr'] .= "&v2=".$data['str']['v2'];
-		}
-		if(!empty($data['str']['v3'])){
-			$params['V3'] = $data['str']['v3'];
-			$data['qstr'] .= "&v3=".$data['str']['v3'];
+			$data['qstr'] .= "&edate=" . $data['str']['edate'];
 		}
 
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+
+		if (!empty($data['str']['v1'])) {
+			$params['V1'] = $data['str']['v1'];
+			$data['qstr'] .= "&v1=" . $data['str']['v1'];
+		}
+		if (!empty($data['str']['v2'])) {
+			$params['V2'] = $data['str']['v2'];
+			$data['qstr'] .= "&v2=" . $data['str']['v2'];
+		}
+		if (!empty($data['str']['v3'])) {
+			$params['V3'] = $data['str']['v3'];
+			$data['qstr'] .= "&v3=" . $data['str']['v3'];
+		}
+
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
-		
+
+
 		$data['title'] = "";
-		$data['List'] = $this->act_model->act_a4_list($params,$start,$config['per_page']);
+		$data['List'] = $this->act_model->act_a4_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->act_model->act_a4_cut($params);
 
-		
+
 
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 
 
-		
+
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
@@ -324,13 +305,9 @@ class ACT extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
+		$this->data['pagenation'] = $this->pagination->create_links();
 
-		$this->load->view('/act/a4',$data);
-		
-
-
-
+		$this->load->view('/act/a4', $data);
 	}
 
 
@@ -339,80 +316,80 @@ class ACT extends CI_Controller {
 	public function a5()
 	{
 		check_pageLevel();
-		
+
 		$data['str'] = array(); //검색어관련
-		
+
 		$data['str']['sdate'] = $this->input->get('sdate');
 		$data['str']['edate'] = $this->input->get('edate');
 
 		$data['str']['v1'] = $this->input->get('v1');
 		$data['str']['v2'] = $this->input->get('v2');
-		$data['str']['v3'] = $this->input->get('v3');
+		$data['str']['v3'] = trim($this->input->get('v3'));
 
-		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+		$params['SDATE'] = date("Y-m-d", mktime(0, 0, 0, date("m"), 1, date("Y")));
 		$params['EDATE'] = date("Y-m-d");
-		
+
 		$params['V1'] = "";
 		$params['V2'] = "";
 		$params['V3'] = "";
 
 		$data['qstr'] = "?P";
-		
-		if(!empty($data['str']['sdate'])){
+
+		if (!empty($data['str']['sdate'])) {
 			$params['SDATE'] = $data['str']['sdate'];
-			$data['qstr'] .= "&sdate=".$data['str']['sdate'];
+			$data['qstr'] .= "&sdate=" . $data['str']['sdate'];
 		}
 
-		if(!empty($data['str']['edate'])){
+		if (!empty($data['str']['edate'])) {
 			$params['EDATE'] = $data['str']['edate'];
-			$data['qstr'] .= "&edate=".$data['str']['edate'];
+			$data['qstr'] .= "&edate=" . $data['str']['edate'];
 		}
-		
-		
-		if(!empty($data['str']['v1'])){
+
+
+		if (!empty($data['str']['v1'])) {
 			$params['V1'] = $data['str']['v1'];
-			$data['qstr'] .= "&v1=".$data['str']['v1'];
+			$data['qstr'] .= "&v1=" . $data['str']['v1'];
 		}
-		if(!empty($data['str']['v2'])){
+		if (!empty($data['str']['v2'])) {
 			$params['V2'] = $data['str']['v2'];
-			$data['qstr'] .= "&v2=".$data['str']['v2'];
+			$data['qstr'] .= "&v2=" . $data['str']['v2'];
 		}
-		if(!empty($data['str']['v3'])){
+		if (!empty($data['str']['v3'])) {
 			$params['V3'] = $data['str']['v3'];
-			$data['qstr'] .= "&v3=".$data['str']['v3'];
+			$data['qstr'] .= "&v3=" . $data['str']['v3'];
 		}
 
 		$params['an'] = "a5";
 
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
-		
+
+
 		$data['title'] = "";
-		$data['List'] = $this->act_model->act_a5_list($params,$start,$config['per_page']);
+		$data['List'] = $this->act_model->act_a5_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->act_model->act_a5_cut($params);
 
-		
+
 
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 
 
-		
+
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
@@ -436,13 +413,9 @@ class ACT extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
+		$this->data['pagenation'] = $this->pagination->create_links();
 
-		$this->load->view('/act/a5',$data);
-		
-
-
-
+		$this->load->view('/act/a5', $data);
 	}
 
 
@@ -453,80 +426,80 @@ class ACT extends CI_Controller {
 	public function a6()
 	{
 		check_pageLevel();
-		
+
 		$data['str'] = array(); //검색어관련
-		
+
 		$data['str']['sdate'] = $this->input->get('sdate');
 		$data['str']['edate'] = $this->input->get('edate');
 
 		$data['str']['v1'] = $this->input->get('v1');
 		$data['str']['v2'] = $this->input->get('v2');
-		$data['str']['v3'] = $this->input->get('v3');
+		$data['str']['v3'] = trim($this->input->get('v3'));
 
-		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+		$params['SDATE'] = date("Y-m-d", mktime(0, 0, 0, date("m"), 1, date("Y")));
 		$params['EDATE'] = date("Y-m-d");
-		
+
 		$params['V1'] = "";
 		$params['V2'] = "";
 		$params['V3'] = "";
 
 		$data['qstr'] = "?P";
-		
-		if(!empty($data['str']['sdate'])){
+
+		if (!empty($data['str']['sdate'])) {
 			$params['SDATE'] = $data['str']['sdate'];
-			$data['qstr'] .= "&sdate=".$data['str']['sdate'];
+			$data['qstr'] .= "&sdate=" . $data['str']['sdate'];
 		}
 
-		if(!empty($data['str']['edate'])){
+		if (!empty($data['str']['edate'])) {
 			$params['EDATE'] = $data['str']['edate'];
-			$data['qstr'] .= "&edate=".$data['str']['edate'];
+			$data['qstr'] .= "&edate=" . $data['str']['edate'];
 		}
-		
-		
-		if(!empty($data['str']['v1'])){
+
+
+		if (!empty($data['str']['v1'])) {
 			$params['V1'] = $data['str']['v1'];
-			$data['qstr'] .= "&v1=".$data['str']['v1'];
+			$data['qstr'] .= "&v1=" . $data['str']['v1'];
 		}
-		if(!empty($data['str']['v2'])){
+		if (!empty($data['str']['v2'])) {
 			$params['V2'] = $data['str']['v2'];
-			$data['qstr'] .= "&v2=".$data['str']['v2'];
+			$data['qstr'] .= "&v2=" . $data['str']['v2'];
 		}
-		if(!empty($data['str']['v3'])){
+		if (!empty($data['str']['v3'])) {
 			$params['V3'] = $data['str']['v3'];
-			$data['qstr'] .= "&v3=".$data['str']['v3'];
+			$data['qstr'] .= "&v3=" . $data['str']['v3'];
 		}
 
 		$params['an'] = "a6";
 
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
-		
+
+
 		$data['title'] = "";
-		$data['List'] = $this->act_model->act_a5_list($params,$start,$config['per_page']);
+		$data['List'] = $this->act_model->act_a5_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->act_model->act_a5_cut($params);
 
-		
+
 
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 
 
-		
+
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
@@ -550,10 +523,9 @@ class ACT extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
+		$this->data['pagenation'] = $this->pagination->create_links();
 
-		$this->load->view('/act/a6',$data);
-
+		$this->load->view('/act/a6', $data);
 	}
 
 
@@ -563,9 +535,9 @@ class ACT extends CI_Controller {
 	public function a7()
 	{
 		check_pageLevel();
-		
+
 		$data['str'] = array(); //검색어관련
-		
+
 		$data['str']['sdate'] = $this->input->get('sdate');
 		$data['str']['edate'] = $this->input->get('edate');
 
@@ -573,25 +545,25 @@ class ACT extends CI_Controller {
 		//$data['str']['v2'] = $this->input->get('v2');
 		//$data['str']['v3'] = $this->input->get('v3');
 
-		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+		$params['SDATE'] = date("Y-m-d", mktime(0, 0, 0, date("m"), 1, date("Y")));
 		$params['EDATE'] = date("Y-m-d");
-		
+
 		//$params['V1'] = "";
 		//$params['V2'] = "";
 		//$params['V3'] = "";
 
 		$data['qstr'] = "?P";
-		
-		if(!empty($data['str']['sdate'])){
+
+		if (!empty($data['str']['sdate'])) {
 			$params['SDATE'] = $data['str']['sdate'];
-			$data['qstr'] .= "&sdate=".$data['str']['sdate'];
+			$data['qstr'] .= "&sdate=" . $data['str']['sdate'];
 		}
 
-		if(!empty($data['str']['edate'])){
+		if (!empty($data['str']['edate'])) {
 			$params['EDATE'] = $data['str']['edate'];
-			$data['qstr'] .= "&edate=".$data['str']['edate'];
+			$data['qstr'] .= "&edate=" . $data['str']['edate'];
 		}
-		
+
 		/*
 		if(!empty($data['str']['v1'])){
 			$params['V1'] = $data['str']['v1'];
@@ -606,35 +578,35 @@ class ACT extends CI_Controller {
 			$data['qstr'] .= "&v3=".$data['str']['v3'];
 		}*/
 
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
-		
+
+
 		$data['title'] = "";
-		$data['List'] = $this->act_model->act_a7_list($params,$start,$config['per_page']);
+		$data['List'] = $this->act_model->act_a7_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->act_model->act_a7_cut($params);
 
-		
+
 
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 
 
-		
+
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
@@ -658,98 +630,97 @@ class ACT extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
+		$this->data['pagenation'] = $this->pagination->create_links();
 
-		$this->load->view('/act/a7',$data);
-
+		$this->load->view('/act/a7', $data);
 	}
-	
+
 
 
 	/* 수주대비 출고내역 **/
 	public function an1()
 	{
 		check_pageLevel();
-		
+
 		$data['str'] = array(); //검색어관련
-		
+
 		$data['str']['sdate'] = $this->input->get('sdate');
 		$data['str']['edate'] = $this->input->get('edate');
 
-		$data['str']['v1'] = $this->input->get('v1');
+		$data['str']['v1'] = trim($this->input->get('v1'));
 		$data['str']['v2'] = $this->input->get('v2');
-		$data['str']['v3'] = $this->input->get('v3');
+		$data['str']['v3'] = trim($this->input->get('v3'));
 		$data['str']['v4'] = $this->input->get('v4');
 
-		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+		$params['SDATE'] = date("Y-m-d", mktime(0, 0, 0, date("m"), 1, date("Y")));
 		$params['EDATE'] = date("Y-m-d");
-		
+
 		$params['V1'] = "";
 		$params['V2'] = "";
 		$params['V3'] = "";
 		$params['V4'] = "";
 
 		$data['qstr'] = "?P";
-		
-		if(!empty($data['str']['sdate'])){
+
+		if (!empty($data['str']['sdate'])) {
 			$params['SDATE'] = $data['str']['sdate'];
-			$data['qstr'] .= "&sdate=".$data['str']['sdate'];
+			$data['qstr'] .= "&sdate=" . $data['str']['sdate'];
 		}
 
-		if(!empty($data['str']['edate'])){
+		if (!empty($data['str']['edate'])) {
 			$params['EDATE'] = $data['str']['edate'];
-			$data['qstr'] .= "&edate=".$data['str']['edate'];
+			$data['qstr'] .= "&edate=" . $data['str']['edate'];
 		}
-		
-		
-		if(!empty($data['str']['v1'])){
+
+
+		if (!empty($data['str']['v1'])) {
 			$params['V1'] = $data['str']['v1'];
-			$data['qstr'] .= "&v1=".$data['str']['v1'];
+			$data['qstr'] .= "&v1=" . $data['str']['v1'];
 		}
-		if(!empty($data['str']['v2'])){
+		if (!empty($data['str']['v2'])) {
 			$params['V2'] = $data['str']['v2'];
-			$data['qstr'] .= "&v2=".$data['str']['v2'];
+			$data['qstr'] .= "&v2=" . $data['str']['v2'];
 		}
-		if(!empty($data['str']['v3'])){
+		if (!empty($data['str']['v3'])) {
 			$params['V3'] = $data['str']['v3'];
-			$data['qstr'] .= "&v3=".$data['str']['v3'];
+			$data['qstr'] .= "&v3=" . $data['str']['v3'];
 		}
-		if(!empty($data['str']['v4'])){
+		if (!empty($data['str']['v4'])) {
 			$params['V4'] = $data['str']['v4'];
-			$data['qstr'] .= "&v4=".$data['str']['v4'];
+			$data['qstr'] .= "&v4=" . $data['str']['v4'];
 		}
 
 		$params['an'] = "an1";
 
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
-		
+
+
 		$data['title'] = "";
-		$data['List'] = $this->act_model->act_a5_list($params,$start,$config['per_page']);
+		$data['List'] = $this->act_model->act_a5_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->act_model->act_a5_cut($params);
 
-		
+
 
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 
 
-		
+
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
@@ -773,19 +744,18 @@ class ACT extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
+		$this->data['pagenation'] = $this->pagination->create_links();
 
-		$this->load->view('/act/an1',$data);
-
+		$this->load->view('/act/an1', $data);
 	}
 
 
-	
 
 
 
 
-	
+
+
 
 
 
@@ -796,25 +766,25 @@ class ACT extends CI_Controller {
 		$data['HIDX'] = $this->input->post("hidx");
 		$data['NDATE'] = $this->input->post("date");
 		//alert(($data['NDATE']=="")?"no DATE":$data['NDATE']);
-		
 
-		if($this->input->post("mode") == "mod"){
+
+		if ($this->input->post("mode") == "mod") {
 			//$data['data'] = $this->pln_model->get_pln_info($this->input->post("IDX"));
 		}
-		
-		if($this->input->post("type") == "a9" || $this->input->post("type") == "a9_1"){
+
+		if ($this->input->post("type") == "a9" || $this->input->post("type") == "a9_1") {
 			$data['title'] = "정형실적등록";
-			
-			if($this->input->post("type") == "a9_1"){
+
+			if ($this->input->post("type") == "a9_1") {
 				$data['BK'] = 1;
-				$data['title'] = $data['title']."-BK";
-				return $this->load->view('/ajax/ajax_items_trans_a9_bk_form',$data);
+				$data['title'] = $data['title'] . "-BK";
+				return $this->load->view('/ajax/ajax_items_trans_a9_bk_form', $data);
 			}
-			return $this->load->view('/ajax/ajax_items_trans_a9_form',$data);
-		}else{
+			return $this->load->view('/ajax/ajax_items_trans_a9_form', $data);
+		} else {
 			$data['title'] = "성형실적등록";
 			$data['component'] = $this->act_model->get_component_stock();
-			return $this->load->view('/ajax/ajax_items_trans_form',$data);
+			return $this->load->view('/ajax/ajax_items_trans_form', $data);
 		}
 	}
 
@@ -824,7 +794,7 @@ class ACT extends CI_Controller {
 		$params['s1'] = $this->input->post("s1");
 		$params['s2'] = $this->input->post("s2");
 		$params['type'] = $this->input->post("type");
-		
+
 		$data = $this->act_model->ajax_itemv_pop($params);
 		echo json_encode($data);
 	}
@@ -832,11 +802,11 @@ class ACT extends CI_Controller {
 
 	public function ajax_act_items_trans_insert()
 	{
-		
-		foreach($this->input->post("QTY") as $key => $qty){
-			if($qty == ""){
+
+		foreach ($this->input->post("QTY") as $key => $qty) {
+			if ($qty == "") {
 				continue;
-			}else{
+			} else {
 				$params['QTY'][$key] = $qty;
 				$params['ITEM_IDX'][$key] = $this->input->post("ITEM_IDX")[$key];
 				//$params['ITEM_NM'][$key] = $this->input->post("ITEM_NM")[$key];
@@ -848,13 +818,13 @@ class ACT extends CI_Controller {
 				//$params['TRANS_DATE'][$key] = $this->input->post("TRANS_DATE")[$key]; 이거
 			}
 		}
-		
+
 		$num = $this->act_model->ajax_item_trans_insert($params);
-		
-		if($num > 0){
+
+		if ($num > 0) {
 			$data['status'] = "ok";
 			$data['msg'] = "실적이 등록되었습니다.";
-		}else{
+		} else {
 			$data['status'] = "";
 			$data['msg'] = "실적 등록에 실패했습니다. 관리자에게 문의하세요";
 		}
@@ -865,11 +835,11 @@ class ACT extends CI_Controller {
 
 	public function ajax_act_a9_items_trans_insert()
 	{
-		
-		foreach($this->input->post("QTY") as $key => $qty){
-			if($qty == ""){
+
+		foreach ($this->input->post("QTY") as $key => $qty) {
+			if ($qty == "") {
 				continue;
-			}else{
+			} else {
 				$params['QTY'][$key] = $qty;
 				$params['ITEM_IDX'][$key] = $this->input->post("ITEM_IDX")[$key];
 				//$params['ITEM_NM'][$key] = $this->input->post("ITEM_NM")[$key];
@@ -882,13 +852,13 @@ class ACT extends CI_Controller {
 		}
 
 		$params['BK'] = $this->input->post("BK");
-		
+
 		$num = $this->act_model->ajax_act_a9_items_trans_insert($params);
-		
-		if($num > 0){
+
+		if ($num > 0) {
 			$data['status'] = "ok";
 			$data['msg'] = "실적이 등록되었습니다.";
-		}else{
+		} else {
 			$data['status'] = "";
 			$data['msg'] = "실적 등록에 실패했습니다. 관리자에게 문의하세요";
 		}
@@ -901,42 +871,40 @@ class ACT extends CI_Controller {
 	{
 		$idx = $this->input->get("idx");
 		$num = $this->act_model->ajax_del_items_trans($idx);
-		if($num > 0){
+		if ($num > 0) {
 			$data['status'] = "ok";
 			$data['msg'] = "삭제되었습니다.";
-		}else{
+		} else {
 			$data['status'] = "no";
 			$data['msg'] = "삭제에 실패했습니다. 관리자에게 문의하세요";
 		}
 
 		echo json_encode($data);
-
 	}
 
 	public function ajax_del_items_trans_a9()
 	{
 		$idx = $this->input->post("idx");
 		$num = $this->act_model->ajax_del_items_trans_a9($idx);
-		if($num > 0){
+		if ($num > 0) {
 			$data['status'] = "ok";
 			$data['msg'] = "삭제되었습니다.";
-		}else{
+		} else {
 			$data['status'] = "no";
 			$data['msg'] = "삭제에 실패했습니다. 관리자에게 문의하세요";
 		}
 
 		echo json_encode($data);
-
 	}
 
 	public function ajax_del_items_trans_bk_a9()
 	{
 		$idx = $this->input->post("idx");
 		$num = $this->act_model->ajax_del_items_trans_bk_a9($idx);
-		if($num > 0){
+		if ($num > 0) {
 			$data['status'] = "ok";
 			$data['msg'] = "삭제되었습니다.";
-		}else{
+		} else {
 			$data['status'] = "no";
 			$data['msg'] = "삭제에 실패했습니다. 관리자에게 문의하세요";
 		}
@@ -947,10 +915,10 @@ class ACT extends CI_Controller {
 
 	public function ajax_act_a10_insert()
 	{
-		foreach($this->input->post("IN_QTY") as $key => $qty){
-			if($qty == ""){
+		foreach ($this->input->post("IN_QTY") as $key => $qty) {
+			if ($qty == "") {
 				continue;
-			}else{
+			} else {
 				$params['AD_IDX'][$key] = $this->input->post("AD_IDX")[$key];
 				$params['IN_QTY'][$key] = $qty;
 				$params['ACT_IDX'][$key] = $this->input->post("ACT_IDX")[$key];
@@ -959,13 +927,13 @@ class ACT extends CI_Controller {
 				$params['SERIESD_IDX'][$key] = $this->input->post("SERIESD_IDX")[$key];
 			}
 		}
-		
+
 		$num = $this->act_model->ajax_act_a10_insert($params);
-		
-		if($num > 0){
+
+		if ($num > 0) {
 			$data['status'] = "ok";
 			$data['msg'] = "실적이 등록되었습니다.";
-		}else{
+		} else {
 			$data['status'] = "";
 			$data['msg'] = "실적 등록에 실패했습니다. 관리자에게 문의하세요";
 		}
@@ -980,19 +948,18 @@ class ACT extends CI_Controller {
 		$param['org'] = $this->input->post("org");
 		$param['qty'] = $this->input->post("qty");
 		$param['idx'] = $this->input->post("idx");
-		
+
 		$num = $this->act_model->ajax_a10_1_qty($param);
 
-		if($num > 0){
+		if ($num > 0) {
 			$data['status'] = "ok";
 			$data['msg'] = "수량이 변경되었습니다.";
-		}else{
+		} else {
 			$data['status'] = "error";
 			$data['msg'] = "수량 변경에 실패했습니다. 관리자에게 문의하세요";
 		}
 
 		echo json_encode($data);
-
 	}
 
 
@@ -1000,10 +967,10 @@ class ACT extends CI_Controller {
 	{
 		$idx = $this->input->post("idx");
 		$num = $this->act_model->ajax_del_a10_1($idx);
-		if($num > 0){
+		if ($num > 0) {
 			$data['status'] = "ok";
 			$data['msg'] = "삭제되었습니다.";
-		}else{
+		} else {
 			$data['status'] = "no";
 			$data['msg'] = "삭제에 실패했습니다. 관리자에게 문의하세요";
 		}
@@ -1015,7 +982,7 @@ class ACT extends CI_Controller {
 
 	public function form_a11_update()
 	{
-		
+
 		$param['SB_DATE'] = $this->input->post("A1");
 		$param['1_QTY']   = $this->input->post("A2");
 		$param['2_QTY']	  = $this->input->post("A3");
@@ -1023,10 +990,10 @@ class ACT extends CI_Controller {
 		$param['4_QTY']   = $this->input->post("A5");
 		$param['REMARK']  = $this->input->post("A6");
 		$param['IDX']     = $this->input->post("OIDX");
-		
-		
-		
-		if($_FILES['setfile']['name'][0] != ""){
+
+
+
+		if ($_FILES['setfile']['name'][0] != "") {
 
 			$config['upload_path']          = './uploads/';
 			$config['allowed_types']        = 'gif|jpg|png';
@@ -1039,40 +1006,32 @@ class ACT extends CI_Controller {
 
 			$this->load->library('upload', $config);
 
-			foreach($_FILES['setfile']['name'] as $i=>$file){
+			foreach ($_FILES['setfile']['name'] as $i => $file) {
 
 				$_FILES['userfile']['name']     = $file;
 				$_FILES['userfile']['type']     = $_FILES['setfile']['type'][$i];
 				$_FILES['userfile']['tmp_name'] = $_FILES['setfile']['tmp_name'][$i];
 				$_FILES['userfile']['error']    = $_FILES['setfile']['error'][$i];
 				$_FILES['userfile']['size']     = $_FILES['setfile']['size'][$i];
-				
+
 				$this->upload->initialize($config);
-				
-				if ( ! $this->upload->do_upload("userfile"))
-				{
-						$error = array('error' => $this->upload->display_errors());
-						
-						//$this->load->view('upload_form', $error);
-				}
-				else
-				{
-						$data = $this->upload->data();
-						$param['IMG'][$i] = $data['file_name'];
 
+				if (!$this->upload->do_upload("userfile")) {
+					$error = array('error' => $this->upload->display_errors());
+
+					//$this->load->view('upload_form', $error);
+				} else {
+					$data = $this->upload->data();
+					$param['IMG'][$i] = $data['file_name'];
 				}
-				
 			}
-
 		}
-		
+
 		$data =	$this->act_model->form_a11_update($param);
-		
-		if($data > 0){
-			alert("선별작업실적이 등록되었습니다.",base_url('ACT2/a11/'.$param['IDX']));
-		}
 
-		
+		if ($data > 0) {
+			alert("선별작업실적이 등록되었습니다.", base_url('ACT2/a11/' . $param['IDX']));
+		}
 	}
 
 
@@ -1083,17 +1042,16 @@ class ACT extends CI_Controller {
 		$param['QTY2'] = $this->input->post("qty2");
 		$param['QTY3'] = $this->input->post("qty3");
 		$param['QTY4'] = $this->input->post("qty4");
-		
+
 
 		$data = $this->act_model->ajax_a11_1_update($param);
 		echo $data;
-
 	}
 
 
 	public function ajax_a11_1_delete()
 	{
-		
+
 		$data = $this->act_model->ajax_a11_1_delete($this->input->post("idx"));
 		echo $data;
 	}
@@ -1103,11 +1061,10 @@ class ACT extends CI_Controller {
 	{
 		$param['IDX'] = $this->input->post("idx");
 		$param['VX']  = $this->input->post("vx");
-		
+
 		$data = $this->act_model->ajax_an3_listupdate($param);
-		
+
 		echo $data;
-		
 	}
 
 
@@ -1119,11 +1076,10 @@ class ACT extends CI_Controller {
 		$param['QTY'] = $this->input->post("stock");
 		$param['REMARK'] = $this->input->post("cont");
 
-		
+
 		$data = $this->act_model->ajax_an4_listupdate($param);
-		
+
 		echo $data;
-		
 	}
 
 
@@ -1131,15 +1087,15 @@ class ACT extends CI_Controller {
 	{
 		$params = array();
 		$data['List'] = $this->act_model->print_actpln($params);
-		
-		
+
+
 
 		//이미지호출
 		$data['IMAGE'] = $this->act_model->get_inventory_img();
-		
 
 
-		$this->load->view('/act/ajax_print',$data);
+
+		$this->load->view('/act/ajax_print', $data);
 	}
 
 	public function ajax_a12_ksupdate()
@@ -1150,12 +1106,9 @@ class ACT extends CI_Controller {
 		$param['KIND'] = $this->input->post("kind");
 		$param['GJ_GB'] = $this->input->post("gjgb");
 
-		
+
 		$data = $this->act_model->ajax_a12_ksupdate($param);
-		
+
 		echo $data;
-		
 	}
-
-
 }

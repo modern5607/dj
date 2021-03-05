@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class SYS extends CI_Controller {
+class SYS extends CI_Controller
+{
 
 	public $data;
 
@@ -10,123 +11,115 @@ class SYS extends CI_Controller {
 		parent::__construct();
 
 		$this->data['pos'] = $this->uri->segment(1);
-        $this->data['subpos'] = $this->uri->segment(2);
-		
+		$this->data['subpos'] = $this->uri->segment(2);
+
 		$this->load->helper('test'); //삭제금지 페이지별 권한체크
 		$this->load->model(array('sys_model'));
-		
-		if(!empty($this->config->item('site_title')[$this->data['pos']][$this->data['subpos']])){
+
+		if (!empty($this->config->item('site_title')[$this->data['pos']][$this->data['subpos']])) {
 			$this->data['siteTitle'] = $this->config->item('site_title')[$this->data['pos']][$this->data['subpos']];
 		}
-
-		
-
 	}
 
 	public function _remap($method, $params = array())
 	{
-		if($this->input->is_ajax_request()){
-            if( method_exists($this, $method) ){
-                call_user_func_array(array($this,$method), $params);
-            }
-        }else{ //ajax가 아니면
-			
+		if ($this->input->is_ajax_request()) {
+			if (method_exists($this, $method)) {
+				call_user_func_array(array($this, $method), $params);
+			}
+		} else { //ajax가 아니면
+
 			if (method_exists($this, $method)) {
 
 				$user_id = $this->session->userdata('user_id');
 				$this->data['member_name'] = $this->session->userdata('user_name');
 
-				
-				
-				
-				if(isset($user_id) && $user_id != ""){
-					
-					$this->load->view('/layout/header',$this->data);
-					call_user_func_array(array($this,$method), $params);
+
+
+
+				if (isset($user_id) && $user_id != "") {
+
+					$this->load->view('/layout/header', $this->data);
+					call_user_func_array(array($this, $method), $params);
 					$this->load->view('/layout/tail');
+				} else {
 
-				}else{
-
-					alert('로그인이 필요합니다.',base_url('register/login'));
-
+					alert('로그인이 필요합니다.', base_url('register/login'));
 				}
-
-            } else {
-                show_404();
-            }
-
-        }
-		
+			} else {
+				show_404();
+			}
+		}
 	}
-	
-	
 
 
-	public function menu() 
+
+
+	public function menu()
 	{
 		check_pageLevel();
 
 		$data['list'] = $this->sys_model->get_menu_list();
-		$this->load->view('/sys/menu_write',$data);
+		$this->load->view('/sys/menu_write', $data);
 	}
 
-	public function user() 
+	public function user()
 	{
 		check_pageLevel();
 
 		$data['str'] = array(); //검색어관련
-		$data['str']['mid'] = $this->input->get('mid'); //MEMBER ID
-		$data['str']['mname'] = $this->input->get('mname'); //MEMBER ID
+		$data['str']['mid'] = trim($this->input->get('mid')); //MEMBER ID
+		$data['str']['mname'] = trim($this->input->get('mname')); //MEMBER ID
 		$data['str']['level'] = $this->input->get('level'); //LEVEL
-		
+
 		$params['ID'] = "";
 		$params['NAME'] = "";
 		$params['LEVEL'] = "";
 
 		$data['qstr'] = "?P";
-		if(!empty($data['str']['mid'])){
+		if (!empty($data['str']['mid'])) {
 			$params['ID'] = $data['str']['mid'];
-			$data['qstr'] .= "&mid=".$data['str']['mid'];
+			$data['qstr'] .= "&mid=" . $data['str']['mid'];
 		}
-		if(!empty($data['str']['mname'])){
+		if (!empty($data['str']['mname'])) {
 			$params['NAME'] = $data['str']['mname'];
-			$data['qstr'] .= "&mname=".$data['str']['mname'];
+			$data['qstr'] .= "&mname=" . $data['str']['mname'];
 		}
-		if(!empty($data['str']['level'])){
+		if (!empty($data['str']['level'])) {
 			$params['LEVEL'] = $data['str']['level'];
-			$data['qstr'] .= "&level=".$data['str']['level'];
+			$data['qstr'] .= "&level=" . $data['str']['level'];
 		}
-		
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-        //$start = $config['per_page'] * ($pageNum - 1);
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+		//$start = $config['per_page'] * ($pageNum - 1);
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
+
 
 		$data['title'] = "사용자등록";
 		$user_id = $this->session->userdata('user_id');
 		$this->data['userName'] = $this->session->userdata('user_name');
 
-		
-		$data['userList'] = $this->sys_model->get_user_list($params,$start,$config['per_page']);
+
+		$data['userList'] = $this->sys_model->get_user_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->sys_model->get_user_cut($params);
-		
-		
+
+
 
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
@@ -150,68 +143,68 @@ class SYS extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
-		$this->load->view('/sys/user',$data);
+		$this->data['pagenation'] = $this->pagination->create_links();
+		$this->load->view('/sys/user', $data);
 	}
 
-	public function level() 
+	public function level()
 	{
 		check_pageLevel();
-		
+
 		$data['str'] = array(); //검색어관련
-		$data['str']['mid'] = $this->input->get('mid'); //MEMBER ID
-		$data['str']['mname'] = $this->input->get('mname'); //MEMBER ID
+		$data['str']['mid'] = trim($this->input->get('mid')); //MEMBER ID
+		$data['str']['mname'] = trim($this->input->get('mname')); //MEMBER ID
 		$data['str']['level'] = $this->input->get('level'); //LEVEL
-		
+
 		$params['ID'] = "";
 		$params['NAME'] = "";
 		$params['LEVEL'] = "";
 
 		$data['qstr'] = "?P";
-		if(!empty($data['str']['mid'])){
+		if (!empty($data['str']['mid'])) {
 			$params['ID'] = $data['str']['mid'];
-			$data['qstr'] .= "&mid=".$data['str']['mid'];
+			$data['qstr'] .= "&mid=" . $data['str']['mid'];
 		}
-		if(!empty($data['str']['mname'])){
+		if (!empty($data['str']['mname'])) {
 			$params['NAME'] = $data['str']['mname'];
-			$data['qstr'] .= "&mname=".$data['str']['mname'];
+			$data['qstr'] .= "&mname=" . $data['str']['mname'];
 		}
-		if(!empty($data['str']['level'])){
+		if (!empty($data['str']['level'])) {
 			$params['LEVEL'] = $data['str']['level'];
-			$data['qstr'] .= "&level=".$data['str']['level'];
+			$data['qstr'] .= "&level=" . $data['str']['level'];
 		}
-		
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
-		
+
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-        //$start = $config['per_page'] * ($pageNum - 1);
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+		//$start = $config['per_page'] * ($pageNum - 1);
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
+
 
 		$data['title'] = "사용자 권한등록";
 		$user_id = $this->session->userdata('user_id');
 		$this->data['userName'] = $this->session->userdata('user_name');
 
-		
-		$data['userList'] = $this->sys_model->get_user_list($params,$start,$config['per_page']);
+
+		$data['userList'] = $this->sys_model->get_user_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->sys_model->get_user_cut($params);
-		
-		
+
+
 
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
@@ -235,44 +228,44 @@ class SYS extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
+		$this->data['pagenation'] = $this->pagination->create_links();
 
-		$this->load->view('/sys/level',$data);
+		$this->load->view('/sys/level', $data);
 	}
 
-	public function version() 
+	public function version()
 	{
 		check_pageLevel();
 
 
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
-		
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-        //$start = $config['per_page'] * ($pageNum - 1);
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+		//$start = $config['per_page'] * ($pageNum - 1);
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
 
 
 
 
-		$data['verList'] = $this->sys_model->get_ver_list($start,$config['per_page']);
+		$data['verList'] = $this->sys_model->get_ver_list($start, $config['per_page']);
 
 		$this->data['cnt'] = $this->sys_model->get_ver_cut();
 
-		
+
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
@@ -296,9 +289,9 @@ class SYS extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
+		$this->data['pagenation'] = $this->pagination->create_links();
 
-		$this->load->view('/sys/version',$data);
+		$this->load->view('/sys/version', $data);
 	}
 
 
@@ -306,11 +299,11 @@ class SYS extends CI_Controller {
 	public function member_formUpdate()
 	{
 		$IDX = "";
-		$dateTime = date("Y-m-d H:i:s",time());
-		if(!empty($this->input->post("mod"))){ //수정인경우
-			
+		$dateTime = date("Y-m-d H:i:s", time());
+		if (!empty($this->input->post("mod"))) { //수정인경우
+
 			$params = array(
-				
+
 				'NAME'     => trim($this->input->post("NAME")),
 				'NO'       => trim($this->input->post("NO")),
 				'FIRSTDAY' => trim($this->input->post("FIRSTDAY")),
@@ -331,18 +324,17 @@ class SYS extends CI_Controller {
 				'EMAIL'    => trim($this->input->post("EMAIL")),
 				'ADDR2'    => trim($this->input->post("ADDR2")),
 				'MARRY'    => trim($this->input->post("MARRY")),
-				'UPDATE_ID'=> $this->session->userdata('user_name'),
+				'UPDATE_ID' => $this->session->userdata('user_name'),
 				'UPDATE_DATE' => $dateTime
 			);
-			
-			if(!empty($this->input->post("PWD"))){
-				$params['PWD'] = password_hash(trim($this->input->post("PWD")),PASSWORD_BCRYPT);
+
+			if (!empty($this->input->post("PWD"))) {
+				$params['PWD'] = password_hash(trim($this->input->post("PWD")), PASSWORD_BCRYPT);
 			}
 
 			$IDX = $this->input->post("IDX");
 			$text = "수정";
-		
-		}else{
+		} else {
 			$params = array(
 				'ID'       => trim($this->input->post("ID")),
 				'PWD'      => trim($this->input->post("PWD")),
@@ -366,21 +358,20 @@ class SYS extends CI_Controller {
 				'EMAIL'    => trim($this->input->post("EMAIL")),
 				'ADDR2'    => trim($this->input->post("ADDR2")),
 				'MARRY'    => trim($this->input->post("MARRY")),
-				'PWD'      => password_hash(trim($this->input->post("PWD")),PASSWORD_BCRYPT),
+				'PWD'      => password_hash(trim($this->input->post("PWD")), PASSWORD_BCRYPT),
 				'INSERT_ID' => $this->session->userdata('user_name'),
 				'INSERT_DATE' => $dateTime
 			);
 			$text = "등록";
 		}
-		
-		
 
-		$data = $this->sys_model->member_formupdate($params,$IDX);
-		
-		if($data != ""){
-			alert($text."되었습니다",base_url('SYS/user')."/".$data);
+
+
+		$data = $this->sys_model->member_formupdate($params, $IDX);
+
+		if ($data != "") {
+			alert($text . "되었습니다", base_url('SYS/user') . "/" . $data);
 		}
-
 	}
 
 
@@ -399,41 +390,41 @@ class SYS extends CI_Controller {
 			'LEVEL' => $this->input->post("LEVEL"),
 			'USE_YN' => $this->input->post("USE_YN"),
 			'INSERT_ID' => $this->session->userdata('user_name'),
-			'INSERT_DATE' => date("Y-m-d H:i:s",time())
+			'INSERT_DATE' => date("Y-m-d H:i:s", time())
 		);
 
 		$text = "등록";
 
-		if(!empty($mode)){
+		if (!empty($mode)) {
 			unset($params['INSERT_ID']);
 			unset($params['INSERT_DATE']);
 			$params['UPDATE_ID'] = $this->session->userdata('user_name');
-			$params['UPDATE_DATE'] = date("Y-m-d H:i:s",time());
+			$params['UPDATE_DATE'] = date("Y-m-d H:i:s", time());
 			$text = "수정";
 		}
 
-		$data = $this->sys_model->set_menu_insert($params,$mode);
-		if($data > 0){
-			alert('메뉴가 '.$text.'되었습니다.',base_url('SYS/menu'));
+		$data = $this->sys_model->set_menu_insert($params, $mode);
+		if ($data > 0) {
+			alert('메뉴가 ' . $text . '되었습니다.', base_url('SYS/menu'));
 		}
 	}
-	
+
 
 
 	public function upload_ver_form()
 	{
 		date_default_timezone_set('Asia/Seoul');
-		
+
 		$MIDX = $this->input->post("MIDX");
 		$param['VER_NO'] = $this->input->post("VER_NO");
 		$param['VER_REMARK'] = $this->input->post("VER_REMARK");
 		$param['INSERT_ID'] = $this->session->userdata('user_id');
-		$param['INSERT_DATE'] = date("Y-m-d H:i:s",time());
-		
-		$data = $this->sys_model->upload_ver_form($param,$MIDX);
-		
-		if($data > 0){
-			alert('등록되었습니다',base_url('SYS/version'));
+		$param['INSERT_DATE'] = date("Y-m-d H:i:s", time());
+
+		$data = $this->sys_model->upload_ver_form($param, $MIDX);
+
+		if ($data > 0) {
+			alert('등록되었습니다', base_url('SYS/version'));
 		}
 	}
 
@@ -446,11 +437,11 @@ class SYS extends CI_Controller {
 		$idx  = $this->input->post("idx");
 
 		$data = array();
-		if(!empty($idx)){
+		if (!empty($idx)) {
 			$data['memInfo'] = $this->sys_model->get_member_info($idx);
 		}
-		
-		$this->load->view('/sys/ajax_memberform',$data);
+
+		$this->load->view('/sys/ajax_memberform', $data);
 	}
 
 
@@ -458,10 +449,9 @@ class SYS extends CI_Controller {
 	{
 		$param['idx'] = $this->input->post('idx');
 		$param['level'] = $this->input->post('sqty');
-		
+
 		$data = $this->sys_model->ajax_savelevel_update($param);
 		echo $data;
-
 	}
 
 	public function delete_ver_form()
@@ -481,7 +471,7 @@ class SYS extends CI_Controller {
 
 
 
-	public function userlog($idx="")
+	public function userlog($idx = "")
 	{
 		check_pageLevel();
 
@@ -490,50 +480,50 @@ class SYS extends CI_Controller {
 		$data['str']['mid'] = $this->input->get('mid'); //MEMBER ID
 
 		$params['ID'] = "";
-		$params['LOGIN'] ="";
+		$params['LOGIN'] = "";
 
 
 		$data['qstr'] = "?P";
-		if(!empty($data['str']['login'])){
+		if (!empty($data['str']['login'])) {
 			$params['LOGIN'] = $data['str']['login'];
-			$data['qstr'] .= "&login=".$data['str']['login'];
+			$data['qstr'] .= "&login=" . $data['str']['login'];
 		}
-		if(!empty($data['str']['mid'])){
+		if (!empty($data['str']['mid'])) {
 			$params['ID'] = $data['str']['mid'];
-			$data['qstr'] .= "&mid=".$data['str']['mid'];
+			$data['qstr'] .= "&mid=" . $data['str']['mid'];
 		}
 
 
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-        //$start = $config['per_page'] * ($pageNum - 1);
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+		//$start = $config['per_page'] * ($pageNum - 1);
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
+
 
 		$data['title'] = "사용자 접속관리";
 		$user_id = $this->session->userdata('user_id');
 		$this->data['userName'] = $this->session->userdata('user_name');
 
-		
-		$data['userlog'] = $this->sys_model->get_userlog_list($params,$start,$config['per_page']);
+
+		$data['userlog'] = $this->sys_model->get_userlog_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->sys_model->get_userlog_cut($params);
-		
-		
+
+
 
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
@@ -557,11 +547,10 @@ class SYS extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
+		$this->data['pagenation'] = $this->pagination->create_links();
 
 
-		
-		$this->load->view('/sys/userlog',$data);
+
+		$this->load->view('/sys/userlog', $data);
 	}
-
 }

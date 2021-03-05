@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class AMT extends CI_Controller {
+class AMT extends CI_Controller
+{
 
 	public $data;
 
@@ -10,85 +11,75 @@ class AMT extends CI_Controller {
 		parent::__construct();
 
 		$this->data['pos'] = $this->uri->segment(1);
-        $this->data['subpos'] = $this->uri->segment(2);
-		
-		$this->load->helper('test');
-		$this->load->model(array('pln_model','main_model','amt_model', 'act_model'));
+		$this->data['subpos'] = $this->uri->segment(2);
 
-		if(!empty($this->config->item('site_title')[$this->data['pos']][$this->data['subpos']])){
+		$this->load->helper('test');
+		$this->load->model(array('pln_model', 'main_model', 'amt_model', 'act_model'));
+
+		if (!empty($this->config->item('site_title')[$this->data['pos']][$this->data['subpos']])) {
 			$this->data['siteTitle'] = $this->config->item('site_title')[$this->data['pos']][$this->data['subpos']];
 		}
-
-		
-
 	}
 
 	public function _remap($method, $params = array())
 	{
-		if($this->input->is_ajax_request()){
-            if( method_exists($this, $method) ){
-                call_user_func_array(array($this,$method), $params);
-            }
-        }else{ //ajax가 아니면
-			
+		if ($this->input->is_ajax_request()) {
+			if (method_exists($this, $method)) {
+				call_user_func_array(array($this, $method), $params);
+			}
+		} else { //ajax가 아니면
+
 			if (method_exists($this, $method)) {
 
 				$user_id = $this->session->userdata('user_id');
 				$this->data['member_name'] = $this->session->userdata('user_name');
 
-				if(isset($user_id) && $user_id != ""){
-					
-					$this->load->view('/layout/header',$this->data);
-					call_user_func_array(array($this,$method), $params);
+				if (isset($user_id) && $user_id != "") {
+
+					$this->load->view('/layout/header', $this->data);
+					call_user_func_array(array($this, $method), $params);
 					$this->load->view('/layout/tail');
+				} else {
 
-				}else{
-
-					alert('로그인이 필요합니다.',base_url('register/login'));
-
+					alert('로그인이 필요합니다.', base_url('register/login'));
 				}
-
-            } else {
-                show_404();
-            }
-
-        }
-		
+			} else {
+				show_404();
+			}
+		}
 	}
 
 
-	
 
 
 
 
 
-	public function index($idx=0)
+
+	public function index($idx = 0)
 	{
-		
-		
 	}
 
 
-	
+
 	/* 완제품재고내역 **/
 	public function am1()
 	{
 		check_pageLevel();
-		
+
 		$data['str'] = array(); //검색어관련
-		
+
 		$data['str']['sdate'] = $this->input->get('sdate');
 		$data['str']['edate'] = $this->input->get('edate');
 
-		$data['str']['v1'] = $this->input->get('v1');
-		$data['str']['v2'] = $this->input->get('v2');
-		$data['str']['v3'] = $this->input->get('v3');
-		$data['str']['v4'] = $this->input->get('v4');
+		$data['str']['v1'] = trim($this->input->get('v1'));
+		$data['str']['v2'] = trim($this->input->get('v2'));
+		$data['str']['v3'] = trim($this->input->get('v3'));
+		$data['str']['v4'] = trim($this->input->get('v4'));
 
-		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+		$params['SDATE'] = date("Y-m-d", mktime(0, 0, 0, date("m"), 1, date("Y")));
 		$params['EDATE'] = date("Y-m-d");
-		
+
 		$params['V1'] = "";
 		$params['V2'] = "";
 		$params['V3'] = "";
@@ -96,64 +87,64 @@ class AMT extends CI_Controller {
 		$params['AM1'] = "OK";
 
 		$data['qstr'] = "?P";
-		
-		if(!empty($data['str']['sdate'])){
+
+		if (!empty($data['str']['sdate'])) {
 			$params['SDATE'] = $data['str']['sdate'];
-			$data['qstr'] .= "&sdate=".$data['str']['sdate'];
+			$data['qstr'] .= "&sdate=" . $data['str']['sdate'];
 		}
 
-		if(!empty($data['str']['edate'])){
+		if (!empty($data['str']['edate'])) {
 			$params['EDATE'] = $data['str']['edate'];
-			$data['qstr'] .= "&edate=".$data['str']['edate'];
-		}
-		
-		
-		if(!empty($data['str']['v1'])){
-			$params['V1'] = $data['str']['v1'];
-			$data['qstr'] .= "&v1=".$data['str']['v1'];
-		}
-		if(!empty($data['str']['v2'])){
-			$params['V2'] = $data['str']['v2'];
-			$data['qstr'] .= "&v2=".$data['str']['v2'];
-		}
-		if(!empty($data['str']['v3'])){
-			$params['V3'] = $data['str']['v3'];
-			$data['qstr'] .= "&v3=".$data['str']['v3'];
-		}
-		if(!empty($data['str']['v4'])){
-			$params['V4'] = $data['str']['v4'];
-			$data['qstr'] .= "&v4=".$data['str']['v4'];
+			$data['qstr'] .= "&edate=" . $data['str']['edate'];
 		}
 
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+
+		if (!empty($data['str']['v1'])) {
+			$params['V1'] = $data['str']['v1'];
+			$data['qstr'] .= "&v1=" . $data['str']['v1'];
+		}
+		if (!empty($data['str']['v2'])) {
+			$params['V2'] = $data['str']['v2'];
+			$data['qstr'] .= "&v2=" . $data['str']['v2'];
+		}
+		if (!empty($data['str']['v3'])) {
+			$params['V3'] = $data['str']['v3'];
+			$data['qstr'] .= "&v3=" . $data['str']['v3'];
+		}
+		if (!empty($data['str']['v4'])) {
+			$params['V4'] = $data['str']['v4'];
+			$data['qstr'] .= "&v4=" . $data['str']['v4'];
+		}
+
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
-		
+
+
 		$data['title'] = "";
-		$data['List'] = $this->act_model->act_an2_list($params,$start,$config['per_page']);
+		$data['List'] = $this->act_model->act_an2_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->act_model->act_an2_cut($params);
 
-		
+
 
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 
 
-		
+
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
@@ -177,10 +168,9 @@ class AMT extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
+		$this->data['pagenation'] = $this->pagination->create_links();
 
-		$this->load->view('/act/an2',$data);
-
+		$this->load->view('/act/an2', $data);
 	}
 
 
@@ -188,9 +178,9 @@ class AMT extends CI_Controller {
 	public function am2()
 	{
 		check_pageLevel();
-		
+
 		$data['str'] = array(); //검색어관련
-		
+
 		$data['str']['sdate'] = $this->input->get('sdate');
 		$data['str']['edate'] = $this->input->get('edate');
 
@@ -199,77 +189,77 @@ class AMT extends CI_Controller {
 		$data['str']['v3'] = $this->input->get('v3');
 		$data['str']['v4'] = $this->input->get('v4');
 
-		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+		$params['SDATE'] = date("Y-m-d", mktime(0, 0, 0, date("m"), 1, date("Y")));
 		$params['EDATE'] = date("Y-m-d");
-		
+
 		$params['V1'] = "";
 		$params['V2'] = "";
 		$params['V3'] = "";
 		$params['V4'] = "";
 
 		$data['qstr'] = "?P";
-		
-		if(!empty($data['str']['sdate'])){
+
+		if (!empty($data['str']['sdate'])) {
 			$params['SDATE'] = $data['str']['sdate'];
-			$data['qstr'] .= "&sdate=".$data['str']['sdate'];
+			$data['qstr'] .= "&sdate=" . $data['str']['sdate'];
 		}
 
-		if(!empty($data['str']['edate'])){
+		if (!empty($data['str']['edate'])) {
 			$params['EDATE'] = $data['str']['edate'];
-			$data['qstr'] .= "&edate=".$data['str']['edate'];
+			$data['qstr'] .= "&edate=" . $data['str']['edate'];
 		}
-		
-		
-		if(!empty($data['str']['v1'])){
+
+
+		if (!empty($data['str']['v1'])) {
 			$params['V1'] = $data['str']['v1'];
-			$data['qstr'] .= "&v1=".$data['str']['v1'];
+			$data['qstr'] .= "&v1=" . $data['str']['v1'];
 		}
-		if(!empty($data['str']['v2'])){
+		if (!empty($data['str']['v2'])) {
 			$params['V2'] = $data['str']['v2'];
-			$data['qstr'] .= "&v2=".$data['str']['v2'];
+			$data['qstr'] .= "&v2=" . $data['str']['v2'];
 		}
-		if(!empty($data['str']['v3'])){
+		if (!empty($data['str']['v3'])) {
 			$params['V3'] = $data['str']['v3'];
-			$data['qstr'] .= "&v3=".$data['str']['v3'];
+			$data['qstr'] .= "&v3=" . $data['str']['v3'];
 		}
-		if(!empty($data['str']['v4'])){
+		if (!empty($data['str']['v4'])) {
 			$params['V4'] = $data['str']['v4'];
-			$data['qstr'] .= "&v4=".$data['str']['v4'];
+			$data['qstr'] .= "&v4=" . $data['str']['v4'];
 		}
 
 
 		$params['an'] = "an3"; //재생재고내역인경우
 
 
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
-		
+
+
 		$data['title'] = "";
-		$data['List'] = $this->act_model->act_a5_list($params,$start,$config['per_page']);
+		$data['List'] = $this->act_model->act_a5_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->act_model->act_a5_cut($params);
 
-		
+
 
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 
 
-		
+
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
@@ -293,10 +283,9 @@ class AMT extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
+		$this->data['pagenation'] = $this->pagination->create_links();
 
-		$this->load->view('/act/an3',$data);
-
+		$this->load->view('/act/an3', $data);
 	}
 
 
@@ -305,84 +294,84 @@ class AMT extends CI_Controller {
 	public function am3()
 	{
 		check_pageLevel();
-		
+
 		$data['str'] = array(); //검색어관련
-		
+
 		$data['str']['sdate'] = $this->input->get('sdate');
 		$data['str']['edate'] = $this->input->get('edate');
 
-		$data['str']['v1'] = $this->input->get('v1');
-		$data['str']['v2'] = $this->input->get('v2');
-		$data['str']['v3'] = $this->input->get('v3');
-		$data['str']['v4'] = $this->input->get('v4');
+		$data['str']['v1'] = trim($this->input->get('v1'));
+		$data['str']['v2'] = trim($this->input->get('v2'));
+		$data['str']['v3'] = trim($this->input->get('v3'));
+		$data['str']['v4'] = trim($this->input->get('v4'));
 
-		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+		$params['SDATE'] = date("Y-m-d", mktime(0, 0, 0, date("m"), 1, date("Y")));
 		$params['EDATE'] = date("Y-m-d");
-		
+
 		$params['V1'] = "";
 		$params['V2'] = "";
 		$params['V3'] = "";
 		$params['V4'] = "";
 
 		$data['qstr'] = "?P";
-		
-		if(!empty($data['str']['sdate'])){
+
+		if (!empty($data['str']['sdate'])) {
 			$params['SDATE'] = $data['str']['sdate'];
-			$data['qstr'] .= "&sdate=".$data['str']['sdate'];
+			$data['qstr'] .= "&sdate=" . $data['str']['sdate'];
 		}
 
-		if(!empty($data['str']['edate'])){
+		if (!empty($data['str']['edate'])) {
 			$params['EDATE'] = $data['str']['edate'];
-			$data['qstr'] .= "&edate=".$data['str']['edate'];
-		}
-		
-		
-		if(!empty($data['str']['v1'])){
-			$params['V1'] = $data['str']['v1'];
-			$data['qstr'] .= "&v1=".$data['str']['v1'];
-		}
-		if(!empty($data['str']['v2'])){
-			$params['V2'] = $data['str']['v2'];
-			$data['qstr'] .= "&v2=".$data['str']['v2'];
-		}
-		if(!empty($data['str']['v3'])){
-			$params['V3'] = $data['str']['v3'];
-			$data['qstr'] .= "&v3=".$data['str']['v3'];
-		}
-		if(!empty($data['str']['v4'])){
-			$params['V4'] = $data['str']['v4'];
-			$data['qstr'] .= "&v4=".$data['str']['v4'];
+			$data['qstr'] .= "&edate=" . $data['str']['edate'];
 		}
 
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+
+		if (!empty($data['str']['v1'])) {
+			$params['V1'] = $data['str']['v1'];
+			$data['qstr'] .= "&v1=" . $data['str']['v1'];
+		}
+		if (!empty($data['str']['v2'])) {
+			$params['V2'] = $data['str']['v2'];
+			$data['qstr'] .= "&v2=" . $data['str']['v2'];
+		}
+		if (!empty($data['str']['v3'])) {
+			$params['V3'] = $data['str']['v3'];
+			$data['qstr'] .= "&v3=" . $data['str']['v3'];
+		}
+		if (!empty($data['str']['v4'])) {
+			$params['V4'] = $data['str']['v4'];
+			$data['qstr'] .= "&v4=" . $data['str']['v4'];
+		}
+
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
-		
+
+
 		$data['title'] = "";
-		$data['List'] = $this->act_model->act_an2_list($params,$start,$config['per_page']);
+		$data['List'] = $this->act_model->act_an2_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->act_model->act_an2_cut($params);
 
-		
+
 
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 
 
-		
+
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
@@ -406,14 +395,13 @@ class AMT extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
+		$this->data['pagenation'] = $this->pagination->create_links();
 
-		$this->load->view('/act/an4',$data);
-
+		$this->load->view('/act/an4', $data);
 	}
 
-	
-	
+
+
 
 	/* 출고등록 **/
 	public function am4()
@@ -421,19 +409,19 @@ class AMT extends CI_Controller {
 		check_pageLevel();
 
 		$data['str'] = array(); //검색어관련
-		
+
 		$data['str']['sdate'] = $this->input->get('sdate');
 		$data['str']['edate'] = $this->input->get('edate');
 
-		$data['str']['v1'] = $this->input->get('v1');
-		$data['str']['v2'] = $this->input->get('v2');
-		$data['str']['v3'] = $this->input->get('v3');
-		$data['str']['v4'] = $this->input->get('v4');
-		$data['str']['cg'] = $this->input->get('cg');
+		$data['str']['v1'] = trim($this->input->get('v1'));
+		$data['str']['v2'] = trim($this->input->get('v2'));
+		$data['str']['v3'] = trim($this->input->get('v3'));
+		$data['str']['v4'] = trim($this->input->get('v4'));
+		$data['str']['cg'] = trim($this->input->get('cg'));
 
 		$params['SDATE'] = '';
 		$params['EDATE'] = '';
-		
+
 		$params['V1'] = "";
 		$params['V2'] = "";
 		$params['V3'] = "";
@@ -441,68 +429,68 @@ class AMT extends CI_Controller {
 		$params['CG'] = "";
 
 		$data['qstr'] = "?P";
-		
-		if(!empty($data['str']['sdate'])){
+
+		if (!empty($data['str']['sdate'])) {
 			$params['SDATE'] = $data['str']['sdate'];
-			$data['qstr'] .= "&sdate=".$data['str']['sdate'];
+			$data['qstr'] .= "&sdate=" . $data['str']['sdate'];
 		}
 
-		if(!empty($data['str']['edate'])){
+		if (!empty($data['str']['edate'])) {
 			$params['EDATE'] = $data['str']['edate'];
-			$data['qstr'] .= "&edate=".$data['str']['edate'];
-		}
-		
-		
-		if(!empty($data['str']['v1'])){
-			$params['V1'] = $data['str']['v1'];
-			$data['qstr'] .= "&v1=".$data['str']['v1'];
-		}
-		if(!empty($data['str']['v2'])){
-			$params['V2'] = $data['str']['v2'];
-			$data['qstr'] .= "&v2=".$data['str']['v2'];
-		}
-		if(!empty($data['str']['v3'])){
-			$params['V3'] = $data['str']['v3'];
-			$data['qstr'] .= "&v3=".$data['str']['v3'];
-		}
-		if(!empty($data['str']['v4'])){
-			$params['V4'] = $data['str']['v4'];
-			$data['qstr'] .= "&v4=".$data['str']['v4'];
-		}
-		if(!empty($data['str']['cg'])){
-			$params['CG'] = $data['str']['cg'];
-			$data['qstr'] .= "&cg=".$data['str']['cg'];
+			$data['qstr'] .= "&edate=" . $data['str']['edate'];
 		}
 
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+
+		if (!empty($data['str']['v1'])) {
+			$params['V1'] = $data['str']['v1'];
+			$data['qstr'] .= "&v1=" . $data['str']['v1'];
+		}
+		if (!empty($data['str']['v2'])) {
+			$params['V2'] = $data['str']['v2'];
+			$data['qstr'] .= "&v2=" . $data['str']['v2'];
+		}
+		if (!empty($data['str']['v3'])) {
+			$params['V3'] = $data['str']['v3'];
+			$data['qstr'] .= "&v3=" . $data['str']['v3'];
+		}
+		if (!empty($data['str']['v4'])) {
+			$params['V4'] = $data['str']['v4'];
+			$data['qstr'] .= "&v4=" . $data['str']['v4'];
+		}
+		if (!empty($data['str']['cg'])) {
+			$params['CG'] = $data['str']['cg'];
+			$data['qstr'] .= "&cg=" . $data['str']['cg'];
+		}
+
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
-		
+
+
 		$data['title'] = "";
-		$data['List'] = $this->amt_model->act_am4_list($params,$start,$config['per_page']);
+		$data['List'] = $this->amt_model->act_am4_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->amt_model->act_am4_cut($params);
 
-		
+
 
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 
 
-		
+
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
@@ -526,10 +514,9 @@ class AMT extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
+		$this->data['pagenation'] = $this->pagination->create_links();
 
-		$this->load->view('/amt/am4',$data);
-
+		$this->load->view('/amt/am4', $data);
 	}
 
 	public function ajax_am4_listupdate()
@@ -551,19 +538,19 @@ class AMT extends CI_Controller {
 		check_pageLevel();
 
 		$data['str'] = array(); //검색어관련
-		
+
 		$data['str']['sdate'] = $this->input->get('sdate');
 		$data['str']['edate'] = $this->input->get('edate');
 
 		$data['str']['v1'] = $this->input->get('v1');
 		$data['str']['v2'] = $this->input->get('v2');
-		$data['str']['v3'] = $this->input->get('v3');
+		$data['str']['v3'] = trim($this->input->get('v3'));
 		$data['str']['v4'] = $this->input->get('v4');
 		$data['str']['cust'] = $this->input->get('cust');
 
-		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+		$params['SDATE'] = date("Y-m-d", mktime(0, 0, 0, date("m"), 1, date("Y")));
 		$params['EDATE'] = date("Y-m-d");
-		
+
 		$params['V1'] = "";
 		$params['V2'] = "";
 		$params['V3'] = "";
@@ -571,69 +558,69 @@ class AMT extends CI_Controller {
 		$params['CUST'] = "";
 
 		$data['qstr'] = "?P";
-		
-		if(!empty($data['str']['sdate'])){
+
+		if (!empty($data['str']['sdate'])) {
 			$params['SDATE'] = $data['str']['sdate'];
-			$data['qstr'] .= "&sdate=".$data['str']['sdate'];
+			$data['qstr'] .= "&sdate=" . $data['str']['sdate'];
 		}
 
-		if(!empty($data['str']['edate'])){
+		if (!empty($data['str']['edate'])) {
 			$params['EDATE'] = $data['str']['edate'];
-			$data['qstr'] .= "&edate=".$data['str']['edate'];
-		}
-		
-		
-		if(!empty($data['str']['v1'])){
-			$params['V1'] = $data['str']['v1'];
-			$data['qstr'] .= "&v1=".$data['str']['v1'];
-		}
-		if(!empty($data['str']['v2'])){
-			$params['V2'] = $data['str']['v2'];
-			$data['qstr'] .= "&v2=".$data['str']['v2'];
-		}
-		if(!empty($data['str']['v3'])){
-			$params['V3'] = $data['str']['v3'];
-			$data['qstr'] .= "&v3=".$data['str']['v3'];
-		}
-		if(!empty($data['str']['v4'])){
-			$params['V4'] = $data['str']['v4'];
-			$data['qstr'] .= "&v4=".$data['str']['v4'];
-		}
-		if(!empty($data['str']['cust'])){
-			$params['CUST'] = $data['str']['cust'];
-			$data['qstr'] .= "&cust=".$data['str']['cust'];
+			$data['qstr'] .= "&edate=" . $data['str']['edate'];
 		}
 
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+
+		if (!empty($data['str']['v1'])) {
+			$params['V1'] = $data['str']['v1'];
+			$data['qstr'] .= "&v1=" . $data['str']['v1'];
+		}
+		if (!empty($data['str']['v2'])) {
+			$params['V2'] = $data['str']['v2'];
+			$data['qstr'] .= "&v2=" . $data['str']['v2'];
+		}
+		if (!empty($data['str']['v3'])) {
+			$params['V3'] = $data['str']['v3'];
+			$data['qstr'] .= "&v3=" . $data['str']['v3'];
+		}
+		if (!empty($data['str']['v4'])) {
+			$params['V4'] = $data['str']['v4'];
+			$data['qstr'] .= "&v4=" . $data['str']['v4'];
+		}
+		if (!empty($data['str']['cust'])) {
+			$params['CUST'] = $data['str']['cust'];
+			$data['qstr'] .= "&cust=" . $data['str']['cust'];
+		}
+
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
-		
+
+
 		$data['title'] = "";
-		$data['List'] = $this->amt_model->act_am5_list($params,$start,$config['per_page']);
+		$data['List'] = $this->amt_model->act_am5_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->amt_model->act_am5_cut($params);
 
-		
+
 
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 		$data['CUST'] = $this->main_model->get_custlist();
 
 
-		
+
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
@@ -657,9 +644,9 @@ class AMT extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
+		$this->data['pagenation'] = $this->pagination->create_links();
 
-		$this->load->view('/amt/am5',$data);
+		$this->load->view('/amt/am5', $data);
 	}
 
 	/* 클레임등록 **/
@@ -668,20 +655,20 @@ class AMT extends CI_Controller {
 		check_pageLevel();
 
 		$data['str'] = array(); //검색어관련
-		
+
 		$data['str']['sdate'] = $this->input->get('sdate');
 		$data['str']['edate'] = $this->input->get('edate');
 
 		$data['str']['v1'] = $this->input->get('v1');
 		$data['str']['v2'] = $this->input->get('v2');
-		$data['str']['v3'] = $this->input->get('v3');
+		$data['str']['v3'] = trim($this->input->get('v3'));
 		$data['str']['v4'] = $this->input->get('v4');
 		$data['str']['cust'] = $this->input->get('cust');
 		$data['str']['claim'] = $this->input->get('claim');
 
-		$params['SDATE'] = date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));
+		$params['SDATE'] = date("Y-m-d", mktime(0, 0, 0, date("m"), 1, date("Y")));
 		$params['EDATE'] = date("Y-m-d");
-		
+
 		$params['V1'] = "";
 		$params['V2'] = "";
 		$params['V3'] = "";
@@ -690,73 +677,73 @@ class AMT extends CI_Controller {
 		$params['CLAIM'] = "";
 
 		$data['qstr'] = "?P";
-		
-		if(!empty($data['str']['sdate'])){
+
+		if (!empty($data['str']['sdate'])) {
 			$params['SDATE'] = $data['str']['sdate'];
-			$data['qstr'] .= "&sdate=".$data['str']['sdate'];
+			$data['qstr'] .= "&sdate=" . $data['str']['sdate'];
 		}
 
-		if(!empty($data['str']['edate'])){
+		if (!empty($data['str']['edate'])) {
 			$params['EDATE'] = $data['str']['edate'];
-			$data['qstr'] .= "&edate=".$data['str']['edate'];
-		}
-		
-		
-		if(!empty($data['str']['v1'])){
-			$params['V1'] = $data['str']['v1'];
-			$data['qstr'] .= "&v1=".$data['str']['v1'];
-		}
-		if(!empty($data['str']['v2'])){
-			$params['V2'] = $data['str']['v2'];
-			$data['qstr'] .= "&v2=".$data['str']['v2'];
-		}
-		if(!empty($data['str']['v3'])){
-			$params['V3'] = $data['str']['v3'];
-			$data['qstr'] .= "&v3=".$data['str']['v3'];
-		}
-		if(!empty($data['str']['v4'])){
-			$params['V4'] = $data['str']['v4'];
-			$data['qstr'] .= "&v4=".$data['str']['v4'];
-		}
-		if(!empty($data['str']['cust'])){
-			$params['CUST'] = $data['str']['cust'];
-			$data['qstr'] .= "&cust=".$data['str']['cust'];
-		}
-		if(!empty($data['str']['claim'])){
-			$params['CLAIM'] = $data['str']['claim'];
-			$data['qstr'] .= "&claim=".$data['str']['claim'];
+			$data['qstr'] .= "&edate=" . $data['str']['edate'];
 		}
 
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+
+		if (!empty($data['str']['v1'])) {
+			$params['V1'] = $data['str']['v1'];
+			$data['qstr'] .= "&v1=" . $data['str']['v1'];
+		}
+		if (!empty($data['str']['v2'])) {
+			$params['V2'] = $data['str']['v2'];
+			$data['qstr'] .= "&v2=" . $data['str']['v2'];
+		}
+		if (!empty($data['str']['v3'])) {
+			$params['V3'] = $data['str']['v3'];
+			$data['qstr'] .= "&v3=" . $data['str']['v3'];
+		}
+		if (!empty($data['str']['v4'])) {
+			$params['V4'] = $data['str']['v4'];
+			$data['qstr'] .= "&v4=" . $data['str']['v4'];
+		}
+		if (!empty($data['str']['cust'])) {
+			$params['CUST'] = $data['str']['cust'];
+			$data['qstr'] .= "&cust=" . $data['str']['cust'];
+		}
+		if (!empty($data['str']['claim'])) {
+			$params['CLAIM'] = $data['str']['claim'];
+			$data['qstr'] .= "&claim=" . $data['str']['claim'];
+		}
+
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
-		
+
+
 		$data['title'] = "";
-		$data['List'] = $this->amt_model->act_am5_list($params,$start,$config['per_page']);
+		$data['List'] = $this->amt_model->act_am5_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->amt_model->act_am5_cut($params);
 
-		
+
 
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 		$data['CUST'] = $this->main_model->get_custlist();
 
 
-		
+
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
@@ -780,9 +767,9 @@ class AMT extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
+		$this->data['pagenation'] = $this->pagination->create_links();
 
-		$this->load->view('/amt/am6',$data);
+		$this->load->view('/amt/am6', $data);
 	}
 
 
@@ -791,12 +778,12 @@ class AMT extends CI_Controller {
 		$data['title'] = "자재입고관리";
 		$data['CUST'] = $this->main_model->get_buyerlist();
 		$data['COMP'] = $this->main_model->ajax_component_select();
-		
-		if($this->input->post("mode") == "mod"){
+
+		if ($this->input->post("mode") == "mod") {
 			$data['INFO'] = $this->amt_model->ajax_componentNum_form($this->input->post("idx"));
 		}
 
-		$this->load->view('/amt/ajax_componentNum',$data);
+		$this->load->view('/amt/ajax_componentNum', $data);
 	}
 
 
@@ -813,16 +800,15 @@ class AMT extends CI_Controller {
 
 		$num = $this->amt_model->ajax_component_set_qty($params);
 
-		if($num > 0){
+		if ($num > 0) {
 			$data['status'] = "ok";
 			$data['msg'] = "자재수량이 등록되었습니다.";
-		}else{
+		} else {
 			$data['status'] = "";
 			$data['msg'] = "자재수량등록에 실패했습니다. 관리자에게 문의하세요";
 		}
 
 		echo json_encode($data);
-
 	}
 
 
@@ -832,27 +818,27 @@ class AMT extends CI_Controller {
 	public function am1_1()
 	{
 		check_pageLevel();
-		
+
 		$data['str'] = array(); //검색어관련
-		
+
 		$data['str']['v1'] = $this->input->get('v1');
-		$data['str']['v2'] = $this->input->get('v2');
+		$data['str']['v2'] = trim($this->input->get('v2'));
 
 		$params['V1'] = "";
 		$params['V2'] = "";
 
 		$data['qstr'] = "?P";
-		if(!empty($data['str']['v1'])){
+		if (!empty($data['str']['v1'])) {
 			$params['V1'] = $data['str']['v1'];
-			$data['qstr'] .= "&v1=".$data['str']['v1'];
+			$data['qstr'] .= "&v1=" . $data['str']['v1'];
 		}
-		if(!empty($data['str']['v2'])){
+		if (!empty($data['str']['v2'])) {
 			$params['V2'] = $data['str']['v2'];
-			$data['qstr'] .= "&v2=".$data['str']['v2'];
+			$data['qstr'] .= "&v2=" . $data['str']['v2'];
 		}
 
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
@@ -860,20 +846,20 @@ class AMT extends CI_Controller {
 		$config['reuse_query_string'] = TRUE;
 
 		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-		
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
-		
+
+
 		$data['title'] = "";
-		$data['List'] = $this->act_model->act_am11_list($params,$start,$config['per_page']);
+		$data['List'] = $this->act_model->act_am11_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->act_model->act_am11_cut($params);
 
-		
+
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 
 
-		
+
 		/* pagenation start */
 
 		$this->load->library("pagination");
@@ -904,34 +890,34 @@ class AMT extends CI_Controller {
 		$this->pagination->initialize($config);
 		$this->data['pagenation'] = $this->pagination->create_links();
 
-		$this->load->view('/amt/am1_1',$data);
+		$this->load->view('/amt/am1_1', $data);
 	}
 
 	//시유재고현황
 	public function am1_2()
 	{
 		check_pageLevel();
-		
+
 		$data['str'] = array(); //검색어관련
-		
+
 		$data['str']['v1'] = $this->input->get('v1');
-		$data['str']['v2'] = $this->input->get('v2');
+		$data['str']['v2'] = trim($this->input->get('v2'));
 
 		$params['V1'] = "";
 		$params['V2'] = "";
 
 		$data['qstr'] = "?P";
-		if(!empty($data['str']['v1'])){
+		if (!empty($data['str']['v1'])) {
 			$params['V1'] = $data['str']['v1'];
-			$data['qstr'] .= "&v1=".$data['str']['v1'];
+			$data['qstr'] .= "&v1=" . $data['str']['v1'];
 		}
-		if(!empty($data['str']['v2'])){
+		if (!empty($data['str']['v2'])) {
 			$params['V2'] = $data['str']['v2'];
-			$data['qstr'] .= "&v2=".$data['str']['v2'];
+			$data['qstr'] .= "&v2=" . $data['str']['v2'];
 		}
 
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
@@ -939,20 +925,20 @@ class AMT extends CI_Controller {
 		$config['reuse_query_string'] = TRUE;
 
 		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-		
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
-		
+
+
 		$data['title'] = "";
-		$data['List'] = $this->act_model->act_am12_list($params,$start,$config['per_page']);
+		$data['List'] = $this->act_model->act_am12_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->act_model->act_am12_cut($params);
 
-		
+
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 
 
-		
+
 		/* pagenation start */
 
 		$this->load->library("pagination");
@@ -983,7 +969,7 @@ class AMT extends CI_Controller {
 		$this->pagination->initialize($config);
 		$this->data['pagenation'] = $this->pagination->create_links();
 
-		$this->load->view('/amt/am1_2',$data);
+		$this->load->view('/amt/am1_2', $data);
 	}
 
 
@@ -993,11 +979,11 @@ class AMT extends CI_Controller {
 		$idx  = $this->input->post("idx");
 
 		$data = array();
-		if(!empty($idx)){
+		if (!empty($idx)) {
 			$data['itemInfo'] = $this->amt_model->get_items_info($idx);
 		}
-		
-		$this->load->view('/amt/ajax_claim_insert',$data);
+
+		$this->load->view('/amt/ajax_claim_insert', $data);
 	}
 
 
@@ -1015,8 +1001,8 @@ class AMT extends CI_Controller {
 
 		$data = $this->amt_model->ajax_insert_claim($params);
 		$msg = "등록되었습니다.";
-	
-		if($data > 0){
+
+		if ($data > 0) {
 			echo $msg;
 		}
 	}

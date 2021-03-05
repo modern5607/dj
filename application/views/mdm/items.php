@@ -1,43 +1,43 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 
 
 
 <div class="bc_header">
 	<form id="items_formupdate">
-					
+
 		<label for="series">시리즈</label>
 		<select name="series" id="series" style="min-width:150px;">
 			<option value="">전체</option>
-		<?php 
-			foreach($seriesList as $ser){ 
-				$selected = ($ser->IDX == $str['series'])?"selected":"";
-		?>
-			<option value="<?php echo $ser->IDX;?>" <?php echo $selected;?>><?php echo $ser->SERIES_NM;?></option>
-		<?php } ?>
+			<?php
+			foreach ($seriesList as $ser) {
+				$selected = ($ser->IDX == $str['series']) ? "selected" : "";
+			?>
+				<option value="<?php echo $ser->IDX; ?>" <?php echo $selected; ?>><?php echo $ser->SERIES_NM; ?></option>
+			<?php } ?>
 		</select>
-		
+
 		<label for="itemno">품번</label>
-		<input type="itemno" name="itemno" id="itemno" value="<?php echo $str['itemno']?>">
+		<input type="itemno" name="itemno" id="itemno" value="<?php echo $str['itemno'] ?>">
 
 		<label for="itemname">품명</label>
-		<input type="itemname" name="itemname" id="itemname" value="<?php echo $str['itemname']?>">
+		<input type="itemname" name="itemname" id="itemname" value="<?php echo $str['itemname'] ?>">
 
 		<label for="ks">후처리 유무</label>
 		<select name="ks" id="ks">
-			<option value="A" <?php echo ($str['ks'] == "A")?"selected":"";?>>전체</option>
-			<option value="Y" <?php echo ($str['ks'] == "Y")?"selected":"";?>>사용</option>
-			<option value="N" <?php echo ($str['ks'] == "N")?"selected":"";?>>미사용</option>
+			<option value="A" <?php echo ($str['ks'] == "A") ? "selected" : ""; ?>>전체</option>
+			<option value="Y" <?php echo ($str['ks'] == "Y") ? "selected" : ""; ?>>사용</option>
+			<option value="N" <?php echo ($str['ks'] == "N") ? "selected" : ""; ?>>미사용</option>
 		</select>
 
 		<label for="use">사용유무</label>
 		<select name="use" id="use">
-			<option value="A" <?php echo ($str['use'] == "A")?"selected":"";?>>전체</option>
-			<option value="Y" <?php echo ($str['use'] != "A")?"selected":"";?>>사용</option>
-			<option value="N" <?php echo ($str['use'] == "N")?"selected":"";?>>미사용</option>
-		</select>	
-		
+			<option value="A" <?php echo ($str['use'] == "A") ? "selected" : ""; ?>>전체</option>
+			<option value="Y" <?php echo ($str['use'] != "A") ? "selected" : ""; ?>>사용</option>
+			<option value="N" <?php echo ($str['use'] == "N") ? "selected" : ""; ?>>미사용</option>
+		</select>
+
 		<button class="search_submit"><i class="material-icons">search</i></button>
 	</form>
 	<span class="btn btn_right add_items">신규등록</span>
@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <div class="bc_cont">
-	<div class="cont_header"><?php echo $title;?></div>
+	<div class="cont_header"><?php echo $title; ?></div>
 	<div class="cont_body">
 		<div class="tbl-content">
 			<table cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -56,58 +56,61 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>품번</th>
 						<th>품명</th>
 						<th>규격</th>
+						<th>점토중량</th>
 						<th>후처리유무</th>
 						<th>사용유무</th>
 						<th></th>
 					</tr>
 				</thead>
 				<tbody>
-				<?php foreach($itemsList as $i=>$row){ $no = $pageNum+$i+1; ?>
-				<tr>
-					<td class="cen"><?php echo $no; ?></td>
-					<td class="cen"><?php echo $row->SERIES_NM; ?></td>
-					<td class="cen"><?php echo $row->ITEM_NO; ?></td>
-					<td><?php echo $row->ITEM_NAME; ?></td>
-					<td><?php echo $row->SPEC; ?></td>
-					<td class="cen"><?php echo ($row->KS_YN == "Y") ? "사용" : "미사용"; ?></td>
-					<td class="cen"><?php echo ($row->USE_YN == "Y") ? "사용" : "미사용"; ?></td>
-					<td class="cen">
-						<span class="btn register_update" data-idx="<?php echo $row->IDX;?>">수정</span>
-					</td>
-				</tr>
-		
+					<?php foreach ($itemsList as $i => $row) {
+						$no = $pageNum + $i + 1; ?>
+						<tr>
+							<td class="cen"><?php echo $no; ?></td>
+							<td class="cen"><?php echo $row->SERIES_NM; ?></td>
+							<td class="cen"><?php echo $row->ITEM_NO; ?></td>
+							<td><?php echo $row->ITEM_NAME; ?></td>
+							<td><?php echo $row->SPEC; ?></td>
+							<td><?php echo number_format($row->JT_QTY) ?></td>
+							<td class="cen"><?php echo ($row->KS_YN == "Y") ? "사용" : "미사용"; ?></td>
+							<td class="cen"><?php echo ($row->USE_YN == "Y") ? "사용" : "미사용"; ?></td>
+							<td class="cen">
+								<span class="btn register_update" data-idx="<?php echo $row->IDX; ?>">수정</span>
+							</td>
+						</tr>
 
-				<?php
-				}
-				if(empty($itemsList)){
-				?>
 
-					<tr>
-						<td colspan="15" class="list_none">품목정보가 없습니다.</td>
-					</tr>
+					<?php
+					}
+					if (empty($itemsList)) {
+					?>
 
-				<?php
-				}	
-				?>
+						<tr>
+							<td colspan="15" class="list_none">품목정보가 없습니다.</td>
+						</tr>
+
+					<?php
+					}
+					?>
 				</tbody>
 			</table>
 		</div>
-		
+
 		<div class="pagination">
-			<?php echo $this->data['pagenation'];?>
+			<?php echo $this->data['pagenation']; ?>
 			<?php
-			if($this->data['cnt'] > 20){
+			if ($this->data['cnt'] > 20) {
 			?>
-			<div class="limitset">
-				<select name="per_page">
-					<option value="20" <?php echo ($perpage == 20)?"selected":"";?>>20</option>
-					<option value="50" <?php echo ($perpage == 50)?"selected":"";?>>50</option>
-					<option value="80" <?php echo ($perpage == 80)?"selected":"";?>>80</option>
-					<option value="100" <?php echo ($perpage == 100)?"selected":"";?>>100</option>
-				</select>
-			</div>
+				<div class="limitset">
+					<select name="per_page">
+						<option value="20" <?php echo ($perpage == 20) ? "selected" : ""; ?>>20</option>
+						<option value="50" <?php echo ($perpage == 50) ? "selected" : ""; ?>>50</option>
+						<option value="80" <?php echo ($perpage == 80) ? "selected" : ""; ?>>80</option>
+						<option value="100" <?php echo ($perpage == 100) ? "selected" : ""; ?>>100</option>
+					</select>
+				</div>
 			<?php
-			}	
+			}
 			?>
 		</div>
 	</div>
@@ -116,11 +119,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <div id="pop_container">
-	
+
 	<div id="info_content" class="info_content" style="height:auto;">
-		
+
 		<div class="ajaxContent"></div>
-		
+
 	</div>
 
 </div>
@@ -128,89 +131,91 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
+	var modchk = false;
 
+	function memberformChk(f) {
 
-var modchk = false;
-function memberformChk(f){
-	
-	var pwd  = $("input[name='PWD']").val();
-	var chkP = $("input[name='PWD_CHK']").val();
-	var id   = $("input[name='ID']").val();
+		var pwd = $("input[name='PWD']").val();
+		var chkP = $("input[name='PWD_CHK']").val();
+		var id = $("input[name='ID']").val();
 
-	if(id == ""){
-		alert("아이디를 입력하세요");
-		$("input[name='ID']").focus();
-		return false;
-	}
-	
-
-	if(pwd == "" && !modchk){
-		alert("비밀번호를 입력하세요");
-		$("input[name='PWD']").focus();
-		return false;
-	}
-
-	if(pwd != chkP){
-		alert("비밀번호를 확인해주세요");
-		$("input[name='PWD']").focus();
-		return false;
-	}
-	
-	modchk = false;
-	return
-	
-}
-
-
-$(".add_items").on("click",function(){
-
-	$("#pop_container").fadeIn();
-	$(".info_content").animate({
-		top : "50%"
-	},500);
-
-	$.ajax({
-		url:"<?php echo base_url('MDM/ajax_set_items')?>",
-		type : "post",
-		dataType : "html",
-		success : function(data){
-			$(".ajaxContent").html(data);			
+		if (id == "") {
+			alert("아이디를 입력하세요");
+			$("input[name='ID']").focus();
+			return false;
 		}
-		
+
+
+		if (pwd == "" && !modchk) {
+			alert("비밀번호를 입력하세요");
+			$("input[name='PWD']").focus();
+			return false;
+		}
+
+		if (pwd != chkP) {
+			alert("비밀번호를 확인해주세요");
+			$("input[name='PWD']").focus();
+			return false;
+		}
+
+		modchk = false;
+		return
+
+	}
+
+
+	$(".add_items").on("click", function() {
+
+		$("#pop_container").fadeIn();
+		$(".info_content").animate({
+			top: "50%"
+		}, 500);
+
+		$.ajax({
+			url: "<?php echo base_url('MDM/ajax_set_items') ?>",
+			type: "post",
+			dataType: "html",
+			success: function(data) {
+				$(".ajaxContent").html(data);
+			}
+
+		});
+
 	});
 
-});
+	$(".register_update").on("click", function() {
+		var idx = $(this).data("idx");
 
-$(".register_update").on("click",function(){
-	var idx = $(this).data("idx");
+		$("#pop_container").fadeIn();
+		$(".info_content").animate({
+			top: "50%"
+		}, 500);
 
-	$("#pop_container").fadeIn();
-	$(".info_content").animate({
-		top : "50%"
-	},500);
+		modchk = true;
 
-	modchk = true;
+		$.ajax({
+			url: "<?php echo base_url('MDM/ajax_set_items') ?>",
+			type: "post",
+			data: {
+				idx: idx,
+				upd: 'upd'
+			},
+			dataType: "html",
+			success: function(data) {
+				$(".ajaxContent").html(data);
+			}
 
-	$.ajax({
-		url:"<?php echo base_url('MDM/ajax_set_items')?>",
-		type : "post",
-		data : {idx:idx,upd:'upd'},
-		dataType : "html",
-		success : function(data){
-			$(".ajaxContent").html(data);
-		}
-		
+		});
 	});
-});
 
 
-$(document).on("click","h2 > span.close",function(){
+	$(document).on("click", "h2 > span.close", function() {
 
-	$(".ajaxContent").html('');
-	$("#pop_container").fadeOut();
-	$(".info_content").css("top","-50%");
-	location.reload();
-	
-});
-//-->
+		$(".ajaxContent").html('');
+		$("#pop_container").fadeOut();
+		$(".info_content").css("top", "-50%");
+		location.reload();
+
+	});
+	//-->
 </script>

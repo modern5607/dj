@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class MDM extends CI_Controller {
+class MDM extends CI_Controller
+{
 
 	public $data;
 
@@ -10,68 +11,60 @@ class MDM extends CI_Controller {
 		parent::__construct();
 
 		$this->data['pos'] = $this->uri->segment(1);
-        $this->data['subpos'] = $this->uri->segment(2);
+		$this->data['subpos'] = $this->uri->segment(2);
 		$this->data['detailpos'] = $this->uri->segment(3);
-		
-		$this->load->helper('test');
-		$this->load->model(array('main_model','biz_model','register_model','act_model'));
 
-		if(!empty($this->config->item('site_title')[$this->data['pos']][$this->data['subpos']])){
+		$this->load->helper('test');
+		$this->load->model(array('main_model', 'biz_model', 'register_model', 'act_model'));
+
+		if (!empty($this->config->item('site_title')[$this->data['pos']][$this->data['subpos']])) {
 			$this->data['siteTitle'] = $this->config->item('site_title')[$this->data['pos']][$this->data['subpos']];
 		}
-
-		
-
 	}
 
 	public function _remap($method, $params = array())
 	{
-		if($this->input->is_ajax_request()){
-            if( method_exists($this, $method) ){
-                call_user_func_array(array($this,$method), $params);
-            }
-        }else{ //ajax가 아니면
-			
+		if ($this->input->is_ajax_request()) {
+			if (method_exists($this, $method)) {
+				call_user_func_array(array($this, $method), $params);
+			}
+		} else { //ajax가 아니면
+
 			if (method_exists($this, $method)) {
 
 				$user_id = $this->session->userdata('user_id');
 				$this->data['member_name'] = $this->session->userdata('user_name');
 
-				if(isset($user_id) && $user_id != ""){
-					
-					$this->load->view('/layout/header',$this->data);
-					call_user_func_array(array($this,$method), $params);
+				if (isset($user_id) && $user_id != "") {
+
+					$this->load->view('/layout/header', $this->data);
+					call_user_func_array(array($this, $method), $params);
 					$this->load->view('/layout/tail');
+				} else {
 
-				}else{
-
-					alert('로그인이 필요합니다.',base_url('register/login'));
-
+					alert('로그인이 필요합니다.', base_url('register/login'));
 				}
-
-            } else {
-                show_404();
-            }
-
-        }
-		
+			} else {
+				show_404();
+			}
+		}
 	}
-	
 
-	public function index($hid='')
+
+	public function index($hid = '')
 	{
 		check_pageLevel();
 
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
 
@@ -81,13 +74,13 @@ class MDM extends CI_Controller {
 		$data['detailList'] = $this->main_model->get_cocdDetail_list($hid);
 		$this->data['cnt'] = $this->main_model->get_cocdHead_cut();
 		$data['H_IDX']      = $hid;
-		$data['de_show_chk']= ($hid != "")?true:false;
+		$data['de_show_chk'] = ($hid != "") ? true : false;
 
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
 		$config['full_tag_close'] = '</ul>';
@@ -110,14 +103,13 @@ class MDM extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
+		$this->data['pagenation'] = $this->pagination->create_links();
 
 
 
 
 
-		$this->load->view('/mdm/index',$data);
-		
+		$this->load->view('/mdm/index', $data);
 	}
 
 
@@ -126,13 +118,13 @@ class MDM extends CI_Controller {
 		check_pageLevel();
 
 		$data['str'] = array(); //검색어관련
-		$data['str']['series'] = $this->input->get('series'); //series
-		$data['str']['itemno'] = $this->input->get('itemno'); //item no
-		$data['str']['itemname'] = $this->input->get('itemname'); //item name
+		$data['str']['series'] = trim($this->input->get('series')); //series
+		$data['str']['itemno'] = trim($this->input->get('itemno')); //item no
+		$data['str']['itemname'] = trim($this->input->get('itemname')); //item name
 		$data['str']['use'] = $this->input->get('use'); //use yn
-		$data['str']['seriesname'] = $this->input->get('seriesname'); //seriesname
+		$data['str']['seriesname'] = trim($this->input->get('seriesname')); //seriesname
 		$data['str']['ks'] = $this->input->get('ks'); //후처리
-		
+
 		$params['SERIES_IDX'] = "";
 		$params['ITEM_NO'] = "";
 		$params['ITEM_NAME'] = "";
@@ -141,57 +133,57 @@ class MDM extends CI_Controller {
 		$params['KS_YN'] = "A";
 
 		$data['qstr'] = "?P";
-		if(!empty($data['str']['series'])){
+		if (!empty($data['str']['series'])) {
 			$params['SERIES_IDX'] = $data['str']['series'];
-			$data['qstr'] .= "&series=".$data['str']['series'];
+			$data['qstr'] .= "&series=" . $data['str']['series'];
 		}
-		if(!empty($data['str']['itemno'])){
+		if (!empty($data['str']['itemno'])) {
 			$params['ITEM_NO'] = $data['str']['itemno'];
-			$data['qstr'] .= "&itemno=".$data['str']['itemno'];
+			$data['qstr'] .= "&itemno=" . $data['str']['itemno'];
 		}
-		if(!empty($data['str']['itemname'])){
+		if (!empty($data['str']['itemname'])) {
 			$params['ITEM_NAME'] = $data['str']['itemname'];
-			$data['qstr'] .= "&itemname=".$data['str']['itemname'];
+			$data['qstr'] .= "&itemname=" . $data['str']['itemname'];
 		}
-		if(!empty($data['str']['use'])){
+		if (!empty($data['str']['use'])) {
 			$params['USE_YN'] = $data['str']['use'];
-			$data['qstr'] .= "&use=".$data['str']['use'];
+			$data['qstr'] .= "&use=" . $data['str']['use'];
 		}
-		if(!empty($data['str']['seriesname'])){
+		if (!empty($data['str']['seriesname'])) {
 			$params['SERIES_NM'] = $data['str']['seriesname'];
-			$data['qstr'] .= "&seriesname=".$data['str']['seriesname'];
+			$data['qstr'] .= "&seriesname=" . $data['str']['seriesname'];
 		}
-		if(!empty($data['str']['ks'])){
+		if (!empty($data['str']['ks'])) {
 			$params['KS_YN'] = $data['str']['ks'];
-			$data['qstr'] .= "&ks=".$data['str']['ks'];
+			$data['qstr'] .= "&ks=" . $data['str']['ks'];
 		}
 
-		
 
-		
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+
+
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-        //$start = $config['per_page'] * ($pageNum - 1);
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+		//$start = $config['per_page'] * ($pageNum - 1);
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
+
 		$data['title'] = "품목관리";
 		$data['seriesList']   = $this->main_model->get_seriesHead_list($params);
-		$data['itemsList'] = $this->main_model->get_items_list($params,$start,$config['per_page']);
+		$data['itemsList'] = $this->main_model->get_items_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->main_model->get_items_cnt($params);
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
@@ -215,9 +207,9 @@ class MDM extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
+		$this->data['pagenation'] = $this->pagination->create_links();
 
-		$this->load->view('/mdm/items',$data);
+		$this->load->view('/mdm/items', $data);
 	}
 
 
@@ -226,132 +218,53 @@ class MDM extends CI_Controller {
 		check_pageLevel();
 
 		$data['str'] = array(); //검색어관련
-		$data['str']['component'] = $this->input->get('component'); //item no
-		$data['str']['component_nm'] = $this->input->get('component_nm'); //item name
+		$data['str']['component'] = trim($this->input->get('component')); //item no
+		$data['str']['component_nm'] = trim($this->input->get('component_nm')); //item name
 		$data['str']['use'] = $this->input->get('useyn'); //use yn
-		
+
 		$params['SERIES_IDX'] = "";
 		$params['COMPONENT'] = "";
 		$params['COMPONENT_NM'] = "";
 		$params['USE_YN'] = "Y";
 
 		$data['qstr'] = "?P";
-		if(!empty($data['str']['component'])){
+		if (!empty($data['str']['component'])) {
 			$params['COMPONENT'] = $data['str']['component'];
-			$data['qstr'] .= "&component=".$data['str']['component'];
+			$data['qstr'] .= "&component=" . $data['str']['component'];
 		}
-		if(!empty($data['str']['component_nm'])){
+		if (!empty($data['str']['component_nm'])) {
 			$params['COMPONENT_NM'] = $data['str']['component_nm'];
-			$data['qstr'] .= "&component_nm=".$data['str']['component_nm'];
+			$data['qstr'] .= "&component_nm=" . $data['str']['component_nm'];
 		}
-		if(!empty($data['str']['use'])){
+		if (!empty($data['str']['use'])) {
 			$params['USE_YN'] = $data['str']['use'];
-			$data['qstr'] .= "&use=".$data['str']['use'];
+			$data['qstr'] .= "&use=" . $data['str']['use'];
 		}
 
-		
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-        //$start = $config['per_page'] * ($pageNum - 1);
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+		//$start = $config['per_page'] * ($pageNum - 1);
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
+
 		$data['title'] = "품목관리";
 		$data['seriesList']   = $this->main_model->get_seriesHead_list($params);
-		$data['componentList'] = $this->main_model->get_component_list($params,$start,$config['per_page']);
+		$data['componentList'] = $this->main_model->get_component_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->main_model->get_component_cnt($params);
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
-		$config['full_tag_open'] = "<ul class='pagination'>";
-		$config['full_tag_close'] = '</ul>';
-		$config['num_tag_open'] = '<li>';
-		$config['num_tag_close'] = '</li>';
-		$config['cur_tag_open'] = '<li class="active"><a href="#">';
-		$config['cur_tag_close'] = '</a></li>';
-		$config['prev_tag_open'] = '<li>';
-		$config['prev_tag_close'] = '</li>';
-		$config['first_tag_open'] = '<li>';
-		$config['first_tag_close'] = '</li>';
-		$config['last_tag_open'] = '<li>';
-		$config['last_tag_close'] = '</li>';
-		$config['prev_link'] = '<i class="fa fa-long-arrow-left"></i>Previous Page';
-		$config['prev_tag_open'] = '<li>';
-		$config['prev_tag_close'] = '</li>';
-		$config['next_link'] = 'Next Page<i class="fa fa-long-arrow-right"></i>';
-		$config['next_tag_open'] = '<li>';
-		$config['next_tag_close'] = '</li>';
-		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
-
-		$this->load->view('/mdm/component',$data);
-	}
-
-
-	public function biz()
-	{
-		$data['str'] = array(); //검색어관련
-		$data['str']['a1'] = $this->input->get('a1'); //custnm
-		$data['str']['a2'] = $this->input->get('a2'); //address
-		$data['str']['a3'] = $this->input->get('a3'); //cust name
-		$data['str']['a4'] = $this->input->get('a4'); //cust name
-		
-		$params['CUST_NM'] = "";
-		$params['ADDRESS'] = "";
-		$params['CUST_NAME'] = "";
-		$params['CUST_TYPE'] = "";
-
-		$data['qstr'] = "?P";
-		if(!empty($data['str']['a1'])){
-			$params['CUST_NM'] = $data['str']['a1'];
-			$data['qstr'] .= "&a1=".$data['str']['a1'];
-		}
-		if(!empty($data['str']['a2'])){
-			$params['ADDRESS'] = $data['str']['a2'];
-			$data['qstr'] .= "&a2=".$data['str']['a2'];
-		}
-		if(!empty($data['str']['a3'])){
-			$params['CUST_NAME'] = $data['str']['a3'];
-			$data['qstr'] .= "&a3=".$data['str']['a3'];
-		}
-		if(!empty($data['str']['a4'])){
-			$params['CUST_TYPE'] = $data['str']['a4'];
-			$data['qstr'] .= "&a4=".$data['str']['a4'];
-		}
-
-
-		$data['title'] = "업체등록";
-		
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
-		//PAGINATION
-		$config['per_page'] = $data['perpage'];
-		$config['page_query_string'] = true;
-		$config['query_string_segment'] = "pageNum";
-		$config['reuse_query_string'] = TRUE;
-
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-        //$start = $config['per_page'] * ($pageNum - 1);
-		
-		$start = $pageNum;
-		$data['pageNum'] = $start;
-		$data['bizList']   = $this->biz_model->get_bizReg_list($params,$start,$config['per_page']); 
-		$this->data['cnt'] = $this->biz_model->get_bizReg_list_cut($params);
-		/* pagenation start */
-
-		$this->load->library("pagination");
-		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 		$config['full_tag_open'] = "<ul class='pagination'>";
 		$config['full_tag_close'] = '</ul>';
 		$config['num_tag_open'] = '<li>';
@@ -372,80 +285,162 @@ class MDM extends CI_Controller {
 		$config['next_tag_close'] = '</li>';
 		$this->pagination->initialize($config);
 		$this->data['pagenation'] = $this->pagination->create_links();
-		
-		$this->load->view('/biz/index',$data);
-	}
-	
 
-	public function excelDown($hidx="")
+		$this->load->view('/mdm/component', $data);
+	}
+
+
+	public function biz()
+	{
+		$data['str'] = array(); //검색어관련
+		$data['str']['a1'] = trim($this->input->get('a1')); //custnm
+		$data['str']['a2'] = trim($this->input->get('a2')); //address
+		$data['str']['a3'] = trim($this->input->get('a3')); //cust name
+		$data['str']['a4'] = $this->input->get('a4'); //cust name
+
+		$params['CUST_NM'] = "";
+		$params['ADDRESS'] = "";
+		$params['CUST_NAME'] = "";
+		$params['CUST_TYPE'] = "";
+
+		$data['qstr'] = "?P";
+		if (!empty($data['str']['a1'])) {
+			$params['CUST_NM'] = $data['str']['a1'];
+			$data['qstr'] .= "&a1=" . $data['str']['a1'];
+		}
+		if (!empty($data['str']['a2'])) {
+			$params['ADDRESS'] = $data['str']['a2'];
+			$data['qstr'] .= "&a2=" . $data['str']['a2'];
+		}
+		if (!empty($data['str']['a3'])) {
+			$params['CUST_NAME'] = $data['str']['a3'];
+			$data['qstr'] .= "&a3=" . $data['str']['a3'];
+		}
+		if (!empty($data['str']['a4'])) {
+			$params['CUST_TYPE'] = $data['str']['a4'];
+			$data['qstr'] .= "&a4=" . $data['str']['a4'];
+		}
+
+
+		$data['title'] = "업체등록";
+
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
+		//PAGINATION
+		$config['per_page'] = $data['perpage'];
+		$config['page_query_string'] = true;
+		$config['query_string_segment'] = "pageNum";
+		$config['reuse_query_string'] = TRUE;
+
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+		//$start = $config['per_page'] * ($pageNum - 1);
+
+		$start = $pageNum;
+		$data['pageNum'] = $start;
+		$data['bizList']   = $this->biz_model->get_bizReg_list($params, $start, $config['per_page']);
+		$this->data['cnt'] = $this->biz_model->get_bizReg_list_cut($params);
+		/* pagenation start */
+
+		$this->load->library("pagination");
+		$config['base_url'] = base_url(uri_string());
+		$config['total_rows'] = $this->data['cnt'];
+		$config['full_tag_open'] = "<ul class='pagination'>";
+		$config['full_tag_close'] = '</ul>';
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li class="active"><a href="#">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		$config['prev_link'] = '<i class="fa fa-long-arrow-left"></i>Previous Page';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+		$config['next_link'] = 'Next Page<i class="fa fa-long-arrow-right"></i>';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		$this->pagination->initialize($config);
+		$this->data['pagenation'] = $this->pagination->create_links();
+
+		$this->load->view('/biz/index', $data);
+	}
+
+
+	public function excelDown($hidx = "")
 	{
 		error_reporting(E_ALL);
-        ini_set('display_errors', TRUE);
-        ini_set('display_startup_errors', TRUE);
-        ini_set('memory_limit','-1');
-        ini_set("max_execution_time","0");       
-        define('EOL',(PHP_SAPI == 'cli') ? PHP_EOL : '&lt;br /&gt;');
-        date_default_timezone_set('Asia/Seoul');
-        
-        $this->load->library('PHPExcel');
-        
-        $objPHPExcel = new PHPExcel();
-        
-        
-        $objPHPExcel->getProperties()->setCreator('Aliseon')
-                                        ->setLastModifiedBy('Aliseon')
-                                        ->setTitle('Aliseon_SALE LIST')
-                                        ->setSubject('Aliseon_SALE LIST')
-                                        ->setDescription('Aliseon_SALE LIST');
+		ini_set('display_errors', TRUE);
+		ini_set('display_startup_errors', TRUE);
+		ini_set('memory_limit', '-1');
+		ini_set("max_execution_time", "0");
+		define('EOL', (PHP_SAPI == 'cli') ? PHP_EOL : '&lt;br /&gt;');
+		date_default_timezone_set('Asia/Seoul');
 
-        function column_char($i) { return chr( 65 + $i ); }
+		$this->load->library('PHPExcel');
 
-        
-        $headers = array('HEAD-CODE','CODE','NAME','비고');
-        $last_char = column_char( count($headers) - 1 );
-        $widths = array(10, 30, 40, 50);
-                                        
-        $objPHPExcel->setActiveSheetIndex(0);
-        /** 상단 스타일지정 **/
-        $objPHPExcel->getActiveSheet()->getStyle('A1:'.$last_char.'1')->getFont()->setBold(true);
-        $objPHPExcel->getActiveSheet()->getStyle('A1:'.$last_char.'1')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('D9EDF7');
-        $objPHPExcel->getActiveSheet()->getStyle('A1:'.$last_char.'1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $objPHPExcel->getActiveSheet()->getStyle('A1:'.$last_char.'1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
-        $objPHPExcel->getDefaultStyle()->getFont()->setName('Nanum Gothic')->setSize(12);
-        $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(30);
-        
-        $objPHPExcel->getActiveSheet()->getStyle('A:'.$last_char)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-        
-        foreach($widths as $i => $w){
-            $objPHPExcel->getActiveSheet()->setCellValue(column_char($i).'1', $headers[$i]);
-            $objPHPExcel->setActiveSheetIndex()->getColumnDimension( column_char($i) )->setWidth($w);
-        }
-        
-        
-        
-        $this->data['cDetail_list'] = $this->main_model->get_cocdDetail_list($hidx);
-        foreach ($this->data['cDetail_list'] as $k=>$row) {
-            $nnn[$k]['H_CODE'] = $row->H_CODE;
-            $nnn[$k]['CODE'] = $row->CODE;
-            $nnn[$k]['NAME'] = $row->NAME;
-            $nnn[$k]['REMARK'] = $row->REMARK;            
-        }
-		
-		
+		$objPHPExcel = new PHPExcel();
 
-        $rows = $nnn;
-        $data = array_merge(array($headers), $rows);
-        
-        $objPHPExcel->getActiveSheet()->fromArray($data,NULL,'A1');
-        
-        
-        header('Content-Type: application/vnd.ms-excel;charset=utf-8');
-        header('Content-type: application/x-msexcel;charset=utf-8');
-        header('Content-Disposition: attachment;filename="공통코드-디테일.xls"');
-        header('Cache-Control: max-age=0');
-        
-        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-        $objWriter->save('php://output');
+
+		$objPHPExcel->getProperties()->setCreator('Aliseon')
+			->setLastModifiedBy('Aliseon')
+			->setTitle('Aliseon_SALE LIST')
+			->setSubject('Aliseon_SALE LIST')
+			->setDescription('Aliseon_SALE LIST');
+
+		function column_char($i)
+		{
+			return chr(65 + $i);
+		}
+
+
+		$headers = array('HEAD-CODE', 'CODE', 'NAME', '비고');
+		$last_char = column_char(count($headers) - 1);
+		$widths = array(10, 30, 40, 50);
+
+		$objPHPExcel->setActiveSheetIndex(0);
+		/** 상단 스타일지정 **/
+		$objPHPExcel->getActiveSheet()->getStyle('A1:' . $last_char . '1')->getFont()->setBold(true);
+		$objPHPExcel->getActiveSheet()->getStyle('A1:' . $last_char . '1')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('D9EDF7');
+		$objPHPExcel->getActiveSheet()->getStyle('A1:' . $last_char . '1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+		$objPHPExcel->getActiveSheet()->getStyle('A1:' . $last_char . '1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+		$objPHPExcel->getDefaultStyle()->getFont()->setName('Nanum Gothic')->setSize(12);
+		$objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(30);
+
+		$objPHPExcel->getActiveSheet()->getStyle('A:' . $last_char)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+
+		foreach ($widths as $i => $w) {
+			$objPHPExcel->getActiveSheet()->setCellValue(column_char($i) . '1', $headers[$i]);
+			$objPHPExcel->setActiveSheetIndex()->getColumnDimension(column_char($i))->setWidth($w);
+		}
+
+
+
+		$this->data['cDetail_list'] = $this->main_model->get_cocdDetail_list($hidx);
+		foreach ($this->data['cDetail_list'] as $k => $row) {
+			$nnn[$k]['H_CODE'] = $row->H_CODE;
+			$nnn[$k]['CODE'] = $row->CODE;
+			$nnn[$k]['NAME'] = $row->NAME;
+			$nnn[$k]['REMARK'] = $row->REMARK;
+		}
+
+
+
+		$rows = $nnn;
+		$data = array_merge(array($headers), $rows);
+
+		$objPHPExcel->getActiveSheet()->fromArray($data, NULL, 'A1');
+
+
+		header('Content-Type: application/vnd.ms-excel;charset=utf-8');
+		header('Content-type: application/x-msexcel;charset=utf-8');
+		header('Content-Disposition: attachment;filename="공통코드-디테일.xls"');
+		header('Cache-Control: max-age=0');
+
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+		$objWriter->save('php://output');
 	}
 
 
@@ -455,7 +450,7 @@ class MDM extends CI_Controller {
 	public function ajax_set_items()
 	{
 		$data['title'] = "품목추가";
-		$data['mod'] = ($this->input->post("idx"))?"1":"";
+		$data['mod'] = ($this->input->post("idx")) ? "1" : "";
 		$params['phpError'] = ""; //없으면 오류뜸
 
 		$param['idx'] = $this->input->post("idx");
@@ -463,11 +458,11 @@ class MDM extends CI_Controller {
 
 		$data['seriesList']   = $this->main_model->get_seriesHead_list($params);
 		$data['data'] = $this->main_model->get_items_info($param);
-		$data['bizList']   = $this->main_model->get_custlist(); 
-		$data['UNIT']   = $this->main_model->get_selectInfo("tch.CODE","UNIT");
+		$data['bizList']   = $this->main_model->get_custlist();
+		$data['UNIT']   = $this->main_model->get_selectInfo("tch.CODE", "UNIT");
 
 
-		return $this->load->view('/mdm/ajax_items_form',$data);
+		return $this->load->view('/mdm/ajax_items_form', $data);
 	}
 
 
@@ -475,16 +470,16 @@ class MDM extends CI_Controller {
 	public function ajax_set_component()
 	{
 		$data['title'] = "자재추가";
-		$data['mod'] = ($this->input->post("idx"))?"1":"";
-				
+		$data['mod'] = ($this->input->post("idx")) ? "1" : "";
+
 		//$data['seriesList']   = $this->main_model->get_seriesHead_list($params);
 		$data['data'] = $this->main_model->get_component_info($this->input->post("idx"));
 		$data['USER'] = $this->session->userdata('user_name');
 
-		$data['UNIT']   = $this->main_model->get_selectInfo("tch.CODE","UNIT");
+		$data['UNIT']   = $this->main_model->get_selectInfo("tch.CODE", "UNIT");
 
 
-		return $this->load->view('/mdm/ajax_compont_form',$data);
+		return $this->load->view('/mdm/ajax_compont_form', $data);
 	}
 
 	/* 품목추가 ajax 입력 버튼 클릭 */
@@ -514,14 +509,13 @@ class MDM extends CI_Controller {
 		$data['msg']    = "";
 
 
-		if($ins > 0){
+		if ($ins > 0) {
 			$data = array(
 				'status' => 'ok',
 				'msg'    => '품목을 등록했습니다.'
 			);
 			echo json_encode($data);
 		}
-
 	}
 
 
@@ -541,43 +535,42 @@ class MDM extends CI_Controller {
 			'INSERT_ID' => $this->input->post("XUSER")
 		);
 
-		
+
 		$ins = $this->main_model->set_component_formUpdate($params);
-		
+
 		$data['status'] = "";
 		$data['msg']    = "";
-		
-		$text = ($this->input->post("mod") == "")?"등록":"수정";
 
-		if($ins > 0){
+		$text = ($this->input->post("mod") == "") ? "등록" : "수정";
+
+		if ($ins > 0) {
 			$data = array(
 				'status' => 'ok',
-				'msg'    => '자재를 '.$text.'했습니다.'
+				'msg'    => '자재를 ' . $text . '했습니다.'
 			);
 			echo json_encode($data);
 		}
-
 	}
 
 
 
-	
+
 	/* 공통코드 HEAD 폼 호출 */
 	public function ajax_cocdHead_form()
 	{
 		$params['title'] = "공통코드-HEAD";
 		$params['mod'] = 0;
-		
-		
-		if($_POST['mode'] == "mod"){
+
+
+		if ($_POST['mode'] == "mod") {
 			$params['title'] .= " - 수정";
 			$data = $this->main_model->get_cocdHead_info($_POST['IDX']);
 			$params['data'] = $data;
 			$params['mod'] = 1;
 		}
-		
-		
-		return $this->load->view('/ajax/cocd_head',$params);
+
+
+		return $this->load->view('/ajax/cocd_head', $params);
 	}
 
 
@@ -587,16 +580,16 @@ class MDM extends CI_Controller {
 		$params['mod'] = '';
 		$params['headList']  = $this->main_model->get_cocdHead_list();
 		$params['hidx'] = $this->input->post("hidx");
-		
 
-		if($_POST['mode'] == "mod"){
+
+		if ($_POST['mode'] == "mod") {
 			$params['title'] .= " - 수정";
 			$data = $this->main_model->get_cocdDetail_info($this->input->post("idx"));
 			$params['data'] = $data;
 			$params['mod'] = 1;
 		}
-		
-		return $this->load->view('/ajax/cocd_detail',$params);
+
+		return $this->load->view('/ajax/cocd_detail', $params);
 	}
 
 	//공통코드 head update
@@ -611,12 +604,12 @@ class MDM extends CI_Controller {
 		$params['INSERT_ID'] = $this->session->userdata('user_name');
 
 		$ins = $this->main_model->codeHead_update($params);
-		
+
 		$data['status'] = "";
 		$data['msg']    = "";
 
 
-		if($ins != ""){
+		if ($ins != "") {
 			$data = array(
 				'status' => 'ok',
 				'msg'    => '코드를 등록했습니다.'
@@ -625,7 +618,7 @@ class MDM extends CI_Controller {
 		}
 	}
 
-	
+
 	//공통코드 detail update
 	public function set_cocd_DetailUpdate()
 	{
@@ -642,12 +635,12 @@ class MDM extends CI_Controller {
 
 
 		$ins = $this->main_model->codeDetail_update($params);
-		
+
 		$data['status'] = "";
 		$data['msg']    = "";
 
 
-		if($ins != ""){
+		if ($ins != "") {
 			$data = array(
 				'status' => 'ok',
 				'msg'    => '코드를 등록했습니다.'
@@ -663,7 +656,6 @@ class MDM extends CI_Controller {
 
 		$del = $this->main_model->delete_cocdHead($_POST['code']);
 		echo $del;
-		
 	}
 
 
@@ -672,7 +664,6 @@ class MDM extends CI_Controller {
 
 		$del = $this->main_model->delete_cocdDetail($_POST['idx']);
 		echo $del;
-		
 	}
 
 
@@ -680,18 +671,17 @@ class MDM extends CI_Controller {
 	public function ajax_cocdHaedchk()
 	{
 		//중복검사
-        $parem = $this->input->post("code");
-        $chk = $this->main_model->ajax_cocdHaedchk('CODE',$parem);
-        if ($chk > 0) {
-            $data['state'] = "N";
-            $data['msg'] = "중복된 코드입니다.";
-        } else {
-            $data['state'] = "Y";
-            $data['msg'] = "";
-        }
+		$parem = $this->input->post("code");
+		$chk = $this->main_model->ajax_cocdHaedchk('CODE', $parem);
+		if ($chk > 0) {
+			$data['state'] = "N";
+			$data['msg'] = "중복된 코드입니다.";
+		} else {
+			$data['state'] = "Y";
+			$data['msg'] = "";
+		}
 
-        echo json_encode($data);
-		
+		echo json_encode($data);
 	}
 
 
@@ -699,78 +689,77 @@ class MDM extends CI_Controller {
 	public function ajax_cocdDetailchk()
 	{
 		//중복검사
-        $parem = $this->input->post("code");
-        $chk = $this->main_model->ajax_cocdDetailchk('CODE',$parem);
-        if ($chk > 0) {
-            $data['state'] = "N";
-            $data['msg'] = "중복된 코드입니다.";
-        } else {
-            $data['state'] = "Y";
-            $data['msg'] = "";
-        }
+		$parem = $this->input->post("code");
+		$chk = $this->main_model->ajax_cocdDetailchk('CODE', $parem);
+		if ($chk > 0) {
+			$data['state'] = "N";
+			$data['msg'] = "중복된 코드입니다.";
+		} else {
+			$data['state'] = "Y";
+			$data['msg'] = "";
+		}
 
-        echo json_encode($data);
-		
+		echo json_encode($data);
 	}
 
 
 
 
-	public function infoform($idx="")
+	public function infoform($idx = "")
 	{
 		$data['str'] = array(); //검색어관련
-		$data['str']['mid'] = $this->input->get('mid'); //MEMBER ID
-		$data['str']['mname'] = $this->input->get('mname'); //MEMBER ID
+		$data['str']['mid'] = trim($this->input->get('mid')); //MEMBER ID
+		$data['str']['mname'] = trim($this->input->get('mname')); //MEMBER ID
 		$data['str']['level'] = $this->input->get('level'); //LEVEL
-		
+
 		$params['ID'] = "";
 		$params['NAME'] = "";
 		$params['LEVEL'] = "";
 
 		$data['qstr'] = "?P";
-		if(!empty($data['str']['mid'])){
+		if (!empty($data['str']['mid'])) {
 			$params['ID'] = $data['str']['mid'];
-			$data['qstr'] .= "&mid=".$data['str']['mid'];
+			$data['qstr'] .= "&mid=" . $data['str']['mid'];
 		}
-		if(!empty($data['str']['mname'])){
+		if (!empty($data['str']['mname'])) {
 			$params['NAME'] = $data['str']['mname'];
-			$data['qstr'] .= "&mname=".$data['str']['mname'];
+			$data['qstr'] .= "&mname=" . $data['str']['mname'];
 		}
-		if(!empty($data['str']['level'])){
+		if (!empty($data['str']['level'])) {
 			$params['LEVEL'] = $data['str']['level'];
-			$data['qstr'] .= "&level=".$data['str']['level'];
+			$data['qstr'] .= "&level=" . $data['str']['level'];
 		}
-		
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-        //$start = $config['per_page'] * ($pageNum - 1);
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+		//$start = $config['per_page'] * ($pageNum - 1);
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
+
 
 		$data['title'] = "인사정보등록";
 		$user_id = $this->session->userdata('user_id');
 		$this->data['userName'] = $this->session->userdata('user_name');
 
-		
-		$data['memberList'] = $this->register_model->get_member_list($params,$start,$config['per_page']);
+
+		$data['memberList'] = $this->register_model->get_member_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->register_model->get_member_cut($params);
-		
-		
+
+
 
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
@@ -794,70 +783,70 @@ class MDM extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
+		$this->data['pagenation'] = $this->pagination->create_links();
 
 
-		
-		$this->load->view('/register/infoform',$data);
+
+		$this->load->view('/register/infoform', $data);
 	}
 
 
 
-	public function infolist($idx="")
+	public function infolist($idx = "")
 	{
 		$data['str'] = array(); //검색어관련
-		$data['str']['mid'] = $this->input->get('mid'); //MEMBER ID
-		$data['str']['mname'] = $this->input->get('mname'); //MEMBER ID
+		$data['str']['mid'] = trim($this->input->get('mid')); //MEMBER ID
+		$data['str']['mname'] = trim($this->input->get('mname')); //MEMBER ID
 		$data['str']['level'] = $this->input->get('level'); //LEVEL
-		
+
 		$params['ID'] = "";
 		$params['NAME'] = "";
 		$params['LEVEL'] = "";
 
 		$data['qstr'] = "?P";
-		if(!empty($data['str']['mid'])){
+		if (!empty($data['str']['mid'])) {
 			$params['ID'] = $data['str']['mid'];
-			$data['qstr'] .= "&mid=".$data['str']['mid'];
+			$data['qstr'] .= "&mid=" . $data['str']['mid'];
 		}
-		if(!empty($data['str']['mname'])){
+		if (!empty($data['str']['mname'])) {
 			$params['NAME'] = $data['str']['mname'];
-			$data['qstr'] .= "&mname=".$data['str']['mname'];
+			$data['qstr'] .= "&mname=" . $data['str']['mname'];
 		}
-		if(!empty($data['str']['level'])){
+		if (!empty($data['str']['level'])) {
 			$params['LEVEL'] = $data['str']['level'];
-			$data['qstr'] .= "&level=".$data['str']['level'];
+			$data['qstr'] .= "&level=" . $data['str']['level'];
 		}
-		
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
 		$config['query_string_segment'] = "pageNum";
 		$config['reuse_query_string'] = TRUE;
 
-        $pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-        //$start = $config['per_page'] * ($pageNum - 1);
-		
+		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
+		//$start = $config['per_page'] * ($pageNum - 1);
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
-		
+
 
 		$data['title'] = "사용자등록";
 		$user_id = $this->session->userdata('user_id');
 		$this->data['userName'] = $this->session->userdata('user_name');
 
-		
-		$data['memberList'] = $this->register_model->get_member_list($params,$start,$config['per_page']);
+
+		$data['memberList'] = $this->register_model->get_member_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->register_model->get_member_cut($params);
-		
-		
+
+
 
 		/* pagenation start */
 
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
-        $config['total_rows'] = $this->data['cnt'];
+		$config['total_rows'] = $this->data['cnt'];
 
 
 		$config['full_tag_open'] = "<ul class='pagination'>";
@@ -881,11 +870,11 @@ class MDM extends CI_Controller {
 
 
 		$this->pagination->initialize($config);
-        $this->data['pagenation'] = $this->pagination->create_links();
+		$this->data['pagenation'] = $this->pagination->create_links();
 
 
-		
-		$this->load->view('/register/userform',$data);
+
+		$this->load->view('/register/userform', $data);
 	}
 
 
@@ -896,21 +885,21 @@ class MDM extends CI_Controller {
 		$idx  = $this->input->post("idx");
 
 		$data = array();
-		if(!empty($idx)){
+		if (!empty($idx)) {
 			$data['memInfo'] = $this->register_model->get_member_info($idx);
 		}
-		
-		$this->load->view('/register/ajax_infoform',$data);
+
+		$this->load->view('/register/ajax_infoform', $data);
 	}
 
 
 	/* 품목관리 스타트 */
-	public function series($hid='')
+	public function series($hid = '')
 	{
 		check_pageLevel(); //helper 페이지권한
 		$data['str'] = array(); //검색어관련
-		
-		$data['str']['v1'] = $this->input->get('v1');
+
+		$data['str']['v1'] = trim($this->input->get('v1'));
 		$data['str']['v2'] = $this->input->get('v2');
 		$data['str']['cnm'] = $this->input->get('cnm');
 		$data['str']['ccd'] = $this->input->get('ccd');
@@ -923,29 +912,29 @@ class MDM extends CI_Controller {
 		$params['COLORCD'] = "";
 
 		$data['qstr'] = "?P";
-		if(!empty($data['str']['v1'])){
+		if (!empty($data['str']['v1'])) {
 			$params['V1'] = $data['str']['v1'];
-			$data['qstr'] .= "&v1=".$data['str']['v1'];
+			$data['qstr'] .= "&v1=" . $data['str']['v1'];
 		}
-		if(!empty($data['str']['v2'])){
+		if (!empty($data['str']['v2'])) {
 			$params['V2'] = $data['str']['v2'];
-			$data['qstr'] .= "&v2=".$data['str']['v2'];
+			$data['qstr'] .= "&v2=" . $data['str']['v2'];
 		}
-		if(!empty($data['str']['dv2'])){
+		if (!empty($data['str']['dv2'])) {
 			$params['DV2'] = $data['str']['dv2'];
-			$data['qstr'] .= "&dv2=".$data['str']['dv2'];
+			$data['qstr'] .= "&dv2=" . $data['str']['dv2'];
 		}
-		if(!empty($data['str']['ccd'])){
+		if (!empty($data['str']['ccd'])) {
 			$params['COLORCD'] = $data['str']['ccd'];
-			$data['qstr'] .= "&ccd=".$data['str']['ccd'];
+			$data['qstr'] .= "&ccd=" . $data['str']['ccd'];
 		}
-		if(!empty($data['str']['cnm'])){
+		if (!empty($data['str']['cnm'])) {
 			$params['COLOERNM'] = $data['str']['cnm'];
-			$data['qstr'] .= "&cnm=".$data['str']['cnm'];
+			$data['qstr'] .= "&cnm=" . $data['str']['cnm'];
 		}
 
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
-		
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
+
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
 		$config['page_query_string'] = true;
@@ -953,17 +942,17 @@ class MDM extends CI_Controller {
 		$config['reuse_query_string'] = TRUE;
 
 		$pageNum = $this->input->get('pageNum') > '' ? $this->input->get('pageNum') : 0;
-		
+
 		$start = $pageNum;
 		$data['pageNum'] = $start;
 
-		$data['series_headList'] = $this->main_model->get_seriesHead_list($params,$start,$config['per_page']);
+		$data['series_headList'] = $this->main_model->get_seriesHead_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->main_model->get_seriesHead_cut($params);
-		$data['series_detailList'] = $this->main_model->get_seriesDetail_list($hid,$params);
+		$data['series_detailList'] = $this->main_model->get_seriesDetail_list($hid, $params);
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 
 		$data['H_IDX'] = $hid;
-		$data['de_show_chk']= ($hid != "")?true:false;
+		$data['de_show_chk'] = ($hid != "") ? true : false;
 
 		/* pagenation start */
 		$this->load->library("pagination");
@@ -992,17 +981,17 @@ class MDM extends CI_Controller {
 		$this->pagination->initialize($config);
 		$this->data['pagenation'] = $this->pagination->create_links();
 
-		$this->load->view('/mdm/series',$data);
+		$this->load->view('/mdm/series', $data);
 	}
-	
+
 	public function color()
 	{
 		check_pageLevel();
-		
+
 		$data['str'] = array(); //검색어관련
 		$data['str']['v1'] = $this->input->get('v1');
-		$data['str']['v2'] = $this->input->get('v2');
-		$data['str']['v3'] = $this->input->get('v3');
+		$data['str']['v2'] = trim($this->input->get('v2'));
+		$data['str']['v3'] = trim($this->input->get('v3'));
 		$data['str']['v4'] = $this->input->get('v4');
 
 		$params['V1'] = "";
@@ -1012,25 +1001,25 @@ class MDM extends CI_Controller {
 		$params['COLOR'] = "ON";
 
 		$data['qstr'] = "?P";
-		
-		if(!empty($data['str']['v1'])){
+
+		if (!empty($data['str']['v1'])) {
 			$params['V1'] = $data['str']['v1'];
-			$data['qstr'] .= "&v1=".$data['str']['v1'];
+			$data['qstr'] .= "&v1=" . $data['str']['v1'];
 		}
-		if(!empty($data['str']['v2'])){
+		if (!empty($data['str']['v2'])) {
 			$params['V2'] = $data['str']['v2'];
-			$data['qstr'] .= "&v2=".$data['str']['v2'];
+			$data['qstr'] .= "&v2=" . $data['str']['v2'];
 		}
-		if(!empty($data['str']['v3'])){
+		if (!empty($data['str']['v3'])) {
 			$params['V3'] = $data['str']['v3'];
-			$data['qstr'] .= "&v3=".$data['str']['v3'];
+			$data['qstr'] .= "&v3=" . $data['str']['v3'];
 		}
-		if(!empty($data['str']['v4'])){
+		if (!empty($data['str']['v4'])) {
 			$params['V4'] = $data['str']['v4'];
-			$data['qstr'] .= "&v4=".$data['str']['v4'];
+			$data['qstr'] .= "&v4=" . $data['str']['v4'];
 		}
 
-		$data['perpage'] = ($this->input->get('perpage') != "")?$this->input->get('perpage'):20;
+		$data['perpage'] = ($this->input->get('perpage') != "") ? $this->input->get('perpage') : 20;
 
 		//PAGINATION
 		$config['per_page'] = $data['perpage'];
@@ -1044,11 +1033,11 @@ class MDM extends CI_Controller {
 		$data['pageNum'] = $start;
 
 
-		$data['List'] = $this->act_model->act_an2_list($params,$start,$config['per_page']);
+		$data['List'] = $this->act_model->act_an2_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->act_model->act_an2_cut($params);
 
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
-			
+
 
 
 		/* pagenation start */
@@ -1079,17 +1068,18 @@ class MDM extends CI_Controller {
 		$this->pagination->initialize($config);
 		$this->data['pagenation'] = $this->pagination->create_links();
 
-		$this->load->view('/mdm/color',$data);
+		$this->load->view('/mdm/color', $data);
 	}
 
-	public function color_use_update(){
+	public function color_use_update()
+	{
 
-		
+
 		$params['SERIESD_IDX'] = $this->input->post("seriesd");
 		$params['ITEM_IDX'] = $this->input->post("item");
 		$params['USE_YN'] = $this->input->post("use");
 
-		$data = $this->act_model->ajax_color_useupdate($params);	
+		$data = $this->act_model->ajax_color_useupdate($params);
 		echo $data;
 	}
 
@@ -1098,17 +1088,17 @@ class MDM extends CI_Controller {
 	{
 		$params['title'] = "시리즈-HEAD";
 		$params['mod'] = 0;
-		
-		
-		if($_POST['mode'] == "mod"){
+
+
+		if ($_POST['mode'] == "mod") {
 			$params['title'] .= " - 수정";
 			$data = $this->main_model->get_seriesHead_info($_POST['IDX']);
 			$params['data'] = $data;
 			$params['mod'] = 1;
 		}
-		
-		
-		return $this->load->view('/ajax/series_head',$params);
+
+
+		return $this->load->view('/ajax/series_head', $params);
 	}
 
 
@@ -1119,15 +1109,15 @@ class MDM extends CI_Controller {
 		$params['headList']  = $this->main_model->get_seriesHead_list($params);
 		// $params['hidx'] = $this->input->post("idx");
 		$params['hidx'] = $this->input->post("hidx");
-		
 
-		if($_POST['mode'] == "mod"){
+
+		if ($_POST['mode'] == "mod") {
 			$params['title'] .= " - 수정";
 			$params['data'] = $this->main_model->get_seriesDetail_info($this->input->post("idx"));
 			$params['mod'] = 1;
 		}
-		
-		return $this->load->view('/ajax/series_detail',$params);
+
+		return $this->load->view('/ajax/series_detail', $params);
 	}
 
 	//공통코드 head update
@@ -1142,12 +1132,12 @@ class MDM extends CI_Controller {
 		$params['INSERT_ID'] = $this->session->userdata('user_name');
 
 		$ins = $this->main_model->seriesHead_update($params);
-		
+
 		$data['status'] = "";
 		$data['msg']    = "";
 
 
-		if($ins != ""){
+		if ($ins != "") {
 			$data = array(
 				'status' => 'ok',
 				'msg'    => '시리즈를 등록했습니다.'
@@ -1156,11 +1146,11 @@ class MDM extends CI_Controller {
 		}
 	}
 
-	
+
 	//공통코드 detail update
 	public function set_series_DetailUpdate()
 	{
-		
+
 		$params['mod']       = $this->input->post("mod");
 		$params['SERIES']     = $this->input->post("H_IDX");
 		$params['COLOR_CD']     = $this->input->post("COLOR_CD");
@@ -1172,17 +1162,17 @@ class MDM extends CI_Controller {
 
 
 		$ins = $this->main_model->seriesDetail_update($params);
-		
+
 		$data['status'] = "";
 		$data['msg']    = "";
 
-		$text = (!empty($this->input->post("mod")))?"수정":"등록";
+		$text = (!empty($this->input->post("mod"))) ? "수정" : "등록";
 
 
-		if($ins != ""){
+		if ($ins != "") {
 			$data = array(
 				'status' => 'ok',
-				'msg'    => '코드를 '.$text.'했습니다.'
+				'msg'    => '코드를 ' . $text . '했습니다.'
 			);
 			echo json_encode($data);
 		}
@@ -1197,18 +1187,17 @@ class MDM extends CI_Controller {
 	public function ajax_seriesHaedchk()
 	{
 		//중복검사
-        $parem = $this->input->post("code");
-        $chk = $this->main_model->ajax_seriesHaedchk('SERIES',$parem);
-        if ($chk > 0) {
-            $data['state'] = "N";
-            $data['msg'] = "중복된 코드입니다.";
-        } else {
-            $data['state'] = "Y";
-            $data['msg'] = "";
-        }
+		$parem = $this->input->post("code");
+		$chk = $this->main_model->ajax_seriesHaedchk('SERIES', $parem);
+		if ($chk > 0) {
+			$data['state'] = "N";
+			$data['msg'] = "중복된 코드입니다.";
+		} else {
+			$data['state'] = "Y";
+			$data['msg'] = "";
+		}
 
-        echo json_encode($data);
-		
+		echo json_encode($data);
 	}
 
 
@@ -1216,20 +1205,16 @@ class MDM extends CI_Controller {
 	public function ajax_seriesDetailchk()
 	{
 		//중복검사
-        $parem = $this->input->post("code");
-        $chk = $this->main_model->ajax_cocdDetailchk('CODE',$parem);
-        if ($chk > 0) {
-            $data['state'] = "N";
-            $data['msg'] = "중복된 코드입니다.";
-        } else {
-            $data['state'] = "Y";
-            $data['msg'] = "";
-        }
+		$parem = $this->input->post("code");
+		$chk = $this->main_model->ajax_cocdDetailchk('CODE', $parem);
+		if ($chk > 0) {
+			$data['state'] = "N";
+			$data['msg'] = "중복된 코드입니다.";
+		} else {
+			$data['state'] = "Y";
+			$data['msg'] = "";
+		}
 
-        echo json_encode($data);
-		
+		echo json_encode($data);
 	}
-
-
-
 }
