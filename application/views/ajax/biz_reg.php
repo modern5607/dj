@@ -21,13 +21,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<table class="nhover">
 					<tbody>
 						<tr>
-							<th><label class="l_id">업체명</label></th>
+							<th><span class="re"></span><label class="l_id">업체명</label></th>
 							<td>
 								<input type="text" name="CUST_NM" value="<?php echo isset($data->CUST_NM)?$data->CUST_NM:"";?>" class="form_input input_100">
 							</td>
 						</tr>
 						<tr>
-							<th><label class="l_id">거래처구분</label></th>
+							<th><span class="re"></span><label class="l_id">거래처구분</label></th>
 							<?php	
 								$buyer = (empty($data->CUST_TYPE) || $data->CUST_TYPE !== "buyer")?"":"selected";
 								$customer = (empty($data->CUST_TYPE) || $data->CUST_TYPE !== "customer")?"":"selected";
@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</td>
 						</tr>
 						<tr>
-							<th><label class="l_pw">주소</label></th>
+							<th><span class="re"></span><label class="l_pw">주소</label></th>
 							<td>
 								<input type="text" name="ADDRESS" value="<?php echo isset($data->ADDRESS)?$data->ADDRESS:"";?>" class="form_input input_100">
 							</td>
@@ -127,7 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				if(isset($data)){ //수정인경우
 				?>
 				<button type="button" class="modBtn blue_btn">수정</button>
-				<button type="button" data-idx="<?php echo $data->IDX;?>" class="delBtn blue_btn">삭제</button>
+				<!-- <button type="button" data-idx="<?php echo $data->IDX;?>" class="delBtn blue_btn">삭제</button> -->
 				<?php
 				}else{	
 				?>
@@ -157,15 +157,21 @@ $(".submitBtn").on("click",function(){
 	var formData = new FormData($("#bizRegForm")[0]);
 	var $this = $(this);
 
-	if($("input[name='wr_1']").val() == ""){
+	if($("input[name='CUST_NM']").val() == ""){
 		alert("업체명을 입력하세요");
-		$("input[name='wr_1']").focus();
+		$("input[name='CUST_NM']").focus();
 		return false;
 	}
 
-	if($("input[name='wr_2']").val() == ""){
-		alert("연락처를 입력하세요");
-		$("input[name='wr_2']").focus();
+	if($("select[name='CUST_TYPE']").val() == ""){
+		alert("거래처 구분을 선택하세요");
+		$("select[name='CUST_TYPE']").focus();
+		return false;
+	}
+
+	if($("input[name='ADDRESS']").val() == ""){
+		alert("주소를 입력하세요");
+		$("input[name='ADDRESS']").focus();
 		return false;
 	}
 
@@ -207,6 +213,25 @@ $(".submitBtn").on("click",function(){
 
 
 $(".modBtn").on("click",function(){
+	if($("input[name='CUST_NM']").val() == ""){
+		alert("업체명을 입력하세요");
+		$("input[name='CUST_NM']").focus();
+		return false;
+	}
+
+	if($("select[name='CUST_TYPE']").val() == ""){
+		alert("거래처 구분을 선택하세요");
+		$("select[name='CUST_TYPE']").focus();
+		return false;
+	}
+
+	if($("input[name='ADDRESS']").val() == ""){
+		alert("주소를 입력하세요");
+		$("input[name='ADDRESS']").focus();
+		return false;
+	}
+
+
 	var formData = new FormData($("#bizRegForm")[0]);
 	var $this = $(this);
 
@@ -250,22 +275,22 @@ $(".modBtn").on("click",function(){
 
 
 
-$(".delBtn").on("click",function(){
-	if(confirm("해당 업체를 삭제하시겠습니까?") !== false){
-		var idx = $(this).data("idx");
-		$.post("<?php echo base_url('/biz/set_bizReg_delete')?>",{idx:idx},function(data){
-			if(data > 0){
-				alert("삭제처리가 완료되었습니다.");
-			}
-			$(".ajaxContent").html('');
-			$("#pop_container").fadeOut();
-			$(".info_content").css("top","-50%");
-			$("#loading").hide();
-			location.reload();
-		});
+// $(".delBtn").on("click",function(){
+// 	if(confirm("해당 업체를 삭제하시겠습니까?") !== false){
+// 		var idx = $(this).data("idx");
+// 		$.post("<?php echo base_url('/biz/set_bizReg_delete')?>",{idx:idx},function(data){
+// 			if(data > 0){
+// 				alert("삭제처리가 완료되었습니다.");
+// 			}
+// 			$(".ajaxContent").html('');
+// 			$("#pop_container").fadeOut();
+// 			$(".info_content").css("top","-50%");
+// 			$("#loading").hide();
+// 			location.reload();
+// 		});
 
-		return false;
-	}
-});
+// 		return false;
+// 	}
+// });
 
 </script>

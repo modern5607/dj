@@ -4,12 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <link href="<?php echo base_url('_static/css/jquery.datetimepicker.min.css')?>" rel="stylesheet">
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js')?>"></script>
-<style>
-.ntdel{padding: 5px 7px;
-    background: #aaa;
-    font-size: 1.15em;
-    color: #fff;}
-</style>
+
 <div class="body_cont_float2">
     <ul>
         <li style="width:430px">

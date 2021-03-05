@@ -27,13 +27,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<table class="nhover">
 					<tbody>
 						<tr>
-							<th><label class="l_id">코드</label></th>
+							<th><span class='re'></span><label class="l_id">코드</label></th>
 							<td>
 								<input type="text" name="CODE" id="CODE" value="<?php echo isset($data->CODE)?$data->CODE:"";?>" class="form_input input_100">
 							</td>
 						</tr>
 						<tr>
-							<th><label class="l_pw">코드명</label></th>
+							<th><span class='re'></span><label class="l_pw">코드명</label></th>
 							<td>
 								<input type="text" name="NAME" value="<?php echo isset($data->NAME)?$data->NAME:"";?>" class="form_input input_100">
 							</td>
@@ -81,7 +81,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php
 						}	
 						?>
-						
+						<tr>
+							<th><label class="l_pw">사용유무</label></th>
+							<td style="font-size:1rem">
+							<?php $selected1 = (empty($data->USE_YN) or $data->USE_YN != "N")?"checked":"";  ?>
+							<?php $selected2 = (!empty($data->USE_YN) && $data->USE_YN == "N")?"checked":"";  ?>
+								<label for="useY">사용 <input type="radio" <?= $selected1 ?> name="USEYN" id="useY" value="Y"></label>&nbsp&nbsp&nbsp
+								<label for="useN">미사용 <input type="radio" <?= $selected2 ?> name="USEYN" id="useN" value="N"></label>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</fieldset>

@@ -234,6 +234,7 @@ class Main_model extends CI_Model
 				'NAME'        => $param['NAME'],
 				'REMARK'      => $param['REMARK'],
 				'UPDATE_ID'   => $param['INSERT_ID'],
+				'USE_YN'        => $param['USEYN'],
 				'UPDATE_DATE' => $dateTime,
 				'COL1'        => '',
 				'COL2'        => ''
@@ -249,6 +250,7 @@ class Main_model extends CI_Model
 				'NAME'        => $param['NAME'],
 				'REMARK'      => $param['REMARK'],
 				'INSERT_ID'   => $param['INSERT_ID'],
+				'USE_YN'        => $param['USEYN'],
 				'INSERT_DATE' => $dateTime,
 				'COL1'        => '',
 				'COL2'        => ''
@@ -275,6 +277,7 @@ class Main_model extends CI_Model
 				'CODE'           => $param['CODE'],
 				'NAME'           => $param['NAME'],
 				'REMARK'        => $param['REMARK'],
+				'USE_YN'        => $param['USEYN'],
 				'UPDATE_ID'    => $param['INSERT_ID'],
 				'UPDATE_DATE' => $dateTime,
 				'COL1'        => '',
@@ -292,6 +295,7 @@ class Main_model extends CI_Model
 				'CODE'        => $param['CODE'],
 				'NAME'        => $param['NAME'],
 				'REMARK'      => $param['REMARK'],
+				'USE_YN'        => $param['USEYN'],
 				'INSERT_ID'   => $param['INSERT_ID'],
 				'INSERT_DATE' => $dateTime,
 				'COL1'        => '',
@@ -528,6 +532,7 @@ class Main_model extends CI_Model
 
 		$this->db->order_by("D.COLOR", "ASC");
 		$res = $this->db->get();
+		// echo $this->db->last_query();
 		return $res->result();
 	}
 
@@ -712,6 +717,21 @@ class Main_model extends CI_Model
 		$this->db->from("t_cocd_d as tcd");
 		$this->db->join("t_cocd_h as tch", "tch.IDX = tcd.H_IDX");
 		$this->db->where($where);
+		$this->db->where('tcd.USE_YN','Y');
+		$this->db->where('tch.USE_YN','Y');
+		$query = $this->db->get();
+		
+		return $query->result();		
+	}
+
+	/*
+	* 헤드리스트 클릭시 디테일 상단 타이틀 호출
+	*/
+	public function get_headInfo($fild,$select,$set)
+	{
+		$this->db->select($select);
+		$this->db->from($fild);
+		$this->db->where('IDX',$set);
 		$query = $this->db->get();
 
 		return $query->result();

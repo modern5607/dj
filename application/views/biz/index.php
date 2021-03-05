@@ -17,12 +17,39 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <label for="a3">담당자</label>
         <input type="text" name="a3" id="a3" value="<?php echo $str['a3']?>">
 
-        <label for="a4">거래관계</label>
+        <!-- <label for="a4">업체구분</label>
         <select name="a4" id="a4">
             <option value="">전체</option>
             <option value="buyer" <?= ($str['a4']=='buyer')?'selected':''?>>매입처</option>
             <option value="customer"<?= ($str['a4']=='customer')?'selected':''?>>매출처</option>
-        </select>
+        </select> -->
+
+        <label for="a4">업체구분</label>
+					<?php
+					if(!empty($CUST)){
+					?>
+						<select name="a4" id="a4" class="form_select">
+							<option value="">all</option>
+						<?php
+						foreach($CUST as $row){
+						?>
+							<option value="<?php echo $row->D_CODE?>" <?php echo ($str['a4'] == $row->D_CODE)?"selected":"";?>><?php echo $row->D_NAME;?></option>
+						<?php
+						}
+						?>
+						</select>
+					<?php
+					}
+					?>
+
+
+
+        <label for="use">사용유무</label>
+		<select name="use" id="use">
+			<option value='A' <?php echo ($str['use'] == "A")?"selected":"";?>>전체</option>
+			<option value="Y" <?php echo ($str['use'] != "A")?"selected":"";?>>사용</option>
+			<option value="N" <?php echo ($str['use'] == "N")?"selected":"";?>>미사용</option>
+		</select>	
 
         <button class="search_submit"><i class="material-icons">search</i></button>
     </form>
@@ -42,7 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <tr>
                         <th>순번</th>
                         <th>업체명</th>
-                        <th>거래관계</th>
+                        <th>업체구분</th>
                         <th>주소</th>
                         <th>연락처</th>
                         <th>담당자</th>
@@ -68,7 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <td><?php echo $row->CUST_NAME;?></td>
                         <td><?php echo $row->ITEM;?></td>
                         <td class="cen"><?php echo $row->REMARK;?></td>
-                        <td><?php echo $row->CUST_USE;?></td>
+                        <td><?php echo ($row->CUST_USE == 'Y')?'사용':'미사용' ;?></td>
                     </tr>
 
                     <?php
