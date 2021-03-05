@@ -25,6 +25,9 @@ class Biz_model extends CI_Model {
 		if(!empty($param['CUST_TYPE']) && $param['CUST_TYPE'] != ""){
 			$this->db->like("CUST_TYPE",$param['CUST_TYPE']);
 		}
+		if(!empty($param['USE']) && $param['USE'] != "A"){
+			$this->db->where("CUST_USE",$param['USE']);
+		}
 
 		$this->db->limit($limit,$start);
 		$res = $this->db->get("T_BIZ_REG");
