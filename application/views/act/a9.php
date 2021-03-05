@@ -236,10 +236,12 @@ $(".del_items").on("click", function() {
 	var inqty = $(this).data("inqty");
 	var jhqty = $(this).data("jhqty");
     var bk = '<?=empty($BK)?"":$BK?>';
+    console.log(bk)
+    
 	if(!jhqty){
 		jhqty=0
 	}
-	if(bk!=1 && inqty > jhqty){
+	if(inqty > jhqty){
 		alert(`삭제할 수 없습니다.재고가 ${jhqty}개 남았습니다.`);
 		return false;
 	}

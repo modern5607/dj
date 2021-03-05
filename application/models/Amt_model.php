@@ -96,7 +96,7 @@ class Amt_model extends CI_Model {
 					ORDER BY A.TRANS_DATE DESC
 					LIMIT {$start},{$limit}
 				) as AA
-			UNION
+			UNION ALL
 			SELECT COUNT(B.COMPONENT_NM),'합계' AS TEXT,B.COMPONENT_NM, '' UNIT, SUM(IN_QTY) IN_QTY,'' 
 			FROM 
 			T_COMPONENT_TRANS A, 
@@ -314,9 +314,9 @@ SQL;
 	{
 		$this->db->trans_start();
 
-		$this->db->set("STOCK","STOCK + ".$params['IN_QTY'],FALSE);
-		$this->db->where("IDX",$params['IDX']);
-		$this->db->update("t_component");
+		// $this->db->set("STOCK","STOCK + ".$params['IN_QTY'],FALSE);
+		// $this->db->where("IDX",$params['IDX']);
+		// $this->db->update("t_component");
 
 
 		$set = array(
@@ -565,11 +565,11 @@ public function component_count($date='',$param)
 		$datetime = date("Y-m-d H:i:s",time());
 		$username = $this->session->userdata("user_name");
 
-		$this->db->set("STOCK",$param['CQTY'])
-						->set("UPDATE_ID",$username)
-						->set("UPDATE_DATE",$datetime)
-						->where("COMPONENT", "CLAY")	
-						->update("T_COMPONENT");
+		// $this->db->set("STOCK",$param['CQTY'])
+		// 				->set("UPDATE_ID",$username)
+		// 				->set("UPDATE_DATE",$datetime)
+		// 				->where("COMPONENT", "CLAY")	
+		// 				->update("T_COMPONENT");
 
 		//$sql = "DELETE FROM T_COMPONENT_TRANS WHERE IDX={$param['IDX']}";
 		$this->db->where('IDX',$param['IDX']);

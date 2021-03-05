@@ -359,6 +359,20 @@ SQL;
 			$chk = $que->row();
 			$qty = $qty*1;
 
+			$JT_QTY = ($chk->JT_QTY == null)?1:$chk->JT_QTY;
+			
+			$this->db->set("COMP_IDX",1); //clay 무조건
+			$this->db->set("TRANS_DATE",$datetime);
+			$this->db->set("KIND","OT");
+			$this->db->set("OUT_QTY",$qty*$JT_QTY);
+			$this->db->set("INSERT_ID",$username);
+			$this->db->set("INSERT_DATE",$datetime);
+			$this->db->set("ITEM_IDX",$params['ITEM_IDX'][$k]);
+			$this->db->set("COL1",$qty);
+
+			$this->db->insert("t_component_trans");
+
+
 			$datax = array(
 				//"H_IDX"        => $params['H_IDX'][$k],
 				"ITEMS_IDX"    => $params['ITEM_IDX'][$k],
