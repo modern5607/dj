@@ -1132,7 +1132,7 @@ class ACT2 extends CI_Controller
 
 
 
-	//선별작업실적현황
+	//선별선별실적현황
 	public function a11_2()
 	{
 		check_pageLevel();

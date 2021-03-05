@@ -1886,13 +1886,13 @@ SQL;
 		$this->db->trans_start();
 
 		$set = array(
-			"SB_DATE"	=> '',
+			"SB_DATE"	=> null,
 			"GJ_GB"     => "CU",
-			"1_QTY" 	=> 0,
-			"2_QTY" 	=> 0,
-			"3_QTY"	    => 0,
-			"4_QTY"  	=> 0,
-			"REMARK"	=> '',
+			"1_QTY" 	=> null,
+			"2_QTY" 	=> null,
+			"3_QTY"	    => null,
+			"4_QTY"  	=> null,
+			"REMARK"	=> null,
 			"UPDATE_ID" => $this->session->userdata('user_name'),
 			"UPDATE_DATE" => date("Y-m-d H:i:s", time())
 		);
@@ -2055,7 +2055,6 @@ SQL;
 			WHERE 
 				1
 				{$where}
-			GROUP BY A.ITEMS_IDX
 			ORDER BY 
 				SB_DATE DESC,
 				ITEM_NM,

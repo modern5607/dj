@@ -130,9 +130,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<li><a href="<?php echo base_url('ACT2/a10_2')?>" class="<?php echo ($this->data['subpos'] == "a10_2")?"on":"";?>"><i class="material-icons">memory</i>시유실적현황</a></li>
 							<li><a href="<?php echo base_url('ACT2/a11')?>" class="<?php echo ($this->data['subpos'] == "a11")?"on":"";?>"><i class="material-icons">memory</i>선별작업실적</a></li>
 							<li><a href="<?php echo base_url('ACT2/a11_1')?>" class="<?php echo ($this->data['subpos'] == "a11_1")?"on":"";?>"><i class="material-icons">memory</i>선별작업실적2</a></li>
+							<li><a href="<?php echo base_url('ACT2/a11_2')?>" class="<?php echo ($this->data['subpos'] == "a11_2")?"on":"";?>"><i class="material-icons">memory</i>선별실적현황</a></li>
 							<li><a href="<?php echo base_url('ACT2/a12')?>" class="<?php echo ($this->data['subpos'] == "a12")?"on":"";?>"><i class="material-icons">memory</i>후처리</a></li>
-							<li><a href="<?php echo base_url('ACT2/a12_1')?>" class="<?php echo ($this->data['subpos'] == "a12_1")?"on":"";?>"><i class="material-icons">memory</i>후처리2</a></li>
-							<li><a href="<?php echo base_url('ACT2/a11_2')?>" class="<?php echo ($this->data['subpos'] == "a11_2")?"on":"";?>"><i class="material-icons">memory</i>작업실적현황</a></li>
+							<li><a href="<?php echo base_url('ACT2/a12_1')?>" class="<?php echo ($this->data['subpos'] == "a12_1")?"on":"";?>"><i class="material-icons">memory</i>후처리파손현황</a></li>
                         </ul>
                     </li>
                     <li class="menu01_li">
