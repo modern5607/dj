@@ -100,19 +100,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<?php echo $data->UPDATE_ID;?>
 							</td>
 						</tr>
-						<?php } ?>
-						<?php if($data->UPDATE_DATE != ""){ ?>
+						<?php } 
+						if($data->UPDATE_DATE != ""){ ?>
 						<tr>
 							<th><label class="l_pw">수정일</label></th>
 							<td>
 								<?php echo $data->UPDATE_DATE;?>
 							</td>
 						</tr>
-						<?php } ?>
-						<?php
+						<?php } 
 						}	
 						?>
-						
+						<tr>
+							<th><label class="l_pw">사용유무</label></th>
+							<td style="font-size:1rem">
+							<?php $selected1 = (empty($data->USE_YN) or $data->USE_YN != "N")?"checked":"";  ?>
+							<?php $selected2 = (!empty($data->USE_YN) && $data->USE_YN == "N")?"checked":"";  ?>
+								<label for="useY">사용 <input type="radio" <?= $selected1 ?> name="USEYN" id="useY" value="Y"></label>&nbsp&nbsp&nbsp
+								<label for="useN">미사용 <input type="radio" <?= $selected2 ?> name="USEYN" id="useN" value="N"></label>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</fieldset>

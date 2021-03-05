@@ -16,6 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr>
 							<th>code</th>
 							<th>name</th>
+							<th>사용유무</th>
 							<th>비고</th>
 							<th></th>
 						</tr>
@@ -28,6 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr <?php echo ($H_IDX == $row->IDX)?"class='over'":"";?>>
 							<td><?php echo $row->CODE; ?></td>
 							<td><a href="<?php echo base_url('MDM/index/'.$row->IDX);?>" class="link_s1"><?php echo $row->NAME; ?></a></td>
+							<td class='cen'><?= ($row->USE_YN == 'Y')?'사용':'미사용' ;?></td>
 							<td><?php echo $row->REMARK;?></td>
 							<td><span class="btn mod_head" data-idx="<?php echo $row->IDX;?>">수정</span></td>
 						</tr>
@@ -63,7 +65,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<!-- <a href="<?php echo base_url('MDM');?>" class="alink" style="float:left;">전체코드보기</a> -->
 					<div style="display:flex;flex-direction: row-reverse;align-items: flex-end;">
 					<span class="btni btn_right add_detail" data-hidx="<?php echo $H_IDX;?>"><span class="material-icons">add</span></span>
-					<span class=""><p style="font-size: 20px; padding-right:20px; color:#194bff"><?php echo $headList[$H_IDX-1]->NAME ?></p></span>
+					<span class=""><p style="font-size: 20px; padding-right:20px; color:#194bff"><?= ($head[0]->NAME) ?></p></span>
 					</div>
 					
 				<?php } ?>
@@ -75,6 +77,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>head-code</th>
 							<th>code</th>
 							<th>name</th>
+							<th>사용유무</th>
 							<th>비고</th>
 							<th></th>
 						</tr>
@@ -88,6 +91,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td><?php echo $row->H_CODE; ?></td>
 							<td><?php echo $row->CODE; ?></td>
 							<td><?php echo $row->NAME; ?></td>
+							<td class='cen'><?= ($row->USE_YN == 'Y')?'사용':'미사용' ;?></td>
 							<td><?php echo $row->REMARK; ?></td>
 							<td><span class="btn mod_detail" data-idx="<?php echo $row->IDX;?>">수정</span></td>
 						</tr>

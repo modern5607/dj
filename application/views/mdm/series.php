@@ -103,11 +103,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 				<div class="gsflexst">
 				<span class="btn_right"><p style="font-size: 20px; padding-right:20px; color:#194bff;">
-					<?php if($series_detailList){
-						echo $series_detailList[0]->SERIES_NM; 
-					}else{
-						echo $series_headList[$detailpos-1]->SERIES_NM ;
-					}?>
+					<?= ($head[0]->SERIES_NM) ?>
 				</p></span>
 				<span class="btni btn_right add_detail" data-hidx="<?php echo $H_IDX; //series idx?>"><span class="material-icons">add</span></span>
 				</div>

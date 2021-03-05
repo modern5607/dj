@@ -127,7 +127,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td class="cen">
 								<input type="text" name="QTY" data-idx="<?php echo $row->IDX;?>" data-org="<?php echo $row->IN_QTY;?>" style="text-align:right;border:1px solid #ddd; padding:4px 5px; margin: 3px 4px;" value="<?php echo $row->IN_QTY;?>"></td>
 							<td>
-								<span class="btn del_items" data-idx="<?php echo $row->IDX; //detail idx?>">삭제</span>
+							
+								<span class="<?= ($row->END_YN != "Y" && $row->GJ_GB == "CU")?"btn del_items":"ntdel" ?>" data-idx="<?php echo $row->IDX; //detail idx?>">삭제</span>
 							</td>
 						</tr>
 

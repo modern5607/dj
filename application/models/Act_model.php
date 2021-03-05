@@ -359,18 +359,18 @@ SQL;
 			$chk = $que->row();
 			$qty = $qty*1;
 
-			$JT_QTY = ($chk->JT_QTY == null)?1:$chk->JT_QTY;
+			// $JT_QTY = ($chk->JT_QTY == null)?1:$chk->JT_QTY;
 			
-			$this->db->set("COMP_IDX",1); //clay 무조건
-			$this->db->set("TRANS_DATE",$datetime);
-			$this->db->set("KIND","OT");
-			$this->db->set("OUT_QTY",$qty*$JT_QTY);
-			$this->db->set("INSERT_ID",$username);
-			$this->db->set("INSERT_DATE",$datetime);
-			$this->db->set("ITEM_IDX",$params['ITEM_IDX'][$k]);
-			$this->db->set("COL1",$qty);
+			// $this->db->set("COMP_IDX",1); //clay 무조건
+			// $this->db->set("TRANS_DATE",$datetime);
+			// $this->db->set("KIND","OT");
+			// $this->db->set("OUT_QTY",$qty*$JT_QTY);
+			// $this->db->set("INSERT_ID",$username);
+			// $this->db->set("INSERT_DATE",$datetime);
+			// $this->db->set("ITEM_IDX",$params['ITEM_IDX'][$k]);
+			// $this->db->set("COL1",$qty);
 
-			$this->db->insert("t_component_trans");
+			// $this->db->insert("t_component_trans");
 
 
 			$datax = array(
@@ -1483,13 +1483,13 @@ SQL;
 		$data['ITEM_NAME'] = $query->row()->ITEM_NAME;*/
 
 
-		$this->db->select("A.IDX, C.ACT_DATE, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY, (SELECT F.CUST_NM FROM T_BIZ_REG AS F WHERE F.IDX = C.BIZ_IDX ) AS CUST_NM");
+		$this->db->select("A.IDX, C.ACT_DATE, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY, A.GJ_GB, B.END_YN, (SELECT F.CUST_NM FROM T_BIZ_REG AS F WHERE F.IDX = C.BIZ_IDX ) AS CUST_NM");
 		$this->db->from("t_inventory_trans as A");
 		$this->db->join("t_act_d as B","B.IDX = A.ACT_D_IDX","LEFT");
 		$this->db->join("t_series_d as D","D.IDX = A.SERIESD_IDX","LEFT");
 		$this->db->join("t_act_h as C","C.IDX = A.ACT_IDX","LEFT");
 		
-		$this->db->where("A.GJ_GB","CU");
+		// $this->db->where("A.GJ_GB","CU");
 		$this->db->where("A.KIND","IN");
 
 		if($date != ""){
@@ -2340,7 +2340,7 @@ SQL;
 		$sql = $this->db->last_query();
 		
 		$query = $this->db->query("SELECT AA.* FROM (". $sql.")as AA ORDER BY SERIES_NM,ITEM_NM,COLOR");
-		echo $this->db->last_query();
+		// echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -2519,7 +2519,7 @@ SQL;
 				{$start},{$limit}
 SQL;
 		$query = $this->db->query($sql);
-		 echo $this->db->last_query();
+		//  echo $this->db->last_query();
 		return $query->result();
 	}
 

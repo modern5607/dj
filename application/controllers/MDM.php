@@ -80,6 +80,7 @@ class MDM extends CI_Controller {
 		$data['headList']   = $this->main_model->get_cocdHead_list();
 		$data['detailList'] = $this->main_model->get_cocdDetail_list($hid);
 		$this->data['cnt'] = $this->main_model->get_cocdHead_cut();
+		$data['head'] = $this->main_model->get_headInfo("T_COCD_H","NAME",$hid);
 		$data['H_IDX']      = $hid;
 		$data['de_show_chk']= ($hid != "")?true:false;
 
@@ -305,11 +306,13 @@ class MDM extends CI_Controller {
 		$data['str']['a2'] = $this->input->get('a2'); //address
 		$data['str']['a3'] = $this->input->get('a3'); //cust name
 		$data['str']['a4'] = $this->input->get('a4'); //cust name
+		$data['str']['use'] = $this->input->get('use'); //cust name
 		
 		$params['CUST_NM'] = "";
 		$params['ADDRESS'] = "";
 		$params['CUST_NAME'] = "";
 		$params['CUST_TYPE'] = "";
+		$params['USE'] = "Y";
 
 		$data['qstr'] = "?P";
 		if(!empty($data['str']['a1'])){
@@ -327,6 +330,10 @@ class MDM extends CI_Controller {
 		if(!empty($data['str']['a4'])){
 			$params['CUST_TYPE'] = $data['str']['a4'];
 			$data['qstr'] .= "&a4=".$data['str']['a4'];
+		}
+		if(!empty($data['str']['use'])){
+			$params['USE'] = $data['str']['use'];
+			$data['qstr'] .= "&use=".$data['str']['use'];
 		}
 
 
@@ -347,8 +354,10 @@ class MDM extends CI_Controller {
 		$data['pageNum'] = $start;
 		$data['bizList']   = $this->biz_model->get_bizReg_list($params,$start,$config['per_page']); 
 		$this->data['cnt'] = $this->biz_model->get_bizReg_list_cut($params);
-		/* pagenation start */
 
+		$data['CUST']   = $this->main_model->get_selectInfo("tch.CODE","CUST");
+		
+		/* pagenation start */
 		$this->load->library("pagination");
 		$config['base_url'] = base_url(uri_string());
         $config['total_rows'] = $this->data['cnt'];
@@ -607,6 +616,7 @@ class MDM extends CI_Controller {
 		$params['NAME']    = $this->input->post("NAME");
 		$params['REMARK'] = $this->input->post("REMARK");
 		$params['IDX']        = $this->input->post("IDX");
+		$params['USEYN']        = $this->input->post("USEYN");
 
 		$params['INSERT_ID'] = $this->session->userdata('user_name');
 
@@ -636,6 +646,7 @@ class MDM extends CI_Controller {
 		$params['NAME']     = $this->input->post("NAME");
 		$params['REMARK']  = $this->input->post("REMARK");
 		$params['IDX']        = $this->input->post("IDX");
+		$params['USEYN']        = $this->input->post("USEYN");
 
 		$params['INSERT_ID'] = $this->session->userdata('user_name');
 
@@ -960,6 +971,7 @@ class MDM extends CI_Controller {
 		$data['series_headList'] = $this->main_model->get_seriesHead_list($params,$start,$config['per_page']);
 		$this->data['cnt'] = $this->main_model->get_seriesHead_cut($params);
 		$data['series_detailList'] = $this->main_model->get_seriesDetail_list($hid,$params);
+		$data['head'] = $this->main_model->get_headInfo("T_SERIES_H","SERIES_NM",$hid);
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 
 		$data['H_IDX'] = $hid;
