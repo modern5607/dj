@@ -148,6 +148,7 @@ $(".sh_submit").on("click", function() {
                     html += "<input type='hidden' name='ITEM_NM[]' value='" + info.ITEM_NAME + "' />";
                     //html += "	<input type='hidden' name='SERIESD_IDX[]' value='"+info.SERIESD_IDX+"' />";
                     html += "</td>";
+                    html += "<td><input type='hidden' name='BQTY[]' value='0'/></td>";
                     html += "<td style='text-align:center;'><input type='text' autocomplete='off' name='REMARK[]' class='form_select' value='' /></td>";
                     html += "</tr>";
 

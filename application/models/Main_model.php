@@ -129,14 +129,14 @@ class Main_model extends CI_Model {
 		if(!empty($param['KS_YN']) && $param['KS_YN'] != "A"){
 			$this->db->where("A.KS_YN",$param['KS_YN']);
 		}
-		$this->db->select("*, A.IDX AS IIDX");
+		$this->db->select("SERIES_NM, ITEM_NO, ITEM_NAME, SPEC, KS_YN, A.USE_YN, A.IDX");
 		$this->db->from("t_items as A");
 		$this->db->join("t_series_h as B","B.IDX = A.SERIES_IDX","LEFT");
 		$this->db->order_by("B.SERIES_NM","ASC");
 		$this->db->order_by("A.ITEM_NAME","ASC");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
-
+// echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -168,7 +168,7 @@ class Main_model extends CI_Model {
 		$this->db->order_by("B.SERIES_NM","ASC");
 		$this->db->order_by("A.ITEM_NAME","ASC");
 		$query = $this->db->get();
-		// echo $this->db->last_query();
+		
 		return $query->num_rows();
 	}
 

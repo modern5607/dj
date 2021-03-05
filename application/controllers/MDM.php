@@ -917,7 +917,7 @@ class MDM extends CI_Controller {
 		$data['str']['dv2'] = $this->input->get('dv2');
 
 		$params['V1'] = "";
-		$params['V2'] = "";
+		$params['V2'] = "Y";
 		$params['DV2'] = "";
 		$params['COLOERNM'] = "";
 		$params['COLORCD'] = "";

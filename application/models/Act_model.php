@@ -543,7 +543,9 @@ SQL;
 		}
 
 		$this->db->insert_batch("T_ITEMS_TRANS",$datain);
+		if($params['BK'] != 1){
 		$this->db->insert_batch("T_ITEMS_TRANS",$dataot);
+		}
 		return $this->db->affected_rows();
 	}
 

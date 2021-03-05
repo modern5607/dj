@@ -123,7 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				if(isset($data)){ //수정인경우
 				?>
 				<button type="button" class="modBtn blue_btn">수정</button>
-				<button type="button" data-idx="<?php echo $data->IDX;?>" class="delBtn blue_btn">삭제</button>
+				<!-- <button type="button" data-idx="<?php echo $data->IDX;?>" class="delBtn blue_btn">삭제</button> -->
 				<?php
 				}else{	
 				?>
@@ -289,22 +289,22 @@ $(".modBtn").on("click",function(){
 
 
 
-$(".delBtn").on("click",function(){
-	if(confirm("해당 코드를 삭제하시겠습니까?") !== false){
-		var idx = $(this).data("idx");
-		$.post("<?php echo base_url('MDM/set_cocdDetail_delete')?>",{idx:idx},function(data){
-			if(data > 0){
-				alert("삭제처리가 완료되었습니다.");
-			}
-			$(".ajaxContent").html('');
-			$("#pop_container").fadeOut();
-			$(".info_content").css("top","-50%");
-			$("#loading").hide();
-			location.reload();
-		});
+// $(".delBtn").on("click",function(){
+// 	if(confirm("해당 코드를 삭제하시겠습니까?") !== false){
+// 		var idx = $(this).data("idx");
+// 		$.post("<?php echo base_url('MDM/set_cocdDetail_delete')?>",{idx:idx},function(data){
+// 			if(data > 0){
+// 				alert("삭제처리가 완료되었습니다.");
+// 			}
+// 			$(".ajaxContent").html('');
+// 			$("#pop_container").fadeOut();
+// 			$(".info_content").css("top","-50%");
+// 			$("#loading").hide();
+// 			location.reload();
+// 		});
 
-		return false;
-	}
-});
+// 		return false;
+// 	}
+// });
 
 </script>

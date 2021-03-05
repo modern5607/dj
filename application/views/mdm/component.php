@@ -37,6 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>자재코드</th>
 						<th>자재명</th>
 						<th>규격</th>
+						<th>현재고</th>
 						<th>사용유무</th>
 						<th></th>
 					</tr>
@@ -48,6 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="cen"><?php echo $row->COMPONENT; ?></td>
 					<td><?php echo $row->COMPONENT_NM; ?></td>
 					<td><?php echo $row->SPEC; ?></td>
+					<td class="right"><?php echo NUMBER_FORMAT($row->STOCK); ?></td>
 					<td class="cen"><?php echo ($row->USE_YN == "Y") ? "사용" : "미사용"; ?></td>
 					<td class="cen">
 						<span class="btn comp_update" data-idx="<?php echo $row->IDX;?>">수정</span>

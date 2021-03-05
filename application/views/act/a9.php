@@ -122,7 +122,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>시리즈</th>
 							<th>품명</th>
 							<th>실적수량</th>
-							<th>불량수량</th>
+                            <?php if(empty($BK)){
+                                echo "<th>불량수량</th>";
+                            } ?>
 							<th>비고</th>
 							<th></th>
 						</tr>
@@ -147,7 +149,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <td><?php echo $row->SERIES_NM; ?></td>
                                         <td><?php echo $row->ITEM_NAME; ?></td>
                                         <td class="right"><?php echo number_format($row->IN_QTY); ?></td>
+                                        <?php if(empty($BK)){ ?>
                                         <td class="right"><?php echo number_format($row->BQTY); ?></td>
+                                        <?php } ?>
                                         <td><?php echo $row->REMARK;?></td>
                                         <td><span class="btn del_items"
                                         data-idx="<?php echo $row->TRANS_IDX; //detail idx?>" 
@@ -163,7 +167,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td class="right"><strong><?php echo number_format($count); ?></strong></td>
                             <td colspan="" style="text-align:right;"><strong>총 합계</strong></td>
                             <td class="right"><strong><?php echo number_format($totalQty); ?></strong></td>
+                            <?php if(empty($BK)){ ?>
                             <td class="right"><strong><?php echo number_format($bqty); ?></strong></td>
+                            <?php } ?>
                             <td colspan="2"></td>
                         </tr>
                     <?php

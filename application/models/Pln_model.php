@@ -203,6 +203,7 @@ class Pln_model extends CI_Model {
 		$this->db->where("SERIESD_USE_YN","Y");
 		$this->db->where("SERIESH_USE_YN","Y");
 		$this->db->where("ITEM_USE_YN","Y");
+		$this->db->order_by("ITEM_NAME, COLOR");
 
 		$query = $this->db->get("t_item_stock_v");
 		
