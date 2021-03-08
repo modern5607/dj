@@ -242,7 +242,6 @@ $(".del_items").on("click", function() {
 	var inqty = $(this).data("inqty");
 	var jhqty = $(this).data("jhqty");
     var bk = '<?=empty($BK)?"":$BK?>';
-    console.log(bk)
     
 	if(!jhqty){
 		jhqty=0

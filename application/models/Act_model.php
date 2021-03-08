@@ -403,7 +403,7 @@ SQL;
 		if (!empty($params['s3']) && $params['s3'] != "") {
 			$this->db->where("SERIESD_IDX", $params['s3']);
 		}
-		if ($params['type'] != "BK") {
+		if ($params['type']  == "JH") {
 			$this->db->where("SH_QTY > 0");
 		}
 

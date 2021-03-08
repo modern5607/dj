@@ -174,10 +174,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             var stock = $("input[name^='QTY']").eq(i).val();
 
             if (stock === '0') {
-                alert('빈칸으로 남겨 놓으시거나 1개 이상의 수량을 입력해 주세요');
                 $("input[name^='QTY']").eq(i).val('');
-                $("input[name^='QTY']").eq(i).focus();
-                return;
             }
         };
 
