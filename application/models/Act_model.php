@@ -1708,10 +1708,21 @@ SQL;
 
 	public function get_inventory_info($IDX)
 	{
-		$this->db->select("IN_QTY");
-		$this->db->where("IDX", $IDX);
-		$query = $this->db->get("t_inventory_trans");
-		return $query->row()->IN_QTY;
+		$sql =<<<SQL
+			SELECT
+				tit.IN_QTY,ti.ITEM_NAME,tsd.COLOR
+			FROM
+				`t_inventory_trans` as tit,t_items as ti, t_series_d as tsd
+			WHERE
+				tit.IDX = '{$IDX}'
+				AND tit.ITEMS_IDX = ti.IDX
+				AND tit.SERIESD_IDX = tsd.IDX
+
+SQL;
+	$query=$this->db->query($sql);
+		// echo $this->db->last_query();
+		
+		return $query->row();
 	}
 
 

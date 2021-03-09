@@ -105,6 +105,9 @@ $config['site_title']['kpi']['short1'] = "납기단축 차트";
 $config['site_title']['kpi']['short2'] = "납기단축 리스트";
 
 
+$config['site_title']['Monitor']['env'] = "온습도 모니터링";
+
+
 
 $config['site_tel'] = "010-0000-0000";
 
