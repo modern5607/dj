@@ -132,7 +132,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         html += "<td>" + number_format(info.QTY) + "</td>";
                         html += "<td>";
                         html +=
-                            "	<input type='number' onKeyup=\"this.value=this.value.replace(/[^0-9]/g,'');\" autocomplete='off' name='QTY[]' class='form_select qty_this' size='4' value='' />";
+                            "	<input type='number' style='text-align:right' onKeyup=\"this.value=this.value.replace(/[^0-9]/g,'');\" autocomplete='off' name='QTY[]' class='form_select qty_this' size='4' value='' />";
                         html += "   <input type='hidden' name='ITEM_IDX[]' value='" + info.ITEMS_IDX + "' />";
                         html += "   <input type='hidden' name='STOCK[]' value='" + info.QTY + "' />";
                         html += "   <input type='hidden' name='SERIESD_IDX[]' value='" + info.SERIESD_IDX + "' />";
