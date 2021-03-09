@@ -1073,8 +1073,10 @@ class ACT extends CI_Controller
 	{
 		$param['ITEM_IDX'] = $this->input->post("item");
 		$param['SERIESD_IDX']  = $this->input->post("seriesd");
-		$param['QTY'] = $this->input->post("stock");
+		$param['STOCK'] = $this->input->post("stock");
+		$param['QTY'] = $this->input->post("qtygb");
 		$param['REMARK'] = $this->input->post("cont");
+		$param['KIND'] = $this->input->post("kind");
 
 
 		$data = $this->act_model->ajax_an4_listupdate($param);

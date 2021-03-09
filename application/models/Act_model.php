@@ -1969,12 +1969,15 @@ SQL;
 		$datetime = date("Y-m-d H:i:s", time());
 		$username = $this->session->userdata("user_name");
 
-		$query = $this->db->set("QTY", $param['QTY'])
+		$query = $this->db->set($param['QTY'], $param['STOCK'])
+			->set("GJ_GB", "JG")
+			->set("KIND", $param['KIND'])
 			->set("REMARK", $param['REMARK'])
-			->set("UPDATE_ID", $username)
-			->set("UPDATE_DATE", $datetime)
-			->where(array("ITEM_IDX" => $param['ITEM_IDX'], "SERIESD_IDX" => $param['SERIESD_IDX']))
-			->update("T_ITEM_STOCK");
+			->set("INSERT_ID", $username)
+			->set("KS_DATE", $datetime)
+			->set("ITEMS_IDX", $param['ITEM_IDX'])
+			->set("SERIESD_IDX", $param['SERIESD_IDX'])
+			->insert("T_INVENTORY_TRANS");
 
 
 		return $this->db->affected_rows();
@@ -2348,27 +2351,42 @@ SQL;
 			$where .= " AND COLOR LIKE '%{$param['V4']}%' ";
 		}
 
-
 		$sql = <<<SQL
-			SELECT
-				TI.ITEM_NAME, TIT.IDX, TSD.COLOR, TIT.IN_QTY, TIS.QTY, TAH.ACT_NAME, TAH.ACT_DATE,
-				( SELECT A.SERIES_NM FROM T_SERIES_H AS A WHERE A.IDX = TSD.SERIES_IDX ) AS SE_NAME
-			FROM
-				T_INVENTORY_TRANS as TIT
-				LEFT JOIN T_ITEMS as TI ON(TI.IDX = TIT.ITEMS_IDX)
-				LEFT JOIN T_SERIES_D as TSD ON(TSD.IDX = TIT.SERIESD_IDX)
-				LEFT JOIN T_ITEM_STOCK as TIS ON(TIS.ITEM_IDX = TIT.ITEMS_IDX AND TIS.SERIESD_IDX = TIT.SERIESD_IDX)
-				LEFT JOIN T_ACT_H as TAH ON(TAH.IDX = TIT.ACT_IDX)
-			WHERE
-				TIT.GJ_GB = "SB"
-				AND NOT EXISTS ( SELECT * FROM t_act_d tad WHERE tit.ACT_D_IDX = tad.IDX AND tad.END_YN = 'Y' )
-				AND TI.KS_YN = 'Y' 
-				{$where}
-			ORDER BY 
-				TAH.ACT_DATE ASC, SE_NAME, TI.ITEM_NAME, TSD.COLOR
-			LIMIT
-				{$start},{$limit}
+SELECT
+   TI.ITEM_NAME,
+   TIT.IDX,
+   TSD.COLOR,
+   TAD.QTY AS IN_QTY,
+   TIS.QTY,
+   TAH.ACT_NAME,
+   TAH.ACT_DATE,
+   ( SELECT A.SERIES_NM FROM T_SERIES_H AS A WHERE A.IDX = TSD.SERIES_IDX ) AS SE_NAME 
+FROM
+   T_INVENTORY_TRANS AS TIT,
+   T_ACT_H AS TAH ,
+   T_ACT_D AS TAD ,
+   T_ITEMS AS TI ,
+   T_SERIES_D AS TSD, 
+   T_ITEM_STOCK AS TIS
+WHERE
+   	TIT.GJ_GB = "SB" 
+   	AND TI.IDX = TIT.ITEMS_IDX
+   	AND TSD.IDX = TIT.SERIESD_IDX 
+   	AND TAH.IDX = TIT.ACT_IDX
+   	AND TAD.IDX = TIT.ACT_D_IDX 
+   	AND TIS.ITEM_IDX = TIT.ITEMS_IDX AND TIS.SERIESD_IDX = TIT.SERIESD_IDX 
+   	AND IFNULL(TAD.END_YN ,'A') != 'Y'
+   	AND TI.KS_YN = 'Y' 
+	AND NOT EXISTS (SELECT '*' FROM T_INVENTORY_TRANS WHERE ACT_D_IDX = TIT.ACT_D_IDX AND GJ_GB = 'KS')
+	{$where}
+ORDER BY
+   TAH.ACT_DATE ASC,
+   SE_NAME,
+   TI.ITEM_NAME,
+   TSD.COLOR 
+   LIMIT	{$start},{$limit}
 SQL;
+
 		$query = $this->db->query($sql);
 		// echo $this->db->last_query();
 		return $query->result();
@@ -2402,6 +2420,7 @@ SQL;
 				LEFT JOIN T_SERIES_D as TSD ON(TSD.IDX = TIT.SERIESD_IDX)
 				LEFT JOIN T_ITEM_STOCK as TIS ON(TIS.ITEM_IDX = TIT.ITEMS_IDX AND TIS.SERIESD_IDX = TIT.SERIESD_IDX)
 				LEFT JOIN T_ACT_H as TAH ON(TAH.IDX = TIT.ACT_IDX)
+				LEFT JOIN T_ACT_D as TAD ON(TAD.IDX = TIT.ACT_D_IDX)
 			WHERE
 				TIT.GJ_GB = "SB"
 				AND TI.KS_YN = 'Y' 
@@ -2414,23 +2433,34 @@ SQL;
 
 	public function ajax_a12_ksupdate($param)
 	{
-
 		$datetime = date("Y-m-d H:i:s", time());
 		$username = $this->session->userdata("user_name");
 
-		$sql = <<<SQL
-		DELETE FROM T_INVENTORY_TRANS
-		WHERE IDX = '{$param['IDX']}'
-SQL;
-		$query = $this->db->query($sql);
+		$this->db->from("t_inventory_trans");
+		$this->db->where("IDX",$param['IDX']);
+		$query = $this->db->get();
+		$info = $query->row();
 
-		// $query = $this->db->set("OUT_QTY","{$param['5_QTY']}",FALSE)
-		// 				->set("KS_DATE",$param['KS_DATE'])
-		// 				->set("UPDATE_ID",$username)
-		// 				->set("UPDATE_DATE",$datetime)
-		// 				->set("KIND",$param['KIND'])
-		// 				->set("GJ_GB",$param['GJ_GB'])
-		// 				->insert("T_INVENTORY_TRANS");
+
+		if($param['GJ_GB'] == 'SB'){
+			$sql = <<<SQL
+			DELETE FROM T_INVENTORY_TRANS
+			WHERE IDX = '{$param['IDX']}'
+SQL;
+			$query = $this->db->query($sql);
+		}else{
+			$query = $this->db->set("OUT_QTY","{$param['5_QTY']}",FALSE)
+								->set("KS_DATE",$param['KS_DATE'])
+								->set("INSERT_ID",$username)
+								->set("INSERT_DATE",$datetime)
+								->set("KIND",$param['KIND'])
+								->set("GJ_GB",$param['GJ_GB'])
+								->set("ITEMS_IDX",$info->ITEMS_IDX)
+								->set("SERIESD_IDX",$info->SERIESD_IDX)
+								->set("ACT_IDX",$info->ACT_IDX)
+								->set("ACT_D_IDX",$info->ACT_D_IDX)
+								->insert("T_INVENTORY_TRANS");
+	}
 
 		// 	$sql=<<<SQL
 		// 		UPDATE 	T_ITEM_STOCK AS TIS
@@ -2467,7 +2497,7 @@ SQL;
 
 		$sql = <<<SQL
 			SELECT
-				TI.ITEM_NAME, TIT.IDX, TSD.COLOR, TIT.IN_QTY, TIS.QTY, TIT.KS_DATE, TIT.5_QTY AS KSQTY,
+				TI.ITEM_NAME, TIT.IDX, TSD.COLOR, TAD.QTY AS IN_QTY, TIS.QTY, TIT.KS_DATE, TIT.OUT_QTY AS KSQTY,
 				( SELECT A.SERIES_NM FROM T_SERIES_H AS A WHERE A.IDX = TSD.SERIES_IDX ) AS SE_NAME
 			FROM
 				T_INVENTORY_TRANS as TIT
@@ -2475,6 +2505,7 @@ SQL;
 				LEFT JOIN T_SERIES_D as TSD ON(TSD.IDX = TIT.SERIESD_IDX)
 				LEFT JOIN T_ITEM_STOCK as TIS ON(TIS.ITEM_IDX = TIT.ITEMS_IDX AND TIS.SERIESD_IDX = TIT.SERIESD_IDX)
 				LEFT JOIN T_ACT_H as TAH ON(TAH.IDX = TIT.ACT_IDX)
+				LEFT JOIN T_ACT_D as TAD ON(TAD.IDX = TIT.ACT_D_IDX)
 			WHERE
 				TIT.KIND = "OTM"
 				{$where}

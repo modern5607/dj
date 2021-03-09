@@ -191,6 +191,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </ul>
                     </li-->
                     <li class="menu01_li">
+                        <a href="<?php echo base_url('kpi/equip1')?>" class="menu_a <?php echo ($this->data['pos'] == "kpi")?"on":"";?>">KPI</a>
+                        <ul class="menu02" <?php echo ($this->data['pos'] == "kpi")?"style='display:block'":"";?>>
+                            <!--li><a href="">메뉴등록</a></li-->
+                            <li><a href="<?php echo base_url('kpi/equip1')?>" class="<?php echo ($this->data['subpos'] == 'equip1')?"on":"";?>">반품감소율 차트</a></li>
+                            <li><a href="<?php echo base_url('kpi/fair1')?>" class="<?php echo ($this->data['subpos'] == 'fair1')?"on":"";?>">전기에너지 절감율 차트</a></li>
+                            <li><a href="<?php echo base_url('kpi/short1')?>" class="<?php echo ($this->data['subpos'] == 'short1')?"on":"";?>">납기단축 차트</a></li>
+                            <li><a href="<?php echo base_url('kpi/equip2')?>" class="<?php echo ($this->data['subpos'] == 'equip2')?"on":"";?>">반품감소율 리스트</a></li>
+                            <li><a href="<?php echo base_url('kpi/fair2')?>" class="<?php echo ($this->data['subpos'] == 'fair2')?"on":"";?>">전기에너지 절감율 리스트</a></li>
+                            <li><a href="<?php echo base_url('kpi/short2')?>" class="<?php echo ($this->data['subpos'] == 'short2')?"on":"";?>">납기단축 리스트</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu01_li">
                         <a href="<?php echo base_url('SYS/menu')?>" class="menu_a <?php echo ($this->data['pos'] == "SYS")?"on":"";?>">시스템관리</a>
                         <ul class="menu02" <?php echo ($this->data['pos'] == "SYS")?"style='display:block'":"";?>>
 							<li><a href="<?php echo base_url('SYS/menu')?>" class="<?php echo ($this->data['subpos'] == 'menu')?"on":"";?>"><i class="material-icons">inbox</i>메뉴권한관리</a></li>

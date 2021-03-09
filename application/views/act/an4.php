@@ -61,7 +61,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="cen"><?php echo $row->SE_NAME;?></td>
 					<td><strong><?php echo $row->ITEM_NAME; ?></strong></td>
 					<td class="cen"><?php echo $row->COLOR; ?></td>
-					<td class="right"><?php echo number_format($row->QTY); ?></td>
+					<td class="right">
+					<input type="hidden" name="QTY[]" class="form_input1" value="<?php echo number_format($row->QTY); ?>">
+					<?php echo number_format($row->QTY); ?></td>
 					<td class="cen"><input type="text" name="C_QTY[]" class="form_input1" size="6" value=""></td>
 					<td class="cen"><input type="text" name="C_CONT[]" class="form_input1" size="30" value=""></td>
 					<td class="cen"><span class="btn mod_stock" data-item="<?php echo $row->ITEM_IDX;?>"  data-seriesd="<?php echo $row->SERIESD_IDX;?>">수정</span></td>
@@ -115,16 +117,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $(".mod_stock").on("click",function(){
 	var item = $(this).data("item");
 	var seriesd = $(this).data("seriesd");
-	var stock = $(this).parents("tr").find("input[name^='C_QTY']").val();
+	var qty = $(this).parents("tr").find("input[name^='QTY']").val();
+	var cqty = $(this).parents("tr").find("input[name^='C_QTY']").val();
 	var cont = $(this).parents("tr").find("input[name^='C_CONT']").val();
 
 	if(stock == 0 || stock == ""){
 		alert('수량을 입력하세요');
 		return false;
 	}
+
+	if(qty == cqty){
+		alert('현 재고량입니다.');
+		return false;
+	}
+
+	if(qty < cqty){
+		var kind = "INM";
+		var qtygb = "IN_QTY";
+		var stock = cqty - qty;
+	}else{
+		var kind = "OTM";
+		var qtygb = "OUT_QTY";
+		var stock = qty - cqty;
+	}
+	
 	
 	$.post("<?php echo base_url('ACT/ajax_an4_listupdate')?>",
-		{item:item, seriesd:seriesd, stock:stock, cont:cont},
+		{item:item, seriesd:seriesd, stock:stock, cont:cont, kind:kind, qtygb:qtygb},
 		function(data){
 			if(data > 0){
 				alert("수정되었습니다.");

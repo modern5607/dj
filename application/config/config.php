@@ -97,6 +97,12 @@ $config['site_title']['ACT2']['a12'] = "후처리";
 $config['site_title']['ACT2']['a12_1'] = "후처리파손현황";
 $config['site_title']['ACT2']['a11_2'] = "선별실적현황";
 
+$config['site_title']['kpi']['equip1'] = "반품감소율 차트";
+$config['site_title']['kpi']['equip2'] = "반품감소율 리스트";
+$config['site_title']['kpi']['fair1'] = "전기에너지 절감율 차트";
+$config['site_title']['kpi']['fair2'] = "전기에너지 절감율 리스트";
+$config['site_title']['kpi']['short1'] = "납기단축 차트";
+$config['site_title']['kpi']['short2'] = "납기단축 리스트";
 
 
 

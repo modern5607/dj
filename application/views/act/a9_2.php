@@ -92,9 +92,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					}
                     if($count != 0){?>
 				<tr style="background:#f3f8fd;" class="nhover">
-					<td colspan="2" style="text-align:right;"><strong>총 수량</strong></td>
+					<td colspan="2" style="text-align:right;"><strong>건수</strong></td>
 					<td class="right"><strong><?php echo number_format($count); ?></strong></td>
-					<td colspan="1" style="text-align:right;"><strong>총 합계</strong></td>
+					<td colspan="1" style="text-align:right;"><strong>합계</strong></td>
 					<td class="right"><strong><?php echo number_format($inqty); ?></strong></td>
 					<td class="right"><strong><?php echo number_format($bqty); ?></strong></td>
 					<td colspan="1" class="cen"></td>

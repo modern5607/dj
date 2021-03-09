@@ -66,6 +66,23 @@ $(".limitset select").on("change", function() {
     location.href = "<?php echo base_url($pos."/".$subpos)?>" + qstr + "&perpage=" + $(this).val();
 });
 
+$(".calendar").on("change", function() {
+	var pln1 = $("input[name='pln1']").val();
+	var pln2 = $("input[name='pln2']").val();
+	var insert1 = $("input[name='insert1']").val();
+	var insert2 = $("input[name='insert2']").val();
+	var st1 = $("input[name='st1']").val();
+	var st2 = $("input[name='st2']").val();
+	var sdate = $("input[name='sdate']").val();
+	var edate = $("input[name='edate']").val();
+
+	if(pln1 > pln2 || st1 > st2 || sdate > edate || insert1 > insert2){
+		$("input[name='pln1']").val(pln2);
+		$("input[name='st1']").val(st2);
+		$("input[name='sdate']").val(edate);
+		alert("검색 시작일을 수정했습니다.")
+	}
+});
 </script>
 
 

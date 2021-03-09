@@ -441,26 +441,13 @@ SQL;
 
 		$query = $this->db->where("IDX",$params['ACT_IDX'])
 						->get("T_ACT_D");
-		// echo $this->db->last_query();
-		
 		$actinfo = $query->row();
+
+		date_default_timezone_set('Asia/Seoul');
+		$datetime = date("Y-m-d H:i:s",time());
+		$username = $this->session->userdata("user_name");
 		
 		if(!empty($actinfo)){
-			
-			// $this->db->where(array("ITEM_IDX"=>$actinfo->ITEMS_IDX, "SERIESD_IDX"=>$actinfo->SERIESD_IDX));
-			// $query = $this->db->get("T_ITEM_STOCK");
-			// $stockinfo = $query->row();
-
-			// if($params['QTY'] > $stockinfo->QTY){
-			// 	$data['status'] = "N";
-			// 	$data['msg']    = "재고 수량이 부족합니다.";
-			// 	return $data;
-			// 	exit;
-			// }
-
-			// $this->db->set("QTY","QTY-{$params['QTY']}",false);
-			// $this->db->where(array("ITEM_IDX"=>$stockinfo->ITEM_IDX, "SERIESD_IDX"=>$stockinfo->SERIESD_IDX));
-			// $this->db->update("T_ITEM_STOCK");
 
 			$this->db->trans_start();
 			
@@ -468,15 +455,27 @@ SQL;
 				->where("IDX",$params['ACT_IDX'])
 				->update("T_ACT_D");
 
-			$this->db->set(array("OUT_QTY"=>$params['QTY'], "CG_DATE"=>$params['XDATE'], "GJ_GB"=>'CG', "KIND"=>'OT', "ACT_D_IDX"=>$params['ACT_IDX']))
-					->insert("T_INVENTORY_TRANS");
+			$this->db->set(array(
+				"ITEMS_IDX"=>$actinfo->ITEMS_IDX, 
+				"SERIESD_IDX"=>$actinfo->SERIESD_IDX, 
+				"ACT_IDX"=>$actinfo->H_IDX, 
+				"OUT_QTY"=>$params['QTY'], 
+				"CG_DATE"=>$params['XDATE'], 
+				"GJ_GB"=>'CG', 
+				"KIND"=>'OT', 
+				"INSERT_ID"=>$username, 
+				"INSERT_DATE"=>$datetime,
+				"ACT_D_IDX"=>$params['ACT_IDX']))
+				->insert("T_INVENTORY_TRANS");
 
 			$this->db->set("ITEMS_IDX",$actinfo->ITEMS_IDX)
 					->set("TRANS_DATE",$params['XDATE'])
 					->set("KIND","OT")
 					->set("GJ_GB","CG")
 					->set("ACT_IDX",$actinfo->IDX)
-					->set("OUT_QTY",$params['QTY']);
+					->set("OUT_QTY",$params['QTY'])
+					->set("INSERT_ID",$username)
+					->set("INSERT_DATE",$datetime);
 			$this->db->insert("T_ITEMS_TRANS");
 
 			$this->db->trans_complete();

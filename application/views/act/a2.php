@@ -75,9 +75,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
                 if($remark != 0){?>
 				    <tr style="background:#f3f8fd;" class="nhover">
-                        <td colspan="2" style="text-align:right;"><strong>총 수량</strong></td>
+                        <td colspan="2" style="text-align:right;"><strong>건수</strong></td>
                         <td class="right"><?php echo $remark; ?></td>
-                        <td colspan="" style="text-align:right;"><strong>총 합계</strong></td>
+                        <td colspan="" style="text-align:right;"><strong>합계</strong></td>
                         <td class="right"><?= number_format($count);?></td>
                         <td class="cen"></td>
                     </tr>

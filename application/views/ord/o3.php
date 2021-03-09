@@ -11,6 +11,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div id="" class="bc_search">
                 <form>
                     <input type='hidden' name='n' value='1' />
+                    <input type='hidden' name='v1' value='<?= $str['v1'] ?>' />
+                    <input type='hidden' name='component_nm' value='<?= $str['component_nm'] ?>' />
+
                     <label for="sdate">생산 실적일</label>
                     <input type="text" name="sdate" class="sdate calendar"
                         value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>"
@@ -83,6 +86,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             <div id="" class="bc_search gsflexst" style="background:#f8f8f8;">
                 <form>
+                    <input type='hidden' name='sdate' value='<?= $str['sdate'] ?>' />
+                    <input type='hidden' name='edate' value='<?= $str['edate'] ?>' />
+
                     <label for="v1">시리즈</label>
                     <select name="v1">
                         <option value="">전체</option>
@@ -155,23 +161,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                         <?php }
 					}
-					}
-					if(empty($RList)){
-					?>
-                        <tr>
-                            <td colspan="15" style='color:#999; padding:40px 0;'>등록된 작업지시가 없습니다.</td>
-                        </tr>
-                        <?php }else{
-						?>
+                    if($count != 0){
+                    ?>
                         <tr style="background:#f3f8fd;" class="nhover">
-                            <td colspan="2" style="text-align:right"><strong>총 수량</strong></td>
+                            <td colspan="2" style="text-align:right"><strong>건수</strong></td>
                             <td style="text-align:right"><?php echo number_format($count);?></td>
-                            <td colspan="1" style="text-align:right"><strong>총 합계</strong></td>
+                            <td colspan="1" style="text-align:right"><strong>합계</strong></td>
                             <td style="text-align:right"><?php echo number_format($totalQty);?></td>
                             <td colspan="2"></td>
                         </tr>
-                        <?php
-					} ?>
+                    <?php
+					}}
+					if(empty($RList) || $count == 0){
+					?>
+                        <tr>
+                            <td colspan="10" style='color:#999; padding:40px 0;'>등록된 작업지시가 없습니다.</td>
+                        </tr>
+                    <?php } ?>
                     </tbody>
                     <tfoot>
                     </tfoot>

@@ -723,6 +723,27 @@ class Main_model extends CI_Model
 		
 		return $query->result();		
 	}
+	/*
+	* 특정 공통코드의 디테일리스트를 호출
+	*/
+	public function get_selectInfo_new($fild,$set,$hcode)
+	{
+		$where[$fild] = $set;
+		$this->db->select("tch.IDX, tch.CODE, tch.NAME, tcd.CODE as D_CODE, tcd.NAME as D_NAME");
+		$this->db->from("T_COCD_D as tcd");
+		$this->db->join("T_COCD_H as tch","tch.IDX = tcd.H_IDX");
+		
+		$this->db->where("tcd.USE_YN","Y");
+		$this->db->where("tch.USE_YN","Y");
+
+		$this->db->like("tcd.CODE",$hcode);
+
+		$this->db->where($where);
+		$this->db->order_by("S_NO","ASC");
+		$query = $this->db->get();
+		//echo $this->db->last_query();
+		return $query->result();		
+	}
 
 	/*
 	* 헤드리스트 클릭시 디테일 상단 타이틀 호출

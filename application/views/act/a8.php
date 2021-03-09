@@ -163,9 +163,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <?php } else {
                         ?>
                             <tr style="background:#f3f8fd;" class="nhover">
-                                <td colspan="1" style="text-align:right"><strong>총 수량</strong></td>
+                                <td colspan="1" style="text-align:right"><strong>건수</strong></td>
                                 <td style="text-align:right"><?php echo number_format($count); ?></td>
-                                <td colspan="1" style="text-align:right"><strong>총 합계</strong></td>
+                                <td colspan="1" style="text-align:right"><strong>합계</strong></td>
                                 <td style="text-align:right"><?php echo number_format($totalQty); ?></td>
                                 <td colspan="2"></td>
                             </tr>

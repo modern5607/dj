@@ -86,9 +86,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}
 				?>
 				<tr style="background:#f3f8fd;" class="nhover">
-					<td colspan="1" style="text-align:right;"><strong>총 수량</strong></td>
+					<td colspan="1" style="text-align:right;"><strong>건수</strong></td>
 					<td class="right"><strong><?php echo number_format($remark); ?></strong></td>
-					<td colspan="1" style="text-align:right;"><strong>총 합계</strong></td>
+					<td colspan="1" style="text-align:right;"><strong>합계</strong></td>
 					<!-- <td><?php echo $row->COMPONENT_NM; ?></td> -->
 					<td class="right"><strong><?php echo number_format($countcol); ?></strong></td>
 					<td></td>
