@@ -86,6 +86,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			
 			<div id="" class="bc_search gsflexst" style="background:#f8f8f8;">
 			<form>
+                <input type="hidden" name="sdate" value="<?php echo $str['sdate'] ?>">
+                <input type="hidden" name="edate" value="<?php echo $str['edate'] ?>">
 				<!--label for="component">제품코드</label>
 				<input type="text"autocomplete="off" name="component" id="component" value="<?php echo $str['component']?>"-->
                 <label for="v1">시리즈</label>

@@ -11,6 +11,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			
 			<div id="" class="bc_search">
 			<form>
+				<!-- <input type="hidden" name="component" value="<?php echo $str['component']?>">
+				<input type="hidden" name="component_nm" value="<?php echo $str['component_nm']?>"> -->
+					
 				<input type='hidden' name='n' value='1'/>
 				<label for="sdate">자재입고일</label>
 				<input type="text" name="sdate" autocomplete="off" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "")?$str['sdate']:date("Y-m-d",mktime(0,0,0,date("m"),1,date("Y")));?>" size="12" /> ~ 
@@ -81,6 +84,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			
 			<div id="items_formupdate" class="bc_search gsflexst">
 				<form>
+					<input type="hidden" name="sdate" value="<?php echo $str['sdate']?>">
+					<input type="hidden" name="edate" value="<?php echo $str['edate']?>">
+
 					<label for="component">자재코드</label>
 						<input type="text"  autocomplete="off"name="component" id="component" value="<?php echo $str['component']?>">
 					<label for="component_nm">자재명</label>

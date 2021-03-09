@@ -10,9 +10,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
             <div id="" class="bc_search">
                 <form>
-                    <input type='hidden' name='n' value='1' />
+                    <!-- <input type='hidden' name='n' value='1' />
                     <input type='hidden' name='v1' value='<?= $str['v1'] ?>' />
-                    <input type='hidden' name='component_nm' value='<?= $str['component_nm'] ?>' />
+                    <input type='hidden' name='component_nm' value='<?= $str['component_nm'] ?>' /> -->
 
                     <label for="sdate">작업지시일</label>
                     <input type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "") ? $str['sdate'] : date("Y-m-d", mktime(0, 0, 0, date("m"), 1, date("Y"))); ?>" size="12" /> ~

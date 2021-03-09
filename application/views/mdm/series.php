@@ -7,6 +7,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<li>
 			<div id="items_formupdate" class="bc_search gsflexst">
 				<form>
+					<!-- <input type="hidden" name="ccd" value="<?php echo $str['ccd']?>">
+					<input type="hidden" name="cnm" value="<?php echo $str['cnm']?>">
+					<input type="hidden" name="dv2" value="<?php echo $str['dv2']?>"> -->
+
 					<label for="v1">시리즈</label>
 					<input type="text" name="v1" size="12" value="<?php echo $str['v1']?>">
 
@@ -88,6 +92,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php if($de_show_chk){?>
 				<div class="gsflexst">
 					<form>
+						<input type="hidden" name="v1" value="<?php echo $str['v1']?>">
+						<input type="hidden" name="v2" value="<?php echo $str['v2']?>">
+
 						<label for="colorcode">색상코드</label>
 							<input type="text" name="ccd" size="12" value="<?php echo $str['ccd']?>">
 						<label for="colorname">색상명</label>

@@ -15,7 +15,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <input type="text" name="sdate" class="sdate calendar" value="<?= $str['sdate'] ?>" size="12"
                         autocomplete="off" /> ~
 
-                    <input type="text" name="edate" class="edate calendar" value="<?= $str['edate'] ?>" size="12"
+                    <input type="text" name="edate" class="edate calendar" 
+                        value="<?php echo (!empty($str['edate']) && $str['edate'] != "")?$str['edate']:date("Y-m-d");?>" size="12"
                         autocomplete="off" />
 
                     <input type='hidden' name='n' value='1' />
