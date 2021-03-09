@@ -141,7 +141,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         html += "<td style='text-align:center;'>" + info.JH_QTY + "</td>";
 
                         html += "<td style='text-align:center;'>";
-                        html += "<input style='text-align:right;' type='text' autocomplete='off' name='QTY[]' class='form_select qty_this' size='4' value='' />";
+                        html += "<input style='text-align:right;' onKeyup=\"this.value=this.value.replace(/[^0-9]/g,'');\" type='number' autocomplete='off' name='QTY[]' class='form_select qty_this' size='4' value='' />";
                         html += "<input type='hidden' name='ITEM_IDX[]' value='" + info.IDX + "' />";
                         html += "<input type='hidden' name='ITEM_NM[]' value='" + info.ITEM_NAME + "' />";
                         //html += "	<input type='hidden' name='SERIESD_IDX[]' value='"+info.SERIESD_IDX+"' />";

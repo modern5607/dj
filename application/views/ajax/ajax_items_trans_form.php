@@ -138,7 +138,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         //html += "<td>"+info.COLOR+"</td>";
                         html += "<td>";
                         html +=
-                            "	<input type='text' autocomplete='off' name='QTY[]' class='form_select' size='4' value='' />";
+                            "	<input type='number' style='text-align:right; width:100px' onKeyup=\"this.value=this.value.replace(/[^0-9]/g,'');\" autocomplete='off' name='QTY[]' class='form_select' size='4' value='' />";
                         html += "	<input type='hidden' name='ITEM_IDX[]' value='" + info.IDX +
                             "' />";
                         html += "	<input type='hidden' name='ITEM_NM[]' value='" + info
