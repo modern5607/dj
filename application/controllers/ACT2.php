@@ -985,6 +985,7 @@ class ACT2 extends CI_Controller
 		$data['OIDX'] = $oidx;
 		if ($oidx != "") {
 			$data['XXX_QTY'] = $this->act_model->get_inventory_info($oidx);
+			// echo var_dump($data['XXX_QTY']);
 		}
 
 		$data['List'] = $this->act_model->get_inventory_list($params, $start, $config['per_page']);

@@ -200,6 +200,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <li><a href="<?php echo base_url('SYS/userlog')?>" class="<?php echo ($this->data['subpos'] == 'userlog')?"on":"";?>"><i class="material-icons">preview</i>사용자 접속기록</a></li>
                         </ul>
                     </li>
+                    <li class="menu01_li">
+                        <a href="<?php echo base_url('Monitor/env')?>" class="menu_a <?php echo ($this->data['pos'] == "Monitor")?"on":"";?>">모니터링</a>
+                        <ul class="menu02" <?php echo ($this->data['pos'] == "Monitor")?"style='display:block'":"";?>>
+							<li><a href="<?php echo base_url('Monitor/env')?>" class="<?php echo ($this->data['subpos'] == 'env')?"on":"";?>"><i class="material-icons">inbox</i>온습도 모니터링</a></li>
+                        </ul>
+                    </li>
                 </ul>
             
                 
