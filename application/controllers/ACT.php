@@ -991,7 +991,7 @@ class ACT extends CI_Controller
 		$param['REMARK']  = $this->input->post("A6");
 		$param['IDX']     = $this->input->post("OIDX");
 
-
+		$qstr = $this->input->post("qstr");
 
 		if ($_FILES['setfile']['name'][0] != "") {
 
@@ -1030,7 +1030,7 @@ class ACT extends CI_Controller
 		$data =	$this->act_model->form_a11_update($param);
 
 		if ($data > 0) {
-			alert("선별작업실적이 등록되었습니다.", base_url('ACT2/a11/'));
+			alert("선별작업실적이 등록되었습니다.", base_url('ACT2/a11/').$qstr);
 		}
 	}
 

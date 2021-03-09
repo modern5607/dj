@@ -132,6 +132,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <form method="post" name="menuUpdateForm" id="menuUpdateForm"
                 action="<?php echo base_url('ACT/form_a11_update');?>" enctype="multipart/form-data">
                 <input type="hidden" name="OIDX" value="<?php echo $OIDX;?>">
+                <input type="hidden" name="qstr" value="<?php echo $qstr;?>">
                 <div class="bc_header none_padding">
 
                     <div class="ac_table">
