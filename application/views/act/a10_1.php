@@ -121,9 +121,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 									<td><?php echo $row->ITEM_NM; ?></td>
 									<td><?php echo $row->COLOR; ?></td>
 									<td class="right"><?php echo number_format($row->QTY); ?></td>
-									<td class="cen">
-										<input type="number" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="QTY" data-idx="<?php echo $row->IDX; ?>" data-org="<?php echo $row->IN_QTY; ?>" style="text-align:right;border:1px solid #ddd; padding:4px 5px; margin: 3px 4px;" value="<?php echo $row->IN_QTY; ?>">
-									</td>
+									<td class="right"><?php echo number_format($row->IN_QTY); ?></td>
 									<td>
 
 										<span class="<?= ($row->END_YN != "Y" && $row->GJ_GB == "CU") ? "btn del_items" : "ntdel" ?>" data-idx="<?php echo $row->IDX; //detail idx
@@ -164,32 +162,32 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-	$("input[name^='QTY']").on("change", function() {
+	// $("input[name^='QTY']").on("change", function() {
 
-		var org = $(this).data("org");
-		var qty = $(this).val() * 1;
-		var idx = $(this).data("idx");
+	// 	var org = $(this).data("org");
+	// 	var qty = $(this).val() * 1;
+	// 	var idx = $(this).data("idx");
 
-		var xxx = $(this).parents("tr").find("td").eq(4).text() * 1;
-		if (xxx > qty) {
-			alert('수주수량보다 작을 수 없습니다.');
-			$(this).val(org);
-			$(this).focus();
-			return false;
-		}
+	// 	var xxx = $(this).parents("tr").find("td").eq(4).text() * 1;
+	// 	if (xxx > qty) {
+	// 		alert('수주수량보다 작을 수 없습니다.');
+	// 		$(this).val(org);
+	// 		$(this).focus();
+	// 		return false;
+	// 	}
 
-		$.post("<?php echo base_url('ACT/ajax_a10_1_qty') ?>", {
-			qty: qty,
-			org: org,
-			idx: idx
-		}, function(data) {
-			if (data.status != "") {
-				alert(data.msg);
-				location.reload();
-			}
-		}, "JSON");
+	// 	$.post("<?php echo base_url('ACT/ajax_a10_1_qty') ?>", {
+	// 		qty: qty,
+	// 		org: org,
+	// 		idx: idx
+	// 	}, function(data) {
+	// 		if (data.status != "") {
+	// 			alert(data.msg);
+	// 			location.reload();
+	// 		}
+	// 	}, "JSON");
 
-	});
+	// });
 
 
 	$(".add_itemnum").on("click", function() {

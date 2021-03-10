@@ -1349,6 +1349,9 @@ class ACT2 extends CI_Controller
 		$params['V3'] = "";
 		$params['V4'] = "";
 
+		$params['GJGB'] = "KS";
+		$data['GJGB'] = "KS";
+
 		$data['qstr'] = "?P";
 		if (!empty($data['str']['sdate'])) {
 			$params['SDATE'] = $data['str']['sdate'];

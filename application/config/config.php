@@ -79,6 +79,7 @@ $config['site_title']['AMT']['am1_1'] = "성형/정형 재고";
 $config['site_title']['AMT']['am1_2'] = "시유 재고";
 $config['site_title']['AMT']['am2'] = "재생 재고내역";
 $config['site_title']['AMT']['am3'] = "재고조정";
+$config['site_title']['AMT']['am3_1'] = "재고조정현황";
 $config['site_title']['AMT']['am4'] = "출고등록";
 $config['site_title']['AMT']['am5'] = "기간별/업체별 출고내역";
 $config['site_title']['AMT']['am6'] = "클레임등록";
@@ -94,7 +95,7 @@ $config['site_title']['ACT2']['a10_2'] = "시유실적현황";
 $config['site_title']['ACT2']['a11'] = "선별작업실적";
 $config['site_title']['ACT2']['a11_1'] = "선별작업실적2";
 $config['site_title']['ACT2']['a12'] = "후처리";
-$config['site_title']['ACT2']['a12_1'] = "후처리파손현황";
+$config['site_title']['ACT2']['a12_1'] = "후처리현황";
 $config['site_title']['ACT2']['a11_2'] = "선별실적현황";
 
 $config['site_title']['kpi']['equip1'] = "반품감소율 차트";

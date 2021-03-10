@@ -132,7 +132,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<li><a href="<?php echo base_url('ACT2/a11_1')?>" class="<?php echo ($this->data['subpos'] == "a11_1")?"on":"";?>"><i class="material-icons">memory</i>선별작업실적2</a></li>
 							<li><a href="<?php echo base_url('ACT2/a11_2')?>" class="<?php echo ($this->data['subpos'] == "a11_2")?"on":"";?>"><i class="material-icons">memory</i>선별실적현황</a></li>
 							<li><a href="<?php echo base_url('ACT2/a12')?>" class="<?php echo ($this->data['subpos'] == "a12")?"on":"";?>"><i class="material-icons">memory</i>후처리</a></li>
-							<li><a href="<?php echo base_url('ACT2/a12_1')?>" class="<?php echo ($this->data['subpos'] == "a12_1")?"on":"";?>"><i class="material-icons">memory</i>후처리파손현황</a></li>
+							<li><a href="<?php echo base_url('ACT2/a12_1')?>" class="<?php echo ($this->data['subpos'] == "a12_1")?"on":"";?>"><i class="material-icons">memory</i>후처리현황</a></li>
                         </ul>
                     </li>
                     <li class="menu01_li">
@@ -143,6 +143,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <li><a href="<?php echo base_url('AMT/am1_2')?>" class="<?php echo ($this->data['subpos'] == "am1_2")?"on":"";?>"><i class="material-icons">memory</i>시유 재고내역</a></li>
 							<li><a href="<?php echo base_url('AMT/am2')?>" class="<?php echo ($this->data['subpos'] == "am2")?"on":"";?>"><i class="material-icons">memory</i>재생 재고내역</a></li>
 							<li><a href="<?php echo base_url('AMT/am3')?>" class="<?php echo ($this->data['subpos'] == "am3")?"on":"";?>"><i class="material-icons">memory</i>재고조정</a></li>
+							<li><a href="<?php echo base_url('AMT/am3_1')?>" class="<?php echo ($this->data['subpos'] == "am3_1")?"on":"";?>"><i class="material-icons">memory</i>재고조정현황</a></li>
 							<li><a href="<?php echo base_url('AMT/am4')?>" class="<?php echo ($this->data['subpos'] == "am4")?"on":"";?>"><i class="material-icons">memory</i>출고등록</a></li>
 							<li><a href="<?php echo base_url('AMT/am5')?>" class="<?php echo ($this->data['subpos'] == "am5")?"on":"";?>"><i class="material-icons">memory</i>기간별/업체별 출고내역</a></li>
 							<li><a href="<?php echo base_url('AMT/am6')?>" class="<?php echo ($this->data['subpos'] == "am6")?"on":"";?>"><i class="material-icons">memory</i>클레임등록</a></li>

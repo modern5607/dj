@@ -8,7 +8,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <div class="bc_header">
 	<form id="items_formupdate">
 
-		<label for="sdate">후처리일자</label>
+		<label for="sdate">작업지시일자</label>
 		<input type="text" name="sdate" class="sdate calendar" value="<?php echo (!empty($str['sdate']) && $str['sdate'] != "") ? $str['sdate'] : date("Y-m-d", mktime(0, 0, 0, date("m"), 1, date("Y"))); ?>" size="12" /> ~
 
 		<input type="text" name="edate" class="edate calendar" value="<?php echo (!empty($str['edate']) && $str['edate'] != "") ? $str['edate'] : date("Y-m-d"); ?>" size="12" />
@@ -32,6 +32,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		<label for="v4">색상</label>
 		<input type="text" autocomplete="off" name="v4" id="v4" value="<?php echo $str['v4'] ?>">
 
+		<?php if($GJGB == "JG"){
+		?>
+		<label for="kind">조정구분</label>
+			<select name="kind" id="kind">
+				<option value="">전체</option>
+				<option value="INM" <?= ($str['kind'] == "INM") ? "selected" : ""; ?>>재고추가</option>
+				<option value="OTM" <?= ($str['kind'] == "OTM") ? "selected" : ""; ?>>재고차감</option>
+			</select>
+		<?php } ?>
 
 		<button class="search_submit"><i class="material-icons">search</i></button>
 	</form>
@@ -46,13 +55,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				<thead>
 					<tr>
 						<th>No</th>
-						<th>후처리일자</th>
+						<th>작업지시일자</th>
 						<th>시리즈</th>
 						<th>품명</th>
 						<th>색상</th>
 						<th>재고량</th>
+						<?php if($GJGB == "KS"){ ?>
 						<th>수주수량</th>
 						<th>불량수량</th>
+						<?php }else{ 
+							if($str['kind'] != "OTM"){
+						?>
+								<th>추가수량</th>
+						<?php } if($str['kind'] != "INM"){
+						?>
+								<th>감소수량</th>
+						<?php } ?>
+						<th>조정사유</th>
+						<?php } ?>
 						<th></th>
 					</tr>
 				</thead>
@@ -69,8 +89,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<td><strong><?php echo $row->ITEM_NAME; ?></strong></td>
 								<td class="cen"><?php echo $row->COLOR; ?></td>
 								<td class="right"><?php echo number_format($row->QTY); ?></td>
-								<td class="right"><?php echo number_format($row->IN_QTY); ?></td>
-								<td class="right"><?php echo number_format($row->KSQTY); ?></td>
+								<?php if($GJGB == "KS"){ ?>
+								<td class="right"><?php echo number_format($row->SJ_QTY); ?></td>
+								<td class="right"><?php echo number_format($row->OUT_QTY); ?></td>
+								<?php }else{ 
+									if($str['kind'] != "OTM"){
+								?>
+										<td class="right"><?php echo number_format($row->IN_QTY); ?></td>
+								<?php } 
+								if($str['kind'] != "INM"){
+								?>
+										<td class="right"><?php echo number_format($row->OUT_QTY); ?></td>
+								<?php } ?>
+								<td class="right"><?php echo $row->REMARK; ?></td>
+								<?php } ?>
 								<td class="cen"><span class="btn del_stock" data-idx="<?php echo $row->IDX; ?>">삭제</span></td>
 							</tr>
 

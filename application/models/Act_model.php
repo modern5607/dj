@@ -1985,6 +1985,7 @@ SQL;
 			->set("KIND", $param['KIND'])
 			->set("REMARK", $param['REMARK'])
 			->set("INSERT_ID", $username)
+			->set("INSERT_DATE", $datetime)
 			->set("KS_DATE", $datetime)
 			->set("ITEMS_IDX", $param['ITEM_IDX'])
 			->set("SERIESD_IDX", $param['SERIESD_IDX'])
@@ -2504,11 +2505,19 @@ SQL;
 		if (!empty($param['V4']) && $param['V4'] != "") {
 			$where .= " AND COLOR LIKE '%{$param['V4']}%' ";
 		}
+		if (!empty($param['KIND']) && $param['KIND'] != "") {
+			$where .= " AND KIND = '{$param['KIND']}' ";
+		}
+		if (!empty($param['GJGB']) && $param['GJGB'] != "JG") {
+			$where .= " AND TIT.GJ_GB = '{$param['GJGB']}' ";
+		}else{
+			$where .= " AND TIT.GJ_GB = '{$param['GJGB']}' ";
+		}
 
 
 		$sql = <<<SQL
 			SELECT
-				TI.ITEM_NAME, TIT.IDX, TSD.COLOR, TAD.QTY AS IN_QTY, TIS.QTY, TIT.KS_DATE, TIT.OUT_QTY AS KSQTY,
+				TI.ITEM_NAME, TIT.IDX, TSD.COLOR, TAD.QTY AS SJ_QTY, TIS.QTY, TIT.KS_DATE, TIT.OUT_QTY, TIT.IN_QTY, TIT.REMARK, KIND,
 				( SELECT A.SERIES_NM FROM T_SERIES_H AS A WHERE A.IDX = TSD.SERIES_IDX ) AS SE_NAME
 			FROM
 				T_INVENTORY_TRANS as TIT
@@ -2518,10 +2527,10 @@ SQL;
 				LEFT JOIN T_ACT_H as TAH ON(TAH.IDX = TIT.ACT_IDX)
 				LEFT JOIN T_ACT_D as TAD ON(TAD.IDX = TIT.ACT_D_IDX)
 			WHERE
-				TIT.KIND = "OTM"
+				1
 				{$where}
 			ORDER BY 
-				KS_DATE desc, SE_NAME, ITEM_NAME, COLOR
+				KS_DATE desc, TIT.INSERT_DATE DESC, SE_NAME, ITEM_NAME, COLOR
 			LIMIT
 				{$start},{$limit}
 SQL;
@@ -2547,7 +2556,11 @@ SQL;
 		if (!empty($param['V4']) && $param['V4'] != "") {
 			$where .= " AND TSD.COLOR LIKE '%{$param['V4']}%' ";
 		}
-
+		if (!empty($param['GJGB']) && $param['GJGB'] != "JG") {
+			$where .= " AND TIT.GJ_GB = '{$param['GJGB']}' ";
+		}else{
+			$where .= " AND TIT.GJ_GB = '{$param['GJGB']}' ";
+		}
 
 		$sql = <<<SQL
 			SELECT
@@ -2559,7 +2572,7 @@ SQL;
 				LEFT JOIN T_ITEM_STOCK as TIS ON(TIS.ITEM_IDX = TIT.ITEMS_IDX AND TIS.SERIESD_IDX = TIT.SERIESD_IDX)
 				LEFT JOIN T_ACT_H as TAH ON(TAH.IDX = TIT.ACT_IDX)
 			WHERE
-				TIT.KIND = "OTM"
+				1
 				{$where}
 SQL;
 		$query = $this->db->query($sql);
