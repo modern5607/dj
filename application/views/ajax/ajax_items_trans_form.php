@@ -217,7 +217,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         $("#pop_container").fadeOut();
                         $(".info_content").css("top", "-50%");
                         $("#loading").hide();
-                        location.reload();
+                        location.replace("<?= base_url('ACT2/a8/'.$NDATE)?>");
+
 
                     }, 1000);
 
