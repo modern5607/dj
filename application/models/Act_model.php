@@ -267,7 +267,11 @@ SQL;
 
 
 		if ((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")) {
-			$this->db->where("C.ACT_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'");
+			$this->db->where("A.CU_DATE BETWEEN '{$param['SDATE']}' AND '{$param['EDATE']}'");
+		}
+
+		if (!empty($param['OIDX']) && $param['OIDX'] != "") {
+			$this->db->where("A.IDX", $param['OIDX']);
 		}
 
 		if (!empty($param['V1']) && $param['V1'] != "") {

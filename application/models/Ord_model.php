@@ -328,8 +328,7 @@ SQL;
 	public function ajax_inven_pop($params)
 	{
 		if($params['type'] == "CU"){
-			$this->db->select("TAD.ITEM_NM, TSD.COLOR, tad.ITEMS_IDX, tad.SERIESD_IDX, IFNULL(TI.JH_QTY,0) AS QTY, TAD.IDX AS ACT_D_IDX, TAD.H_IDX AS ACT_IDX");
-			$this->db->group_by("TAD.ITEM_NM, TSD.COLOR, tad.ITEMS_IDX, tad.SERIESD_IDX, TI.JH_QTY");
+			$this->db->select("TAD.ITEM_NM, TSD.COLOR, tad.ITEMS_IDX, tad.SERIESD_IDX, IFNULL(TI.JH_QTY,0) AS QTY, TAD.IDX AS ACT_D_IDX, TAD.H_IDX AS ACT_IDX, TAD.QTY AS D_QTY");
 			$this->db->where("(TAD.STATUS is null)",null,false); // 시유받을거
 		}else{
 			
@@ -353,6 +352,7 @@ SQL;
 		$this->db->order_by("TAD.ITEM_NM");
 		$this->db->order_by("TSD.COLOR");
 		$query = $this->db->get();
+		// echo $this->db->last_query();
 		return $query->result();
 	}
 

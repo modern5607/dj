@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             <div id="" class="bc_search">
                 <form>
-                    <label for="sdate">수주일</label>
+                    <label for="sdate">작업일자</label>
                     <input type="text" name="sdate" class="sdate calendar" value="<?= $str['sdate'] ?>" size="12"
                         autocomplete="off" /> ~
 
@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>수주일자</th>
+                            <th>시유일자</th>
                             <th>거래처</th>
                             <th>시리즈</th>
                             <th>품명</th>
