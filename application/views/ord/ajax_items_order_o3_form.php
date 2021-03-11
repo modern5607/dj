@@ -136,6 +136,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         html += "   <input type='hidden' name='ITEM_IDX[]' value='" + info.ITEMS_IDX + "' />";
                         html += "   <input type='hidden' name='STOCK[]' value='" + info.QTY + "' />";
                         html += "   <input type='hidden' name='SERIESD_IDX[]' value='" + info.SERIESD_IDX + "' />";
+                        html += "   <input type='hidden' name='ACT_IDX[]' value='" + info.ACT_IDX + "' />";
+                        html += "   <input type='hidden' name='ACT_D_IDX[]' value='" + info.ACT_D_IDX + "' />";
                         html += "</td>";
                         html +=
                             "<td><input type='text' autocomplete='off' name='REMARK[]' class='form_select' value='' /></td>";

@@ -257,7 +257,7 @@ SQL;
 	public function get_inventory_list($param, $start = 0, $limit = 20)
 	{
 
-		$this->db->select("A.IDX, B.H_IDX, C.ACT_DATE, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY,F.CUST_NM,E.SERIES_NM");
+		$this->db->select("A.IDX, B.H_IDX, A.CU_DATE AS ACT_DATE, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY,F.CUST_NM,E.SERIES_NM");
 		$this->db->from("t_inventory_trans as A");
 		$this->db->join("t_act_h as C", "C.IDX = A.ACT_IDX", "LEFT");
 		$this->db->join("t_act_d as B", "B.IDX = A.ACT_D_IDX", "LEFT");
@@ -288,7 +288,7 @@ SQL;
 		//}
 
 		// $this->db->select("A.IDX, B.H_IDX, C.ACT_DATE, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY,(SELECT E.SERIES_NM FROM T_SERIES_H as E WHERE E.IDX = D.SERIES_IDX) as SE_NAME");
-		$this->db->order_by("ACT_DATE", "ASC");
+		$this->db->order_by("A.CU_DATE", "ASC");
 		$this->db->order_by("ITEM_NM", "ASC");
 		$this->db->order_by("CUST_NM", "ASC");
 

@@ -154,6 +154,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td class="right">
                             <input type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="QTY" 
                             data-idx="<?php echo $row->TRANS_IDX; ?>" 
+                            data-prod="<?php echo $row->PROD_QTY; ?>" 
+                            data-sh="<?php echo $row->SH_QTY; ?>" 
                             style="text-align:right;border:1px solid #ddd; padding:4px 5px; margin: 3px 4px;" 
                             value="<?php echo number_format($row->ORDER_QTY); ?>">
                             </td>
@@ -218,6 +220,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $("input[name^='QTY']").on("change", function() {
     var qty = $(this).val() * 1;
     var idx = $(this).data("idx");
+    var prod = $(this).data("prod")*1;
+    var sh = $(this).data("sh")*1;
+
+    if(prod+sh < qty ){
+        alert("지시수량이 재고보다 많습니다.");
+        $(this).val('');
+        $(this).focus();
+        return false;
+    }
     
     $.post("<?php echo base_url('ORD/update_item_order') ?>", {
         qty: qty,
