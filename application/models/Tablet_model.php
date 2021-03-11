@@ -55,6 +55,64 @@ SQL;
 		return $query->result();
 	}
 
+
+	public function tablet_order_numlist($param)
+	{
+		$where = '';
+		if (!empty($param['idx']) && $param['idx'] != "") {
+			$where .= " AND A.IDX = {$param['idx']}";
+		}
+		if (!empty($param['date']) && $param['date'] != "") {
+			$where .= " AND A.TRANS_DATE = '{$param['date']}'";
+		}
+
+		$sql = <<<SQL
+			SELECT
+				A.IDX AS TRANS_IDX,
+				H.SERIES_NM,
+				B.ITEM_NAME,
+				A.ORDER_QTY,
+				A.REMARK,
+				B.SH_QTY,
+				1
+				{$where}
+		C.COLOR,
+				A.ORDER_QTY,
+				A.REMARK,
+				B.JH_QTY
+			FROM
+				t_inventory_orders AS A
+				LEFT JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
+				LEFT JOIN t_series_d AS C ON C.IDX = A.SERIESD_IDX
+				LEFT JOIN t_series_h AS H ON H.IDX = B.SERIES_IDX 
+			WHERE
+				A.END_YN is null
+				{$where}
+			UNION
+			SELECT
+				COUNT(B.ITEM_NAME),
+				'합계' AS TEXT,
+				'',
+				'',
+				SUM(A.ORDER_QTY),
+				'',
+				''
+			FROM
+				t_inventory_orders AS A
+				LEFT JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
+				LEFT JOIN t_series_d AS C ON C.IDX = A.SERIESD_IDX
+				LEFT JOIN t_series_h AS H ON H.IDX = B.SERIES_IDX 
+			WHERE
+				A.END_YN is null
+				{$where}
+			order by
+				SERIES_NM, ITEM_NAME, COLOR
+SQL;
+
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
+
 	//성형 입력 ajax
 	public function get_ajax_sh_info($params)
 	{
@@ -136,7 +194,7 @@ SQL;
 			$where .= " AND A.TRANS_DATE = '{$date}'";
 		}
 		$GJGB = $param['GJGB'];
-		
+
 
 		$where .= " AND GJ_GB = '{$GJGB}'";
 

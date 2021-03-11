@@ -158,18 +158,17 @@ class Tablet extends CI_Controller
 
 
 	//시유지시
-	public function o3($date = '')
+	public function o3()
 	{
 		$data['qstr'] = "?P";
 
-		$data['NDATE'] = $date;
+		$param['date'] = date("Y-m-d");
 		$params['GJGB'] = "CU";
-
 
 		// $data['List'] = $this->ord_model->inventory_order_list($params, $start, $config['per_page']);
 
 
-		$data['RList'] = $this->ord_model->inventory_order_numlist($date, $params);
+		$data['RList'] = $this->tablet_model->tablet_order_numlist($param);
 
 		$this->load->view('/tablet/o3', $data);
 	}
@@ -185,16 +184,33 @@ class Tablet extends CI_Controller
 		$this->load->view('/tablet/o4', $data);
 	}
 
-	//선별 작업지시 추가 popup
+
+	//시유 popup
 	public function ajax_invenNum_form()
 	{
-		$data['OIDX'] = $this->input->post("idx");
-		
-		$data['List'] = $this->act_model->get_inventory_list($data, 0, 9999);
+		$param['idx'] 	= $this->input->post("idx");
 
-		$data['title'] = "선별작업지시";
-		return $this->load->view('/tablet/ajax_items_order_o4_form', $data);
-	
+
+		$data['title'] = "시유작업지시";
+		$data['RList'] = $this->tablet_model->tablet_order_numlist($param);
+		return $this->load->view('/tablet/ajax_items_order_o3_form', $data);
 	}
-	
+
+	//시유 update insert
+	public function cu_update_insert()
+	{
+		$params['IDX'] = $this->input->post("IDX");
+		$params['QTY'] = $this->input->post("QTY");
+
+		$num = $this->tablet_model->ajax_act_a10_insert($params);
+
+		if ($num > 0) {
+			alert("시유작업실적이 등록되었습니다.", base_url('TABLET/o3/'));
+		} else {
+			$data['status'] = "";
+			$data['msg'] = "실적 등록에 실패했습니다. 관리자에게 문의하세요";
+		}
+
+		// echo json_encode($data);
+	}
 }
