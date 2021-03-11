@@ -1307,7 +1307,7 @@ SQL;
 
 
 		//$query = $this->db->get();
-		echo $this->db->last_query();
+		// echo $this->db->last_query();
 		$data['SLIST'] = $query->result();
 
 		return $data;

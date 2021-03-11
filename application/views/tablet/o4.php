@@ -77,7 +77,7 @@ $(".add_itemnum").on("click", function() {
     }, 500);
 
     $.ajax({
-        url: "<?php echo base_url('tablet/ajax_invenNum_form')?>",
+        url: "<?php echo base_url('tablet/ajax_invenNum1_form')?>",
         type: "POST",
         dataType: "HTML",
         data: {

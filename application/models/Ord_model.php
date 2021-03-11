@@ -330,6 +330,7 @@ SQL;
 		if($params['type'] == "CU"){
 			$this->db->select("TAD.ITEM_NM, TSD.COLOR, tad.ITEMS_IDX, tad.SERIESD_IDX, IFNULL(TI.JH_QTY,0) AS QTY, TAD.IDX AS ACT_D_IDX, TAD.H_IDX AS ACT_IDX, TAD.QTY AS D_QTY");
 			$this->db->where("(TAD.STATUS is null)",null,false); // 시유받을거
+			$this->db->where("( SELECT count( ACT_D_IDX ) FROM t_inventory_orders WHERE ACT_D_IDX = TAD.IDX ) != 1",null,false); // 시유받을거
 		}else{
 			
 			$this->db->select("TAD.ITEM_NM, SUM(TIT.IN_QTY) AS QTY, TSD.COLOR, tad.ITEMS_IDX, tad.SERIESD_IDX");
