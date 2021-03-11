@@ -360,7 +360,7 @@ SQL;
 			$qty = $qty * 1;
 
 			// $JT_QTY = ($chk->JT_QTY == null)?1:$chk->JT_QTY;
-			
+
 			// $this->db->set("COMP_IDX",1); //clay 무조건
 			// $this->db->set("TRANS_DATE",$datetime);
 			// $this->db->set("KIND","OT");
@@ -1303,7 +1303,7 @@ SQL;
 
 
 		//$query = $this->db->get();
-		// echo $this->db->last_query();
+		echo $this->db->last_query();
 		$data['SLIST'] = $query->result();
 
 		return $data;
@@ -1469,12 +1469,12 @@ SQL;
 
 		$this->db->select("A.IDX, C.ACT_DATE, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY, A.GJ_GB, B.END_YN, (SELECT F.CUST_NM FROM T_BIZ_REG AS F WHERE F.IDX = C.BIZ_IDX ) AS CUST_NM");
 		$this->db->from("t_inventory_trans as A");
-		$this->db->join("t_act_d as B","B.IDX = A.ACT_D_IDX","LEFT");
-		$this->db->join("t_series_d as D","D.IDX = A.SERIESD_IDX","LEFT");
-		$this->db->join("t_act_h as C","C.IDX = A.ACT_IDX","LEFT");
-		
+		$this->db->join("t_act_d as B", "B.IDX = A.ACT_D_IDX", "LEFT");
+		$this->db->join("t_series_d as D", "D.IDX = A.SERIESD_IDX", "LEFT");
+		$this->db->join("t_act_h as C", "C.IDX = A.ACT_IDX", "LEFT");
+
 		// $this->db->where("A.GJ_GB","CU");
-		$this->db->where("A.KIND","IN");
+		$this->db->where("A.KIND", "IN");
 
 		if ($date != "") {
 			$this->db->where("A.CU_DATE", $date);
@@ -1708,7 +1708,7 @@ SQL;
 
 	public function get_inventory_info($IDX)
 	{
-		$sql =<<<SQL
+		$sql = <<<SQL
 			SELECT
 				tit.IN_QTY,ti.ITEM_NAME,tsd.COLOR
 			FROM
@@ -1719,9 +1719,9 @@ SQL;
 				AND tit.SERIESD_IDX = tsd.IDX
 
 SQL;
-	$query=$this->db->query($sql);
+		$query = $this->db->query($sql);
 		// echo $this->db->last_query();
-		
+
 		return $query->row();
 	}
 
@@ -2320,8 +2320,8 @@ SQL;
 		$this->db->get();
 
 		$sql = $this->db->last_query();
-		
-		$query = $this->db->query("SELECT AA.* FROM (". $sql.")as AA ORDER BY SERIES_NM,ITEM_NM,COLOR");
+
+		$query = $this->db->query("SELECT AA.* FROM (" . $sql . ")as AA ORDER BY SERIES_NM,ITEM_NM,COLOR");
 		// echo $this->db->last_query();
 		return $query->result();
 	}
@@ -2449,30 +2449,30 @@ SQL;
 		$username = $this->session->userdata("user_name");
 
 		$this->db->from("t_inventory_trans");
-		$this->db->where("IDX",$param['IDX']);
+		$this->db->where("IDX", $param['IDX']);
 		$query = $this->db->get();
 		$info = $query->row();
 
 
-		if($param['GJ_GB'] == 'SB'){
+		if ($param['GJ_GB'] == 'SB') {
 			$sql = <<<SQL
 			DELETE FROM T_INVENTORY_TRANS
 			WHERE IDX = '{$param['IDX']}'
 SQL;
 			$query = $this->db->query($sql);
-		}else{
-			$query = $this->db->set("OUT_QTY","{$param['5_QTY']}",FALSE)
-								->set("KS_DATE",$param['KS_DATE'])
-								->set("INSERT_ID",$username)
-								->set("INSERT_DATE",$datetime)
-								->set("KIND",$param['KIND'])
-								->set("GJ_GB",$param['GJ_GB'])
-								->set("ITEMS_IDX",$info->ITEMS_IDX)
-								->set("SERIESD_IDX",$info->SERIESD_IDX)
-								->set("ACT_IDX",$info->ACT_IDX)
-								->set("ACT_D_IDX",$info->ACT_D_IDX)
-								->insert("T_INVENTORY_TRANS");
-	}
+		} else {
+			$query = $this->db->set("OUT_QTY", "{$param['5_QTY']}", FALSE)
+				->set("KS_DATE", $param['KS_DATE'])
+				->set("INSERT_ID", $username)
+				->set("INSERT_DATE", $datetime)
+				->set("KIND", $param['KIND'])
+				->set("GJ_GB", $param['GJ_GB'])
+				->set("ITEMS_IDX", $info->ITEMS_IDX)
+				->set("SERIESD_IDX", $info->SERIESD_IDX)
+				->set("ACT_IDX", $info->ACT_IDX)
+				->set("ACT_D_IDX", $info->ACT_D_IDX)
+				->insert("T_INVENTORY_TRANS");
+		}
 
 		// 	$sql=<<<SQL
 		// 		UPDATE 	T_ITEM_STOCK AS TIS
@@ -2510,7 +2510,7 @@ SQL;
 		}
 		if (!empty($param['GJGB']) && $param['GJGB'] != "JG") {
 			$where .= " AND TIT.GJ_GB = '{$param['GJGB']}' ";
-		}else{
+		} else {
 			$where .= " AND TIT.GJ_GB = '{$param['GJGB']}' ";
 		}
 
@@ -2558,7 +2558,7 @@ SQL;
 		}
 		if (!empty($param['GJGB']) && $param['GJGB'] != "JG") {
 			$where .= " AND TIT.GJ_GB = '{$param['GJGB']}' ";
-		}else{
+		} else {
 			$where .= " AND TIT.GJ_GB = '{$param['GJGB']}' ";
 		}
 
