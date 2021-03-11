@@ -191,7 +191,7 @@ class Tablet extends CI_Controller
 		} else {
 			$data['title'] = "시유작업지시";
 			$data['component'] = $this->act_model->get_component_stock();
-			return $this->load->view('/ord/ajax_items_order_o3_form', $data);
+			return $this->load->view('/tablet/ajax_items_order_o3_form', $data);
 		}
 	}
 

@@ -13,24 +13,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 <div class="formContainer">
-    <div style="background:#eceff5; padding:20px;" class="gsflexst">
-        <div>
-            <label for="s1">시리즈</label>
-            <select name="s1" id="s1" class="form_input select_call" style="width:100px;">
-                <option value="">시리즈</option>
-                <?php foreach ($SERIES as $s_h) { ?>
-                    <option value="<?php echo $s_h->IDX; ?>"><?php echo $s_h->SERIES_NM; ?></option>
-                <?php } ?>
-            </select>
-            <label for="s2">품명</label>
-            <input type="text" name="s2" id="s2" class="form_input" autocomplete="off" style="width:120px;">
 
-            <button class="sh_submit"><i class="material-icons">search</i></button>
-        </div>
-        <lavel>작업지시일
-            <input type="text" name="transdate" class="calendar" value="<?= (empty($NDATE) || $NDATE == "") ? date("Y-m-d") : $NDATE ?>" size="15" autocomplete="off" style="border: 1px solid #ddd; padding: 5px 7px;" />
-        </lavel>
-    </div>
 
     <form name="ajaxform" id="ajaxform">
         <input type="hidden" name="mod" value="<?php echo $mode ?>">
@@ -41,17 +24,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>시리즈</th>
                             <th>품명</th>
                             <th>색상</th>
-                            <th>정형재고수량</th>
                             <th>지시수량</th>
-                            <th>비고</th>
+                            <th>완료수량</th>
                         </tr>
                     </thead>
                     <tbody style="text-align:center;">
                         <tr>
-                            <td colspan="10" style="text-align:center; color:#999;"> 시리즈를 선택하세요 </td>
-                        </tr>
+                            <td class="cen"><?php echo $num; ?></td>
+                            <td><?php echo $row->SERIES_NM; ?></td>
+                            <td><?php echo $row->ITEM_NAME; ?></td>
+                            <td><?php echo $row->COLOR; ?></td>
+                            <td class="right"><?php echo number_format($row->ORDER_QTY); ?></td>
+                            <td>0</td>
                     </tbody>
                 </table>
             </fieldset>
@@ -59,18 +46,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </div>
         <div class="bcont" style="padding:15px 0; text-align:center;">
             <span id="loading"><img src='<?php echo base_url('_static/img/loader.gif'); ?>' width="100"></span>
-            <?php
-            if (isset($data)) { //수정인경우
-            ?>
-                <button type="button" class="modBtn blue_btn">수정</button>
-                <input type="hidden" name="IDX" value="<?php echo $data->IDX; ?>">
-            <?php
-            } else {
-            ?>
-                <button type="button" class="submitBtn blue_btn">입력</button>
-            <?php
-            }
-            ?>
+            <button type="button" class="modBtn blue_btn">확인</button>
+            <input type="hidden" name="IDX" value="<?php echo $data->IDX; ?>">
         </div>
 
     </form>
@@ -188,7 +165,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         $("#pop_container").fadeOut();
                         $(".info_content").css("top", "-50%");
                         $("#loading").hide();
-                        location.replace("<?= base_url('ORD/o3/'.$NDATE)?>");
+                        location.replace("<?= base_url('ORD/o3/' . $NDATE) ?>");
 
                     }, 1000);
 
