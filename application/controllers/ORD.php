@@ -565,7 +565,6 @@ class ORD extends CI_Controller
 			return $this->load->view('/ord/ajax_items_order_o4_form', $data);
 		} else {
 			$data['title'] = "시유작업지시";
-			$data['component'] = $this->act_model->get_component_stock();
 			return $this->load->view('/ord/ajax_items_order_o3_form', $data);
 		}
 	}

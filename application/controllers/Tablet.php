@@ -100,10 +100,21 @@ class Tablet extends CI_Controller
 	public function o4($date = '')
 	{
 		$params['GJGB'] = "SB";
-		$data['List'] = $this->act_model->get_inventory_list();
+		$data['List'] = $this->act_model->get_inventory_list($params, 0, 9999);
 
 		$this->load->view('/tablet/o4', $data);
 	}
 
+	//선별 작업지시 추가 popup
+	public function ajax_invenNum_form()
+	{
+		$data['OIDX'] = $this->input->post("idx");
+		
+		$data['List'] = $this->act_model->get_inventory_list($data, 0, 9999);
+
+		$data['title'] = "선별작업지시";
+		return $this->load->view('/tablet/ajax_items_order_o4_form', $data);
+	
+	}
 	
 }

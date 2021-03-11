@@ -43,8 +43,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <th>No</th>
                             <th>품명</th>
                             <th>색상</th>
-                            <th>정형재고수량</th>
-                            <th>지시수량</th>
+                            <th>수주수량</th>
+                            <th>정형재고</th>
+                            <th style="width:20%">지시수량</th>
                             <th>비고</th>
                         </tr>
                     </thead>
@@ -129,10 +130,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         html += "<td>" + (index + 1) + "</td>";
                         html += "<td>" + info.ITEM_NM + "</td>";
                         html += "<td>" + info.COLOR + "</td>";
+                        html += "<td>" + number_format(info.D_QTY) + "</td>";
                         html += "<td>" + number_format(info.QTY) + "</td>";
                         html += "<td>";
                         html +=
-                            "	<input type='number' style='text-align:right' onKeyup=\"this.value=this.value.replace(/[^0-9]/g,'');\" autocomplete='off' name='QTY[]' class='form_select qty_this' size='4' value='' />";
+                            "	<input type='number' style='text-align:right; width:70%' onKeyup=\"this.value=this.value.replace(/[^0-9]/g,'');\" autocomplete='off' name='QTY[]' class='form_select qty_this'  value='' />";
                         html += "   <input type='hidden' name='ITEM_IDX[]' value='" + info.ITEMS_IDX + "' />";
                         html += "   <input type='hidden' name='STOCK[]' value='" + info.QTY + "' />";
                         html += "   <input type='hidden' name='SERIESD_IDX[]' value='" + info.SERIESD_IDX + "' />";
