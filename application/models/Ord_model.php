@@ -392,4 +392,23 @@ SQL;
 		return $data;
 
 	}
+
+
+	public function update_item_order($param)
+	{
+		$this->db->trans_start();
+
+		$this->db->set("ORDER_QTY", $param['qty']);
+		$this->db->where("IDX", $param['idx']);
+		$this->db->update("t_items_orders");
+
+		$this->db->trans_complete();
+
+		$data = 0;
+		if ($this->db->trans_status() !== FALSE) {
+			$data = 1;
+		}
+		return $data;
+	}
+
 }
