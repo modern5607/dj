@@ -14,7 +14,7 @@ class Tablet extends CI_Controller
 		$this->data['subpos'] = $this->uri->segment(2);
 
 		$this->load->helper('test');
-		$this->load->model(array('ord_model', 'main_model', 'act_model'));
+		$this->load->model(array('ord_model', 'main_model', 'act_model','tablet_model'));
 
 		if (!empty($this->config->item('site_title')[$this->data['pos']][$this->data['subpos']])) {
 			$this->data['siteTitle'] = $this->config->item('site_title')[$this->data['pos']][$this->data['subpos']];
@@ -104,168 +104,11 @@ class Tablet extends CI_Controller
 	//선별지시
 	public function o4($date = '')
 	{
-
-		$data['qstr'] = "?P";
-
-		$data['NDATE'] = $date;
 		$params['GJGB'] = "SB";
-
-		// $data['List'] = $this->ord_model->inventory_order_list($params, $start, $config['per_page']);
-
-		$data['RList'] = $this->ord_model->inventory_order_numlist($date, $params);
+		$data['List'] = $this->act_model->get_inventory_list();
 
 		$this->load->view('/tablet/o4', $data);
 	}
 
-	public function ajax_add_act()
-	{
-		$data['idx'] = $this->input->post('idx');
-		$data['date'] = $this->input->post('date');
 	
-		$params['IDX'] = $data['idx'];
-
-		
-	
-	
-	}
-
-	//성형,정형 작업지시 추가 popup
-	public function ajax_itemNum_form()
-	{
-		$data['mode'] = $this->input->post("mode");
-		$data['SERIES'] = $this->main_model->get_seriesh_select();
-		$data['HIDX'] = $this->input->post("hidx");
-		$data['NDATE'] = $this->input->post("date");
-
-
-		if ($this->input->post("type") == "o2") {
-			$data['title'] = "정형작업지시";
-			return $this->load->view('/ord/ajax_items_order_o2_form', $data);
-		} else {
-			$data['title'] = "성형작업지시";
-			$data['component'] = $this->act_model->get_component_stock();
-			return $this->load->view('/ord/ajax_items_order_o1_form', $data);
-		}
-	}
-
-	//성형작업지시 추가
-	public function ajax_act_items_order_insert()
-	{
-		foreach ($this->input->post("QTY") as $key => $qty) {
-			if ($qty == "") {
-				continue;
-			} else {
-				$params['QTY'][$key] = $qty;
-				$params['ITEM_IDX'][$key] = $this->input->post("ITEM_IDX")[$key];
-				$params['REMARK'][$key] = $this->input->post("REMARK")[$key];
-				$params['transdate'] = $this->input->post("transdate");
-				$params['GJGB'] = $this->input->post("GJGB");
-			}
-		}
-
-		$num = $this->ord_model->ajax_item_order_insert($params);
-
-		if ($num > 0) {
-			$data['status'] = "ok";
-			$data['msg'] = "작업지시가 등록되었습니다.";
-		} else {
-			$data['status'] = "";
-			$data['msg'] = "작업지시 등록에 실패했습니다. 관리자에게 문의하세요";
-		}
-
-		echo json_encode($data);
-	}
-
-	//작업지시 삭제
-	public function ajax_del_items_order()
-	{
-		$idx = $this->input->get("idx");
-		$num = $this->ord_model->ajax_del_items_order($idx);
-		if ($num > 0) {
-			$data['status'] = "ok";
-			$data['msg'] = "삭제되었습니다.";
-		} else {
-			$data['status'] = "no";
-			$data['msg'] = "삭제에 실패했습니다. 관리자에게 문의하세요";
-		}
-
-		echo json_encode($data);
-	}
-
-
-	//시유,선별 작업지시 추가 popup
-	public function ajax_invenNum_form()
-	{
-		$data['mode'] 	= $this->input->post("mode");
-		$data['SERIES'] = $this->main_model->get_seriesh_select();
-		$data['HIDX'] 	= $this->input->post("hidx");
-		$data['NDATE']	= $this->input->post("date");
-
-
-		if ($this->input->post("type") == "o4") {
-			$data['title'] = "선별작업지시";
-			return $this->load->view('/ord/ajax_items_order_o4_form', $data);
-		} else {
-			$data['title'] = "시유작업지시";
-			$data['component'] = $this->act_model->get_component_stock();
-			return $this->load->view('/ord/ajax_items_order_o3_form', $data);
-		}
-	}
-
-	//시유,선별 작업지시 추가
-	public function ajax_act_inven_order_insert()
-	{
-
-		foreach ($this->input->post("QTY") as $key => $qty) {
-			if ($qty == "") {
-				continue;
-			} else {
-				$params['QTY'][$key] = $qty;
-				$params['ITEM_IDX'][$key] = $this->input->post("ITEM_IDX")[$key];
-				$params['REMARK'][$key] = $this->input->post("REMARK")[$key];
-				$params['SERIESD_IDX'][$key] = $this->input->post("SERIESD_IDX")[$key];
-				$params['transdate'] = $this->input->post("transdate");
-				$params['GJGB'] = $this->input->post("GJGB");
-			}
-		}
-
-		$num = $this->ord_model->ajax_inven_order_insert($params);
-
-		if ($num > 0) {
-			$data['status'] = "ok";
-			$data['msg'] = "작업지시가 등록되었습니다.";
-		} else {
-			$data['status'] = "";
-			$data['msg'] = "작업지시 등록에 실패했습니다. 관리자에게 문의하세요";
-		}
-
-		echo json_encode($data);
-	}
-
-
-	//시유,선별 작업지시 삭제
-	public function ajax_del_inven_order()
-	{
-		$idx = $this->input->get("idx");
-		$num = $this->ord_model->ajax_del_inven_order($idx);
-		if ($num > 0) {
-			$data['status'] = "ok";
-			$data['msg'] = "삭제되었습니다.";
-		} else {
-			$data['status'] = "no";
-			$data['msg'] = "삭제에 실패했습니다. 관리자에게 문의하세요";
-		}
-
-		echo json_encode($data);
-	}
-
-	public function ajax_invenindex_pop()
-	{
-		$params['s1'] = $this->input->post("s1");
-		$params['s2'] = $this->input->post("s2");
-		$params['type'] = $this->input->post("type");
-
-		$data = $this->ord_model->ajax_inven_pop($params);
-		echo json_encode($data);
-	}
 }

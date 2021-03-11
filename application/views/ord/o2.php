@@ -129,7 +129,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>No</th>
                             <th>시리즈</th>
                             <th>품명</th>
-                            <th>지시수량</th>
+                            <th style="width:20%">지시수량</th>
                             <th>비고</th>
                             <th></th>
                         </tr>
@@ -151,7 +151,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td class="cen"><?php echo $num; ?></td>
                             <td><?php echo $row->SERIES_NM; ?></td>
                             <td><?php echo $row->ITEM_NAME; ?></td>
-                            <td class="right"><?php echo number_format($row->ORDER_QTY); ?></td>
+                            <td class="right">
+                            <input type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="QTY" 
+                            data-idx="<?php echo $row->TRANS_IDX; ?>" 
+                            data-prod="<?php echo $row->PROD_QTY; ?>" 
+                            data-sh="<?php echo $row->SH_QTY; ?>" 
+                            style="text-align:right;border:1px solid #ddd; padding:4px 5px; margin: 3px 4px;" 
+                            value="<?php echo number_format($row->ORDER_QTY); ?>">
+                            </td>
                             <td><?php echo $row->REMARK;?></td>
                             <td><span class="btn del_items" 
                                 data-idx="<?=$row->TRANS_IDX;?>"
@@ -210,6 +217,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
+$("input[name^='QTY']").on("change", function() {
+    var qty = $(this).val() * 1;
+    var idx = $(this).data("idx");
+    var prod = $(this).data("prod")*1;
+    var sh = $(this).data("sh")*1;
+
+    if(prod+sh < qty ){
+        alert("지시수량이 재고보다 많습니다.");
+        $(this).val('');
+        $(this).focus();
+        return false;
+    }
+    
+    $.post("<?php echo base_url('ORD/update_item_order') ?>", {
+        qty: qty,
+        idx: idx
+    }, function(data) {
+        if (data.status != "") {
+            alert(data.msg);
+            location.reload();
+        }
+    }, "JSON");
+
+});
+
 $(".add_itemnum").on("click", function() {
 
     var type = $(this).data("type");
