@@ -28,41 +28,27 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <th>품명</th>
                             <th>지시수량</th>
                             <th>완료수량</th>
-                            <th>비고</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (!empty($List)) { ?>
-                            <?php
-                            $totalQty = 0;
-                            $count = 0;
-                            foreach ($List as $i => $row) {
+                            <?php foreach ($List as $i => $row) {
                                 $num = $i + 1;
-                                if ($row->SERIES_NM == "합계") {
-                                    $count += $row->TRANS_IDX;
-                                } else {
+                                $mlink = ($row->END_YN != 'Y') ? "mlink add_act" : "";
                             ?>
+                                <tr>
+                                    <td class="cen"><?php echo $num; ?></td>
+                                    <td><?php echo $row->SERIES_NM; ?></td>
+                                    <td class="<?= $mlink ?> cen" data-idx="<?= $row->TRANS_IDX ?>"><?php echo $row->ITEM_NAME; ?></td>
+                                    <td class="right"><?= number_format($row->ORDER_QTY); ?></td>
+                                    <td class="right"><?= number_format($row->PROD_QTY) ?></td>
+                                    <td><span class="btn del_items" data-idx="<?= $row->TRANS_IDX; ?>" data-inqty="<?php echo $row->ORDER_QTY; ?>">삭제</span></td>
+                                </tr>
 
-                                    <tr>
-                                        <td class="cen"><?php echo $num; ?></td>
-                                        <td><?php echo $row->SERIES_NM; ?></td>
-                                        <td class="cen mlink add_act" data-idx="<?=$row->TRANS_IDX?>"><?php echo $row->ITEM_NAME; ?></td>
-                                        <td class="right"><?= number_format($row->ORDER_QTY); ?></td>
-                                        <td class="right"><?= '' ?></td>
-                                        <td><?php echo $row->REMARK; ?></td>
-                                        <td><span class="btn del_items" data-idx="<?= $row->TRANS_IDX; ?>" data-inqty="<?php echo $row->ORDER_QTY; ?>">삭제</span></td>
-                                    </tr>
+                        <?php }
+                        } ?>
 
-                            <?php }
-                            }
-                        }
-                        if (empty($List) || $count == 0) {
-                            ?>
-                            <tr>
-                                <td colspan="6" style='color:#999; padding:40px 0;'>등록된 작업지시가 없습니다.</td>
-                            </tr>
-                        <?php } ?>
                     </tbody>
                 </table>
             </div>
@@ -90,7 +76,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script type="text/javascript">
     $(".add_act").on("click", function() {
         var idx = $(this).data('idx');
-        var date = "<?=$NDATE?>";
+        var date = "<?= $NDATE ?>";
         console.log(date);
         $(".ajaxContent").html('');
 
@@ -100,12 +86,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
         }, 500);
 
         $.ajax({
-            url: "<?php echo base_url('Tablet/ajax_add_act') ?>",
+            url: "<?php echo base_url('Tablet/ajax_add_sh') ?>",
             type: "POST",
             dataType: "HTML",
             data: {
-                idx:idx,
-                date:date
+                idx: idx,
+                date: date
             },
             success: function(data) {
                 $(".ajaxContent").html(data);
@@ -151,5 +137,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
         $(".info_content").css("top", "-50%");
 
     });
-    //-->
+
+
+    // setInterval(function() {
+    //     location.reload();
+    // }, 3000);
 </script>

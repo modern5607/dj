@@ -2319,7 +2319,6 @@ SQL;
 
 		$this->db->get();
 
-		$sql = $this->db->last_query();
 		
 		$query = $this->db->query("SELECT AA.* FROM (". $sql.")as AA ORDER BY SERIES_NM,ITEM_NM,COLOR");
 		// echo $this->db->last_query();

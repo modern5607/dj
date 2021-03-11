@@ -14,7 +14,7 @@ class Tablet extends CI_Controller
 		$this->data['subpos'] = $this->uri->segment(2);
 
 		$this->load->helper('test');
-		$this->load->model(array('ord_model', 'main_model', 'act_model','tablet_model'));
+		$this->load->model(array('ord_model', 'main_model', 'act_model', 'tablet_model'));
 
 		if (!empty($this->config->item('site_title')[$this->data['pos']][$this->data['subpos']])) {
 			$this->data['siteTitle'] = $this->config->item('site_title')[$this->data['pos']][$this->data['subpos']];
@@ -53,33 +53,107 @@ class Tablet extends CI_Controller
 	//성형지시
 	public function o1($date = '')
 	{
-		$this->data['siteTitle'] ="ㅁㄴㅇㄹ";
+		$this->data['siteTitle'] = "ㅁㄴㅇㄹ";
 		$date = date("Y-m-d");
-		// echo $date;
+
 		$data['qstr'] = "?P";
 		$data['NDATE'] = $date;
 
 		$params['GJGB'] = "SH";
 
-		$data['List'] = $this->ord_model->item_order_numlist($date, $params);
+		$data['List'] = $this->tablet_model->get_sh_list($date, $params);
 		echo var_dump(($data['List']));
 
 		$this->load->view('/tablet/o1', $data);
 	}
 
+	//성형 작업지시 ajax
+	public function ajax_add_sh()
+	{
+		$data['title'] = '성형 작업지시';
+		$data['idx'] = $this->input->post('idx');
+		$data['date'] = $this->input->post('date');
+
+		$params['IDX'] = $data['idx'];
+
+		$data['info'] = $this->tablet_model->get_ajax_sh_info($params);
+		echo var_dump($data['info']);
+		return $this->load->view('tablet/ajax_sh', $data);
+	}
+
+	//성형 입력 Update
+	public function add_sh_order()
+	{
+		$data['idx'] = $this->input->post('idx');
+		$data['qty'] = $this->input->post('FNSH_QTY');
+
+		$params['IDX'] = $data['idx'];
+		$params['F_QTY'] = $data['qty'];
+
+		$result = $this->tablet_model->update_sh_order($params);
+
+		if ($result > 0) {
+			$data['status'] = "ok";
+			$data['msg'] = "작업지시가 등록되었습니다.";
+		} else {
+			$data['status'] = "";
+			$data['msg'] = "작업지시 등록에 실패했습니다. 관리자에게 문의하세요";
+		}
+
+		echo json_encode($data);
+	}
+
 	//정형지시
 	public function o2($date = '')
 	{
+
+		$date = date("Y-m-d");
 		$data['qstr'] = "?P";
 
 		$data['NDATE'] = $date;
 		$params['GJGB'] = "JH";
 
 
-		$data['RList'] = $this->ord_model->item_order_numlist($date, $params);
+		$data['List'] = $this->tablet_model->get_jh_list($date, $params);
 
 
 		$this->load->view('/tablet/o2', $data);
+	}
+
+	//정형 작업지시 ajax
+	public function ajax_add_jh()
+	{
+		$data['title'] = '정형 작업지시';
+		$data['idx'] = $this->input->post('idx');
+		$data['date'] = $this->input->post('date');
+
+		$params['IDX'] = $data['idx'];
+
+		$data['info'] = $this->tablet_model->get_ajax_jh_info($params);
+		echo var_dump($data['info']);
+		return $this->load->view('tablet/ajax_jh', $data);
+	}
+
+	//정형 입력 Update
+	public function add_jh_order()
+	{
+		$data['idx'] = $this->input->post('idx');
+		$data['qty'] = $this->input->post('FNSH_QTY');
+
+		$params['IDX'] = $data['idx'];
+		$params['F_QTY'] = $data['qty'];
+
+		$result = $this->tablet_model->update_jh_order($params);
+
+		if ($result > 0) {
+			$data['status'] = "ok";
+			$data['msg'] = "작업지시가 등록되었습니다.";
+		} else {
+			$data['status'] = "";
+			$data['msg'] = "작업지시 등록에 실패했습니다. 관리자에게 문의하세요";
+		}
+
+		echo json_encode($data);
 	}
 
 
@@ -101,6 +175,7 @@ class Tablet extends CI_Controller
 	}
 
 
+
 	//선별지시
 	public function o4($date = '')
 	{
@@ -109,6 +184,4 @@ class Tablet extends CI_Controller
 
 		$this->load->view('/tablet/o4', $data);
 	}
-
-	
 }

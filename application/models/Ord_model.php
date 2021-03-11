@@ -103,7 +103,8 @@ SQL;
 				A.ORDER_QTY,
 				A.REMARK,
 				B.SH_QTY,
-				ifnull(A.PROD_QTY,0 ) as PROD_QTY
+				ifnull(A.PROD_QTY,0 ) as PROD_QTY,
+				END_YN
 			FROM
 				t_items_orders AS A
 				JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
@@ -117,6 +118,7 @@ SQL;
 				'합계' AS TEXT,
 				'',
 				SUM(A.ORDER_QTY),
+				'',
 				'',
 				'',
 				''
@@ -133,7 +135,7 @@ SQL;
 
 
 		$query = $this->db->query($sql);
-		//  ECHO $this->db->last_query();
+		 ECHO $this->db->last_query();
 		return $query->result();
 	}
 
