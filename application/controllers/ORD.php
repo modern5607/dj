@@ -584,6 +584,8 @@ class ORD extends CI_Controller
 				$params['SERIESD_IDX'][$key] = $this->input->post("SERIESD_IDX")[$key];
 				$params['transdate'] = $this->input->post("transdate");
 				$params['GJGB'] = $this->input->post("GJGB");
+				$params['ACT_IDX'] = $this->input->post("ACT_IDX");
+				$params['ACT_D_IDX'] = $this->input->post("ACT_D_IDX");
 			}
 		}
 
@@ -634,6 +636,24 @@ class ORD extends CI_Controller
 		$param['qty'] = $this->input->post("qty");
 
 		$num = $this->ord_model->update_item_order($param);
+
+		if ($num > 0) {
+			$data['status'] = "ok";
+			$data['msg'] = "수량이 변경되었습니다.";
+		} else {
+			$data['status'] = "error";
+			$data['msg'] = "수량 변경에 실패했습니다. 관리자에게 문의하세요";
+		}
+
+		echo json_encode($data);
+	}
+	//지시수량 업데이트
+	public function update_inventory_order()
+	{
+		$param['idx'] = $this->input->post("idx");
+		$param['qty'] = $this->input->post("qty");
+
+		$num = $this->ord_model->update_inventory_order($param);
 
 		if ($num > 0) {
 			$data['status'] = "ok";
