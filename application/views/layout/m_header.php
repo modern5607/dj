@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?php echo $siteTitle?></title>
 	<!--link rel="stylesheet" href="<?php echo base_url('/_static/css/bootstrap.css?ver=20200725'); ?>"-->
-	<link rel="stylesheet" href="<?php echo base_url('/_static/css/default_smart.css?ver=20200725'); ?>">
+	<link rel="stylesheet" href="<?php echo base_url('/_static/css/default_cj.css?ver=20200725'); ?>">
 	<link rel="stylesheet" href="<?php echo base_url('/_static/css/form.css?ver=20200725'); ?>">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 

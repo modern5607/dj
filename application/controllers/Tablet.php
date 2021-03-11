@@ -36,9 +36,10 @@ class Tablet extends CI_Controller
 
 				if (isset($user_id) && $user_id != "") {
 
+					// $this->load->view('/layout/header', $this->data);
 					$this->load->view('/layout/m_header', $this->data);
 					call_user_func_array(array($this, $method), $params);
-					$this->load->view('/layout/m_tail');
+					$this->load->view('/layout/tail');
 				} else {
 
 					alert('로그인이 필요합니다.', base_url('register/login'));
@@ -52,12 +53,16 @@ class Tablet extends CI_Controller
 	//성형지시
 	public function o1($date = '')
 	{
+		$this->data['siteTitle'] ="ㅁㄴㅇㄹ";
+		$date = date("Y-m-d");
+		// echo $date;
 		$data['qstr'] = "?P";
+		$data['NDATE'] = $date;
 
 		$params['GJGB'] = "SH";
 
 		$data['List'] = $this->ord_model->item_order_numlist($date, $params);
-
+		echo var_dump(($data['List']));
 
 		$this->load->view('/tablet/o1', $data);
 	}
@@ -110,6 +115,18 @@ class Tablet extends CI_Controller
 		$data['RList'] = $this->ord_model->inventory_order_numlist($date, $params);
 
 		$this->load->view('/tablet/o4', $data);
+	}
+
+	public function ajax_add_act()
+	{
+		$data['idx'] = $this->input->post('idx');
+		$data['date'] = $this->input->post('date');
+	
+		$params['IDX'] = $data['idx'];
+
+		
+	
+	
 	}
 
 	//성형,정형 작업지시 추가 popup

@@ -1,11 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="imagetoolbar" content="no">
+    
 	<title><?php echo $siteTitle?></title>
 	<!--link rel="stylesheet" href="<?php echo base_url('/_static/css/bootstrap.css?ver=20200725'); ?>"-->
 	<link rel="stylesheet" href="<?php echo base_url('/_static/css/default_cj.css?ver=20200725'); ?>">
