@@ -125,7 +125,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <th>No</th>
                             <th>시리즈</th>
                             <th>품명</th>
-                            <th>지시수량</th>
+                            <th style="width:20%">지시수량</th>
                             <th>비고</th>
                             <th></th>
                         </tr>
@@ -147,9 +147,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                         <td class="cen"><?php echo $num; ?></td>
                                         <td><?php echo $row->SERIES_NM; ?></td>
                                         <td><?php echo $row->ITEM_NAME; ?></td>
-                                        <td class="right"><?php echo number_format($row->ORDER_QTY); ?></td>
+                                        <td class="right">
+                                        <!-- <?php echo number_format($row->ORDER_QTY); ?> -->
+                                        <input type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="QTY" 
+                                        data-idx="<?php echo $row->TRANS_IDX; ?>" 
+                                        style="text-align:right;border:1px solid #ddd; padding:4px 5px; margin: 3px 4px;" 
+                                        value="<?php echo number_format($row->ORDER_QTY); ?>">
+                                        </td>
                                         <td><?php echo $row->REMARK; ?></td>
-                                        <td><span class="btn del_items" data-idx="<?= $row->TRANS_IDX; ?>" data-inqty="<?php echo $row->ORDER_QTY; ?>">삭제</span></td>
+                                        <td><span class="btn del_items" data-idx="<?= $row->TRANS_IDX; ?>" >삭제</span></td>
                                     </tr>
 
                                 <?php }
@@ -205,6 +211,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 <script type="text/javascript">
+	$("input[name^='QTY']").on("change", function() {
+        var qty = $(this).val() * 1;
+        var idx = $(this).data("idx");
+        
+        $.post("<?php echo base_url('ORD/update_item_order') ?>", {
+            qty: qty,
+            idx: idx
+        }, function(data) {
+            if (data.status != "") {
+                alert(data.msg);
+                location.reload();
+            }
+        }, "JSON");
+
+    });
+
     $(".add_itemnum").on("click", function() {
 
         var type = $(this).data("type");

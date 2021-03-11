@@ -117,14 +117,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $(".mod_stock").on("click",function(){
 	var item = $(this).data("item");
 	var seriesd = $(this).data("seriesd");
-	var qty = $(this).parents("tr").find("input[name^='QTY']").val();
-	var cqty = $(this).parents("tr").find("input[name^='C_QTY']").val();
+	var qty = $(this).parents("tr").find("input[name^='QTY']").val()*1;
+	var cqty = $(this).parents("tr").find("input[name^='C_QTY']").val()*1;
 	var cont = $(this).parents("tr").find("input[name^='C_CONT']").val();
 
-	if(stock == 0 || stock == ""){
-		alert('수량을 입력하세요');
-		return false;
-	}
 
 	if(qty == cqty){
 		alert('현 재고량입니다.');
@@ -140,8 +136,12 @@ $(".mod_stock").on("click",function(){
 		var qtygb = "OUT_QTY";
 		var stock = qty - cqty;
 	}
-	
-	
+
+if(stock == 0 || stock == ""){
+		alert('수량을 입력하세요');
+		return false;
+	}
+
 	$.post("<?php echo base_url('ACT/ajax_an4_listupdate')?>",
 		{item:item, seriesd:seriesd, stock:stock, cont:cont, kind:kind, qtygb:qtygb},
 		function(data){

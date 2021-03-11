@@ -626,4 +626,23 @@ class ORD extends CI_Controller
 		$data = $this->ord_model->ajax_inven_pop($params);
 		echo json_encode($data);
 	}
+
+	//지시수량 업데이트
+	public function update_item_order()
+	{
+		$param['idx'] = $this->input->post("idx");
+		$param['qty'] = $this->input->post("qty");
+
+		$num = $this->ord_model->update_item_order($param);
+
+		if ($num > 0) {
+			$data['status'] = "ok";
+			$data['msg'] = "수량이 변경되었습니다.";
+		} else {
+			$data['status'] = "error";
+			$data['msg'] = "수량 변경에 실패했습니다. 관리자에게 문의하세요";
+		}
+
+		echo json_encode($data);
+	}
 }
