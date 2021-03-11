@@ -71,12 +71,7 @@ SQL;
 				A.IDX AS TRANS_IDX,
 				H.SERIES_NM,
 				B.ITEM_NAME,
-				A.ORDER_QTY,
-				A.REMARK,
-				B.SH_QTY,
-				1
-				{$where}
-		C.COLOR,
+				C.COLOR,
 				A.ORDER_QTY,
 				A.REMARK,
 				B.JH_QTY
@@ -109,7 +104,9 @@ SQL;
 				SERIES_NM, ITEM_NAME, COLOR
 SQL;
 
+
 		$query = $this->db->query($sql);
+		// echo $this->db->last_query();
 		return $query->result();
 	}
 
