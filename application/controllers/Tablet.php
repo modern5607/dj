@@ -14,7 +14,7 @@ class Tablet extends CI_Controller
 		$this->data['subpos'] = $this->uri->segment(2);
 
 		$this->load->helper('test');
-		$this->load->model(array('ord_model', 'main_model', 'act_model'));
+		$this->load->model(array('ord_model', 'main_model', 'act_model','tablet_model'));
 
 		if (!empty($this->config->item('site_title')[$this->data['pos']][$this->data['subpos']])) {
 			$this->data['siteTitle'] = $this->config->item('site_title')[$this->data['pos']][$this->data['subpos']];
