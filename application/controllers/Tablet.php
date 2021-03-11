@@ -36,9 +36,9 @@ class Tablet extends CI_Controller
 
 				if (isset($user_id) && $user_id != "") {
 
-					$this->load->view('/layout/header', $this->data);
+					$this->load->view('/layout/m_header', $this->data);
 					call_user_func_array(array($this, $method), $params);
-					$this->load->view('/layout/tail');
+					$this->load->view('/layout/m_tail');
 				} else {
 
 					alert('로그인이 필요합니다.', base_url('register/login'));
@@ -175,7 +175,7 @@ class Tablet extends CI_Controller
 		echo json_encode($data);
 	}
 
-	
+
 	//시유,선별 작업지시 추가 popup
 	public function ajax_invenNum_form()
 	{
