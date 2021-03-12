@@ -290,7 +290,7 @@ SQL;
 				A.REMARK,
 				B.JH_QTY,
 				D.QTY AS D_QTY,
-				A.END_YN
+				D.STATUS
 			FROM
 				t_inventory_orders AS A
 				LEFT JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
