@@ -81,7 +81,7 @@ option{padding:4px 0;}
 #menuContent .menu01_li .menu_a:hover { background: #fb5e5e; color: #fff; transition: .3s; }
 #menuContent .menu01_li .menu_a.on { background: #19212b; color:#b9b9b9; border-bottom:1px dashed #444; }
 .menu_Content .scroll { height: 100%; overflow-y: auto; overflow-x: hidden; }
-.menu_Content .menu02 { background:#19212b; display: none; overflow:hidden; padding-bottom:10px; }
+.menu_Content .menu02 { background:#0a3c48; display: none; overflow:hidden; padding-bottom:10px; }
 .menu_Content .menu02.menu50 {position: absolute; left:50px;
 box-shadow: 1px 1px 4px #aaa;
 -moz-box-shadow: 1px 1px 4px #aaa;

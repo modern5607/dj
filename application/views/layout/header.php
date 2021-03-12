@@ -96,13 +96,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <a href="<?php echo base_url('ACT')?>" class="menu_a <?php echo ($this->data['pos'] == "ACT")?"on":"";?>" >생산관리</a>
                         <ul class="menu02" <?php echo ($this->data['pos'] == "ACT")?"style='display:block'":"";?>>
                             
-							<li><a href="<?php echo base_url('ACT')?>" class="<?php echo ($this->data['subpos'] == NULL)?"on":"";?>"><i class="material-icons">memory</i>작업지시등록</a></li>
-                            <li><a href="<?php echo base_url('ACT/a1')?>" class="<?php echo ($this->data['subpos'] == "a1")?"on":"";?>"><i class="material-icons">memory</i>공정별작업지시</a></li>
+							<!-- <li><a href="<?php echo base_url('ACT')?>" class="<?php echo ($this->data['subpos'] == NULL)?"on":"";?>"><i class="material-icons">memory</i>작업지시등록</a></li> -->
+                            <!-- <li><a href="<?php echo base_url('ACT/a1')?>" class="<?php echo ($this->data['subpos'] == "a1")?"on":"";?>"><i class="material-icons">memory</i>공정별작업지시</a></li> -->
                             <li><a href="<?php echo base_url('ACT/a2')?>" class="<?php echo ($this->data['subpos'] == "a2")?"on":"";?>"><i class="material-icons">memory</i>건조(재고)현황</a></li>
-                            <li><a href="<?php echo base_url('ACT/a3')?>" class="<?php echo ($this->data['subpos'] == "a3")?"on":"";?>"><i class="material-icons">memory</i>공정별 작업보고관리</a></li>
+                            <!-- <li><a href="<?php echo base_url('ACT/a3')?>" class="<?php echo ($this->data['subpos'] == "a3")?"on":"";?>"><i class="material-icons">memory</i>공정별 작업보고관리</a></li> -->
 							
 							
-							<li><a href="<?php echo base_url('ACT/an2')?>" class="<?php echo ($this->data['subpos'] == "an2")?"on":"";?>"><i class="material-icons">memory</i>불량보고관리</a></li>
+							<!-- <li><a href="<?php echo base_url('ACT/an2')?>" class="<?php echo ($this->data['subpos'] == "an2")?"on":"";?>"><i class="material-icons">memory</i>불량보고관리</a></li> -->
 							<li><a href="<?php echo base_url('ACT/an3')?>" class="<?php echo ($this->data['subpos'] == "an3")?"on":"";?>"><i class="material-icons">memory</i>선별작업일지</a></li>
 							
 							<li><a href="<?php echo base_url('ACT/a4')?>" class="<?php echo ($this->data['subpos'] == "a4")?"on":"";?>"><i class="material-icons">memory</i>공정별진행내역</a></li>
@@ -142,7 +142,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <li><a href="<?php echo base_url('AMT/am1')?>" class="<?php echo ($this->data['subpos'] == "am1")?"on":"";?>"><i class="material-icons">memory</i>완제품 재고내역</a></li>
                             <li><a href="<?php echo base_url('AMT/am1_1')?>" class="<?php echo ($this->data['subpos'] == "am1_1")?"on":"";?>"><i class="material-icons">memory</i>성형/정형 재고내역</a></li>
                             <li><a href="<?php echo base_url('AMT/am1_2')?>" class="<?php echo ($this->data['subpos'] == "am1_2")?"on":"";?>"><i class="material-icons">memory</i>시유 재고내역</a></li>
-							<li><a href="<?php echo base_url('AMT/am2')?>" class="<?php echo ($this->data['subpos'] == "am2")?"on":"";?>"><i class="material-icons">memory</i>재생 재고내역</a></li>
+							<!-- <li><a href="<?php echo base_url('AMT/am2')?>" class="<?php echo ($this->data['subpos'] == "am2")?"on":"";?>"><i class="material-icons">memory</i>재생 재고내역</a></li> -->
 							<li><a href="<?php echo base_url('AMT/am3')?>" class="<?php echo ($this->data['subpos'] == "am3")?"on":"";?>"><i class="material-icons">memory</i>재고조정</a></li>
 							<li><a href="<?php echo base_url('AMT/am3_1')?>" class="<?php echo ($this->data['subpos'] == "am3_1")?"on":"";?>"><i class="material-icons">memory</i>재고조정현황</a></li>
 							<li><a href="<?php echo base_url('AMT/am4')?>" class="<?php echo ($this->data['subpos'] == "am4")?"on":"";?>"><i class="material-icons">memory</i>출고등록</a></li>
