@@ -727,6 +727,12 @@ span.xn {
   background-color: rgb(59, 77, 115);
   color: #fff;
 }
+#pop_container .info_content h2.tableth2 {
+  font-size: 1.2em;
+  padding: 10px 15px;
+  background-color: rgb(59, 77, 115);
+  color: #fff;
+}
 #pop_container .info_content span.close {
   float: right;
   cursor: pointer;

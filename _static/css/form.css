@@ -47,6 +47,7 @@
 .form_3 table tbody tr th { width: 20%; text-align: left; background: #eee; padding: 0 10px; border-right: 1px solid #ccc; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;}
 .form_3 table tbody tr td { padding: 8px 10px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; }
 
+.form_5 table tr th { text-align: left; background: #eee; padding: 0 10px; border-right: 1px solid #ddd; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;}
 
 
 .select01 { width: 40%; zoom: 1.1; padding: 5px; }
@@ -64,6 +65,9 @@ option{padding:4px 0;}
 .back:hover { background: #bbb; }
 .blue_btn {background: rgb(39, 73, 146); color: #fff; width: 100px; height: 40px; border: 0; cursor: pointer;}
 .blue_btn:hover {background: rgb(38, 62, 114);}
+
+.t_blue_btn {background: rgb(39, 73, 146); color: #fff; padding:5px 10px; border: 0; cursor: pointer;}
+.t_blue_btn:hover {background: rgb(38, 62, 114);}
 
 .blue_btnx {background: rgb(39, 73, 146); color: #fff; width: 100px; height: 32px; border: 0; cursor: pointer;}
 .blue_btnx:hover {background: rgb(38, 62, 114);}
