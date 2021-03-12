@@ -17,11 +17,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <div class="body_cont_float2" style="height: 100vh;">
     <ul>
         <li style="width:100%;">
-            <div id="" class="bc_search gsflexst">
+
+            <div id="" class="bc_search gsflexst" style="position:relative">
                 <div class="home"><a href="<?php echo base_url('tablet/index') ?>"><span class="material-icons">
                             arrow_back
                         </span></a></div>
-                <div style="margin-bottom: 7px;">
+                <div style="margin-bottom: 7px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
 
                     <span class="btn_right">
                         <p style="font-size: 30px; padding-left:20px;">
@@ -29,7 +30,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </span>
 
                     <span class="btn_right">
-                        <p style="font-size: 30px; padding-left:20px;">
+                        <p style="font-size: 30px;">
                             <?= $title ?></p>
                     </span>
 
@@ -37,7 +38,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </div>
 
                 <span style="float: right;">
-                    <p id="iTime" style="font-size: 20px; float: left; margin-top: 8px; padding-right:20px;"></p>
+                <input type="hidden" name="timer" value="<?= $timer[0]->REMARK ?>">
+                    <p id="iTime" style="font-size: 20px; float: left; margin-top: 8px; padding-right:20px;">
+                    <?= ($timer[0]->REMARK != '')?$timer[0]->REMARK.'초후 새로고침':''; ?></p>
                     <span class="btni btn_right" style="float: right; margin-left:5px; padding: 10px;" onclick="location.reload()"><span class="material-icons">refresh</span></span>
                 </span>
 
@@ -56,28 +59,28 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($List as $i => $row) {
-                            $num = $i + 1;
+                        <?php 
+                        if (!empty($List)) { 
+                            foreach ($List as $i => $row) {
+                                $num = $i + 1;
                         ?>
-                            <tr>
-                                <td class="cen"><?php echo $num; ?></td>
-                                <td class="cen"><?php echo substr($row->ACT_DATE, 0, 10); ?></td>
-                                <td><span data-idx='<?php echo $row->IDX; ?>' class="link_s1 add_itemnum"><?php echo $row->ITEM_NM; ?></span></td>
-                                <td class="cen"><?php echo $row->COLOR; ?></td>
-                                <td class="right"><?php echo $row->QTY; ?></td>
-                                <td style="text-align:right"><?php echo $row->IN_QTY; ?></td>
+                                <tr>
+                                    <td class="cen"><?php echo $num; ?></td>
+                                    <td class="cen"><?php echo substr($row->ACT_DATE, 0, 10); ?></td>
+                                    <td><span data-idx='<?php echo $row->IDX; ?>' class="link_s1 add_itemnum"><?php echo $row->ITEM_NM; ?></span></td>
+                                    <td class="cen"><?php echo $row->COLOR; ?></td>
+                                    <td class="right"><?php echo $row->QTY; ?></td>
+                                    <td style="text-align:right"><?php echo $row->IN_QTY; ?></td>
 
-                            </tr>
-                        <?php } ?>
-                        <?php
-                        if (empty($List)) {
+                                </tr>
+                        <?php }
+                        }else{
                         ?>
-                            <tr>
-                                <td colspan="8" style='color:#999; padding:40px 0;'>실적정보가 없습니다.</td>
-                            </tr>
+                                <tr>
+                                    <td colspan="12" class="list_none">작업지시 내역이 없습니다.</td>
+                                </tr>
                         <?php
-                        }
-                        ?>
+                        } ?>
                     </tbody>
                 </table>
 
@@ -104,7 +107,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 <script type="text/javascript">
     $(document).ready(function() {
-        var iTime = 10; // 새로고침 반복 시간  ex) 2분 = 2 * 60
+        var iTime = $("input[name='timer']").val(); // 새로고침 반복 시간  ex) 2분 = 2 * 60
+        if(iTime == ''){
+            return false;
+        }
         var m;
         setInterval(function() {
             iTime--;

@@ -51,7 +51,15 @@ class Tablet extends CI_Controller
 
 	public function index()
 	{
-		$this->load->view('/tablet/index');
+		$data['timer'] = $this->main_model->get_selectInfo_remark("tch.CODE","TIMER","Second");
+
+		$this->load->view('/tablet/index',$data);
+	}
+	public function timer_update()
+	{
+		$param['time'] = $this->input->post('time');
+
+		$this->tablet_model->timer_update($param);
 	}
 
 	//성형지시
@@ -67,6 +75,8 @@ class Tablet extends CI_Controller
 		$params['GJGB'] = "SH";
 
 		$data['List'] = $this->tablet_model->get_sh_list($date, $params);
+		
+		$data['timer'] = $this->main_model->get_selectInfo_remark("tch.CODE","TIMER","Second");
 		// echo var_dump(($data['List']));
 
 		$this->load->view('/tablet/o1', $data);
@@ -121,7 +131,8 @@ class Tablet extends CI_Controller
 
 
 		$data['List'] = $this->tablet_model->get_jh_list($date, $params);
-
+		
+		$data['timer'] = $this->main_model->get_selectInfo_remark("tch.CODE","TIMER","Second");
 
 		$this->load->view('/tablet/o2', $data);
 	}
@@ -180,6 +191,8 @@ class Tablet extends CI_Controller
 
 
 		$data['RList'] = $this->tablet_model->tablet_order_numlist($param);
+		
+		$data['timer'] = $this->main_model->get_selectInfo_remark("tch.CODE","TIMER","Second");
 
 		$this->load->view('/tablet/o3', $data);
 	}
@@ -195,6 +208,8 @@ class Tablet extends CI_Controller
 		$data['NDATE'] = $date;
 		$params['GJGB'] = "SB";
 		$data['List'] = $this->act_model->get_inventory_list($params, 0, 9999);
+		
+		$data['timer'] = $this->main_model->get_selectInfo_remark("tch.CODE","TIMER","Second");
 
 		$this->load->view('/tablet/o4', $data);
 	}

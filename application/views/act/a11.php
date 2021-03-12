@@ -239,6 +239,12 @@ $("input[name=A3],input[name=A4],input[name=A5]").on("change", function() {
     var a5 = $("input[name=A5]").val();
 
     var setNum = orgNum - a3 - a4 - a5;
+    if(setNum < 0){
+        alert('1급수량보다 크게 입력할 수 없습니다.')
+        $(this).val('');
+        $(this).focus();
+        return false;
+    }
     $("input[name=A2]").val(setNum);
 
 });
