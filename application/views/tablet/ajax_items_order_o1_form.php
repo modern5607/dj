@@ -12,7 +12,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <?php date_default_timezone_set('Asia/Seoul'); ?>
 
 
-<div class="formContainer">
+<div class="formContaine">
     <div style="background:#eceff5; padding:20px;" class="gsflexst">
         <div>
             <label for="s1">시리즈</label>
@@ -196,7 +196,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         $("#pop_container").fadeOut();
                         $(".info_content").css("top", "-50%");
                         $("#loading").hide();
-                        location.replace("<?= base_url('ORD/o1/'.$NDATE)?>");
+                        location.replace("<?= base_url('ORD/o1/' . $NDATE) ?>");
 
                     }, 1000);
 
