@@ -107,10 +107,10 @@ $config['site_title']['kpi']['short2'] = "납기단축 리스트";
 
 $config['site_title']['Monitor']['env'] = "온습도 모니터링";
 
-$config['site_title']['Tablet']['o1'] = "성형 작업지시";
-$config['site_title']['Tablet']['o2'] = "정형 작업지시";
-$config['site_title']['Tablet']['o3'] = "시유 작업지시";
-$config['site_title']['Tablet']['o4'] = "선별 작업지시";
+$config['site_title']['tablet']['o1'] = "성형 작업지시";
+$config['site_title']['tablet']['o2'] = "정형 작업지시";
+$config['site_title']['tablet']['o3'] = "시유 작업지시";
+$config['site_title']['tablet']['o4'] = "선별 작업지시";
 
 
 

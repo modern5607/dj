@@ -58,7 +58,8 @@ class Tablet extends CI_Controller
 	//성형지시
 	public function o1($date = '')
 	{
-		// $this->data['siteTitle'] = "ㅁㄴㅇㄹ";
+		$this->data['siteTitle'] = "성형 작업지시";
+		$data['title'] = '성형 작업지시';
 		$date = date("Y-m-d");
 		$data['NDATE'] = $date;
 		$data['qstr'] = "?P";
@@ -111,7 +112,8 @@ class Tablet extends CI_Controller
 	//정형지시
 	public function o2($date = '')
 	{
-
+		$this->data['siteTitle'] = "정형 작업지시";
+		$data['title'] = '정형 작업지시';
 		$date = date("Y-m-d");
 		$data['qstr'] = "?P";
 
@@ -165,6 +167,8 @@ class Tablet extends CI_Controller
 	//시유지시
 	public function o3()
 	{
+		$this->data['siteTitle'] = "시유 작업지시";
+		$data['title'] = '시유 작업지시';
 		$data['qstr'] = "?P";
 
 		$date = date("Y-m-d");
@@ -186,6 +190,8 @@ class Tablet extends CI_Controller
 	//선별지시
 	public function o4($date = '')
 	{
+		$this->data['siteTitle'] = "선별 작업지시";
+		$data['title'] = '선별 작업지시';
 		$date = date("Y-m-d");
 		$data['NDATE'] = $date;
 		$params['GJGB'] = "SB";

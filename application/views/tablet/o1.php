@@ -4,22 +4,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <link href="<?php echo base_url('_static/css/jquery.datetimepicker.min.css') ?>" rel="stylesheet">
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js') ?>"></script>
 
-<div class="body_cont_float2" style="height: 100vh;" >
+<div class="body_cont_float2" style="height: 100vh;">
     <ul>
         <li style="width:100%;">
 
-            <div id="" class="bc_search gsflexst" >
-                <div class="gsflexst">
+            <div id="" class="bc_search gsflexst">
+                <div style="margin-bottom: 7px;">
+
                     <span class="btn_right">
-                        <p style="font-size: 20px; padding-right:20px; color:#194bff;">
+                        <p style="font-size: 30px; padding-left:20px;">
                             <?= empty($NDATE) ? "" : $NDATE ?></p>
                     </span>
+
+                    <span class="btn_right">
+                        <p style="font-size: 30px; padding-left:20px;">
+                            <?= $title ?></p>
+                    </span>
+
 
                 </div>
 
                 <span style="float: right;">
                     <p id="iTime" style="font-size: 20px; float: left; margin-top: 8px; padding-right:20px;"></p>
-                    <span class="btni btn_right" style="float: right; margin-left:5px; padding: 10px;" onclick="location.reload()"><span class="material-icons">refresh</span></span>
+                    <span class="btni btn_right" style="float: right; margin-left:5px; padding: 10px;"
+                        onclick="location.reload()"><span class="material-icons">refresh</span></span>
                 </span>
 
             </div>
@@ -38,18 +46,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </thead>
                     <tbody>
                         <?php if (!empty($List)) { ?>
-                            <?php foreach ($List as $i => $row) {
+                        <?php foreach ($List as $i => $row) {
                                 $num = $i + 1;
                                 $mlink = ($row->END_YN != 'Y') ? "mlink add_act" : "";
                             ?>
-                                <tr>
-                                    <td class="cen"><?php echo $num; ?></td>
-                                    <td><?php echo $row->SERIES_NM; ?></td>
-                                    <td class="<?= $mlink ?> cen" data-idx="<?= $row->TRANS_IDX ?>">
-                                        <?php echo $row->ITEM_NAME; ?></td>
-                                    <td class="right"><?= number_format($row->ORDER_QTY); ?></td>
-                                    <td class="right"><?= number_format($row->PROD_QTY) ?></td>
-                                </tr>
+                        <tr>
+                            <td class="cen"><?php echo $num; ?></td>
+                            <td><?php echo $row->SERIES_NM; ?></td>
+                            <td class="<?= $mlink ?> cen" data-idx="<?= $row->TRANS_IDX ?>">
+                                <?php echo $row->ITEM_NAME; ?></td>
+                            <td class="right"><?= number_format($row->ORDER_QTY); ?></td>
+                            <td class="right"><?= number_format($row->PROD_QTY) ?></td>
+                        </tr>
 
                         <?php }
                         } ?>
@@ -79,87 +87,87 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-    $(document).ready(function() {
-        var iTime = 10; // 새로고침 반복 시간  ex) 2분 = 2 * 60
-        var m;
-        setInterval(function() {
-            iTime--;
-            if (iTime == 0) 
-                location.reload();
-            m=iTime;
-            
-            $("#iTime").text(m+"초후 새로고침");
-        }, 1000);
-    });
+$(document).ready(function() {
+    var iTime = 10; // 새로고침 반복 시간  ex) 2분 = 2 * 60
+    var m;
+    setInterval(function() {
+        iTime--;
+        if (iTime == 0)
+            location.reload();
+        m = iTime;
+
+        $("#iTime").text(m + "초후 새로고침");
+    }, 1000);
+});
 
 
 
-    $(".add_act").on("click", function() {
-        var idx = $(this).data('idx');
-        var date = "<?= $NDATE ?>";
-        console.log(date);
-        $(".ajaxContent").html('');
+$(".add_act").on("click", function() {
+    var idx = $(this).data('idx');
+    var date = "<?= $NDATE ?>";
+    console.log(date);
+    $(".ajaxContent").html('');
 
-        $("#pop_container").fadeIn();
-        $(".info_content").animate({
-            top: "50%"
-        }, 500);
+    $("#pop_container").fadeIn();
+    $(".info_content").animate({
+        top: "50%"
+    }, 500);
 
-        $.ajax({
-            url: "<?php echo base_url('Tablet/ajax_add_sh') ?>",
-            type: "POST",
-            dataType: "HTML",
-            data: {
-                idx: idx,
-                date: date
-            },
-            success: function(data) {
-                $(".ajaxContent").html(data);
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                alert(xhr);
-                alert(textStatus);
-                alert(errorThrown);
-            }
-        })
-
-    });
-
-
-    $(".del_items").on("click", function() {
-        var idx = $(this).data("idx");
-
-        if (confirm('삭제하시겠습니까?') !== false) {
-
-            $.get("<?php echo base_url('ORD/ajax_del_items_order') ?>", {
-                idx: idx
-            }, function(data) {
-                if (data.status != "") {
-                    alert(data.msg);
-                    location.reload();
-                }
-            }, "JSON");
+    $.ajax({
+        url: "<?php echo base_url('Tablet/ajax_add_sh') ?>",
+        type: "POST",
+        dataType: "HTML",
+        data: {
+            idx: idx,
+            date: date
+        },
+        success: function(data) {
+            $(".ajaxContent").html(data);
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            alert(xhr);
+            alert(textStatus);
+            alert(errorThrown);
         }
-    });
+    })
+
+});
 
 
-    $("input[name='sdate'],input[name='edate']").datetimepicker({
-        format: 'Y-m-d',
-        timepicker: false,
-        lang: 'ko-KR'
-    });
+$(".del_items").on("click", function() {
+    var idx = $(this).data("idx");
+
+    if (confirm('삭제하시겠습니까?') !== false) {
+
+        $.get("<?php echo base_url('ORD/ajax_del_items_order') ?>", {
+            idx: idx
+        }, function(data) {
+            if (data.status != "") {
+                alert(data.msg);
+                location.reload();
+            }
+        }, "JSON");
+    }
+});
 
 
-    $(document).on("click", "h2 > span.close", function() {
-
-        $(".ajaxContent").html('');
-        $("#pop_container").fadeOut();
-        $(".info_content").css("top", "-50%");
-
-    });
+$("input[name='sdate'],input[name='edate']").datetimepicker({
+    format: 'Y-m-d',
+    timepicker: false,
+    lang: 'ko-KR'
+});
 
 
-    // setInterval(function() {
-    //     location.reload();
-    // }, 3000);
+$(document).on("click", "h2 > span.close", function() {
+
+    $(".ajaxContent").html('');
+    $("#pop_container").fadeOut();
+    $(".info_content").css("top", "-50%");
+
+});
+
+
+// setInterval(function() {
+//     location.reload();
+// }, 3000);
 </script>
