@@ -15,6 +15,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </span>
                     <!-- <span class="btni btn_right add_itemnum" style="max-height:34px;" data-type="<?php /* echo $this->data['subpos'];*/ ?>"><span class="material-icons">add</span></span> -->
                 </div>
+                <span style="float: right;">
+                    <p id="iTime" style="font-size: 20px; float: left; margin-top: 8px; padding-right:20px;">10초후 새로고침</p>
+                    <span class="btni btn_right" style="float: right; margin-left:5px; padding: 10px;" onclick="location.reload()"><span class="material-icons">refresh</span></span>
+                </span>
+
 
             </div>
 
@@ -72,6 +77,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 <script type="text/javascript">
+
+
+$(document).ready(function() {
+        var iTime = 10; // 새로고침 반복 시간  ex) 2분 = 2 * 60
+        var m;
+        setInterval(function() {
+            iTime--;
+            if (iTime == 0) 
+                location.reload();
+            m=iTime;
+            
+            $("#iTime").text(m+"초후 새로고침");
+        }, 1000);
+    });
+
+
     $(".add_act").on("click", function() {
         var idx = $(this).data('idx');
         var date = "<?= $NDATE ?>";

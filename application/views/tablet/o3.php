@@ -4,6 +4,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <link href="<?php echo base_url('_static/css/jquery.datetimepicker.min.css') ?>" rel="stylesheet">
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js') ?>"></script>
 
+
+<span style="float: right;">
+    <p id="iTime" style="font-size: 20px; float: left; margin-top: 8px; padding-right:20px;">10초후 새로고침</p>
+    <span class="btni btn_right" style="float: right; margin-left:5px; padding: 10px;" onclick="location.reload()"><span
+            class="material-icons">refresh</span></span>
+</span>
+
+
 <div class="body_cont_float2">
     <div class="tbl-content">
         <table cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -19,7 +27,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             </thead>
             <tbody>
                 <?php if (!empty($RList)) { ?>
-                    <?php
+                <?php
                     $totalQty = 0;
                     $count = 0;
                     foreach ($RList as $i => $row) {
@@ -30,34 +38,35 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         } else {
                     ?>
 
-                            <tr>
-                                <td class="cen"><?php echo $num; ?></td>
-                                <td><?php echo $row->SERIES_NM; ?></td>
-                                <td><a href="#" class="btni btn_right add_itemnum" data-idx="<?php echo $row->TRANS_IDX; ?>"><?php echo $row->ITEM_NAME; ?></a></td>
-                                <td><?php echo $row->COLOR; ?></td>
-                                <td class="right"><?php echo number_format($row->ORDER_QTY); ?></td>
-                                <td><?php echo $row->REMARK; ?></td>
-                            </tr>
+                <tr>
+                    <td class="cen"><?php echo $num; ?></td>
+                    <td><?php echo $row->SERIES_NM; ?></td>
+                    <td><a href="#" class="btni btn_right add_itemnum"
+                            data-idx="<?php echo $row->TRANS_IDX; ?>"><?php echo $row->ITEM_NAME; ?></a></td>
+                    <td><?php echo $row->COLOR; ?></td>
+                    <td class="right"><?php echo number_format($row->ORDER_QTY); ?></td>
+                    <td><?php echo $row->REMARK; ?></td>
+                </tr>
 
-                        <?php }
+                <?php }
                     }
                     if ($count != 0) {
                         ?>
-                        <tr style="background:#f3f8fd;" class="nhover">
-                            <td colspan="2" style="text-align:right"><strong>건수</strong></td>
-                            <td style="text-align:right"><?php echo number_format($count); ?></td>
-                            <td colspan="1" style="text-align:right"><strong>합계</strong></td>
-                            <td style="text-align:right"><?php echo number_format($totalQty); ?></td>
-                            <td colspan="2"></td>
-                        </tr>
-                    <?php
+                <tr style="background:#f3f8fd;" class="nhover">
+                    <td colspan="2" style="text-align:right"><strong>건수</strong></td>
+                    <td style="text-align:right"><?php echo number_format($count); ?></td>
+                    <td colspan="1" style="text-align:right"><strong>합계</strong></td>
+                    <td style="text-align:right"><?php echo number_format($totalQty); ?></td>
+                    <td colspan="2"></td>
+                </tr>
+                <?php
                     }
                 }
                 if (empty($RList) || $count == 0) {
                     ?>
-                    <tr>
-                        <td colspan="10" style='color:#999; padding:40px 0;'>등록된 작업지시가 없습니다.</td>
-                    </tr>
+                <tr>
+                    <td colspan="10" style='color:#999; padding:40px 0;'>등록된 작업지시가 없습니다.</td>
+                </tr>
                 <?php } ?>
             </tbody>
             <tfoot>
@@ -84,66 +93,80 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-    $(".add_itemnum").on("click", function() {
+$(document).ready(function() {
+    var iTime = 10; // 새로고침 반복 시간  ex) 2분 = 2 * 60
+    var m;
+    setInterval(function() {
+        iTime--;
+        if (iTime == 0)
+            location.reload();
+        m = iTime;
 
-        var idx = $(this).data("idx");
-        $(".ajaxContent").html('');
-
-        $("#pop_container").fadeIn();
-        $(".info_content").animate({
-            top: "50%"
-        }, 500);
-
-        $.ajax({
-            url: "<?php echo base_url('TABLET/ajax_invenNum_form') ?>",
-            type: "POST",
-            dataType: "HTML",
-            data: {
-                idx: idx
-            },
-            success: function(data) {
-                $(".ajaxContent").html(data);
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                alert(xhr);
-                alert(textStatus);
-                alert(errorThrown);
-            }
-        })
-
-    });
+        $("#iTime").text(m + "초후 새로고침");
+    }, 1000);
+});
 
 
-    $(".del_items").on("click", function() {
-        var idx = $(this).data("idx");
+$(".add_itemnum").on("click", function() {
 
-        if (confirm('삭제하시겠습니까?') !== false) {
+    var idx = $(this).data("idx");
+    $(".ajaxContent").html('');
 
-            $.get("<?php echo base_url('ORD/ajax_del_inven_order') ?>", {
-                idx: idx
-            }, function(data) {
-                if (data.status != "") {
-                    alert(data.msg);
-                    location.reload();
-                }
-            }, "JSON");
+    $("#pop_container").fadeIn();
+    $(".info_content").animate({
+        top: "50%"
+    }, 500);
+
+    $.ajax({
+        url: "<?php echo base_url('TABLET/ajax_invenNum_form') ?>",
+        type: "POST",
+        dataType: "HTML",
+        data: {
+            idx: idx
+        },
+        success: function(data) {
+            $(".ajaxContent").html(data);
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            alert(xhr);
+            alert(textStatus);
+            alert(errorThrown);
         }
-    });
+    })
+
+});
 
 
-    $("input[name='sdate'],input[name='edate']").datetimepicker({
-        format: 'Y-m-d',
-        timepicker: false,
-        lang: 'ko-KR'
-    });
+$(".del_items").on("click", function() {
+    var idx = $(this).data("idx");
+
+    if (confirm('삭제하시겠습니까?') !== false) {
+
+        $.get("<?php echo base_url('ORD/ajax_del_inven_order') ?>", {
+            idx: idx
+        }, function(data) {
+            if (data.status != "") {
+                alert(data.msg);
+                location.reload();
+            }
+        }, "JSON");
+    }
+});
 
 
-    $(document).on("click", "h2 > span.close", function() {
+$("input[name='sdate'],input[name='edate']").datetimepicker({
+    format: 'Y-m-d',
+    timepicker: false,
+    lang: 'ko-KR'
+});
 
-        $(".ajaxContent").html('');
-        $("#pop_container").fadeOut();
-        $(".info_content").css("top", "-50%");
 
-    });
-    //-->
+$(document).on("click", "h2 > span.close", function() {
+
+    $(".ajaxContent").html('');
+    $("#pop_container").fadeOut();
+    $(".info_content").css("top", "-50%");
+
+});
+//-->
 </script>
