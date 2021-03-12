@@ -10,10 +10,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
     .formContaier, .tableth2 {
         font-size: 32px;
     }
-    
-    th {
-        width: 40%
-    }
 </style>
 
 <h2 class="tableth2">
