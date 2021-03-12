@@ -58,7 +58,7 @@ class Tablet extends CI_Controller
 	//성형지시
 	public function o1($date = '')
 	{
-		$this->data['siteTitle'] = "ㅁㄴㅇㄹ";
+		// $this->data['siteTitle'] = "ㅁㄴㅇㄹ";
 		$date = date("Y-m-d");
 
 		$data['qstr'] = "?P";
@@ -67,7 +67,7 @@ class Tablet extends CI_Controller
 		$params['GJGB'] = "SH";
 
 		$data['List'] = $this->tablet_model->get_sh_list($date, $params);
-		echo var_dump(($data['List']));
+		// echo var_dump(($data['List']));
 
 		$this->load->view('/tablet/o1', $data);
 	}
@@ -82,7 +82,7 @@ class Tablet extends CI_Controller
 		$params['IDX'] = $data['idx'];
 
 		$data['info'] = $this->tablet_model->get_ajax_sh_info($params);
-		echo var_dump($data['info']);
+		// echo var_dump($data['info']);
 		return $this->load->view('tablet/ajax_sh', $data);
 	}
 
@@ -135,7 +135,7 @@ class Tablet extends CI_Controller
 		$params['IDX'] = $data['idx'];
 
 		$data['info'] = $this->tablet_model->get_ajax_jh_info($params);
-		echo var_dump($data['info']);
+		// echo var_dump($data['info']);
 		return $this->load->view('tablet/ajax_jh', $data);
 	}
 

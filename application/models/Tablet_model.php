@@ -46,6 +46,7 @@ class Tablet_model extends CI_Model
 			WHERE
 				1
 				{$where}
+				AND (END_YN IS NULL OR END_YN='')
 			
 SQL;
 
@@ -212,6 +213,7 @@ SQL;
 		WHERE
 			1
 			{$where}
+			AND (END_YN IS NULL OR END_YN='')
 		
 SQL;
 
