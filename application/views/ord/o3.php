@@ -4,6 +4,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <link href="<?php echo base_url('_static/css/jquery.datetimepicker.min.css')?>" rel="stylesheet">
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js')?>"></script>
 
+<style>
+    .nbtn{padding:5px 7px; background:#aaa; font-size:1.15em; color:#fff; cursor:default;}
+</style>
+
 <div class="body_cont_float2">
     <ul>
         <li style="width:430px">
@@ -161,7 +165,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             style="text-align:right;border:1px solid #ddd; padding:4px 5px; margin: 3px 4px;" 
                             value="<?php echo number_format($row->ORDER_QTY); ?>"></td>
                             <td><?php echo $row->REMARK;?></td>
-                            <td><span class="btn del_items" 
+                            <td><span class="<?php echo ($row->END_YN == "Y")?"nbtn":"btn mod_detail" ?>" 
                                 data-idx="<?=$row->TRANS_IDX;?>" >삭제</span></td>
                         </tr>
 

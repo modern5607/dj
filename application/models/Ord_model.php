@@ -289,7 +289,8 @@ SQL;
 				A.ORDER_QTY,
 				A.REMARK,
 				B.JH_QTY,
-				D.QTY AS D_QTY
+				D.QTY AS D_QTY,
+				A.END_YN
 			FROM
 				t_inventory_orders AS A
 				LEFT JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
@@ -306,6 +307,7 @@ SQL;
 				'',
 				'',
 				SUM(A.ORDER_QTY),
+				'',
 				'',
 				'',
 				''
@@ -373,17 +375,17 @@ SQL;
 			$qty = $qty*1;
 			
 			$datax = array(
-				"ITEMS_IDX"    => $params['ITEM_IDX'][$k],
-				"SERIESD_IDX"    => $params['SERIESD_IDX'][$k],
-				"TRANS_DATE"   => $params['transdate'],
-				"KIND"         => "IN",
-				"GJ_GB"        => $params['GJGB'],
-				"ORDER_QTY"    => $qty,
-				"REMARK"       => $params['REMARK'][$k],
-				"INSERT_ID"    => $username,
-				"INSERT_DATE"  => $datetime,
-				"ACT_IDX"  => $params['ACT_IDX'][$k],
-				"ACT_D_IDX"  => $params['ACT_D_IDX'][$k]
+				"ITEMS_IDX"    	=> $params['ITEM_IDX'][$k],
+				"SERIESD_IDX"  	=> $params['SERIESD_IDX'][$k],
+				"TRANS_DATE"   	=> $params['transdate'],
+				"KIND"         	=> "IN",
+				"GJ_GB"        	=> $params['GJGB'],
+				"ORDER_QTY"    	=> $qty,
+				"REMARK"       	=> $params['REMARK'][$k],
+				"INSERT_ID"    	=> $username,
+				"INSERT_DATE"  	=> $datetime,
+				"ACT_IDX"  		=> $params['ACT_IDX'][$k],
+				"ACT_D_IDX"  	=> $params['ACT_D_IDX'][$k]
 			);
 			array_push($datas,$datax);
 		}
