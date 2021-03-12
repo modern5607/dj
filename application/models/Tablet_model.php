@@ -290,60 +290,7 @@ SQL;
 		return $this->db->affected_rows();
 	}
 
-	public function tablet_order_numlist($param)
-	{
-		$where = '';
-		if (!empty($param['idx']) && $param['idx'] != "") {
-			$where .= " AND A.IDX = {$param['idx']}";
-		}
-		if (!empty($param['date']) && $param['date'] != "") {
-			$where .= " AND A.TRANS_DATE = '{$param['date']}'";
-		}
-
-		$sql = <<<SQL
-			SELECT
-				A.IDX AS TRANS_IDX,
-				H.SERIES_NM,
-				B.ITEM_NAME,
-				C.COLOR,
-				A.ORDER_QTY,
-				A.REMARK,
-				B.JH_QTY
-			FROM
-				t_inventory_orders AS A
-				LEFT JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
-				LEFT JOIN t_series_d AS C ON C.IDX = A.SERIESD_IDX
-				LEFT JOIN t_series_h AS H ON H.IDX = B.SERIES_IDX 
-			WHERE
-				A.END_YN is null
-				{$where}
-			UNION
-			SELECT
-				COUNT(B.ITEM_NAME),
-				'합계' AS TEXT,
-				'',
-				'',
-				SUM(A.ORDER_QTY),
-				'',
-				''
-			FROM
-				t_inventory_orders AS A
-				LEFT JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
-				LEFT JOIN t_series_d AS C ON C.IDX = A.SERIESD_IDX
-				LEFT JOIN t_series_h AS H ON H.IDX = B.SERIES_IDX 
-			WHERE
-				A.END_YN is null
-				{$where}
-			order by
-				SERIES_NM, ITEM_NAME, COLOR
-SQL;
-
-
-		$query = $this->db->query($sql);
-		// echo $this->db->last_query();
-		return $query->result();
-	}
-
+	
 	public function tablet_o3_popup($code, $param)
 	{
 		$where = '';
