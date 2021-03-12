@@ -161,7 +161,7 @@ a:visited{color:#194bff;}
 	min-height:100%; width:100%; background-color:rgba(0,0,0,.5); position:fixed; position:-ms-page; top:0; left:0;
 }
 #pop_container .info_content{position:fixed; top:-50%; left:50%; height:90%; transform:translate(-50%, -50%); background:#fff;}
-#pop_container .info_content h2{font-size:1.2em; line-height:24px; padding:10px 15px; background-color: rgb(59, 77, 115); color: #fff;}
+#pop_container .info_content h2:not(.tableth2){font-size:1.2em; line-height:24px; padding:10px 15px; background-color: rgb(59, 77, 115); color: #fff;}
 #pop_container .info_content h2.tableth2{font-size:1.2em; padding:10px 15px; background-color: rgb(59, 77, 115); color: #fff;}
 #pop_container .info_content span.close{float:right; cursor:pointer; color:#fff; opacity:unset;}
 #pop_container .ajaxContent{height:100%;}
