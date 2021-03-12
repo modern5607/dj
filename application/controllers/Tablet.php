@@ -50,6 +50,11 @@ class Tablet extends CI_Controller
 		}
 	}
 
+	public function index()
+	{
+		$this->load->view('/tablet/index');
+	}
+
 	//성형지시
 	public function o1($date = '')
 	{
@@ -218,11 +223,10 @@ class Tablet extends CI_Controller
 	public function ajax_invenNum1_form()
 	{
 		$data['OIDX'] = $this->input->post("idx");
-		
+
 		$data['List'] = $this->act_model->get_inventory_list($data, 0, 9999);
 
 		$data['title'] = "선별작업지시";
 		return $this->load->view('/tablet/ajax_items_order_o4_form', $data);
-	
 	}
 }
