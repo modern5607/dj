@@ -92,10 +92,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
         }, 1000);
     });
 
-    function refresh() {
-        
-    }
-
 
 
     $(".add_act").on("click", function() {
