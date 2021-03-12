@@ -3,12 +3,25 @@ defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <link href="<?php echo base_url('_static/css/jquery.datetimepicker.min.css') ?>" rel="stylesheet">
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js') ?>"></script>
+<style>
+    /* 테블릿 스타일 */
+    .home .material-icons {
+        font-size: 40px;
+    }
 
-<div class="body_cont_float2" style="height: 100vh;" >
+    .home a {
+        color: black;
+    }
+</style>
+
+<div class="body_cont_float2" style="height: 100vh;">
     <ul>
         <li style="width:100%;">
 
-        <div id="" class="bc_search gsflexst">
+            <div id="" class="bc_search gsflexst">
+                <div class="home"><a href="<?php echo base_url('tablet/index') ?>"><span class="material-icons">
+                            arrow_back
+                        </span></a></div>
                 <div style="margin-bottom: 7px;">
 
                     <span class="btn_right">
@@ -26,8 +39,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
                 <span style="float: right;">
                     <p id="iTime" style="font-size: 20px; float: left; margin-top: 8px; padding-right:20px;"></p>
-                    <span class="btni btn_right" style="float: right; margin-left:5px; padding: 10px;"
-                        onclick="location.reload()"><span class="material-icons">refresh</span></span>
+                    <span class="btni btn_right" style="float: right; margin-left:5px; padding: 10px;" onclick="location.reload()"><span class="material-icons">refresh</span></span>
                 </span>
 
             </div>
@@ -86,18 +98,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-
-
-$(document).ready(function() {
+    $(document).ready(function() {
         var iTime = 10; // 새로고침 반복 시간  ex) 2분 = 2 * 60
         var m;
         setInterval(function() {
             iTime--;
-            if (iTime == 0) 
+            if (iTime == 0)
                 location.reload();
-            m=iTime;
-            
-            $("#iTime").text(m+"초후 새로고침");
+            m = iTime;
+
+            $("#iTime").text(m + "초후 새로고침");
         }, 1000);
     });
 
