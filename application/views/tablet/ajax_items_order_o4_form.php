@@ -14,7 +14,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <div class="form_1">
 
     <form method="post" name="menuUpdateForm" id="menuUpdateForm"
-        action="<?php echo base_url('ACT/form_a11_update');?>" enctype="multipart/form-data">
+        action="<?php echo base_url('tablet/form_a11_update');?>">
         
         <input type="hidden" name="OIDX" value="<?php echo $OIDX;?>">
         <input type="hidden" name="A1" value="<?php echo date("Y-m-d");?>">
@@ -65,13 +65,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <th>비고</th>
                             <td colspan="3"><input type="text" name="A6" class="form_input input_100" value=""></td>
                         </tr>
-                        <tr>
-                            <th>파일1</th>
-                            <td colspan="3">
-                                <input type="file" name="setfile[]" style="width:200px" />
-                                <span class="btni btn_right add_file">추가</span>
-                            </td>
-                        </tr>
+
                         <?php } ?>
                     </tbody>
                 </table>
@@ -94,28 +88,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
         $("#menuUpdateForm").submit();
     });
 
-    var num = 1;
-    $(".add_file").on("click", function() {
-
-        var html = "";
-        num++;
-
-        if (num > 3) {
-        alert('파일은 3개까지만 등록가능합니다.');
-        return false;
-        }
-
-        html += "<tr>";
-        html += "	<th>파일" + num + "</th>";
-        html += "	<td colspan='3'>";
-        html += "		<input type='file' name='setfile[]' style='width:200px;'>";
-        html += "		<span class='btni btn_right del_file'>삭제</span>";
-        html += "	</td>";
-        html += "</tr>";
-
-        $(this).parents("tbody").find("tr").last().after(html);
-
-    });
 
     var orgNum = $("input[name=A2]").val();
     $("input[name=A3],input[name=A4],input[name=A5]").on("change", function() {

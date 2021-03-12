@@ -110,13 +110,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 <script type="text/javascript">
+var timerControl = '';
+var iTime = $("input[name='timer']").val();
     $(document).ready(function() {
-        var iTime = $("input[name='timer']").val(); // 새로고침 반복 시간  ex) 2분 = 2 * 60
         if(iTime == ''){
             return false;
         }
         var m;
-        setInterval(function() {
+        timerControl = setInterval(function() {
             iTime--;
             if (iTime == 0)
                 location.reload();
@@ -128,6 +129,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
     $(".add_itemnum").on("click", function() {
+        clearInterval(timerControl)
 
         var idx = $(this).data("idx");
         $(".ajaxContent").html('');
@@ -182,6 +184,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
     $(document).on("click", "h2 > span.close", function() {
+        timerControl = setInterval(function() {
+            iTime--;
+            if (iTime == 0)
+                location.reload();
+            m = iTime;
+
+            $("#iTime").text(m + "초후 새로고침");
+        }, 1000);
 
         $(".ajaxContent").html('');
         $("#pop_container").fadeOut();

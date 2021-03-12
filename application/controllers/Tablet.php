@@ -254,4 +254,26 @@ class Tablet extends CI_Controller
 		$data['title'] = "선별작업지시";
 		return $this->load->view('/tablet/ajax_items_order_o4_form', $data);
 	}
+
+
+	public function form_a11_update()
+	{
+
+		$param['SB_DATE'] = $this->input->post("A1");
+		$param['1_QTY']   = $this->input->post("A2");
+		$param['2_QTY']	  = $this->input->post("A3");
+		$param['3_QTY']   = $this->input->post("A4");
+		$param['4_QTY']   = $this->input->post("A5");
+		$param['REMARK']  = $this->input->post("A6");
+		$param['IDX']     = $this->input->post("OIDX");
+		$param['TABLET']  = $this->input->post("TABLET");
+
+
+		$data =	$this->act_model->form_a11_update($param);
+
+		if ($data > 0) {
+				alert("선별작업실적이 등록되었습니다.", base_url('tablet/o4/'));
+			
+		}
+	}
 }

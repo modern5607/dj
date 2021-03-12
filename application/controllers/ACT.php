@@ -1031,11 +1031,7 @@ class ACT extends CI_Controller
 		$data =	$this->act_model->form_a11_update($param);
 
 		if ($data > 0) {
-			if($this->input->post("TABLET") == "TABLET" ){
-				alert("선별작업실적이 등록되었습니다.", base_url('tablet/o4/'));
-			}else{
-				alert("선별작업실적이 등록되었습니다.", base_url('ACT2/a11/').$qstr);
-			}
+			alert("선별작업실적이 등록되었습니다.", base_url('ACT2/a11/').$qstr);
 		}
 	}
 

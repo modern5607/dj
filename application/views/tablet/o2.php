@@ -106,13 +106,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 <script type="text/javascript">
+var timerControl = '';
+var iTime = $("input[name='timer']").val();
     $(document).ready(function() {
-        var iTime = $("input[name='timer']").val(); // 새로고침 반복 시간  ex) 2분 = 2 * 60
         if(iTime == ''){
             return false;
         }
         var m;
-        setInterval(function() {
+        timerControl = setInterval(function() {
             iTime--;
             if (iTime == 0)
                 location.reload();
@@ -124,6 +125,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
     $(".add_act").on("click", function() {
+        clearInterval(timerControl)
         var idx = $(this).data('idx');
         var date = "<?= $NDATE ?>";
         console.log(date);
@@ -155,23 +157,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
     });
 
 
-    $(".del_items").on("click", function() {
-        var idx = $(this).data("idx");
-
-        if (confirm('삭제하시겠습니까?') !== false) {
-
-            $.get("<?php echo base_url('ORD/ajax_del_items_order') ?>", {
-                idx: idx
-            }, function(data) {
-                if (data.status != "") {
-                    alert(data.msg);
-                    location.reload();
-                }
-            }, "JSON");
-        }
-    });
-
-
     $("input[name='sdate'],input[name='edate']").datetimepicker({
         format: 'Y-m-d',
         timepicker: false,
@@ -180,6 +165,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
     $(document).on("click", "h2 > span.close", function() {
+        timerControl = setInterval(function() {
+            iTime--;
+            if (iTime == 0)
+                location.reload();
+            m = iTime;
+
+            $("#iTime").text(m + "초후 새로고침");
+        }, 1000);
 
         $(".ajaxContent").html('');
         $("#pop_container").fadeOut();
