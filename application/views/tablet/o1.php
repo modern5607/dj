@@ -61,7 +61,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <ul>
         <li style="width:100%; background:#fff; padding:50px 80px 50px 80px;">
 
-            <div id="" class="bc_search gsflexst" style="border: 1px solid #fff; display:flex; justify-content:space-between;">
+            <div id="" class="bc_search gsflexst" style="border: 1px solid #fff; display:flex; justify-content:space-between; position:relative">
 
                 <div class="home"><a href="<?php echo base_url('tablet/index') ?>"><span class="material-icons">
                             arrow_back
