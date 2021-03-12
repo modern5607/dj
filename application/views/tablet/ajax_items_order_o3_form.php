@@ -5,9 +5,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <link href="<?php echo base_url('_static/css/jquery.datetimepicker.min.css') ?>" rel="stylesheet">
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js') ?>"></script>
 
-<h2>
+<h2 class="tableth2">
     <?php echo $title; ?>
-    <span class="material-icons close">clear</span>
+    <span class="material-icons close" style="font-size:50px">clear</span>
 </h2>
 <?php date_default_timezone_set('Asia/Seoul'); ?>
 
