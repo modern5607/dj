@@ -28,7 +28,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <th>품명</th>
                             <th>지시수량</th>
                             <th>완료수량</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,7 +42,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     <td class="<?= $mlink ?> cen" data-idx="<?= $row->TRANS_IDX ?>"><?php echo $row->ITEM_NAME; ?></td>
                                     <td class="right"><?= number_format($row->ORDER_QTY); ?></td>
                                     <td class="right"><?= number_format($row->PROD_QTY) ?></td>
-                                    <td><span class="btn del_items" data-idx="<?= $row->TRANS_IDX; ?>" data-inqty="<?php echo $row->ORDER_QTY; ?>">삭제</span></td>
                                 </tr>
 
                         <?php }

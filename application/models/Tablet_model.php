@@ -46,12 +46,13 @@ class Tablet_model extends CI_Model
 			WHERE
 				1
 				{$where}
+				AND (END_YN IS NULL OR END_YN='')
 			
 SQL;
 
 
 		$query = $this->db->query($sql);
-		// echo $this->db->last_query();
+		echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -212,6 +213,7 @@ SQL;
 		WHERE
 			1
 			{$where}
+			AND (END_YN IS NULL OR END_YN='')
 		
 SQL;
 

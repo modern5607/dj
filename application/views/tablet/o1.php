@@ -11,11 +11,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <div id="" class="bc_search gsflexst" style="background:#f8f8f8;">
                 <div class="gsflexst">
                     <span class="btn_right">
-                        <p style="font-size: 20px; padding-right:20px; color:#194bff;"><?= empty($NDATE) ? "" : $NDATE ?></p>
+                        <p style="font-size: 20px; padding-right:20px; color:#194bff;">
+                            <?= empty($NDATE) ? "" : $NDATE ?></p>
                     </span>
-                    <!-- <span class="btni btn_right add_itemnum" style="max-height:34px;" data-type="<?php /* echo $this->data['subpos'];*/ ?>"><span class="material-icons">add</span></span> -->
+                    <span style="text-align: right;">
+                    <p style="font-size: 20px;  padding-right:20px;">aaaa</p>
+                </span>
                 </div>
+                
 
+                
+
+                <span class="btni" style="text-align: right;">
+                    <span class="material-icons">add</span>
+                </span>
             </div>
 
             <div class="tbl-content">
@@ -28,7 +37,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <th>품명</th>
                             <th>지시수량</th>
                             <th>완료수량</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,10 +48,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <tr>
                                     <td class="cen"><?php echo $num; ?></td>
                                     <td><?php echo $row->SERIES_NM; ?></td>
-                                    <td class="<?= $mlink ?> cen" data-idx="<?= $row->TRANS_IDX ?>"><?php echo $row->ITEM_NAME; ?></td>
+                                    <td class="<?= $mlink ?> cen" data-idx="<?= $row->TRANS_IDX ?>">
+                                        <?php echo $row->ITEM_NAME; ?></td>
                                     <td class="right"><?= number_format($row->ORDER_QTY); ?></td>
                                     <td class="right"><?= number_format($row->PROD_QTY) ?></td>
-                                    <td><span class="btn del_items" data-idx="<?= $row->TRANS_IDX; ?>" data-inqty="<?php echo $row->ORDER_QTY; ?>">삭제</span></td>
                                 </tr>
 
                         <?php }

@@ -167,6 +167,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
         var trc = $('.form_3 tbody tr').length;
         var formData = new FormData($("#ajaxform")[0]);
         var $this = $(this);
+        var cur_date = $("input[name='transdate']").val();
+
         formData.append('transdate', $("input[name='transdate']").val());
 
 
@@ -201,7 +203,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         $("#pop_container").fadeOut();
                         $(".info_content").css("top", "-50%");
                         $("#loading").hide();
-                        location.replace("<?= base_url('ACT2/a9_1/'.$NDATE)?>");
+                        location.replace("<?= base_url('ACT2/a9_1/')?>"+cur_date);
 
                     }, 1000);
 

@@ -293,9 +293,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
                 var jsonData = JSON.parse(data);
                 if (jsonData.status == "ok") {
-
+                    alert(jsonData.msg);
                     setTimeout(function() {
-                        alert(jsonData.msg);
+                        
                         $(".ajaxContent").html('');
                         $("#pop_container").fadeOut();
                         $(".info_content").css("top", "-50%");
@@ -305,7 +305,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     }, 1000);
 
                     chkHeadCode = false;
-                    window.reload();
+                    location.reload();
 
                 }
             },
