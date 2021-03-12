@@ -48,7 +48,6 @@ $config['site_title']['PO']['p3'] = "자재출고현황";
 $config['site_title']['ORD']['o1'] = "성형작업지시";
 $config['site_title']['ORD']['o2'] = "정형작업지시";
 $config['site_title']['ORD']['o3'] = "시유작업지시";
-$config['site_title']['ORD']['o4'] = "선별작업지시";
 
 $config['site_title']['PLN'][''] = "수주관리";
 $config['site_title']['PLN']['index'] = "수주관리";
