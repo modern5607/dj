@@ -5,6 +5,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js') ?>"></script>
 <style>
     /* 테블릿 스타일 */
+    .body_cont_float2 {}
+
+    .bc_search .gsflexst>div {}
+
     .home .material-icons {
         font-size: 40px;
     }
@@ -12,13 +16,54 @@ defined('BASEPATH') or exit('No direct script access allowed');
     .home a {
         color: black;
     }
+
+    .tbl-content-t table {
+        background: #fff;
+        border-collapse: collapse;
+        border-radius: 1em;
+        overflow: hidden;
+        text-align: left;
+        line-height: 1.5;
+        margin: 50px 10px;
+    }
+
+    .tbl-content-t table thead th {
+        width: 150px;
+        padding: 20px;
+        font-size: 20px;
+        font-weight: bold;
+        vertical-align: top;
+        color: #fff;
+        background: #3b4d73;
+        margin: 20px 10px;
+        text-align: center;
+    }
+
+    .tbl-content-t table tbody th {
+        width: 150px;
+        padding: 10px;
+    }
+
+
+    .tbl-content-t table td {
+        width: 350px;
+        padding: 16px;
+        font-size: 20px;
+        vertical-align: top;
+        text-align: center;
+        border-bottom: 1px solid #f7f7f7;
+    }
+
+    .even {
+        background: #f3f8ff;
+    }
 </style>
 
 <div class="body_cont_float2" style="height: 100vh;">
     <ul>
-        <li style="width:100%;">
+        <li style="width:100%; background:#f7f7f7; padding:50px 80px 50px 80px;">
 
-            <div id="" class="bc_search gsflexst" style="position:relative">
+            <div id="" class="bc_search gsflexst" style="border: 1px solid #f7f7f7; display:flex; justify-content:space-between; position:relative">
                 <div class="home"><a href="<?php echo base_url('tablet/index') ?>"><span class="material-icons">
                             arrow_back
                         </span></a></div>
@@ -38,16 +83,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </div>
 
                 <span style="float: right;">
-                <input type="hidden" name="timer" value="<?= $timer[0]->REMARK ?>">
+                    <input type="hidden" name="timer" value="<?= $timer[0]->REMARK ?>">
                     <p id="iTime" style="font-size: 20px; float: left; margin-top: 8px; padding-right:20px;">
-                    <?= ($timer[0]->REMARK != '')?$timer[0]->REMARK.'초후 새로고침':''; ?></p>
+                        <?= ($timer[0]->REMARK != '') ? $timer[0]->REMARK . '초후 새로고침' : ''; ?></p>
                     <span class="btni btn_right" style="float: right; margin-left:5px; padding: 10px;" onclick="location.reload()"><span class="material-icons">refresh</span></span>
                 </span>
 
             </div>
 
 
-            <div class="tbl-content">
+            <div class="tbl-content-t">
                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                     <thead>
                         <tr>
@@ -75,12 +120,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     <td><?php echo $row->REMARK; ?></td>
                                 </tr>
 
-                        <?php }
-                        }else{
-                        ?>
-                                <tr>
-                                    <td colspan="12" class="list_none">작업지시 내역이 없습니다.</td>
-                                </tr>
+                            <?php }
+                        } else {
+                            ?>
+                            <tr>
+                                <td colspan="12" class="list_none">작업지시 내역이 없습니다.</td>
+                            </tr>
                         <?php
                         } ?>
                     </tbody>
@@ -110,10 +155,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-var timerControl = '';
-var iTime = $("input[name='timer']").val();
+    var timerControl = '';
+    var iTime = $("input[name='timer']").val();
     $(document).ready(function() {
-        if(iTime == ''){
+        if (iTime == '') {
             return false;
         }
         var m;
