@@ -5,6 +5,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js') ?>"></script>
 <style>
     /* 테블릿 스타일 */
+    .body_cont_float2 {}
+
+    .bc_search .gsflexst>div {}
+
     .home .material-icons {
         font-size: 40px;
     }
@@ -12,40 +16,79 @@ defined('BASEPATH') or exit('No direct script access allowed');
     .home a {
         color: black;
     }
+
+    .tbl-content-t table {
+        background: #fff;
+        border-collapse: collapse;
+        border-radius: 1em;
+        overflow: hidden;
+        text-align: left;
+        line-height: 1.5;
+        margin: 50px 10px;
+    }
+
+    .tbl-content-t table thead th {
+        width: 150px;
+        padding: 10px;
+        font-weight: bold;
+        vertical-align: top;
+        color: #fff;
+        background: #3b4d73;
+        margin: 20px 10px;
+        text-align: center;
+    }
+
+    .tbl-content-t table tbody th {
+        width: 150px;
+        padding: 10px;
+    }
+
+    .tbl-content-t table td {
+        width: 350px;
+        padding: 10px;
+        vertical-align: top;
+        text-align: center;
+        background: #f7f7f7;
+        border-bottom: 1px solid #f7f7f7;
+    }
+
+    .tbl-content-t table .even {
+        background: #fdf3f5;
+    }
 </style>
 
 <div class="body_cont_float2" style="height: 100vh;">
     <ul>
-        <li style="width:100%;">
+        <li style="width:100%; background:#fff; padding:50px 80px 50px 80px;">
 
-            <div id="" class="bc_search gsflexst">
+            <div id="" class="bc_search gsflexst" style="border: 1px solid #fff; display:flex; justify-content:space-between;">
+
                 <div class="home"><a href="<?php echo base_url('tablet/index') ?>"><span class="material-icons">
                             arrow_back
                         </span></a></div>
+
                 <div style="margin-bottom: 7px;">
 
                     <span class="btn_right">
                         <p style="font-size: 30px; padding-left:20px;">
                             <?= empty($NDATE) ? "" : $NDATE ?></p>
                     </span>
-
                     <span class="btn_right">
                         <p style="font-size: 30px; padding-left:20px;">
                             <?= $title ?></p>
                     </span>
-
-
                 </div>
 
-                <span style="float: right;">
-                    <p id="iTime" style="font-size: 20px; float: left; margin-top: 8px; padding-right:20px;"></p>
-                    <span class="btni btn_right" style="float: right; margin-left:5px; padding: 10px;" onclick="location.reload()"><span class="material-icons">refresh</span></span>
-                </span>
+                <div>
+                    <span>
+                        <p id="iTime" style="font-size: 20px; float: left; margin-top: 8px; padding-right:20px;"></p>
+                        <span class="btni btn_right" style="float: right; margin-left:5px; padding: 10px;" onclick="location.reload()"><span class="material-icons">refresh</span></span>
+                    </span>
+                </div>
 
             </div>
 
-            <div class="tbl-content">
-
+            <div class="tbl-content-t">
                 <table class="t_table" cellpadding="0" cellspacing="0" border="0" width="100%">
                     <thead>
                         <tr>
