@@ -158,7 +158,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                         value="<?php echo number_format($row->ORDER_QTY); ?>">
                                         </td>
                                         <td><?php echo $row->REMARK; ?></td>
-                                        <td><span class="<?php echo ($row->END_YN == "Y")?"nbtn":"btn mod_detail" ?>" data-idx="<?= $row->TRANS_IDX; ?>" >삭제</span></td>
+                                        <td><span class="<?php echo ($row->END_YN == "Y")?"nbtn":"btn del_items" ?>" data-idx="<?= $row->TRANS_IDX; ?>" >삭제</span></td>
                                     </tr>
 
                                 <?php }

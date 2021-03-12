@@ -90,7 +90,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <li><a href="<?php echo base_url('ORD/o1')?>" class="<?php echo ($this->data['subpos'] == "o1")?"on":"";?>"><i class="material-icons">dvr</i>성형작업지시</a></li>
                             <li><a href="<?php echo base_url('ORD/o2')?>" class="<?php echo ($this->data['subpos'] == "o2")?"on":"";?>"><i class="material-icons">dvr</i>정형작업지시</a></li>
                             <li><a href="<?php echo base_url('ORD/o3')?>" class="<?php echo ($this->data['subpos'] == "o3")?"on":"";?>"><i class="material-icons">dvr</i>시유작업지시</a></li>
-                            <li><a href="<?php echo base_url('ORD/o4')?>" class="<?php echo ($this->data['subpos'] == "o4")?"on":"";?>"><i class="material-icons">dvr</i>선별작업지시</a></li>
                         </ul>
                     </li>
                     <li class="menu01_li">

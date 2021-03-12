@@ -4,22 +4,31 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <link href="<?php echo base_url('_static/css/jquery.datetimepicker.min.css') ?>" rel="stylesheet">
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js') ?>"></script>
 
-<div class="body_cont_float2">
+<div class="body_cont_float2" style="height: 100vh;" >
     <ul>
         <li style="width:100%;">
 
-            <div id="" class="bc_search gsflexst" style="background:#f8f8f8;">
-                <div class="gsflexst">
-                    <span class="btn_right">
-                        <p style="font-size: 20px; padding-right:20px; color:#194bff;"><?= empty($NDATE) ? "" : $NDATE ?></p>
-                    </span>
-                    <!-- <span class="btni btn_right add_itemnum" style="max-height:34px;" data-type="<?php /* echo $this->data['subpos'];*/ ?>"><span class="material-icons">add</span></span> -->
-                </div>
-                <span style="float: right;">
-                    <p id="iTime" style="font-size: 20px; float: left; margin-top: 8px; padding-right:20px;">10초후 새로고침</p>
-                    <span class="btni btn_right" style="float: right; margin-left:5px; padding: 10px;" onclick="location.reload()"><span class="material-icons">refresh</span></span>
-                </span>
+        <div id="" class="bc_search gsflexst">
+                <div style="margin-bottom: 7px;">
 
+                    <span class="btn_right">
+                        <p style="font-size: 30px; padding-left:20px;">
+                            <?= empty($NDATE) ? "" : $NDATE ?></p>
+                    </span>
+
+                    <span class="btn_right">
+                        <p style="font-size: 30px; padding-left:20px;">
+                            <?= $title ?></p>
+                    </span>
+
+
+                </div>
+
+                <span style="float: right;">
+                    <p id="iTime" style="font-size: 20px; float: left; margin-top: 8px; padding-right:20px;"></p>
+                    <span class="btni btn_right" style="float: right; margin-left:5px; padding: 10px;"
+                        onclick="location.reload()"><span class="material-icons">refresh</span></span>
+                </span>
 
             </div>
 
