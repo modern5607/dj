@@ -29,7 +29,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     .tbl-content-t table thead th {
         width: 150px;
-        padding: 10px;
+        padding: 20px;
+        font-size: 20px;
         font-weight: bold;
         vertical-align: top;
         color: #fff;
@@ -43,25 +44,26 @@ defined('BASEPATH') or exit('No direct script access allowed');
         padding: 10px;
     }
 
+
     .tbl-content-t table td {
         width: 350px;
-        padding: 10px;
+        padding: 16px;
+        font-size: 20px;
         vertical-align: top;
         text-align: center;
-        background: #f7f7f7;
         border-bottom: 1px solid #f7f7f7;
     }
 
-    .tbl-content-t table .even {
-        background: #fdf3f5;
+    .even {
+        background: #f3f8ff;
     }
 </style>
 
 <div class="body_cont_float2" style="height: 100vh;">
     <ul>
-        <li style="width:100%; background:#fff; padding:50px 80px 50px 80px;">
+        <li style="width:100%; background:#f7f7f7; padding:50px 80px 50px 80px;">
 
-            <div id="" class="bc_search gsflexst" style="border: 1px solid #fff; display:flex; justify-content:space-between; position:relative">
+            <div id="" class="bc_search gsflexst" style="border: 1px solid #f7f7f7; display:flex; justify-content:space-between; position:relative">
 
                 <div class="home"><a href="<?php echo base_url('tablet/index') ?>"><span class="material-icons">
                             arrow_back
@@ -147,6 +149,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 <script type="text/javascript">
+    $('tr:even').addClass('even');
     $(document).ready(function() {
         var iTime = $("input[name='timer']").val(); // 새로고침 반복 시간  ex) 2분 = 2 * 60
         if (iTime == '') {

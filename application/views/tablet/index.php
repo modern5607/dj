@@ -30,7 +30,7 @@ $today = date('y-m-d');
     .tlink_column {
         border-radius: 20px;
         height: 170px;
-        width: 200px;
+        width: 180px;
         font-size: 24px;
         -webkit-box-shadow: 6px 10px 10px -8px rgba(0, 0, 0, 0.75);
         -moz-box-shadow: 6px 10px 10px -8px rgba(0, 0, 0, 0.75);
@@ -43,7 +43,6 @@ $today = date('y-m-d');
 
     .bc__box100 {
         background: #f8f8f8;
-        display: flex;
         height: 100%;
         padding: 40px;
     }
@@ -51,18 +50,19 @@ $today = date('y-m-d');
     .m_nav {
         display: flex;
         justify-content: space-around;
-        width: 70%;
         margin-top: 10%;
+        height: 300px;
     }
 
     .side_menu {
         background: #f8f8f8;
-        width: 30%;
+        width: 40%;
         display: flex;
         flex-direction: column;
         padding-top: 20px;
         margin-left: 20px;
         position: reelative;
+        float: right;
     }
 
     .side_menu a {
@@ -115,12 +115,13 @@ $today = date('y-m-d');
         opacity: 0.6;
     }
 
-    .timer{
+    .timer {
         position: absolute;
-        bottom:0; right:0;
-        display:flex;
+        bottom: 0;
+        right: 0;
+        display: flex;
         font-size: 22px;
-        margin:40px
+        margin: 40px
     }
 </style>
 
@@ -168,32 +169,30 @@ $today = date('y-m-d');
                         </div>
                     </div>
                 </div>
-                <!-- <a style="color:black" href="tablet/o1">성형</a>
-                <a style="color:black" href="tablet/o2">정형</a>
-                <a style="color:black" href="tablet/o3">시유</a>
-                <a style="color:black" href="tablet/o4">선별</a> -->
                 <div class='timer'>
-                <p style="padding-right:15px">새로고침</p>
-                <select name="timer" id="timer" style="width:150px;">
-                    <option value="" <?= ($timer[0]->REMARK == "")?"selected":"" ?>>사용안함</option>
-                    <option value="10" <?= ($timer[0]->REMARK == "10")?"selected":"" ?>>10초</option>
-                    <option value="20" <?= ($timer[0]->REMARK == "20")?"selected":"" ?>>20초</option>
-                    <option value="30" <?= ($timer[0]->REMARK == "30")?"selected":"" ?>>30초</option>
-                    <option value="40" <?= ($timer[0]->REMARK == "40")?"selected":"" ?>>40초</option>
-                    <option value="50" <?= ($timer[0]->REMARK == "50")?"selected":"" ?>>50초</option>
-                    <option value="60" <?= ($timer[0]->REMARK == "60")?"selected":"" ?>>60초</option>
-                    <option value="120" <?= ($timer[0]->REMARK == "120")?"selected":"" ?>>2분</option>
-                    <option value="180" <?= ($timer[0]->REMARK == "180")?"selected":"" ?>>3분</option>
-                </select>
+                    <p style="padding-right:15px">새로고침</p>
+                    <select name="timer" id="timer" style="width:150px;">
+                        <option value="" <?= ($timer[0]->REMARK == "") ? "selected" : "" ?>>사용안함</option>
+                        <option value="10" <?= ($timer[0]->REMARK == "10") ? "selected" : "" ?>>10초</option>
+                        <option value="20" <?= ($timer[0]->REMARK == "20") ? "selected" : "" ?>>20초</option>
+                        <option value="30" <?= ($timer[0]->REMARK == "30") ? "selected" : "" ?>>30초</option>
+                        <option value="40" <?= ($timer[0]->REMARK == "40") ? "selected" : "" ?>>40초</option>
+                        <option value="50" <?= ($timer[0]->REMARK == "50") ? "selected" : "" ?>>50초</option>
+                        <option value="60" <?= ($timer[0]->REMARK == "60") ? "selected" : "" ?>>60초</option>
+                        <option value="120" <?= ($timer[0]->REMARK == "120") ? "selected" : "" ?>>2분</option>
+                        <option value="180" <?= ($timer[0]->REMARK == "180") ? "selected" : "" ?>>3분</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<script type="text/javascript">
-    $("select[name='timer']").on("change",function(){
-        console.log(123)
-        var time = $(this).val();
-        $.post("<?php echo base_url('tablet/timer_update')?>",{time:time});
-    });
-</script>
+    <script type="text/javascript">
+        $("select[name='timer']").on("change", function() {
+            console.log(123)
+            var time = $(this).val();
+            $.post("<?php echo base_url('tablet/timer_update') ?>", {
+                time: time
+            });
+        });
+    </script>
