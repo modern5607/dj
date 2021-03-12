@@ -10,6 +10,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <span class="material-icons close" style="font-size:50px">clear</span>
 </h2>
 <?php date_default_timezone_set('Asia/Seoul'); ?>
+<style>
+    * {
+        font-size: 32px;
+    }
+    
+    th {
+        width: 40%
+    }
+</style>
 
 <div class="form_5">
 
@@ -49,7 +58,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
     <!--a href="http://rainshop.ivyro.net/rain_code3/PLN/index" class="alink" style="float:left;">전체코드보기</a-->
-    <span class="btni btn_right add_form form_submit" data-hidx="3">확인</span>
+    <span class="btni btn_right add_form form_submit" data-hidx="3">입력</span>
 
 </div>
 <script>

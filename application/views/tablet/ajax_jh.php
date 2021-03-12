@@ -10,7 +10,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <?php echo $title; ?>
     <span class="material-icons close" style="font-size:50px">clear</span>
 </h2>
-
+<style>
+    * {
+        font-size: 32px;
+    }
+    
+    th {
+        width: 40%
+    }
+</style>
 
 <div class="formContainer" style="min-width: 800px;">
 

@@ -7,7 +7,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js') ?>"></script>
 
 <style>
-    * {
+    .formContaier, .tableth2 {
         font-size: 32px;
     }
     
