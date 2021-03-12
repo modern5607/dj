@@ -41,8 +41,7 @@ class Tablet extends CI_Controller
 					call_user_func_array(array($this, $method), $params);
 					$this->load->view('/layout/tail');
 				} else {
-
-					alert('로그인이 필요합니다.', base_url('register/login'));
+					alert('로그인이 필요합니다.', base_url('register/m_login'));
 				}
 			} else {
 				show_404();
