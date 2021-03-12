@@ -5,57 +5,80 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js') ?>"></script>
 
 
-<span style="float: right;">
-    <p id="iTime" style="font-size: 20px; float: left; margin-top: 8px; padding-right:20px;">10초후 새로고침</p>
-    <span class="btni btn_right" style="float: right; margin-left:5px; padding: 10px;" onclick="location.reload()"><span
-            class="material-icons">refresh</span></span>
-</span>
+<div class="body_cont_float2" style="height: 100vh;" >
+    <ul>
+        <li style="width:100%;">
+
+        <div id="" class="bc_search gsflexst">
+                <div style="margin-bottom: 7px;">
+
+                    <span class="btn_right">
+                        <p style="font-size: 30px; padding-left:20px;">
+                            <?= empty($NDATE) ? "" : $NDATE ?></p>
+                    </span>
+
+                    <span class="btn_right">
+                        <p style="font-size: 30px; padding-left:20px;">
+                            <?= $title ?></p>
+                    </span>
 
 
-<div class="body_cont_float2">
-    <div class="tbl-content">
-        <table cellpadding="0" cellspacing="0" border="0" width="100%">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>시리즈</th>
-                    <th>품명</th>
-                    <th>색상</th>
-                    <th>지시수량</th>
-                    <th>비고</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($RList)) { ?>
-                <?php
+                </div>
+
+                <span style="float: right;">
+                    <p id="iTime" style="font-size: 20px; float: left; margin-top: 8px; padding-right:20px;"></p>
+                    <span class="btni btn_right" style="float: right; margin-left:5px; padding: 10px;"
+                        onclick="location.reload()"><span class="material-icons">refresh</span></span>
+                </span>
+
+            </div>
+
+
+            <div class="tbl-content">
+                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>시리즈</th>
+                            <th>품명</th>
+                            <th>색상</th>
+                            <th>지시수량</th>
+                            <th>비고</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($RList)) { ?>
+                        <?php
                     foreach ($RList as $i => $row) {
                         $num = $i + 1;
                     ?>
 
-                <tr>
-                    <td class="cen"><?php echo $num; ?></td>
-                    <td><?php echo $row->SERIES_NM; ?></td>
-                    <td><a href="#" class="btni btn_right add_itemnum"
-                            data-idx="<?php echo $row->TRANS_IDX; ?>"><?php echo $row->ITEM_NAME; ?></a></td>
-                    <td><?php echo $row->COLOR; ?></td>
-                    <td class="right"><?php echo number_format($row->ORDER_QTY); ?></td>
-                    <td><?php echo $row->REMARK; ?></td>
-                </tr>
+                        <tr>
+                            <td class="cen"><?php echo $num; ?></td>
+                            <td><?php echo $row->SERIES_NM; ?></td>
+                            <td><a href="#" class="btni btn_right add_itemnum"
+                                    data-idx="<?php echo $row->TRANS_IDX; ?>"><?php echo $row->ITEM_NAME; ?></a></td>
+                            <td><?php echo $row->COLOR; ?></td>
+                            <td class="right"><?php echo number_format($row->ORDER_QTY); ?></td>
+                            <td><?php echo $row->REMARK; ?></td>
+                        </tr>
 
-                <?php 
+                        <?php 
                     }
                 }
                 if (empty($RList) ) {
                     ?>
-                <tr>
-                    <td colspan="10" style='color:#999; padding:40px 0;'>등록된 작업지시가 없습니다.</td>
-                </tr>
-                <?php } ?>
-            </tbody>
-            <tfoot>
-            </tfoot>
-        </table>
-    </div>
+                        <tr>
+                            <td colspan="10" style='color:#999; padding:40px 0;'>등록된 작업지시가 없습니다.</td>
+                        </tr>
+                        <?php } ?>
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+            </div>
+        </li>
+    </ul>
 </div>
 
 
