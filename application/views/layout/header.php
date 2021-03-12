@@ -79,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <a href="<?php echo base_url('PLN')?>" class="menu_a <?php echo ($this->data['pos'] == "PLN")?"on":"";?>">주문/계획</a>
                         <ul class="menu02" <?php echo ($this->data['pos'] == "PLN")?"style='display:block'":"";?>>
                             <li><a href="<?php echo base_url('PLN')?>" class="<?php echo ($this->data['subpos'] == NULL || $this->data['subpos'] == 'index')?"on":"";?>"><i class="material-icons">dvr</i>수주관리</a></li>
-                            <li><a href="<?php echo base_url('PLN/p1')?>" class="<?php echo ($this->data['subpos'] == "p1")?"on":"";?>"><i class="material-icons">dvr</i>주문대비진행현황</a></li>
+                            <!-- <li><a href="<?php echo base_url('PLN/p1')?>" class="<?php echo ($this->data['subpos'] == "p1")?"on":"";?>"><i class="material-icons">dvr</i>주문대비진행현황</a></li> -->
                             <li><a href="<?php echo base_url('PLN/p2')?>" class="<?php echo ($this->data['subpos'] == "p2")?"on":"";?>"><i class="material-icons">dvr</i>생산계획등록</a></li>
                             <li><a href="<?php echo base_url('PLN/p3')?>" class="<?php echo ($this->data['subpos'] == "p3")?"on":"";?>"><i class="material-icons">dvr</i>생산계획조회</a></li>
                         </ul>
@@ -93,7 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </ul>
                     </li>
                     <li class="menu01_li">
-                        <a href="<?php echo base_url('ACT')?>" class="menu_a <?php echo ($this->data['pos'] == "ACT")?"on":"";?>" >생산관리</a>
+                        <a href="<?php echo base_url('ACT/a2')?>" class="menu_a <?php echo ($this->data['pos'] == "ACT")?"on":"";?>" >생산관리</a>
                         <ul class="menu02" <?php echo ($this->data['pos'] == "ACT")?"style='display:block'":"";?>>
                             
 							<!-- <li><a href="<?php echo base_url('ACT')?>" class="<?php echo ($this->data['subpos'] == NULL)?"on":"";?>"><i class="material-icons">memory</i>작업지시등록</a></li> -->
