@@ -4,57 +4,69 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <link href="<?php echo base_url('_static/css/jquery.datetimepicker.min.css')?>" rel="stylesheet">
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js')?>"></script>
 
-<span style="float: right;">
-    <p id="iTime" style="font-size: 20px; float: left; margin-top: 8px; padding-right:20px;">10초후 새로고침</p>
-    <span class="btni btn_right" style="float: right; margin-left:5px; padding: 10px;" onclick="location.reload()"><span
-            class="material-icons">refresh</span></span>
-</span>
+<div class="body_cont_float2" style="height: 100vh;" >
+    <ul>
+        <li style="width:100%;">
+            <div id="" class="bc_search gsflexst" style="background:#f8f8f8;">
+                <div class="gsflexst">
+                    <span class="btn_right">
+                        <p style="font-size: 20px; padding-right:20px; color:#194bff;">
+                            <?= empty($NDATE) ? "" : $NDATE ?></p>
+                    </span>
+                    <!-- <span class="btni btn_right add_itemnum" style="max-height:34px;" data-type="<?php /* echo $this->data['subpos'];*/ ?>"><span class="material-icons">add</span></span> -->
+                </div>
+                <span style="float: right;">
+                    <p id="iTime" style="font-size: 20px; float: left; margin-top: 8px; padding-right:20px;"></p>
+                    <span class="btni btn_right" style="float: right; margin-left:5px; padding: 10px;"
+                        onclick="location.reload()"><span class="material-icons">refresh</span></span>
+                </span>
 
-<div class="body_cont_float2">
-    <div class="tbl-content">
-        <table cellpadding="0" cellspacing="0" border="0" width="100%">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>시유일자</th>
-                    <th>품명</th>
-                    <th>색상</th>
-                    <th>수주수량</th>
-                    <th>시유수량</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($List as $i=>$row){
+
+            </div>
+
+            <div class="tbl-content">
+                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>시유일자</th>
+                            <th>품명</th>
+                            <th>색상</th>
+                            <th>수주수량</th>
+                            <th>시유수량</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($List as $i=>$row){
 							$num = $i+1;
 					?>
-                <tr>
-                    <td class="cen"><?php echo $num;?></td>
-                    <td class="cen"><?php echo substr($row->ACT_DATE,0,10);?></td>
-                    <td><span data-idx='<?php echo $row->IDX;?>'
-                            class="link_s1 add_itemnum"><?php echo $row->ITEM_NM;?></span></td>
-                    <td class="cen"><?php echo $row->COLOR;?></td>
-                    <td class="right"><?php echo $row->QTY;?></td>
-                    <td style="text-align:right"><?php echo $row->IN_QTY;?></td>
+                        <tr>
+                            <td class="cen"><?php echo $num;?></td>
+                            <td class="cen"><?php echo substr($row->ACT_DATE,0,10);?></td>
+                            <td><span data-idx='<?php echo $row->IDX;?>'
+                                    class="link_s1 add_itemnum"><?php echo $row->ITEM_NM;?></span></td>
+                            <td class="cen"><?php echo $row->COLOR;?></td>
+                            <td class="right"><?php echo $row->QTY;?></td>
+                            <td style="text-align:right"><?php echo $row->IN_QTY;?></td>
 
-                </tr>
-                <?php } ?>
-                <?php
+                        </tr>
+                        <?php } ?>
+                        <?php
 					if(empty($List)){
 					?>
-                <tr>
-                    <td colspan="8" style='color:#999; padding:40px 0;'>실적정보가 없습니다.</td>
-                </tr>
-                <?php
+                        <tr>
+                            <td colspan="8" style='color:#999; padding:40px 0;'>실적정보가 없습니다.</td>
+                        </tr>
+                        <?php
 					}
 					?>
-            </tbody>
-        </table>
+                    </tbody>
+                </table>
 
-    </div>
-
-
+            </div>
+        </li>
+    </ul>
 </div>
-
 
 
 

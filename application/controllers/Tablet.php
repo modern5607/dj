@@ -60,9 +60,9 @@ class Tablet extends CI_Controller
 	{
 		// $this->data['siteTitle'] = "ㅁㄴㅇㄹ";
 		$date = date("Y-m-d");
-
-		$data['qstr'] = "?P";
 		$data['NDATE'] = $date;
+		$data['qstr'] = "?P";
+	
 
 		$params['GJGB'] = "SH";
 
@@ -167,6 +167,9 @@ class Tablet extends CI_Controller
 	{
 		$data['qstr'] = "?P";
 
+		$date = date("Y-m-d");
+		$data['NDATE'] = $date;
+
 		$param['date'] = date("Y-m-d");
 		$params['GJGB'] = "CU";
 
@@ -183,6 +186,8 @@ class Tablet extends CI_Controller
 	//선별지시
 	public function o4($date = '')
 	{
+		$date = date("Y-m-d");
+		$data['NDATE'] = $date;
 		$params['GJGB'] = "SB";
 		$data['List'] = $this->act_model->get_inventory_list($params, 0, 9999);
 
