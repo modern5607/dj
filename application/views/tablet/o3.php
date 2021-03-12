@@ -28,14 +28,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <tbody>
                 <?php if (!empty($RList)) { ?>
                 <?php
-                    $totalQty = 0;
-                    $count = 0;
                     foreach ($RList as $i => $row) {
                         $num = $i + 1;
-                        if ($row->SERIES_NM == "합계") {
-                            $totalQty += $row->ORDER_QTY;
-                            $count += $row->TRANS_IDX;
-                        } else {
                     ?>
 
                 <tr>
@@ -48,21 +42,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <td><?php echo $row->REMARK; ?></td>
                 </tr>
 
-                <?php }
-                    }
-                    if ($count != 0) {
-                        ?>
-                <tr style="background:#f3f8fd;" class="nhover">
-                    <td colspan="2" style="text-align:right"><strong>건수</strong></td>
-                    <td style="text-align:right"><?php echo number_format($count); ?></td>
-                    <td colspan="1" style="text-align:right"><strong>합계</strong></td>
-                    <td style="text-align:right"><?php echo number_format($totalQty); ?></td>
-                    <td colspan="2"></td>
-                </tr>
-                <?php
+                <?php 
                     }
                 }
-                if (empty($RList) || $count == 0) {
+                if (empty($RList) ) {
                     ?>
                 <tr>
                     <td colspan="10" style='color:#999; padding:40px 0;'>등록된 작업지시가 없습니다.</td>

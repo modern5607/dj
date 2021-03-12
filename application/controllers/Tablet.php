@@ -219,7 +219,7 @@ class Tablet extends CI_Controller
 		// echo json_encode($data);
 	}
 
-	//선별 작업지시 추가 popup
+	//선별 작업지시
 	public function ajax_invenNum1_form()
 	{
 		$data['OIDX'] = $this->input->post("idx");

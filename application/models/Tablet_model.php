@@ -84,23 +84,6 @@ SQL;
 			WHERE
 				A.END_YN is null
 				{$where}
-			UNION
-			SELECT
-				COUNT(B.ITEM_NAME),
-				'합계' AS TEXT,
-				'',
-				'',
-				SUM(A.ORDER_QTY),
-				'',
-				''
-			FROM
-				t_inventory_orders AS A
-				LEFT JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
-				LEFT JOIN t_series_d AS C ON C.IDX = A.SERIESD_IDX
-				LEFT JOIN t_series_h AS H ON H.IDX = B.SERIES_IDX 
-			WHERE
-				A.END_YN is null
-				{$where}
 			order by
 				SERIES_NM, ITEM_NAME, COLOR
 SQL;
