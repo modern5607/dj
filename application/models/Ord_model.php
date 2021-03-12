@@ -135,7 +135,7 @@ SQL;
 
 
 		$query = $this->db->query($sql);
-		 ECHO $this->db->last_query();
+		//  ECHO $this->db->last_query();
 		return $query->result();
 	}
 
@@ -288,12 +288,14 @@ SQL;
 				C.COLOR,
 				A.ORDER_QTY,
 				A.REMARK,
-				B.JH_QTY
+				B.JH_QTY,
+				D.QTY AS D_QTY
 			FROM
 				t_inventory_orders AS A
 				LEFT JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
 				LEFT JOIN t_series_d AS C ON C.IDX = A.SERIESD_IDX
 				LEFT JOIN t_series_h AS H ON H.IDX = B.SERIES_IDX 
+				LEFT JOIN t_act_d AS D ON D.IDX = A.ACT_D_IDX 
 			WHERE
 				1
 				{$where}
@@ -304,6 +306,7 @@ SQL;
 				'',
 				'',
 				SUM(A.ORDER_QTY),
+				'',
 				'',
 				''
 			FROM

@@ -137,6 +137,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             "	<input type='number' style='text-align:right; width:70%' onKeyup=\"this.value=this.value.replace(/[^0-9]/g,'');\" autocomplete='off' name='QTY[]' class='form_select qty_this'  value='' />";
                         html += "   <input type='hidden' name='ITEM_IDX[]' value='" + info.ITEMS_IDX + "' />";
                         html += "   <input type='hidden' name='STOCK[]' value='" + info.QTY + "' />";
+                        html += "   <input type='hidden' name='D_QTY[]' value='" + info.D_QTY + "' />";
                         html += "   <input type='hidden' name='SERIESD_IDX[]' value='" + info.SERIESD_IDX + "' />";
                         html += "   <input type='hidden' name='ACT_IDX[]' value='" + info.ACT_IDX + "' />";
                         html += "   <input type='hidden' name='ACT_D_IDX[]' value='" + info.ACT_D_IDX + "' />";
@@ -211,14 +212,23 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $(document).on("change", ".qty_this", function() {
         var SQTY = $(this).parents("tr").find("input[name^='STOCK']").val() * 1;
         var QTY = $(this).parents("tr").find("input[name^='QTY']").val() * 1;
+        var DQTY = $(this).parents("tr").find("input[name^='D_QTY']").val() * 1;
         $this = $(this);
-        console.log(SQTY, QTY)
+        
         if (SQTY < QTY) {
             alert('정형재고보다 수량을 낮게 해주세요');
             $this.val('');
             $this.focus();
             return false;
         }
+
+        if (DQTY > QTY) {
+            alert('수주수량보다 수량을 높게 해주세요');
+            $this.val('');
+            $this.focus();
+            return false;
+        }
+
     });
 
 

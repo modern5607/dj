@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="right">
 					<input type="hidden" name="QTY[]" class="form_input1" value="<?php echo number_format($row->QTY); ?>">
 					<?php echo number_format($row->QTY); ?></td>
-					<td class="cen"><input type="text" name="C_QTY[]" class="form_input1" size="6" value=""></td>
+					<td class="cen"><input type="text" name="C_QTY[]" class="form_input1" size="6" value="" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"></td>
 					<td class="cen"><input type="text" name="C_CONT[]" class="form_input1" size="30" value=""></td>
 					<td class="cen"><span class="btn mod_stock" data-item="<?php echo $row->ITEM_IDX;?>"  data-seriesd="<?php echo $row->SERIESD_IDX;?>">수정</span></td>
 				</tr>

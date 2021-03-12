@@ -1017,7 +1017,7 @@ SQL;
 		$where = "";
 
 		if (!empty($param['AM1']) && $param['AM1'] != "") {
-			$where .= " AND (TIS.QTY > 0 OR (SELECT IFNULL(SUM(B.QTY), 0) FROM T_ACT_D AS B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX AND STATUS != 'CG') > 0) ";
+			$where .= " AND (TIS.QTY > 0 OR (SELECT IFNULL(SUM(B.QTY), 0) FROM T_ACT_D AS B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX AND (STATUS IS NULL OR STATUS != 'CG')) > 0) ";
 		} else {
 			$where .= " AND TI.USE_YN = 'Y' ";
 		}
@@ -2322,7 +2322,8 @@ SQL;
 		$this->db->limit($limit, $start);
 
 		$this->db->get();
-
+		
+		$sql = $this->db->last_query();
 
 		$query = $this->db->query("SELECT AA.* FROM (" . $sql . ")as AA ORDER BY SERIES_NM,ITEM_NM,COLOR");
 		// echo $this->db->last_query();

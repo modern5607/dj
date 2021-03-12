@@ -157,6 +157,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <input type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="QTY" 
                             data-idx="<?php echo $row->TRANS_IDX; ?>" 
                             data-jh="<?php echo $row->JH_QTY; ?>" 
+                            data-d="<?php echo $row->D_QTY; ?>" 
                             style="text-align:right;border:1px solid #ddd; padding:4px 5px; margin: 3px 4px;" 
                             value="<?php echo number_format($row->ORDER_QTY); ?>"></td>
                             <td><?php echo $row->REMARK;?></td>
@@ -220,9 +221,16 @@ $("input[name^='QTY']").on("change", function() {
     var qty = $(this).val() * 1;
     var idx = $(this).data("idx");
     var jh = $(this).data("jh")*1;
-console.log(qty)
+    var d = $(this).data("d")*1;
+    
     if(jh < qty ){
         alert("지시수량이 정형재고보다 많습니다.");
+        $(this).val('');
+        $(this).focus();
+        return false;
+    }
+    if(d > qty ){
+        alert("지시수량이 수주수량보다 적습니다.");
         $(this).val('');
         $(this).focus();
         return false;
