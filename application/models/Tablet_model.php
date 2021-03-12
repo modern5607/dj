@@ -406,4 +406,13 @@ SQL;
 
 		return $this->db->affected_rows();
 	}
+
+	public function timer_update($params)
+	{
+		$this->db->set(array("REMARK" => "{$params["time"]}"));
+		$this->db->where("CODE","Second");
+		$this->db->update("t_cocd_d");
+
+		return $this->db->affected_rows();
+	}
 }

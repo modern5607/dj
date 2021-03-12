@@ -68,7 +68,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<td class="cen"><?php echo $row->COLOR; ?></td>
 								<td class="right"><?php echo number_format($row->QTY); ?></td>
 								<td class="right"><?php echo number_format($row->IN_QTY); ?></td>
-								<td colspan="1" class="cen"><input type="number" style="text-align:right; width:100px" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="C_QTY[]" class="form_input1" size="6" value=""></td>
+								<td colspan="1" class="cen"><input type="text" style="text-align:right; width:100px" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="C_QTY[]" class="form_input1" size="6" value=""></td>
 								<td class="cen"><input type="text" name="C_CONT[]" class="form_input1 calendar" value="<?= date("Y-m-d") ?>" /></td>
 								<td class="cen"><span class="btn mod_stock" data-idx="<?php echo $row->IDX; ?>">저장</span></td>
 							</tr>
@@ -143,6 +143,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			}
 		);
 
+	});
+
+
+	$(document).on("change", "input[name^='C_QTY']", function() {
+		var JGQTY = $(this).parents("tr").find("td:eq(6)").text() * 1;
+		var QTY = $(this).val()*1;
+		
+		if(JGQTY < QTY){
+			alert('재고량보다 적게 입력해주세요');
+			$(this).val('');
+			$(this).focus();
+			return false;
+		}
 	});
 
 	//-->

@@ -179,7 +179,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                 <td class="cen"><?php echo $row->COLOR; ?></td>
                                                 <td class="right"><?php echo number_format($row->QTY); ?></td>
                                                 <td>
-                                                    <input type="number" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="IN_QTY[]" value="" autocomplete="off" data-qty="<?php echo $row->QTY; ?>" style="text-align: right; border:1px solid #ddd; padding:3px 7px; margin: 3px 4px;" />
+                                                    <input type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="IN_QTY[]" value="" autocomplete="off" data-qty="<?php echo $row->QTY; ?>" style="text-align: right; border:1px solid #ddd; padding:3px 7px; margin: 3px 4px;" />
                                                     <input type="hidden" name="AD_IDX[]" value="<?php echo $row->IDX; ?>" />
                                                     <input type="hidden" name="ACT_IDX[]" value="<?php echo $row->H_IDX; ?>" />
                                                     <input type="hidden" name="ITEMS_IDX[]" value="<?php echo $row->ITEMS_IDX ?>" />
@@ -224,7 +224,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 <script type="text/javascript">
     $("input[name^='IN_QTY']").on("change", function() {
-        var SQTY = $(this).parents("tr").find("td").eq(4).text();
+        var SQTY = $(this).parents("tr").find("td").eq(6).text();
         if (SQTY > $(this).val() * 1) {
             alert('수주수량보다 작을수 없습니다.');
             $(this).val('');

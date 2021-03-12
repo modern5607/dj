@@ -126,7 +126,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
 
             <div class="tbl-content">
-
+<?php 
+    $todate = strtotime($detailpos);
+    $now = strtotime(date("Y-m-d"));
+?>
                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                     <thead>
                         <tr>
@@ -160,11 +163,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             data-idx="<?php echo $row->TRANS_IDX; ?>" 
                             data-prod="<?php echo $row->PROD_QTY; ?>" 
                             data-sh="<?php echo $row->SH_QTY; ?>" 
+                            <?= ($row->END_YN == "Y" || $todate < $now)?"disabled":"" ?>
                             style="text-align:right;border:1px solid #ddd; padding:4px 5px; margin: 3px 4px;" 
                             value="<?php echo number_format($row->ORDER_QTY); ?>">
                             </td>
                             <td><?php echo $row->REMARK;?></td>
-                            <td><span class="<?php echo ($row->END_YN == "Y")?"nbtn":"btn del_items" ?>" 
+                            <td><span class="<?php echo ($row->END_YN == "Y" || $todate < $now)?"nbtn":"btn del_items" ?>" 
                                 data-idx="<?=$row->TRANS_IDX;?>"
                                 data-inqty="<?php echo $row->ORDER_QTY; ?>" >삭제</span></td>
                         </tr>
