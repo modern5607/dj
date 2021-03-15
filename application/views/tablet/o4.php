@@ -178,7 +178,7 @@ $('tr:even').addClass('even');
         }, 500);
 
         $.ajax({
-            url: "<?php echo base_url('tablet/ajax_invenNum1_form') ?>",
+            url: "<?php echo base_url('Tablet/ajax_invenNum1_form') ?>",
             type: "POST",
             dataType: "HTML",
             data: {
