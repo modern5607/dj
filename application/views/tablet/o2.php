@@ -151,6 +151,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 <script type="text/javascript">
+$('tr:even').addClass('even');
     var timerControl = '';
     var iTime = $("input[name='timer']").val();
     $(document).ready(function() {

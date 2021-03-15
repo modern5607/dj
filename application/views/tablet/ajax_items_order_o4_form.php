@@ -15,6 +15,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </h2>
 <?php date_default_timezone_set('Asia/Seoul'); ?>
 
+<div class="register_form_5">
 <div class="form_5">
 
     <form method="post" name="menuUpdateForm" id="menuUpdateForm" action="<?php echo base_url('tablet/form_a11_update'); ?>">
@@ -23,7 +24,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <input type="hidden" name="A1" value="<?php echo date("Y-m-d"); ?>">
         <input type="hidden" name="TABLET" value="TABLET">
 
-        <div class="bc_header none_padding">
+        <div class="none_padding">
 
             <div class="ac_table">
                 <table class="nhover">
@@ -32,35 +33,35 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         ?>
                             <tr>
                                 <th>품명</th>
-                                <td colspan="3"><input type="text" name="name" class="form_input input_100" disabled value="<?= $row->ITEM_NM ?>"></td>
+                                <td colspan="3"><input type="text" name="name" class="form_input input_5 sbpop" disabled value="<?= $row->ITEM_NM ?>"></td>
                             </tr>
                             <tr>
                                 <th>색상</th>
-                                <td colspan="3"><input type="text" name="color" class="form_input input_100" disabled value="<?= $row->COLOR ?>"></td>
+                                <td colspan="3"><input type="text" name="color" class="form_input input_5 sbpop" disabled value="<?= $row->COLOR ?>"></td>
                             </tr>
                             <tr>
                                 <th>수주수량</th>
-                                <td colspan="3"><input type="text" name="QTY" class="form_input input_100 right" disabled value="<?php echo $row->QTY; ?>"></td>
+                                <td colspan="3"><input type="text" name="QTY" class="form_input input_5 sbpop right" disabled value="<?php echo $row->QTY; ?>"></td>
                             </tr>
                             <tr>
                                 <th>1급</th>
-                                <td colspan="3"><input type="text" name="A2" class="form_input input_100 right" readonly value="<?php echo $row->IN_QTY; ?>"></td>
+                                <td colspan="3"><input type="text" name="A2" class="form_input input_5 sbpop right" style="border-bottom:1px solid #bbb;" readonly value="<?php echo $row->IN_QTY; ?>"></td>
                             </tr>
                             <tr>
                                 <th>2급</th>
-                                <td colspan="3"><input type="text" name="A3" class="form_input input_100 right" value=""></td>
+                                <td colspan="3"><input type="text" name="A3" class="form_input input_5 sbpop right" style="border-bottom:1px solid #bbb;" value=""></td>
                             </tr>
                             <tr>
                                 <th>파손</th>
-                                <td colspan="3"><input type="text" name="A4" size="6" class="form_input input_100 right" value=""></td>
+                                <td colspan="3"><input type="text" name="A4" size="6" class="form_input input_5 sbpop right" style="border-bottom:1px solid #bbb;" value=""></td>
                             </tr>
                             <tr>
                                 <th>시유</th>
-                                <td colspan="3"><input type="text" name="A5" size="6" class="form_input input_100 right" value=""></td>
+                                <td colspan="3"><input type="text" name="A5" size="6" class="form_input input_5 sbpop right" style="border-bottom:1px solid #bbb;" value=""></td>
                             </tr>
                             <tr>
                                 <th>비고</th>
-                                <td colspan="3"><input type="text" name="A6" class="form_input input_100" value=""></td>
+                                <td colspan="3"><input type="text" name="A6" class="form_input input_5 sbpop" style="border-bottom:1px solid #bbb;" value=""></td>
                             </tr>
 
                         <?php } ?>
@@ -69,10 +70,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
             </div>
 
-            <span class="btni btn_right add_form" data-hidx="3">저장</span>
+            <span class="btni_5 btn_right add_form" data-hidx="3">입력</span>
 
         </div>
     </form>
+</div>
 </div>
 
 

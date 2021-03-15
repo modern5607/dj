@@ -7,9 +7,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js') ?>"></script>
 
 <style>
-    .formContaier, .tableth2 {
-        font-size: 32px;
-    }
 </style>
 
 <h2 class="tableth2">
@@ -18,10 +15,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </h2>
 
 
-<div class="formContaier" style="min-width: 800px;">
+<div class="formContaier">
 
     <form name="ajaxform" id="ajaxform">
-        <div class="register_form">
+        <div class="register_form_5">
             <fieldset class="form_5">
                 <legend>이용정보</legend>
                 <table class="nhover">
@@ -30,31 +27,31 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <input type="hidden" name="idx" id="idx" value="<?= $info->IDX ?>">
                             <th>시리즈</th>
                             <td>
-                                <input type="text" name="SERIES" id="" value="<?= $info->SERIES_NM ?>" class="form_input input_100" disabled>
+                                <input type="text" name="SERIES" id="" value="<?= $info->SERIES_NM ?>" class="form_input5 input_5" disabled>
                             </td>
                         </tr>
                         <tr>
                             <th>품명</th>
                             <td>
-                                <input type="text" value="<?= $info->ITEM_NAME ?>" class="form_input input_100" disabled>
+                                <input type="text" value="<?= $info->ITEM_NAME ?>" class="form_input5 input_5" disabled>
                             </td>
                         </tr>
                         <tr>
                             <th>지시수량</th>
                             <td>
-                                <input type="text" value="<?= $info->ORDER_QTY ?>" class="form_input input_100" disabled>
+                                <input type="text" value="<?= $info->ORDER_QTY ?>" class="form_input5 input_5" disabled>
                             </td>
                         </tr>
                         <tr>
                             <th>남은 지시수량</th>
                             <td>
-                                <input type="text" value="<?= $info->ORDER_QTY - $info->PROD_QTY ?>" class="form_input input_100" disabled>
+                                <input type="text" value="<?= $info->ORDER_QTY - $info->PROD_QTY ?>" class="form_input5 input_5" disabled>
                             </td>
                         </tr>
                         <tr>
                             <th>완료수량</th>
                             <td>
-                                <input type="number" name="FNSH_QTY" value="" class="form_input input_100">
+                                <input type="number" name="FNSH_QTY" value="<?= $info->ORDER_QTY ?>" class="form_input5 input_5" style="border-bottom:1px solid #bbb;">
                             </td>
                         </tr>
 

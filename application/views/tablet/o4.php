@@ -115,7 +115,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     <td><span data-idx='<?php echo $row->IDX; ?>' class="link_s1 add_itemnum"><?php echo $row->ITEM_NM; ?></span></td>
                                     <td class="cen"><?php echo $row->COLOR; ?></td>
                                     <td class="right"><?php echo $row->QTY; ?></td>
-                                    <td style="text-align:right"><?php echo $row->IN_QTY; ?></td>
+                                    <td style="text-align:center"><?php echo $row->IN_QTY; ?></td>
 
                                 </tr>
                             <?php }
@@ -151,6 +151,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 <script type="text/javascript">
+$('tr:even').addClass('even');
     var timerControl = '';
     var iTime = $("input[name='timer']").val();
     $(document).ready(function() {

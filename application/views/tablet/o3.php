@@ -5,9 +5,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js') ?>"></script>
 <style>
     /* 테블릿 스타일 */
-    .body_cont_float2 {}
-
-    .bc_search .gsflexst>div {}
 
     .home .material-icons {
         font-size: 40px;
@@ -15,6 +12,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     .home a {
         color: black;
+        padding:20px;
     }
 
     .tbl-content-t table {
@@ -70,7 +68,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <div style="margin-bottom: 7px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
 
                     <span class="btn_right">
-                        <p style="font-size: 30px; padding-left:20px;">
+                        <p style="font-size: 24px; padding-left:20px;">
                             <?= empty($NDATE) ? "" : $NDATE ?></p>
                     </span>
 
@@ -98,7 +96,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <tr>
                             <th>No</th>
                             <th>시리즈</th>
-                            <th>품명</th>
+                            <th style="width:250px;">품명</th>
                             <th>색상</th>
                             <th>지시수량</th>
                             <th>비고</th>
@@ -114,7 +112,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <tr>
                                     <td class="cen"><?php echo $num; ?></td>
                                     <td><?php echo $row->SERIES_NM; ?></td>
-                                    <td><a href="#" class="btni btn_right add_itemnum" data-idx="<?php echo $row->TRANS_IDX; ?>"><?php echo $row->ITEM_NAME; ?></a></td>
+                                    <td><a href="#" class="add_itemnum"data-idx="<?php echo $row->TRANS_IDX; ?>"><?php echo $row->ITEM_NAME; ?></a></td>
                                     <td><?php echo $row->COLOR; ?></td>
                                     <td class="right"><?php echo number_format($row->ORDER_QTY); ?></td>
                                     <td><?php echo $row->REMARK; ?></td>
@@ -155,6 +153,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 <script type="text/javascript">
+$('tr:even').addClass('even');
     var timerControl = '';
     var iTime = $("input[name='timer']").val();
     $(document).ready(function() {

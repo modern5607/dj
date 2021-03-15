@@ -2,6 +2,7 @@
 
 .formContainer { min-width: 600px; height: auto; max-height:90%; /*overflow-y: auto;*/ /*padding:20px;*/}
 .register_form { padding: 10px; max-height:700px; overflow-y:auto;}
+.register_form_5 { padding: 50px; max-height:700px; overflow-y:auto;}
 
 
 
@@ -10,6 +11,22 @@
 
 .form_input { border: 1px solid #ddd; padding:7px 8px;}
 .form_input1 { border: 1px solid #ddd; padding:4px 6px;}
+.form_input5 { border: 1px solid #ddd; padding:4px 6px; border:none; margin-left:20px;}
+.input_5{width:350px; margin-left:30px; font-size:24px; border:none; margin-left:20px;}
+
+
+/* 시유팝업 */
+span.btni_5{margin-top:40px; padding:10px 16px; background:rgb(39, 73, 146); color:#fff; font-size:24px; /*border:1px solid #ddd;*/ cursor:pointer;
+position: relative; right:200px;
+}
+.cupop{
+  margin-bottom:10px;
+}
+
+/* 선별팝업 */
+.sbpop{
+  margin-bottom:10px;
+}
 
 .form_select { border: 1px solid #ddd; padding:3px 8px;}
 
@@ -47,7 +64,7 @@
 .form_3 table tbody tr th { width: 20%; text-align: left; background: #eee; padding: 0 10px; border-right: 1px solid #ccc; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;}
 .form_3 table tbody tr td { padding: 8px 10px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; }
 
-.form_5 table tr th { text-align: left; background: #eee; padding: 0 10px; border-right: 1px solid #ddd; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;}
+.form_5 table tr th { text-align: left; background: rgb(255, 255, 255); padding: 0 10px; font-size:24px;}
 
 
 .select01 { width: 40%; zoom: 1.1; padding: 5px; }
@@ -66,7 +83,7 @@ option{padding:4px 0;}
 .blue_btn {background: rgb(39, 73, 146); color: #fff; width: 100px; height: 40px; border: 0; cursor: pointer;}
 .blue_btn:hover {background: rgb(38, 62, 114);}
 
-.t_blue_btn {background: rgb(39, 73, 146); color: #fff; padding:5px 10px; border: 0; cursor: pointer;}
+.t_blue_btn {background: rgb(39, 73, 146); color: #fff; padding:10px 16px; border: 0; cursor: pointer; font-size:24px; margin-top:50px; position:relative; left:250px;}
 .t_blue_btn:hover {background: rgb(38, 62, 114);}
 
 .blue_btnx {background: rgb(39, 73, 146); color: #fff; width: 100px; height: 32px; border: 0; cursor: pointer;}
@@ -81,22 +98,22 @@ option{padding:4px 0;}
 #menuContent{}
 #menuContent .menu01_li {}
 #menuContent i { text-align: center; }
-#menuContent .menu01_li .menu_a{display:block; padding:15px 20px; color:#b9b9b9; min-width:200px; font-size:1.2em; text-align:left;}
-#menuContent .menu01_li .menu_a:hover { background: #fb5e5e; color: #fff; transition: .3s; }
-#menuContent .menu01_li .menu_a.on { background: #19212b; color:#b9b9b9; border-bottom:1px dashed #444; }
-.menu_Content .scroll { height: 100%; overflow-y: auto; overflow-x: hidden; }
-.menu_Content .menu02 { background:#0a3c48; display: none; overflow:hidden; padding-bottom:10px; }
+#menuContent .menu01_li .menu_a{display:block; padding:15px 20px; color:#f1f1f1; min-width:200px; font-size:1.2em; text-align:left; }
+#menuContent .menu01_li .menu_a:hover { background: #fb5e5e; color: #fff; transition: .3s;  }
+#menuContent .menu01_li .menu_a.on { background: #19212b; border-bottom:1px dashed #444; font-weight:bold;}
+.menu_Content .scroll { height: 100%; overflow-y: auto; overflow-x: hidden; background:#36414d; }
+.menu_Content .menu02 { background:#fff; display: none; overflow:hidden; }
 .menu_Content .menu02.menu50 {position: absolute; left:50px;
 box-shadow: 1px 1px 4px #aaa;
 -moz-box-shadow: 1px 1px 4px #aaa;
 -webkit-box-shadow: 1px 1px 4px #aaa;
 }
 .menu_Content .menu02 li {}
-.menu_Content .menu02 li a { display:block; padding:7px 10px; margin-bottom:7px; color:#a4a4a4; min-width:200px; font-size:1.2em; text-align:left; }
+.menu_Content .menu02 li a { display:block; padding:10px 10px;  color:#1b1b1b; min-width:200px; font-size:1.2em; text-align:left; border-bottom:1px solid #ccc; }
 .menu_Content .menu02 li a i{font-size:20px; vertical-align:middle; width:30px;}
 .menu_Content .menu02 li a:hover{}
-.menu_Content .menu02 li a.on { color: #039be5; font-weight: 600; transition: .2s;}
-.menu_Content .menu02 li a.on:after{content:""; float:right; line-height:15px; margin-right:-5px;}
+.menu_Content .menu02 li a.on {color:#1672eb; font-weight: 600; transition: .2s;}
+.menu_Content .menu02 li a.on:after{content:">"; float:right; line-height:15px; margin-right:-5px;}
 
 
 .limitset{float:right;}
