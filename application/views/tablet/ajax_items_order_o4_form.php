@@ -5,9 +5,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <link href="<?php echo base_url('_static/css/jquery.datetimepicker.min.css') ?>" rel="stylesheet">
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js') ?>"></script>
 <style>
-    * {
-        font-size: 24px;
-    }
 </style>
 <h2 class="tableth2">
     <?php echo $title; ?>
@@ -15,7 +12,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </h2>
 <?php date_default_timezone_set('Asia/Seoul'); ?>
 
-<div class="register_form_5">
+<div style="padding:20px 50px;" class="register_form_5">
 <div class="form_5">
 
     <form method="post" name="menuUpdateForm" id="menuUpdateForm" action="<?php echo base_url('tablet/form_a11_update'); ?>">
@@ -26,7 +23,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
         <div class="none_padding">
 
-            <div class="ac_table">
+            <div class="">
                 <table class="nhover">
                     <tbody>
                         <?php foreach ($List as $i => $row) {
@@ -70,7 +67,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
             </div>
 
-            <span class="btni_5 btn_right add_form" data-hidx="3">입력</span>
+            <span style="margin-top:10px;" class="btni_5 btn_right add_form" data-hidx="3">입력</span>
 
         </div>
     </form>

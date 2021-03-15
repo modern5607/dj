@@ -91,7 +91,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
             <div class="tbl-content-t">
-                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <table class="t_table" cellpadding="0" cellspacing="0" border="0" width="100%">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -112,7 +112,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <tr>
                                     <td class="cen"><?php echo $num; ?></td>
                                     <td><?php echo $row->SERIES_NM; ?></td>
-                                    <td><a href="#" class="add_itemnum"data-idx="<?php echo $row->TRANS_IDX; ?>"><?php echo $row->ITEM_NAME; ?></a></td>
+                                    <td  style="text-align:left;"><a href="#" class="add_itemnum" data-idx="<?php echo $row->TRANS_IDX; ?>"><?php echo $row->ITEM_NAME; ?></a></td>
                                     <td><?php echo $row->COLOR; ?></td>
                                     <td class="right"><?php echo number_format($row->ORDER_QTY); ?></td>
                                     <td><?php echo $row->REMARK; ?></td>

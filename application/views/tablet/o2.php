@@ -90,7 +90,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
             <div class="tbl-content-t">
 
-                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <table class="t_table" cellpadding="0" cellspacing="0" border="0" width="100%">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -109,7 +109,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <tr>
                                     <td class="cen"><?php echo $num; ?></td>
                                     <td><?php echo $row->SERIES_NM; ?></td>
-                                    <td class="<?= $mlink ?> cen" data-idx="<?= $row->TRANS_IDX ?>"><?php echo $row->ITEM_NAME; ?></td>
+                                    <td class="<?= $mlink ?> cen" style="text-align:left;" data-idx="<?= $row->TRANS_IDX ?>"><?php echo $row->ITEM_NAME; ?></td>
                                     <td class="right"><?= number_format($row->ORDER_QTY); ?></td>
                                     <td class="right"><?= number_format($row->PROD_QTY) ?></td>
                                 </tr>

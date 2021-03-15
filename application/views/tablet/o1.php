@@ -5,9 +5,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js') ?>"></script>
 <style>
     /* 테블릿 스타일 */
-    .body_cont_float2 {}
-
-    .bc_search .gsflexst>div {}
 
     .home .material-icons {
         font-size: 40px;
@@ -57,6 +54,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     .even {
         background: #f3f8ff;
     }
+    
 </style>
 
 <div class="body_cont_float2" style="height: 100vh;">
@@ -107,9 +105,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 $mlink = ($row->END_YN != 'Y') ? "mlink add_act" : "";
                             ?>
                                 <tr>
-                                    <td class="cen"><?php echo $num; ?></td>
+                                    <td style="widtj:50px;" class="cen"><?php echo $num; ?></td>
                                     <td><?php echo $row->SERIES_NM; ?></td>
-                                    <td class="<?= $mlink ?> cen" data-idx="<?= $row->TRANS_IDX ?>">
+                                    <td class="<?= $mlink ?> cen" style="text-align:left;" data-idx="<?= $row->TRANS_IDX ?>">
                                         <?php echo $row->ITEM_NAME; ?></td>
                                     <td class="right"><?= number_format($row->ORDER_QTY); ?></td>
                                     <td class="right"><?= number_format($row->PROD_QTY) ?></td>

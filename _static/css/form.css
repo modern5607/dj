@@ -12,7 +12,9 @@
 .form_input { border: 1px solid #ddd; padding:7px 8px;}
 .form_input1 { border: 1px solid #ddd; padding:4px 6px;}
 .form_input5 { border: 1px solid #ddd; padding:4px 6px; border:none; margin-left:20px;}
-.input_5{width:350px; margin-left:30px; font-size:24px; border:none; margin-left:20px;}
+.input_5{width:350px; margin-left:30px; font-size:20px; border:none; margin-left:20px;}
+
+.form_5 table tr th { text-align: left; background: rgb(255, 255, 255); padding: 0 10px; font-size:16px;}
 
 
 /* 시유팝업 */
@@ -25,8 +27,36 @@ position: relative; right:200px;
 
 /* 선별팝업 */
 .sbpop{
-  margin-bottom:10px;
+  margin-bottom:5px;
 }
+
+/* 테블릿 테일블 크기 조정 */
+.t_table{
+  table-layout: fixed;
+}
+.t_table tr th:nth-child(1),
+.t_table tr td:nth-child(1)
+{
+  width:10%;
+}
+.t_table tr th:nth-child(2),
+.t_table tr td:nth-child(2)
+{
+  width:30%;
+}
+.t_table tr th:nth-child(3),
+.t_table tr td:nth-child(3)
+{
+  width:30%;
+}
+.t_table tr th:nth-child(4),
+.t_table tr td:nth-child(4),
+.t_table tr th:nth-child(5),
+.t_table tr td:nth-child(5)
+{
+  width:15%;
+}
+
 
 .form_select { border: 1px solid #ddd; padding:3px 8px;}
 
@@ -64,7 +94,7 @@ position: relative; right:200px;
 .form_3 table tbody tr th { width: 20%; text-align: left; background: #eee; padding: 0 10px; border-right: 1px solid #ccc; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;}
 .form_3 table tbody tr td { padding: 8px 10px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; }
 
-.form_5 table tr th { text-align: left; background: rgb(255, 255, 255); padding: 0 10px; font-size:24px;}
+
 
 
 .select01 { width: 40%; zoom: 1.1; padding: 5px; }
@@ -83,7 +113,8 @@ option{padding:4px 0;}
 .blue_btn {background: rgb(39, 73, 146); color: #fff; width: 100px; height: 40px; border: 0; cursor: pointer;}
 .blue_btn:hover {background: rgb(38, 62, 114);}
 
-.t_blue_btn {background: rgb(39, 73, 146); color: #fff; padding:10px 16px; border: 0; cursor: pointer; font-size:24px; margin-top:50px; position:relative; left:250px;}
+/* 팝업버튼 */
+.t_blue_btn {background: rgb(39, 73, 146); color: #fff; padding:10px 16px; border: 0; cursor: pointer; font-size:24px; margin-top:50px; position:relative; left:45%;}
 .t_blue_btn:hover {background: rgb(38, 62, 114);}
 
 .blue_btnx {background: rgb(39, 73, 146); color: #fff; width: 100px; height: 32px; border: 0; cursor: pointer;}

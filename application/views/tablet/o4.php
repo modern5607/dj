@@ -89,7 +89,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             </div>
 
             <div class="tbl-content-t">
-                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <table class="t_table" cellpadding="0" cellspacing="0" border="0" width="100%">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -109,7 +109,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <tr>
                                     <td class="cen"><?php echo $num; ?></td>
                                     <td class="cen"><?php echo substr($row->ACT_DATE, 0, 10); ?></td>
-                                    <td><span data-idx='<?php echo $row->IDX; ?>' class="link_s1 add_itemnum"><?php echo $row->ITEM_NM; ?></span></td>
+                                    <td style="text-align:left;"><span data-idx='<?php echo $row->IDX; ?>' style="text-align:left;" class="link_s1 add_itemnum"><?php echo $row->ITEM_NM; ?></span></td>
                                     <td class="cen"><?php echo $row->COLOR; ?></td>
                                     <td class="right"><?php echo $row->QTY; ?></td>
                                     <td style="text-align:center"><?php echo $row->IN_QTY; ?></td>
@@ -118,7 +118,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <?php }
                         } else {
                             ?>
-                            <tr>
+                            <tr class="ch_list">
                                 <td colspan="12" class="list_none">작업지시 내역이 없습니다.</td>
                             </tr>
                         <?php
@@ -197,6 +197,14 @@ $('tr:even').addClass('even');
     });
 
 
+$(document).ready(function(){
+    
+    if($('.ck_list').hasClass('.list_none'))
+    console.log('notnone');
+    else
+    document.querySelector('.t_table').classList.add('t_table_w');
+    
+});
 
     $(document).on("click", "h2 > span.close", function() {
         iTime = $("input[name='timer']").val();
