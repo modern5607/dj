@@ -5,7 +5,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js') ?>"></script>
 
 <style>
-    .nbtn{padding:5px 7px; background:#aaa; font-size:1.15em; color:#fff; cursor:default;}
+    .nbtn {
+        padding: 5px 7px;
+        background: #aaa;
+        font-size: 1.15em;
+        color: #fff;
+        cursor: default;
+    }
 </style>
 <div class="body_cont_float2">
     <ul>
@@ -121,10 +127,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
             </div>
 
             <div class="tbl-content">
-<?php 
-    $todate = strtotime($detailpos);
-    $now = strtotime(date("Y-m-d"));
-?>
+                <?php
+                $todate = strtotime($detailpos);
+                $now = strtotime(date("Y-m-d"));
+                ?>
                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                     <thead>
                         <tr>
@@ -154,15 +160,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                         <td><?php echo $row->SERIES_NM; ?></td>
                                         <td><?php echo $row->ITEM_NAME; ?></td>
                                         <td class="right">
-                                        <!-- <?php echo number_format($row->ORDER_QTY); ?> -->
-                                        <input type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" name="QTY" 
-                                        data-idx="<?php echo $row->TRANS_IDX; ?>" 
-                                        <?= ($row->END_YN == "Y" || $todate < $now)?"disabled":"" ?>
-                                        style="text-align:right;border:1px solid #ddd; padding:4px 5px; margin: 3px 4px;" 
-                                        value="<?php echo number_format($row->ORDER_QTY); ?>">
+                                            <input type="text" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" data-prodqty="<?=$row->PROD_QTY?>" name="QTY" data-idx="<?php echo $row->TRANS_IDX; ?>" <?= ($row->END_YN == "Y" || $todate < $now) ? "disabled" : "" ?> style="text-align:right;border:1px solid #ddd; padding:4px 5px; margin: 3px 4px;" value="<?php echo number_format($row->ORDER_QTY); ?>">
                                         </td>
                                         <td><?php echo $row->REMARK; ?></td>
-                                        <td><span class="<?php echo ($row->END_YN == "Y" || $todate < $now)?"nbtn":"btn del_items" ?>" data-idx="<?= $row->TRANS_IDX; ?>" >삭제</span></td>
+                                        <td><span class="<?php echo ($row->END_YN == "Y" || $todate < $now) ? "nbtn" : "btn del_items" ?>" data-idx="<?= $row->TRANS_IDX; ?>">삭제</span></td>
                                     </tr>
 
                                 <?php }
@@ -218,13 +219,25 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
 <script type="text/javascript">
-	$("input[name^='QTY']").on("change", function() {
+    $("input[name^='QTY']").on("change", function() {
+        var check='';
         var qty = $(this).val() * 1;
+        var prod_qty = $(this).data("prodqty")*1;
         var idx = $(this).data("idx");
-        
+        // console.log(prod_qty);
+
+        if(qty<prod_qty)
+            check = confirm("현재 제작된 완료수량: "+prod_qty+"\n지시수량이 완료수량보다 작습니다. 정말로 변경 하시겠습니까?");
+        else if(qty==prod_qty)
+            check = confirm("현재 제작된 완료수량: "+prod_qty+"\n변경하시면 바로 완료처리됩니다. 정말로 변경 하시겠습니까?");
+
+        if(check == false)
+            return;
+
         $.post("<?php echo base_url('ORD/update_item_order') ?>", {
             qty: qty,
-            idx: idx
+            idx: idx,
+            pqty:prod_qty
         }, function(data) {
             if (data.status != "") {
                 alert(data.msg);

@@ -9,7 +9,7 @@ class ORD extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-
+		date_default_timezone_set('Asia/Seoul');
 		$this->data['pos'] = $this->uri->segment(1);
 		$this->data['subpos'] = $this->uri->segment(2);
 		$this->data['detailpos'] = $this->uri->segment(3);
@@ -125,6 +125,7 @@ class ORD extends CI_Controller
 				$data['RList'] = $this->ord_model->item_order_numlist($date, $params);
 			}
 		}
+		// echo var_dump($data['RList']);
 
 		/* pagenation start */
 
@@ -524,6 +525,7 @@ class ORD extends CI_Controller
 	{
 		$param['idx'] = $this->input->post("idx");
 		$param['qty'] = $this->input->post("qty");
+		$param['pqty'] = $this->input->post("pqty");
 
 		$num = $this->ord_model->update_item_order($param);
 

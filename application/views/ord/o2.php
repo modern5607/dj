@@ -231,6 +231,15 @@ $("input[name^='QTY']").on("change", function() {
     var prod = $(this).data("prod")*1;
     var sh = $(this).data("sh")*1;
 
+
+    if(qty<prod)
+            check = confirm("현재 제작된 완료수량: "+prod_qty+"\n지시수량이 완료수량보다 작습니다. 정말로 변경 하시겠습니까?");
+        else if(qty==prod)
+            check = confirm("현재 제작된 완료수량: "+prod_qty+"\n변경하시면 바로 완료처리됩니다. 정말로 변경 하시겠습니까?");
+
+        if(check == false)
+            return;
+
     if(prod+sh < qty ){
         alert("지시수량이 재고보다 많습니다.");
         $(this).val('');
@@ -240,7 +249,8 @@ $("input[name^='QTY']").on("change", function() {
     
     $.post("<?php echo base_url('ORD/update_item_order') ?>", {
         qty: qty,
-        idx: idx
+        idx: idx,
+        pqty:prod
     }, function(data) {
         if (data.status != "") {
             alert(data.msg);

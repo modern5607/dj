@@ -325,7 +325,7 @@ SQL;
 
 
 		$query = $this->db->query($sql);
-		//  ECHO $this->db->last_query();
+		 ECHO $this->db->last_query();
 		return $query->result();
 	}
 
@@ -412,9 +412,22 @@ SQL;
 
 	public function update_item_order($param)
 	{
+		$sql=<<<SQL
+			SELECT
+				IDX,ORDER_QTY,IFNULL(PROD_QTY,0) AS PROD_QTY,END_YN
+			FROM
+				t_items_orders 
+			WHERE
+				IDX = {$param['idx']}
+SQL;
+		$query = $this->db->query($sql);
+		$info = $query->row();
+
 		$this->db->trans_start();
 
 		$this->db->set("ORDER_QTY", $param['qty']);
+		if($info->PROD_QTY>=$param['qty'])
+			$this->db->set("END_YN", 'Y');
 		$this->db->where("IDX", $param['idx']);
 		$this->db->update("t_items_orders");
 

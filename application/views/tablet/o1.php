@@ -152,6 +152,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $('tr:even').addClass('even');
     var timerControl = '';
     var iTime = $("input[name='timer']").val();
+
+
     $(document).ready(function() {
         if (iTime == '') {
             return false;
@@ -159,7 +161,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         var m;
         timerControl = setInterval(function() {
             iTime--;
-            if (iTime == 0)
+            if (iTime <= 0)
                 location.reload();
             m = iTime;
 
@@ -211,6 +213,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 
     $(document).on("click", "h2 > span.close", function() {
+        iTime = $("input[name='timer']").val();
         timerControl = setInterval(function() {
             iTime--;
             if (iTime == 0)
@@ -226,8 +229,4 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     });
 
-
-    // setInterval(function() {
-    //     location.reload();
-    // }, 3000);
 </script>

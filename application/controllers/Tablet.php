@@ -9,7 +9,7 @@ class Tablet extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-
+		date_default_timezone_set('Asia/Seoul');
 		$this->data['pos'] = $this->uri->segment(1);
 		$this->data['subpos'] = $this->uri->segment(2);
 

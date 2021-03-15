@@ -161,7 +161,7 @@ $('tr:even').addClass('even');
         var m;
         timerControl = setInterval(function() {
             iTime--;
-            if (iTime == 0)
+            if (iTime <= 0)
                 location.reload();
             m = iTime;
 
@@ -202,6 +202,7 @@ $('tr:even').addClass('even');
 
 
     $(document).on("click", "h2 > span.close", function() {
+        iTime = $("input[name='timer']").val();
         timerControl = setInterval(function() {
             iTime--;
             if (iTime == 0)
