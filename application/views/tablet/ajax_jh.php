@@ -5,23 +5,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 <link href="<?php echo base_url('_static/css/jquery.datetimepicker.min.css') ?>" rel="stylesheet">
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js') ?>"></script>
-<style>
-    * {
-        font-size: 24px;
-    }
-</style>
 <h2 class="tableth2" >
     <?php echo $title; ?>
     <span class="material-icons close" style="font-size:50px">clear</span>
 </h2>
-<style>
-    * {
-        font-size: 32px;
-    }
-    
-    th {
-        width: 40%
-    }
 </style>
 
 <div class="formContainer">

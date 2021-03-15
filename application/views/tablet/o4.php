@@ -5,9 +5,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script src="<?php echo base_url('_static/js/jquery.datetimepicker.full.min.js') ?>"></script>
 <style>
     /* 테블릿 스타일 */
-    .body_cont_float2 {}
-
-    .bc_search .gsflexst>div {}
 
     .home .material-icons {
         font-size: 40px;
