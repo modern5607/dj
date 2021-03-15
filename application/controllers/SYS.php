@@ -300,6 +300,15 @@ class SYS extends CI_Controller
 	{
 		$IDX = "";
 		$dateTime = date("Y-m-d H:i:s", time());
+
+		$pw = $this->input->post("PWD");
+		$num = preg_match('/[0-9]/u', $pw);
+		$eng = preg_match('/[a-z]/u', $pw);
+		$spe = preg_match("/[\!\@\#\$\%\^\&\*]/u", $pw);
+
+		if( $num == 0 || $eng == 0 || $spe == 0)
+			alert("비밀번호를 숫자+문자+특수문자를 포함하여 입력해 주세요", base_url('SYS/user'));
+
 		if (!empty($this->input->post("mod"))) { //수정인경우
 
 			$params = array(
