@@ -476,7 +476,7 @@ SQL;
 					->set("OUT_QTY",$params['QTY'])
 					->set("INSERT_ID",$username)
 					->set("INSERT_DATE",$datetime);
-			$this->db->insert("T_ITEMS_TRANS");
+			$this->db->insert("t_items_trans");
 
 			$this->db->trans_complete();
 		

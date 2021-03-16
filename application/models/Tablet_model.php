@@ -390,7 +390,7 @@ SQL;
 		$this->db->query($sql);
 
 		$sql = <<<SQL
-				INSERT INTO T_ITEMS_TRANS
+				INSERT INTO t_items_trans
 				SET
 				ITEMS_IDX    	= '{$info->ITEMS_IDX}',
 				ACT_IDX      	= '{$info->ACT_IDX}',

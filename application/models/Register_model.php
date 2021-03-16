@@ -14,7 +14,7 @@ class Register_model extends CI_Model {
 	public function get_userchk($obj,$val)
 	{
 		$this->db->where($obj,$val);
-		$res = $this->db->get("T_MEMBER");
+		$res = $this->db->get("t_member");
 
 		return $res->row();
 
@@ -23,7 +23,7 @@ class Register_model extends CI_Model {
 
 	public function set_log_insert($params)
 	{
-		$this->db->insert("T_LOG",$params);
+		$this->db->insert("t_log",$params);
 		return $this->db->insert_id();
 	}
 
@@ -35,16 +35,16 @@ class Register_model extends CI_Model {
 		$this->db->set("EDATE",$datetime);
 		$this->db->set("STATUS","off");
 		$this->db->where("IDX",$idx);
-		$this->db->update("T_LOG");
+		$this->db->update("t_log");
 	}
 
 
 	public function member_formupdate($params,$idx)
 	{
 		if(!empty($idx)){
-			$this->db->update("T_MEMBER",$params,array("IDX"=>$idx));
+			$this->db->update("t_member",$params,array("IDX"=>$idx));
 		}else{
-			$this->db->insert("T_MEMBER",$params);
+			$this->db->insert("t_member",$params);
 			$idx = $this->db->insert_id();
 		}
 		return $idx;
@@ -54,7 +54,7 @@ class Register_model extends CI_Model {
 	{
 		$this->db->select("COUNT(*) as cnt");
 		$this->db->where("ID",$id);
-		$query = $this->db->get("T_MEMBER");
+		$query = $this->db->get("t_member");
 		$data['msg'] = "사용가능한 아이디입니다.";
 		$data['state'] = 1;
 		if($query->row()->cnt > 0){
@@ -68,7 +68,7 @@ class Register_model extends CI_Model {
 	public function get_member_info($idx)
 	{
 		$data = $this->db->where(array('IDX'=>$idx))
-						->get("T_MEMBER");
+						->get("t_member");
 		return $data->row();
 	}
 
@@ -87,7 +87,7 @@ class Register_model extends CI_Model {
 			$this->db->where("LEVEL",$param['LEVEL']);
 		}
 		$this->db->limit($limit,$start);
-		$res = $this->db->get("T_MEMBER");
+		$res = $this->db->get("t_member");
 		return $res->result();
 	}
 
@@ -106,7 +106,7 @@ class Register_model extends CI_Model {
 		if(!empty($param['LEVEL']) && $param['LEVEL'] != ""){
 			$this->db->where("LEVEL",$param['LEVEL']);
 		}
-		$res = $this->db->get("T_MEMBER");
+		$res = $this->db->get("t_member");
 		return $res->row()->CUT;
 	}
 
@@ -116,7 +116,7 @@ class Register_model extends CI_Model {
 		
 		$this->db->set("LEVEL",$param['level']);
 		$this->db->where("IDX",$param['idx']);
-		$this->db->update("T_MEMBER");
+		$this->db->update("t_member");
 
 		return $this->db->affected_rows();
 
