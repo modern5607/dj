@@ -57,6 +57,38 @@ position: relative; right:200px;
   width:15%;
 }
 
+/* 선별작업테이블 */
+.t_table_s{
+  table-layout: fixed;
+}
+.t_table_s tr th:nth-child(1),
+.t_table_s tr td:nth-child(1)
+{
+  width:10%;
+}
+.t_table_s tr th:nth-child(2),
+.t_table_s tr td:nth-child(2)
+{
+  width:15%;
+}
+.t_table_s tr th:nth-child(3),
+.t_table_s tr td:nth-child(3)
+{
+  width:30%;
+}
+.t_table_s tr th:nth-child(4),
+.t_table_s tr td:nth-child(4)
+{
+  width:20%;
+}
+.t_table_s tr th:nth-child(5),
+.t_table_s tr td:nth-child(5),
+.t_table_s tr th:nth-child(6),
+.t_table_s tr td:nth-child(6)
+{
+  width:12.5%;
+}
+
 
 .form_select { border: 1px solid #ddd; padding:3px 8px;}
 
