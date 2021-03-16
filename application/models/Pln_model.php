@@ -243,7 +243,7 @@ class Pln_model extends CI_Model {
 
 	public function deletedetail($params)
 	{
-		$sql = "DELETE FROM T_ACT_D WHERE IDX ={$params['IDX']}";
+		$sql = "DELETE FROM t_act_d WHERE IDX ={$params['IDX']}";
 
 		$query = $this->db->query($sql);
 		// alert($this->db->last_query());

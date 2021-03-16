@@ -23,7 +23,7 @@ class Kpi_model extends CI_Model {
 		$this->db->where("KPI_CODE",'MF');
 		$this->db->limit($limit,$start);
 
-		$query = $this->db->get('T_KPI');
+		$query = $this->db->get('t_kpi');
 		//  echo  $this->db->last_query();
 		return $query->result();
 	}
@@ -34,7 +34,7 @@ class Kpi_model extends CI_Model {
 		$this->db->where("SUBSTR(INSERT_DATE,1,6) BETWEEN '{$params['SDATE']}{$params['SWEEK']} ' AND '{$params['SDATE']}{$params['EWEEK']}'");
 
 		$this->db->select("COUNT(*) AS CUT");
-		$this->db->from("T_KPI");
+		$this->db->from("t_kpi");
 		$this->db->where("KPI_CODE",'MF');
 
 		$query = $this->db->get();
@@ -59,7 +59,7 @@ class Kpi_model extends CI_Model {
 		$this->db->where("KPI_CODE",'PP');
 		$this->db->limit($limit,$start);
 
-		$query = $this->db->get('T_KPI');
+		$query = $this->db->get('t_kpi');
 		// echo  $this->db->last_query();
 		return $query->result();
 	}
@@ -70,7 +70,7 @@ class Kpi_model extends CI_Model {
 		$this->db->where("SUBSTR(INSERT_DATE,1,6) BETWEEN '{$params['SDATE']}{$params['SWEEK']} ' AND '{$params['SDATE']}{$params['EWEEK']}'");
 
 		$this->db->select("COUNT(*) AS CUT");
-		$this->db->from("T_KPI");
+		$this->db->from("t_kpi");
 		$this->db->where("KPI_CODE",'PP');
 
 		$query = $this->db->get();
@@ -93,7 +93,7 @@ class Kpi_model extends CI_Model {
 		$this->db->where("KPI_CODE",'PP');
 		$this->db->limit($limit,$start);
 
-		$query = $this->db->get('T_KPI');
+		$query = $this->db->get('t_kpi');
 		// echo  $this->db->last_query();
 		return $query->result();
 	}
@@ -104,7 +104,7 @@ class Kpi_model extends CI_Model {
 		$this->db->where("SUBSTR(INSERT_DATE,1,6) BETWEEN '{$params['SDATE']}{$params['SWEEK']} ' AND '{$params['SDATE']}{$params['EWEEK']}'");
 
 		$this->db->select("COUNT(*) AS CUT");
-		$this->db->from("T_KPI");
+		$this->db->from("t_kpi");
 		$this->db->where("KPI_CODE",'GJ');
 
 		$query = $this->db->get();
@@ -313,7 +313,7 @@ SQL;
 		
 		$this->db->select("'전체 평균' AS TEXT, SUM(AC_KPI) / COUNT(*) AS AV_CNT");
 		$this->db->where('KPI_CODE ="MF"');
-		$this->db->from("T_KPI");
+		$this->db->from("t_kpi");
 
 		$query = $this->db->get();
 		// echo $this->db->last_query();
@@ -335,7 +335,7 @@ SQL;
 		
 		$this->db->select("'전체 평균' AS TEXT, SUM(AC_KPI) / COUNT(*) AS AV_CNT");
 		$this->db->where('KPI_CODE ="PP"');
-		$this->db->from("T_KPI");
+		$this->db->from("t_kpi");
 
 		$query = $this->db->get();
 		// echo $this->db->last_query();
@@ -350,7 +350,7 @@ SQL;
 
 		$this->db->select("'전체 평균' AS TEXT, SUM(AC_KPI) / COUNT(*) AS AV_CNT");
 		$this->db->where('KPI_CODE',$code);
-		$this->db->from("T_KPI");
+		$this->db->from("t_kpi");
 
 		$query = $this->db->get();
 		// echo $this->db->last_query();

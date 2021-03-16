@@ -99,7 +99,7 @@ class Main_model extends CI_Model
 	{
 		$this->db->select("COUNT(*) AS XXX");
 		$this->db->where("TC.COMPONENT", NULL);
-		$this->db->from("T_COMPONENT as TC");
+		$this->db->from("t_component as TC");
 		$this->db->join("T_COMPONENT_EX as EX", "EX.COMPONENT = TC.COMPONENT AND EX.GJ_GB = TC.GJ_GB", "right");
 		$this->db->order_by("TC.STOCK", "ASC");
 		$query = $this->db->get();
@@ -239,7 +239,7 @@ class Main_model extends CI_Model
 				'COL1'        => '',
 				'COL2'        => ''
 			);
-			$this->db->update("T_COCD_H", $data, array("IDX" => $param['IDX']));
+			$this->db->update("t_cocd_h", $data, array("IDX" => $param['IDX']));
 			return $param['IDX'];
 		} else {
 
@@ -255,7 +255,7 @@ class Main_model extends CI_Model
 				'COL1'        => '',
 				'COL2'        => ''
 			);
-			$this->db->insert("T_COCD_H", $data);
+			$this->db->insert("t_cocd_h", $data);
 
 			return $this->db->insert_id();
 		}
@@ -283,7 +283,7 @@ class Main_model extends CI_Model
 				'COL1'        => '',
 				'COL2'        => ''
 			);
-			$this->db->update("T_COCD_D", $data, array("IDX" => $param['IDX']));
+			$this->db->update("t_cocd_d", $data, array("IDX" => $param['IDX']));
 			return $param['IDX'];
 		} else {
 
@@ -302,7 +302,7 @@ class Main_model extends CI_Model
 				'COL2'        => ''
 			);
 
-			$this->db->insert("T_COCD_D", $data);
+			$this->db->insert("t_cocd_d", $data);
 
 			return $this->db->insert_id();
 		}
@@ -312,7 +312,7 @@ class Main_model extends CI_Model
 	public function get_items_info($param)
 	{
 		if ($param['upd']) {
-			$this->db->select("TI.*, SUM(TIS.QTY) AS QTY, SUM((SELECT SUM(B.QTY) FROM T_ACT_D as B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX)) as EQTY ");
+			$this->db->select("TI.*, SUM(TIS.QTY) AS QTY, SUM((SELECT SUM(B.QTY) FROM t_act_d as B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX)) as EQTY ");
 			$this->db->join("T_ITEM_STOCK as TIS", "TI.IDX = TIS.ITEM_IDX", "LEFT");
 		}
 
@@ -430,7 +430,7 @@ class Main_model extends CI_Model
 	/* 공통코드 HEAD 리스트 */
 	public function get_cocdHead_list()
 	{
-		$res = $this->db->get("T_COCD_H");
+		$res = $this->db->get("t_cocd_h");
 		// echo $this->db->last_query();
 
 		return $res->result();
@@ -438,7 +438,7 @@ class Main_model extends CI_Model
 
 	public function get_cocdHead_cut()
 	{
-		$res = $this->db->get("T_COCD_H");
+		$res = $this->db->get("t_cocd_h");
 		return $res->num_rows();
 	}
 
@@ -446,8 +446,8 @@ class Main_model extends CI_Model
 	public function get_cocdDetail_list($hid = "")
 	{
 		$this->db->select("D.*,H.CODE as H_CODE");
-		$this->db->from("T_COCD_D as D");
-		$this->db->join("T_COCD_H as H", "H.IDX = D.H_IDX");
+		$this->db->from("t_cocd_d as D");
+		$this->db->join("t_cocd_h as H", "H.IDX = D.H_IDX");
 		// if($hid){
 		$this->db->where("H_IDX", $hid);
 		// }
@@ -462,7 +462,7 @@ class Main_model extends CI_Model
 	public function get_cocdHead_info($idx)
 	{
 		$res = $this->db->where("IDX", $idx)
-			->get("T_COCD_H");
+			->get("t_cocd_h");
 		return $res->row();
 	}
 
@@ -471,7 +471,7 @@ class Main_model extends CI_Model
 	public function get_cocdDetail_info($idx)
 	{
 		$res = $this->db->where("IDX", $idx)
-			->get("T_COCD_D");
+			->get("t_cocd_d");
 		return $res->row();
 	}
 
@@ -667,15 +667,15 @@ class Main_model extends CI_Model
 	*/
 	public function delete_cocdHead($code)
 	{
-		$res = $this->db->delete("T_COCD_H", array('CODE' => $code));
-		$res1 = $this->db->delete("T_COCD_D", array('H_IDX' => $code));
+		$res = $this->db->delete("t_cocd_h", array('CODE' => $code));
+		$res1 = $this->db->delete("t_cocd_d", array('H_IDX' => $code));
 
 		return $this->db->affected_rows();
 	}
 
 	public function delete_cocdDetail($idx)
 	{
-		$res = $this->db->delete("T_COCD_D", array('IDX' => $idx));
+		$res = $this->db->delete("t_cocd_d", array('IDX' => $idx));
 		return $this->db->affected_rows();
 	}
 
@@ -684,7 +684,7 @@ class Main_model extends CI_Model
 	public function ajax_cocdHaedchk($object, $code)
 	{
 		$this->db->where($object, $code);
-		$query = $this->db->get('T_COCD_H');
+		$query = $this->db->get('t_cocd_h');
 
 		if ($query->num_rows() > 0) {
 			return TRUE;
@@ -697,7 +697,7 @@ class Main_model extends CI_Model
 	public function ajax_cocdDetailchk($object, $code)
 	{
 		$this->db->where($object, $code);
-		$query = $this->db->get('T_COCD_D');
+		$query = $this->db->get('t_cocd_d');
 
 		if ($query->num_rows() > 0) {
 			return TRUE;
@@ -730,8 +730,8 @@ class Main_model extends CI_Model
 	{
 		$where[$fild] = $set;
 		$this->db->select("tch.IDX, tch.CODE, tch.NAME, tcd.CODE as D_CODE, tcd.NAME as D_NAME");
-		$this->db->from("T_COCD_D as tcd");
-		$this->db->join("T_COCD_H as tch","tch.IDX = tcd.H_IDX");
+		$this->db->from("t_cocd_d as tcd");
+		$this->db->join("t_cocd_h as tch","tch.IDX = tcd.H_IDX");
 		
 		$this->db->where("tcd.USE_YN","Y");
 		$this->db->where("tch.USE_YN","Y");
@@ -751,8 +751,8 @@ class Main_model extends CI_Model
 	{
 		$where[$fild] = $set;
 		$this->db->select("tcd.REMARK");
-		$this->db->from("T_COCD_D as tcd");
-		$this->db->join("T_COCD_H as tch","tch.IDX = tcd.H_IDX");
+		$this->db->from("t_cocd_d as tcd");
+		$this->db->join("t_cocd_h as tch","tch.IDX = tcd.H_IDX");
 		
 		$this->db->where("tcd.USE_YN","Y");
 		$this->db->where("tch.USE_YN","Y");

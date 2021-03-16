@@ -126,7 +126,7 @@ class Register_model extends CI_Model {
 	public function get_ver_list($start,$limit)
 	{
 		$this->db->limit($limit,$start);
-		$query = $this->db->get("T_VER");
+		$query = $this->db->get("t_ver");
 
 
 
@@ -138,7 +138,7 @@ class Register_model extends CI_Model {
 	public function get_ver_cut()
 	{
 		$this->db->select("COUNT(*) as CUT");
-		$query = $this->db->get("T_VER");
+		$query = $this->db->get("t_ver");
 
 
 
@@ -150,11 +150,11 @@ class Register_model extends CI_Model {
 	public function upload_ver_form($param,$MIDX = "")
 	{
 		if($MIDX == ""){
-			$query = $this->db->insert("T_VER",$param);
+			$query = $this->db->insert("t_ver",$param);
 			$xxx = $this->db->insert_id();
 		}else{
 			$this->db->where("IDX",$MIDX);
-			$query = $this->db->update("T_VER",$param);
+			$query = $this->db->update("t_ver",$param);
 			$xxx = $MIDX;
 		}
 		return  $xxx;
@@ -164,7 +164,7 @@ class Register_model extends CI_Model {
 	public function delete_ver_form($param)
 	{
 		$this->db->where("IDX",$param['IDX']);
-		$this->db->delete("T_VER");
+		$this->db->delete("t_ver");
 		return $this->db->affected_rows();
 	}
 
@@ -172,7 +172,7 @@ class Register_model extends CI_Model {
 	public function modified_ver_form($param)
 	{
 		$this->db->where("IDX",$param['IDX']);
-		$query = $this->db->get("T_VER");
+		$query = $this->db->get("t_ver");
 		return $query->row();
 
 	}

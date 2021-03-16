@@ -351,7 +351,7 @@ SQL;
 			$this->db->like("TAD.ITEM_NM",$params['s2']);
 		}
 		
-		$this->db->from("T_ACT_D AS TAD");
+		$this->db->from("t_act_d AS TAD");
 		$this->db->join("T_ITEMS AS TI","TI.IDX = TAD.ITEMS_IDX");
 		$this->db->join("T_SERIES_H AS TSH","TSH.IDX = TI.SERIES_IDX");
 		$this->db->join("T_SERIES_D AS TSD","TSD.IDX = TAD.SERIESD_IDX");

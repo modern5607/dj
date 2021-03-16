@@ -65,7 +65,7 @@ class Release_model extends CI_Model {
 			$this->db->where("FINISH <> '1'");
 		}*/
 		
-		$subquery = "(SELECT A.NAME FROM T_COCD_D as A WHERE A.H_IDX = 11 AND A.CODE = TA.M_LINE) as MLINE";
+		$subquery = "(SELECT A.NAME FROM t_cocd_d as A WHERE A.H_IDX = 11 AND A.CODE = TA.M_LINE) as MLINE";
 
 		$this->db->select("TA.*,{$subquery}, COUNT(TIT.IDX) as XNUM, MAX(TIT.IDX) AS TIDX, SUM(TIT.OUT_QTY) as OUT_QTY, SUM(TIT.RE_QTY) as RE_QTY, MAX(TIT.CG_DATE) as CG_DATE, MAX(TIT.RE_DATE) as RE_DATE, (TA.QTY - IFNULL(SUM(TIT.OUT_QTY),0)) as XXX");
 		
@@ -118,7 +118,7 @@ class Release_model extends CI_Model {
 			$this->db->where("TIT.CG_DATE",$param['CG_DATE']);
 		}
 		
-		$subquery = "(SELECT B.REMARK FROM T_CLAIM as B WHERE B.H_IDX = TIT.IDX AND B.A_IDX = TA.IDX) as REMARK";
+		$subquery = "(SELECT B.REMARK FROM t_claim as B WHERE B.H_IDX = TIT.IDX AND B.A_IDX = TA.IDX) as REMARK";
 		$this->db->select("TA.*, TIT.IDX AS TIDX, TIT.H_IDX, TIT.OUT_QTY, TIT.CG_DATE, TIT.RE_DATE, TIT.CG_YN, TIT.RE_YN, TIT.RE_DATE, TIT.RE_QTY, {$subquery}");
 		$this->db->where("TIT.CG_YN","Y");
 		$this->db->from("T_ACTPLN AS TA");
@@ -171,7 +171,7 @@ class Release_model extends CI_Model {
 		
 		$this->db->from("T_ACTPLN AS TA");
 		$this->db->join("T_ITEMS_TRANS as TIT","TIT.ACT_IDX = TA.IDX");
-		$this->db->join("T_CLAIM AS TC","TC.A_IDX = TA.IDX","right");
+		$this->db->join("t_claim AS TC","TC.A_IDX = TA.IDX","right");
 		//$this->db->group_by("TA.IDX");
 		$this->db->order_by("TC.RE_DATE","DESC");
 		$this->db->limit($limit,$start);
@@ -192,7 +192,7 @@ class Release_model extends CI_Model {
 
 		$this->db->select("COUNT(TC.IDX) as cut");
 		$this->db->from("T_ACTPLN AS TA");
-		$this->db->join("T_CLAIM AS TC","TC.A_IDX = TA.IDX","rigth");
+		$this->db->join("t_claim AS TC","TC.A_IDX = TA.IDX","rigth");
 		$query = $this->db->get();
 		
 		return $query->row()->cut;
@@ -285,7 +285,7 @@ SQL;
 				$this->db->set("INSERT_ID",$params['userName']);
 				$this->db->set("INSERT_DATE",$dateTime);
 				
-				$this->db->insert("T_CLAIM");
+				$this->db->insert("t_claim");
 				if($this->db->affected_rows() > 0){
 					$data['chk'] = true;
 					return $data;
@@ -307,7 +307,7 @@ SQL;
 		$this->db->set("REMARK",$param['REMARK']);
 		$this->db->where("H_IDX",$param['H_IDX']);
 		
-		$this->db->update("T_CLAIM");
+		$this->db->update("t_claim");
 		return $this->db->affected_rows();
 	}
 
@@ -337,7 +337,7 @@ SQL;
 			SELECT
 				TAI.M_LINE, TAI.ACT_TIME, TCD.NAME			
 			FROM
-				T_COCD_D as TCD
+				t_cocd_d as TCD
 				LEFT JOIN T_ACT_ILBO as TAI ON(TAI.M_LINE = TCD.CODE)
 			WHERE
 				TCD.H_IDX = 11 AND
@@ -369,7 +369,7 @@ SQL;
 				END as VAL
 					
 			FROM
-				T_COCD_D as TCD
+				t_cocd_d as TCD
 				LEFT JOIN T_ACT_ILBO as TAI ON(TAI.M_LINE = TCD.CODE)
 				LEFT JOIN (SELECT M_LINE,ROUND((PT * OUT_QTY)/60) as SUM_PT FROM T_ITEMS_TRANS WHERE TRANS_DATE BETWEEN '{$toDate} 00:00:00' AND '{$toDate} 23:59:59' AND KIND = 'OT' GROUP BY M_LINE) as T2 ON(T2.M_LINE = TAI.M_LINE)
 			WHERE

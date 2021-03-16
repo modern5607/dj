@@ -37,11 +37,11 @@ class Bom_model extends CI_Model {
 		$sql=<<<SQL
 			SELECT
 				ti.BL_NO, ti.ITEM_NAME, ti.IDX, ti.M_LINE, ti.GJ_GB, ti.USE_YN,
-				(SELECT tcd1.NAME FROM T_COCD_D as tcd1 WHERE tcd1.CODE = ti.1ST_CLASS) as CLASS1,
-				(SELECT tcd2.NAME FROM T_COCD_D as tcd2 WHERE tcd2.CODE = ti.2ND_CLASS) as CLASS2,
-				(SELECT tcd3.NAME FROM T_COCD_D as tcd3 WHERE tcd3.CODE = ti.MSAB) as MSAB,
-				(SELECT tcd4.NAME FROM T_COCD_D as tcd4 WHERE tcd4.CODE = ti.STATE) as STATE,
-				(SELECT COUNT(tb.IDX) FROM T_BOM as tb WHERE tb.H_IDX = ti.IDX) as C_COUNT
+				(SELECT tcd1.NAME FROM t_cocd_d as tcd1 WHERE tcd1.CODE = ti.1ST_CLASS) as CLASS1,
+				(SELECT tcd2.NAME FROM t_cocd_d as tcd2 WHERE tcd2.CODE = ti.2ND_CLASS) as CLASS2,
+				(SELECT tcd3.NAME FROM t_cocd_d as tcd3 WHERE tcd3.CODE = ti.MSAB) as MSAB,
+				(SELECT tcd4.NAME FROM t_cocd_d as tcd4 WHERE tcd4.CODE = ti.STATE) as STATE,
+				(SELECT COUNT(tb.IDX) FROM t_bom as tb WHERE tb.H_IDX = ti.IDX) as C_COUNT
 			FROM
 				T_ITEMS as ti
 			WHERE
@@ -107,11 +107,11 @@ SQL;
 	public function get_trans_list($params,$start=0,$limit=20)
 	{
 		$subquery = "(SELECT TI.ITEM_NAME FROM T_ITEMS AS TI WHERE TI.BL_NO = TA.BL_NO AND TI.GJ_GB = TA.GJ_GB) AS ITEM_NAME";
-		$kind = "(SELECT K.NAME FROM T_COCD_D as K WHERE K.H_IDX = 17 AND K.CODE = TCT.KIND) as KIND";
+		$kind = "(SELECT K.NAME FROM t_cocd_d as K WHERE K.H_IDX = 17 AND K.CODE = TCT.KIND) as KIND";
 		$this->db->select("TC.COMPONENT, TC.COMPONENT_NM, TC.USE_YN, {$kind}, TCT.OUT_QTY, TCT.TRANS_DATE, TCT.IDX as TIDX, TA.BL_NO, {$subquery}");
 		
-		$this->db->from("T_COMPONENT_TRANS AS TCT");
-		$this->db->join("T_COMPONENT AS TC","TC.IDX = TCT.C_IDX","left");
+		$this->db->from("t_component_trans AS TCT");
+		$this->db->join("t_component AS TC","TC.IDX = TCT.C_IDX","left");
 		$this->db->join("T_ACTPLN AS TA","TA.IDX = TCT.ACT_IDX","left");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
@@ -124,8 +124,8 @@ SQL;
 	public function get_trans_cut($params)
 	{
 		$this->db->select("COUNT(*) AS CUT");
-		$this->db->from("T_COMPONENT_TRANS AS TCT");
-		$this->db->join("T_COMPONENT AS TC","TC.IDX = TCT.C_IDX","left");
+		$this->db->from("t_component_trans AS TCT");
+		$this->db->join("t_component AS TC","TC.IDX = TCT.C_IDX","left");
 		$this->db->join("T_ACTPLN AS TA","TA.IDX = TCT.ACT_IDX","left");
 		$query = $this->db->get();
 		return $query->row()->CUT;
@@ -144,11 +144,11 @@ SQL;
 			$this->db->where("TCT.TRANS_DATE BETWEEN '{$param['TDATE1']} 00:00:00' AND '{$param['TDATE2']} 23:59:59'");
 		}
 
-		$kind = "(SELECT K.NAME FROM T_COCD_D as K WHERE K.H_IDX = 17 AND K.CODE = TCT.KIND) as KIND";
+		$kind = "(SELECT K.NAME FROM t_cocd_d as K WHERE K.H_IDX = 17 AND K.CODE = TCT.KIND) as KIND";
 		$this->db->select("TCT.*,TCT.IDX as TIDX, TC.COMPONENT, TC.COMPONENT_NM, {$kind}");
 		$this->db->where("TCT.KIND","IN");
-		$this->db->from("T_COMPONENT_TRANS AS TCT");
-		$this->db->join("T_COMPONENT AS TC","TC.IDX = TCT.C_IDX","left");
+		$this->db->from("t_component_trans AS TCT");
+		$this->db->join("t_component AS TC","TC.IDX = TCT.C_IDX","left");
 		$this->db->order_by("TRANS_DATE","DESC");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
@@ -170,8 +170,8 @@ SQL;
 		$this->db->where("TCT.KIND","IN");
 
 		$this->db->select("COUNT(*) AS CUT");
-		$this->db->from("T_COMPONENT_TRANS AS TCT");
-		$this->db->join("T_COMPONENT AS TC","TC.IDX = TCT.C_IDX","left");
+		$this->db->from("t_component_trans AS TCT");
+		$this->db->join("t_component AS TC","TC.IDX = TCT.C_IDX","left");
 		$query = $this->db->get();
 		return $query->row()->CUT;
 	}
@@ -228,7 +228,7 @@ SQL;
 
 		$this->db->order_by("INSERT_DATE","DESC");
 		$this->db->limit($limit,$start);
-		$data = $this->db->get("T_COMPONENT");
+		$data = $this->db->get("t_component");
 		return $data->result();
 		
 	}
@@ -238,7 +238,7 @@ SQL;
 	public function get_material_joinlist($params,$start=0,$limit=20)
 	{
 		$this->db->select("TC.IDX, EX.COMPONENT as E_COMPONENT, TC.COMPONENT, EX.COMPONENT_NM, EX.UNIT, TC.STOCK, EX.STOCK as E_STOCK, EX.INTO_DATE, EX.REPL_DATE");
-		$this->db->from("T_COMPONENT as TC");
+		$this->db->from("t_component as TC");
 		$this->db->join("T_COMPONENT_EX as EX","EX.COMPONENT = TC.COMPONENT AND EX.GJ_GB = TC.GJ_GB","right");
 		$this->db->order_by("TC.STOCK","ASC");
 		
@@ -265,7 +265,7 @@ SQL;
 		}
 
 		$this->db->limit($limit,$start);
-		$query = $this->db->get("T_COMPONENT");
+		$query = $this->db->get("t_component");
 		
 		return $query->result();
 	}
@@ -289,7 +289,7 @@ SQL;
 		
 		$this->db->limit($limit,$start);
 		$this->db->order_by("QUICK","DESC");
-		$query = $this->db->get("T_COMPONENT");
+		$query = $this->db->get("t_component");
 		
 		return $query->result();
 	}
@@ -309,7 +309,7 @@ SQL;
 			$this->db->like("COMPONENT_NM",$param['COMPONENT_NM']);			
 		}
 		$this->db->select("COUNT(*) as CUT");
-		$query = $this->db->get("T_COMPONENT");
+		$query = $this->db->get("t_component");
 		return $query->row()->CUT;
 	}
 
@@ -320,7 +320,7 @@ SQL;
 			"SAVE_QTY"  => $param['SAVE_QTY'],
 			"SAVE_DATE" => $param['SAVE_DATE']
 		);
-		$this->db->update("T_COMPONENT",$set,array("IDX"=>$param['IDX']));
+		$this->db->update("t_component",$set,array("IDX"=>$param['IDX']));
 
 		return $this->db->affected_rows();
 
@@ -330,7 +330,7 @@ SQL;
 	public function ajax_component_setting($param)
 	{
 		$this->db->select("EX.*, TC.IDX as T_IDX, TC.COMPONENT as TC_COMP");
-		$this->db->from("T_COMPONENT as TC");
+		$this->db->from("t_component as TC");
 		$this->db->join("T_COMPONENT_EX as EX","EX.COMPONENT = TC.COMPONENT AND EX.GJ_GB = TC.GJ_GB","right");
 		
 		if($param['mode'] == "one"){
@@ -360,7 +360,7 @@ SQL;
 				$this->db->set("REPL_DATE",$row->REPL_DATE);
 				$this->db->set("INSERT_DATE",$datetime);
 				$this->db->set("INSERT_ID",$username);
-				$query = $this->db->INSERT("T_COMPONENT");
+				$query = $this->db->INSERT("t_component");
 				
 			}else{
 				
@@ -370,7 +370,7 @@ SQL;
 				$this->db->set("UPDATE_DATE",$datetime);
 				$this->db->set("UPDATE_ID",$username);
 				$this->db->where("IDX",$row->T_IDX);
-				$query = $this->db->update("T_COMPONENT");
+				$query = $this->db->update("t_component");
 				
 			}
 			
@@ -423,7 +423,7 @@ SQL;
 		}*/
 		//if(!empty($params['set']) && $params['set'] != "") $where = $this->db->where($params['seq']." LIKE '%".$params['set']."%'");
 		$this->db->select("COUNT(IDX) as cut");
-		$data = $this->db->get("T_COMPONENT");
+		$data = $this->db->get("t_component");
 		return $data->row()->cut;
 		
 	}
@@ -444,9 +444,9 @@ SQL;
 			$sql=<<<SQL
 				SELECT
 					tc.*,
-					(SELECT COUNT(tb.IDX) FROM T_BOM as tb WHERE tb.H_IDX = '{$data['idx']}' AND tb.C_IDX = tc.IDX) as CHKBOM
+					(SELECT COUNT(tb.IDX) FROM t_bom as tb WHERE tb.H_IDX = '{$data['idx']}' AND tb.C_IDX = tc.IDX) as CHKBOM
 				FROM
-					T_COMPONENT as tc
+					t_component as tc
 				WHERE
 					1
 					{$where}
@@ -477,7 +477,7 @@ SQL;
 				SELECT
 					COUNT(tc.IDX) AS cut
 				FROM
-					T_COMPONENT as tc
+					t_component as tc
 				WHERE
 					1
 					{$where}
@@ -495,19 +495,19 @@ SQL;
 	public function get_material_info($idx)
 	{
 		$this->db->where(array("IDX"=>$idx));
-		$data = $this->db->get("T_COMPONENT");
+		$data = $this->db->get("t_component");
 		return $data->row();
 	}
 
 	public function set_materialInsert($params)
 	{
-		$this->db->insert("T_COMPONENT",$params);
+		$this->db->insert("t_component",$params);
 		return $this->db->insert_id();
 	}
 
 	public function set_materialUpdate($params,$idx)
 	{
-		$this->db->update("T_COMPONENT",$params,array("IDX"=>$idx));
+		$this->db->update("t_component",$params,array("IDX"=>$idx));
 		return $this->db->affected_rows();
 	}
 
@@ -515,7 +515,7 @@ SQL;
 	{
 		$query = $this->db->select("count(IDX) as num")
 						->where(array("H_IDX"=>$hidx, "C_IDX"=>$cidx))
-						->get("T_BOM");
+						->get("t_bom");
 		return $query->row();
 	}
 
@@ -524,8 +524,8 @@ SQL;
 	public function get_bom_list($idx)
 	{
 		$query = $this->db->select("tc.COMPONENT, tc.COMPONENT_NM, tc.SPEC, tc.UNIT, tc.PRICE, tb.UPDATE_DATE, tb.UPDATE_ID, tb.IDX as BIDX, tb.WORK_ALLO, tb.PT, tb.POINT, tb.REEL_CNT")
-						->from("T_BOM as tb")
-						->join("T_COMPONENT as tc","tc.IDX = tb.C_IDX","left")
+						->from("t_bom as tb")
+						->join("t_component as tc","tc.IDX = tb.C_IDX","left")
 						->where(array("tb.H_IDX"=>$idx))
 						->get();
 		
@@ -536,7 +536,7 @@ SQL;
 
 	public function set_bom_insertform($params)
 	{
-		$query = $this->db->insert_batch("T_BOM",$params);
+		$query = $this->db->insert_batch("t_bom",$params);
 		return $this->db->insert_id();
 	
 	}
@@ -544,7 +544,7 @@ SQL;
 	/* bom 자재선택 */
 	public function set_bom_formUpdate($param)
 	{
-		$query = $this->db->insert("T_BOM",$param);
+		$query = $this->db->insert("t_bom",$param);
 		return $this->db->insert_id();
 	}
 	
@@ -553,33 +553,33 @@ SQL;
 	public function set_bom_formDelete($param)
 	{
 		$this->db->where(array("H_IDX"=>$param['H_IDX'],"C_IDX"=>$param['C_IDX']));
-		$this->db->delete("T_BOM");
+		$this->db->delete("t_bom");
 		return $this->db->affected_rows();
 	}
 
 
 	public function set_bomlistUpdate($params,$idx)
 	{
-		$this->db->update("T_BOM",$params,array("IDX"=>$idx));
+		$this->db->update("t_bom",$params,array("IDX"=>$idx));
 		return $this->db->affected_rows();
 	}
 
 	
 	/*	bom에 자재가 등록되어있는지 확인
-		IDX : T_COMPONENT IDX
+		IDX : t_component IDX
 	*/
 	public function check_bom_info($param,$type)
 	{
 		$query = $this->db->select("COUNT(IDX) as num")
 						->where(array($type=>$param['IDX']))
-						->get("T_BOM");
+						->get("t_bom");
 		return $query->row()->num;
 	}
 
 
 	public function delete_material($param)
 	{
-		$this->db->delete("T_COMPONENT",array("IDX"=>$param['IDX']));
+		$this->db->delete("t_component",array("IDX"=>$param['IDX']));
 		return $this->db->affected_rows();
 	}
 
@@ -607,7 +607,7 @@ SQL;
 	public function ajax_matform_component_update($code,$date)
 	{
 		$sql=<<<SQL
-			UPDATE T_COMPONENT as A
+			UPDATE t_component as A
 			SET
 				STOCK = STOCK+(SELECT SUM(B.QTY) FROM T_TEMP_COM as B WHERE B.COMPONENTNO = A.COMPONENT),
 				INTO_DATE = '{$date}'
@@ -622,9 +622,9 @@ SQL;
 	public function ajax_matform_temp_insert($params)
 	{
 		$sql=<<<SQL
-			INSERT INTO T_COMPONENT_TRANS
+			INSERT INTO t_component_trans
 			SET
-				C_IDX = (SELECT A.IDX FROM T_COMPONENT as A WHERE A.COMPONENT = '{$params['C_IDX']}'),
+				C_IDX = (SELECT A.IDX FROM t_component as A WHERE A.COMPONENT = '{$params['C_IDX']}'),
 				TRANS_DATE = '{$params['TRANS_DATE']}',
 				KIND = 'IN',
 				IN_QTY = '{$params['IN_QTY']}',

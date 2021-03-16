@@ -262,7 +262,7 @@ SQL;
 		$this->db->join("t_act_h as C", "C.IDX = A.ACT_IDX", "LEFT");
 		$this->db->join("t_act_d as B", "B.IDX = A.ACT_D_IDX", "LEFT");
 		$this->db->join("t_series_d as D", "D.IDX = A.SERIESD_IDX", "LEFT");
-		$this->db->join("T_BIZ_REG AS F ", "C.BIZ_IDX = F.IDX", "LEFT");
+		$this->db->join("t_big_reg AS F ", "C.BIZ_IDX = F.IDX", "LEFT");
 		$this->db->join("T_SERIES_H AS E ", "E.IDX = D.SERIES_IDX", "LEFT");
 
 
@@ -311,7 +311,7 @@ SQL;
 		$this->db->join("t_act_h as C", "C.IDX = A.ACT_IDX", "LEFT");
 		$this->db->join("t_act_d as B", "B.IDX = A.ACT_D_IDX", "LEFT");
 		$this->db->join("t_series_d as D", "D.IDX = A.SERIESD_IDX", "LEFT");
-		$this->db->join("T_BIZ_REG AS F ", "C.BIZ_IDX = F.IDX", "LEFT");
+		$this->db->join("t_big_reg AS F ", "C.BIZ_IDX = F.IDX", "LEFT");
 		$this->db->join("T_SERIES_H AS E ", "E.IDX = D.SERIES_IDX", "LEFT");
 
 
@@ -698,8 +698,8 @@ SQL;
 			SELECT
 				TAH.ACT_DATE, TA.ITEM_NM, TA.QTY, TIT.IN_QTY, TIT.`2_QTY` as QT2, TIT.`3_QTY` as QT3, TIT.`4_QTY` as QT4,	DATE_FORMAT(TAH.DEL_DATE, '%Y-%m-%d') as DEL_DATE, TIT.CU_DATE, TIT.SB_DATE, TIS.TRANS_DATE AS CG_DATE, TS.COLOR
 			FROM
-				T_ACT_D as TA
-				LEFT JOIN T_ACT_H as TAH ON(TAH.IDX = TA.H_IDX)
+				t_act_d as TA
+				LEFT JOIN t_act_h as TAH ON(TAH.IDX = TA.H_IDX)
 				LEFT JOIN T_INVENTORY_TRANS as TIT ON(TIT.ACT_D_IDX = TA.IDX)
 				LEFT JOIN T_SERIES_D as TS ON(TS.IDX = TA.SERIESD_IDX)
 				LEFT JOIN T_ITEMS_TRANS as TIS ON(TIS.ACT_IDX = TA.IDX)
@@ -713,8 +713,8 @@ SQL;
 				UNION ALL
 		SELECT '합계','',SUM(TA.QTY),SUM(TIT.IN_QTY),SUM(TIT.2_QTY),SUM(TIT.3_QTY),SUM(TIT.4_QTY),COUNT(ITEM_NM),'','','',''
 		FROM
-			T_ACT_D AS TA
-			LEFT JOIN T_ACT_H AS TAH ON ( TAH.IDX = TA.H_IDX )
+			t_act_d AS TA
+			LEFT JOIN t_act_h AS TAH ON ( TAH.IDX = TA.H_IDX )
 			LEFT JOIN T_INVENTORY_TRANS AS TIT ON ( TIT.ACT_D_IDX = TA.IDX )
 			LEFT JOIN T_SERIES_D AS TS ON ( TS.IDX = TA.SERIESD_IDX ) 
 			LEFT JOIN T_ITEMS_TRANS as TIS ON(TIS.ACT_IDX = TA.IDX)
@@ -758,8 +758,8 @@ SQL;
 			SELECT
 				COUNT(*) as CUT
 			FROM
-			T_ACT_D as TA
-				LEFT JOIN T_ACT_H as TAH ON(TAH.IDX = TA.H_IDX)
+			t_act_d as TA
+				LEFT JOIN t_act_h as TAH ON(TAH.IDX = TA.H_IDX)
 				LEFT JOIN T_INVENTORY_TRANS as TIT ON(TIT.ACT_D_IDX = TA.IDX)
 				LEFT JOIN T_SERIES_D as TS ON(TS.IDX = TA.SERIESD_IDX)
 			WHERE
@@ -812,11 +812,11 @@ SQL;
 				TAH.ACT_DATE, TA.ITEM_NM, TA.QTY, TIT.IN_QTY, TIT.`1_QTY` as QT1, TIT.`2_QTY` as QT2, TIT.`3_QTY` as QT3, TIT.`4_QTY` as QT4,	DATE_FORMAT(TAH.DEL_DATE, '%Y-%m-%d') as DEL_DATE, TIT.CU_DATE, TIT.SB_DATE, TIS.TRANS_DATE, TIT.CG_DATE, TS.COLOR, TA.END_YN, TA.REMARK,
 				TBR.CUST_NM as BIZ_NAME, TIT.IDX, TIT.RECYCLE, B.QTY  as XQTY
 			FROM
-				T_ACT_D as TA
-				LEFT JOIN T_ACT_H as TAH ON(TAH.IDX = TA.H_IDX)
+				t_act_d as TA
+				LEFT JOIN t_act_h as TAH ON(TAH.IDX = TA.H_IDX)
 				LEFT JOIN T_INVENTORY_TRANS as TIT ON(TIT.ACT_D_IDX = TA.IDX)
 				LEFT JOIN T_SERIES_D as TS ON(TS.IDX = TA.SERIESD_IDX)
-				LEFT JOIN T_BIZ_REG as TBR ON(TBR.IDX = TAH.BIZ_IDX)
+				LEFT JOIN t_big_reg as TBR ON(TBR.IDX = TAH.BIZ_IDX)
 				LEFT JOIN T_ITEM_STOCK as B ON( B.ITEM_IDX = TA.ITEMS_IDX AND B.SERIESD_IDX = TA.SERIESD_IDX)
 				LEFT JOIN T_ITEMS_TRANS as TIS ON(TIS.ACT_IDX = TA.IDX)
 			WHERE
@@ -872,11 +872,11 @@ SQL;
 			SELECT
 				COUNT(*) as CUT
 			FROM
-				T_ACT_D as TA
-				LEFT JOIN T_ACT_H as TAH ON(TAH.IDX = TA.H_IDX)
+				t_act_d as TA
+				LEFT JOIN t_act_h as TAH ON(TAH.IDX = TA.H_IDX)
 				LEFT JOIN T_INVENTORY_TRANS as TIT ON(TIT.ACT_D_IDX = TA.IDX)
 				LEFT JOIN T_SERIES_D as TS ON(TS.IDX = TA.SERIESD_IDX)
-				LEFT JOIN T_BIZ_REG as TBR ON(TBR.IDX = TAH.BIZ_IDX)
+				LEFT JOIN t_big_reg as TBR ON(TBR.IDX = TAH.BIZ_IDX)
 				LEFT JOIN T_ITEMS_TRANS as TIS ON(TIS.ACT_IDX = TA.IDX)
 			WHERE
 				1
@@ -897,10 +897,10 @@ SQL;
 		$sql = <<<SQL
 			SELECT
 				TAH.ACT_DATE, TA.ITEM_NM, TA.QTY, TIT.IN_QTY, TIT.`1_QTY` as QT1, TIT.`2_QTY` as QT2, TIT.`3_QTY` as QT3, TIT.`4_QTY` as QT4,	DATE_FORMAT(TAH.DEL_DATE, '%Y-%m-%d') as DEL_DATE, TIT.CU_DATE, TIT.SB_DATE, TIT.CG_DATE, TS.COLOR, TA.END_YN,
-				(SELECT A.CUST_NM FROM T_BIZ_REG as A WHERE A.IDX = TAH.BIZ_IDX) as BIZ_NAME
+				(SELECT A.CUST_NM FROM t_big_reg as A WHERE A.IDX = TAH.BIZ_IDX) as BIZ_NAME
 			FROM
-				T_ACT_D as TA
-				LEFT JOIN T_ACT_H as TAH ON(TAH.IDX = TA.H_IDX)
+				t_act_d as TA
+				LEFT JOIN t_act_h as TAH ON(TAH.IDX = TA.H_IDX)
 				LEFT JOIN T_INVENTORY_TRANS as TIT ON(TIT.ACT_D_IDX = TA.IDX)
 				LEFT JOIN T_SERIES_D as TS ON(TS.IDX = TA.SERIESD_IDX)
 			WHERE
@@ -929,8 +929,8 @@ SQL;
 			SELECT
 				COUNT(*) as CUT
 			FROM
-				T_ACT_D as TA
-				LEFT JOIN T_ACT_H as TAH ON(TAH.IDX = TA.H_IDX)
+				t_act_d as TA
+				LEFT JOIN t_act_h as TAH ON(TAH.IDX = TA.H_IDX)
 				LEFT JOIN T_INVENTORY_TRANS as TIT ON(TIT.ACT_D_IDX = TA.IDX)
 			WHERE
 				(`4_QTY` > 0 OR `2_QTY` > 0 OR `3_QTY` > 0)
@@ -946,7 +946,7 @@ SQL;
 		$where = "";
 
 		if (!empty($param['AM1']) && $param['AM1'] != "") {
-			$where .= " AND (TIS.QTY > 0 OR (SELECT IFNULL(SUM(B.QTY), 0) FROM T_ACT_D AS B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX AND (STATUS IS NULL OR STATUS != 'CG')) > 0) ";
+			$where .= " AND (TIS.QTY > 0 OR (SELECT IFNULL(SUM(B.QTY), 0) FROM t_act_d AS B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX AND (STATUS IS NULL OR STATUS != 'CG')) > 0) ";
 		} else {
 			$where .= " AND TI.USE_YN = 'Y' ";
 		}
@@ -988,7 +988,7 @@ SQL;
 					SELECT 
 					IFNULL( SUM(B.QTY), 0) 
 					FROM 
-					T_ACT_D AS B 
+					t_act_d AS B 
 					WHERE 
 					B.ITEMS_IDX = TIS.ITEM_IDX 
 					AND B.SERIESD_IDX = TIS.SERIESD_IDX 
@@ -1017,7 +1017,7 @@ SQL;
 		$where = "";
 
 		if (!empty($param['AM1']) && $param['AM1'] != "") {
-			$where .= " AND (TIS.QTY > 0 OR (SELECT IFNULL(SUM(B.QTY), 0) FROM T_ACT_D AS B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX AND (STATUS IS NULL OR STATUS != 'CG')) > 0) ";
+			$where .= " AND (TIS.QTY > 0 OR (SELECT IFNULL(SUM(B.QTY), 0) FROM t_act_d AS B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX AND (STATUS IS NULL OR STATUS != 'CG')) > 0) ";
 		} else {
 			$where .= " AND TI.USE_YN = 'Y' ";
 		}
@@ -1276,7 +1276,7 @@ SQL;
 				D.COLOR,
 				A.QTY,
 				( SELECT E.SERIES_NM FROM T_SERIES_H AS E WHERE E.IDX = D.SERIES_IDX ) AS SE_NAME,
-				( SELECT F.CUST_NM FROM T_BIZ_REG AS F WHERE F.IDX = C.BIZ_IDX ) AS CUST_NM
+				( SELECT F.CUST_NM FROM t_big_reg AS F WHERE F.IDX = C.BIZ_IDX ) AS CUST_NM
 			FROM
 				t_act_d AS A
 				LEFT JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
@@ -1471,7 +1471,7 @@ SQL;
 		$data['ITEM_NAME'] = $query->row()->ITEM_NAME;*/
 
 
-		$this->db->select("A.IDX, C.ACT_DATE, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY, A.GJ_GB, B.END_YN, (SELECT F.CUST_NM FROM T_BIZ_REG AS F WHERE F.IDX = C.BIZ_IDX ) AS CUST_NM");
+		$this->db->select("A.IDX, C.ACT_DATE, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY, A.GJ_GB, B.END_YN, (SELECT F.CUST_NM FROM t_big_reg AS F WHERE F.IDX = C.BIZ_IDX ) AS CUST_NM");
 		$this->db->from("t_inventory_trans as A");
 		$this->db->join("t_act_d as B", "B.IDX = A.ACT_D_IDX", "LEFT");
 		$this->db->join("t_series_d as D", "D.IDX = A.SERIESD_IDX", "LEFT");
@@ -1624,8 +1624,8 @@ SQL;
 						H.SERIES_NM
 					FROM
 						T_INVENTORY_TRANS A
-						LEFT JOIN T_ACT_D as B ON(B.IDX = A.ACT_D_IDX)
-						LEFT JOIN T_ACT_H as C ON(C.IDX = A.ACT_IDX)
+						LEFT JOIN t_act_d as B ON(B.IDX = A.ACT_D_IDX)
+						LEFT JOIN t_act_h as C ON(C.IDX = A.ACT_IDX)
 						LEFT JOIN T_SERIES_D as D ON(D.IDX = A.SERIESD_IDX)
 						LEFT JOIN T_SERIES_H as H ON(H.IDX = D.SERIES_IDX)
 					WHERE
@@ -1650,8 +1650,8 @@ SQL;
 			    ''
 			FROM 
 				T_INVENTORY_TRANS A
-				LEFT JOIN T_ACT_D as B ON(B.IDX = A.ACT_D_IDX)
-				LEFT JOIN T_ACT_H as C ON(C.IDX = A.ACT_IDX)
+				LEFT JOIN t_act_d as B ON(B.IDX = A.ACT_D_IDX)
+				LEFT JOIN t_act_h as C ON(C.IDX = A.ACT_IDX)
 				LEFT JOIN T_SERIES_D as D ON(D.IDX = A.SERIESD_IDX)
 				LEFT JOIN T_SERIES_H as H ON(H.IDX = D.SERIES_IDX)
 			WHERE 
@@ -1695,8 +1695,8 @@ SQL;
 				COUNT(A.IDX) AS CUT
 			FROM
 				T_INVENTORY_TRANS A
-				LEFT JOIN T_ACT_D as B ON(B.IDX = A.ACT_D_IDX)
-				LEFT JOIN T_ACT_H as C ON(C.IDX = A.ACT_IDX)
+				LEFT JOIN t_act_d as B ON(B.IDX = A.ACT_D_IDX)
+				LEFT JOIN t_act_h as C ON(C.IDX = A.ACT_IDX)
 				LEFT JOIN T_SERIES_D as D ON(D.IDX = A.SERIESD_IDX)
 				LEFT JOIN T_SERIES_H as H ON(H.IDX = D.SERIES_IDX)
 			WHERE
@@ -1766,7 +1766,7 @@ SQL;
 
 			$this->db->set("STATUS", "SB");
 			$this->db->where("IDX", $info->ACT_D_IDX);
-			$this->db->update("T_ACT_D");
+			$this->db->update("t_act_d");
 		}
 
 		$this->db->trans_complete();
@@ -1868,7 +1868,7 @@ SQL;
 		if ($this->db->affected_rows() > 0) {
 			$this->db->set("STATUS", "SB");
 			$this->db->where("IDX", $info->ACT_D_IDX);
-			$this->db->update("T_ACT_D");
+			$this->db->update("t_act_d");
 			// if ($SUMQ > 0) {
 			// 	$this->db->set("QTY", "QTY + {$SUMQ}", FALSE);
 			// } else {
@@ -1935,7 +1935,7 @@ SQL;
 
 			$this->db->set("STATUS", "CU");
 			$this->db->where("IDX", $info['ACT_D_IDX']);
-			$this->db->update("T_ACT_D");
+			$this->db->update("t_act_d");
 		}
 
 		$this->db->trans_complete();
@@ -2045,8 +2045,8 @@ SQL;
 						A.`5_QTY` as QTY5
 					FROM
 						T_INVENTORY_TRANS A
-						LEFT JOIN T_ACT_H as B ON(B.IDX = A.ACT_IDX)
-						LEFT JOIN T_ACT_D as C ON(C.IDX = A.ACT_D_IDX)
+						LEFT JOIN t_act_h as B ON(B.IDX = A.ACT_IDX)
+						LEFT JOIN t_act_d as C ON(C.IDX = A.ACT_D_IDX)
 						LEFT JOIN T_SERIES_D as D ON(D.IDX = A.SERIESD_IDX)
 					WHERE
 						1
@@ -2068,8 +2068,8 @@ SQL;
 				SUM(A.`5_QTY`) as QTY5
 			FROM 
 				T_INVENTORY_TRANS A
-				LEFT JOIN T_ACT_H as B ON(B.IDX = A.ACT_IDX)
-				LEFT JOIN T_ACT_D as C ON(C.IDX = A.ACT_D_IDX)
+				LEFT JOIN t_act_h as B ON(B.IDX = A.ACT_IDX)
+				LEFT JOIN t_act_d as C ON(C.IDX = A.ACT_D_IDX)
 				LEFT JOIN T_SERIES_D as D ON(D.IDX = A.SERIESD_IDX)
 			WHERE 
 				1
@@ -2128,8 +2128,8 @@ SQL;
 						A.`4_QTY` as QTY4
 					FROM
 						T_INVENTORY_TRANS A
-						LEFT JOIN T_ACT_H as B ON(B.IDX = A.ACT_IDX)
-						LEFT JOIN T_ACT_D as C ON(C.IDX = A.ACT_D_IDX)
+						LEFT JOIN t_act_h as B ON(B.IDX = A.ACT_IDX)
+						LEFT JOIN t_act_d as C ON(C.IDX = A.ACT_D_IDX)
 						LEFT JOIN T_SERIES_D as D ON(D.IDX = A.SERIESD_IDX)
 					WHERE
 						1
@@ -2187,8 +2187,8 @@ SQL;
 						A.`4_QTY` as QTY4
 					FROM
 						T_INVENTORY_TRANS A
-						LEFT JOIN T_ACT_H as B ON(B.IDX = A.ACT_IDX)
-						LEFT JOIN T_ACT_D as C ON(C.IDX = A.ACT_D_IDX)
+						LEFT JOIN t_act_h as B ON(B.IDX = A.ACT_IDX)
+						LEFT JOIN t_act_d as C ON(C.IDX = A.ACT_D_IDX)
 						LEFT JOIN T_SERIES_D as D ON(D.IDX = A.SERIESD_IDX)
 					WHERE
 						1
@@ -2208,8 +2208,8 @@ SQL;
 				SUM(A.`4_QTY`) as QTY4
 			FROM 
 				T_INVENTORY_TRANS A
-				LEFT JOIN T_ACT_H as B ON(B.IDX = A.ACT_IDX)
-				LEFT JOIN T_ACT_D as C ON(C.IDX = A.ACT_D_IDX)
+				LEFT JOIN t_act_h as B ON(B.IDX = A.ACT_IDX)
+				LEFT JOIN t_act_d as C ON(C.IDX = A.ACT_D_IDX)
 				LEFT JOIN T_SERIES_D as D ON(D.IDX = A.SERIESD_IDX)
 			WHERE 
 				1
@@ -2314,7 +2314,7 @@ SQL;
 
 		$this->db->select("B.ITEM_NM,D.COLOR,SUM(A.IN_QTY) as IN_QTY,H.SERIES_NM, SERIES_IDX, A.ITEMS_IDX, A.SERIESD_IDX ");
 		$this->db->from("T_INVENTORY_TRANS A");
-		$this->db->join("T_ACT_D AS B", "B.IDX = A.ACT_D_IDX ", "LEFT");
+		$this->db->join("t_act_d AS B", "B.IDX = A.ACT_D_IDX ", "LEFT");
 		$this->db->join("T_SERIES_D AS D ", "D.IDX = A.SERIESD_IDX ", "LEFT");
 		$this->db->join("T_SERIES_H AS H", "H.IDX = D.SERIES_IDX ", "LEFT");
 		$this->db->where("A.KIND = 'IN' AND A.GJ_GB='CU'");
@@ -2342,7 +2342,7 @@ SQL;
 
 		$this->db->select("COUNT(*) as CUT");
 		$this->db->from("T_INVENTORY_TRANS A");
-		$this->db->join("T_ACT_D AS B", "B.IDX = A.ACT_D_IDX ", "LEFT");
+		$this->db->join("t_act_d AS B", "B.IDX = A.ACT_D_IDX ", "LEFT");
 		$this->db->join("T_SERIES_D AS D ", "D.IDX = A.SERIESD_IDX ", "LEFT");
 		$this->db->join("T_SERIES_H AS H", "H.IDX = D.SERIES_IDX ", "LEFT");
 		$this->db->where("A.KIND = 'IN' AND A.GJ_GB='CU'");
@@ -2379,8 +2379,8 @@ SELECT
    ( SELECT A.SERIES_NM FROM T_SERIES_H AS A WHERE A.IDX = TSD.SERIES_IDX ) AS SE_NAME 
 FROM
    T_INVENTORY_TRANS AS TIT,
-   T_ACT_H AS TAH ,
-   T_ACT_D AS TAD ,
+   t_act_h AS TAH ,
+   t_act_d AS TAD ,
    T_ITEMS AS TI ,
    T_SERIES_D AS TSD, 
    T_ITEM_STOCK AS TIS
@@ -2435,8 +2435,8 @@ SQL;
 				LEFT JOIN T_ITEMS as TI ON(TI.IDX = TIT.ITEMS_IDX)
 				LEFT JOIN T_SERIES_D as TSD ON(TSD.IDX = TIT.SERIESD_IDX)
 				LEFT JOIN T_ITEM_STOCK as TIS ON(TIS.ITEM_IDX = TIT.ITEMS_IDX AND TIS.SERIESD_IDX = TIT.SERIESD_IDX)
-				LEFT JOIN T_ACT_H as TAH ON(TAH.IDX = TIT.ACT_IDX)
-				LEFT JOIN T_ACT_D as TAD ON(TAD.IDX = TIT.ACT_D_IDX)
+				LEFT JOIN t_act_h as TAH ON(TAH.IDX = TIT.ACT_IDX)
+				LEFT JOIN t_act_d as TAD ON(TAD.IDX = TIT.ACT_D_IDX)
 			WHERE
 				TIT.GJ_GB = "SB"
 				AND TI.KS_YN = 'Y' 
@@ -2528,8 +2528,8 @@ SQL;
 				LEFT JOIN T_ITEMS as TI ON(TI.IDX = TIT.ITEMS_IDX)
 				LEFT JOIN T_SERIES_D as TSD ON(TSD.IDX = TIT.SERIESD_IDX)
 				LEFT JOIN T_ITEM_STOCK as TIS ON(TIS.ITEM_IDX = TIT.ITEMS_IDX AND TIS.SERIESD_IDX = TIT.SERIESD_IDX)
-				LEFT JOIN T_ACT_H as TAH ON(TAH.IDX = TIT.ACT_IDX)
-				LEFT JOIN T_ACT_D as TAD ON(TAD.IDX = TIT.ACT_D_IDX)
+				LEFT JOIN t_act_h as TAH ON(TAH.IDX = TIT.ACT_IDX)
+				LEFT JOIN t_act_d as TAD ON(TAD.IDX = TIT.ACT_D_IDX)
 			WHERE
 				1
 				{$where}
@@ -2574,7 +2574,7 @@ SQL;
 				LEFT JOIN T_ITEMS as TI ON(TI.IDX = TIT.ITEMS_IDX)
 				LEFT JOIN T_SERIES_D as TSD ON(TSD.IDX = TIT.SERIESD_IDX)
 				LEFT JOIN T_ITEM_STOCK as TIS ON(TIS.ITEM_IDX = TIT.ITEMS_IDX AND TIS.SERIESD_IDX = TIT.SERIESD_IDX)
-				LEFT JOIN T_ACT_H as TAH ON(TAH.IDX = TIT.ACT_IDX)
+				LEFT JOIN t_act_h as TAH ON(TAH.IDX = TIT.ACT_IDX)
 			WHERE
 				1
 				{$where}
@@ -2587,7 +2587,7 @@ SQL;
 	public function get_component_stock()
 	{
 		$this->db->select("STOCK");
-		$this->db->from("T_COMPONENT");
+		$this->db->from("t_component");
 		$this->db->where("COMPONENT_NM = '점토'");
 		$query = $this->db->get();
 

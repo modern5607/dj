@@ -64,14 +64,14 @@ class Amt_model extends CI_Model {
 		}
 
 		if(!empty($param['CUSTOMER']) && $param['CUSTOMER'] != ""){
-			$where .= " AND (SELECT CUST_NM FROM T_BIZ_REG WHERE IDX = A.BIZ_IDX) LIKE '%{$param['CUSTOMER']}%'";
+			$where .= " AND (SELECT CUST_NM FROM t_big_reg WHERE IDX = A.BIZ_IDX) LIKE '%{$param['CUSTOMER']}%'";
 		}
 
 
 		$sql=<<<SQL
 			SELECT 
 				AA.TRANS_DATE,
-				(SELECT CUST_NM FROM T_BIZ_REG WHERE IDX = AA.BIZ_IDX) CUST_NM, 
+				(SELECT CUST_NM FROM t_big_reg WHERE IDX = AA.BIZ_IDX) CUST_NM, 
 				AA.COMPONENT_NM, 
 				AA.UNIT, 
 				AA.IN_QTY, 
@@ -80,15 +80,15 @@ class Amt_model extends CI_Model {
 				(
 					SELECT
 						A.TRANS_DATE,
-						(SELECT CUST_NM FROM T_BIZ_REG WHERE IDX = A.BIZ_IDX) CUST_NM, 
+						(SELECT CUST_NM FROM t_big_reg WHERE IDX = A.BIZ_IDX) CUST_NM, 
 						B.COMPONENT_NM, 
 						B.UNIT, 
 						A.IN_QTY, 
 						A.REMARK,
 						A.BIZ_IDX
 					FROM
-						T_COMPONENT_TRANS A, 
-						T_COMPONENT B
+						t_component_trans A, 
+						t_component B
 					WHERE
 						A.COMP_IDX = B.IDX AND 
 						A.KIND = 'IN'
@@ -99,8 +99,8 @@ class Amt_model extends CI_Model {
 			UNION ALL
 			SELECT COUNT(B.COMPONENT_NM),'합계' AS TEXT,B.COMPONENT_NM, '' UNIT, SUM(IN_QTY) IN_QTY,'' 
 			FROM 
-			T_COMPONENT_TRANS A, 
-			T_COMPONENT B
+			t_component_trans A, 
+			t_component B
 			WHERE 
 				A.COMP_IDX = B.IDX AND
 				A.KIND = 'IN'
@@ -135,8 +135,8 @@ SQL;
 			SELECT 
 				COUNT(A.IDX) as CUT
 			FROM 
-				T_COMPONENT_TRANS A,
-				T_COMPONENT B
+				t_component_trans A,
+				t_component B
 			WHERE A.COMP_IDX = B.IDX
 			AND A.KIND = 'IN'
 			{$where}
@@ -218,7 +218,7 @@ SQL;
 		$sql=<<<SQL
 			SELECT 
 				AA.TRANS_DATE,
-				(SELECT CUST_NM FROM T_BIZ_REG WHERE IDX = AA.BIZ_IDX) CUST_NM, 
+				(SELECT CUST_NM FROM t_big_reg WHERE IDX = AA.BIZ_IDX) CUST_NM, 
 				AA.COMPONENT_NM, 
 				AA.UNIT, 
 				AA.OUT_QTY, 
@@ -229,7 +229,7 @@ SQL;
 				(
 					SELECT
 						A.TRANS_DATE,
-						(SELECT CUST_NM FROM T_BIZ_REG WHERE IDX = A.BIZ_IDX) CUST_NM, 
+						(SELECT CUST_NM FROM t_big_reg WHERE IDX = A.BIZ_IDX) CUST_NM, 
 						B.COMPONENT_NM, 
 						B.UNIT, 
 						A.OUT_QTY, 
@@ -239,8 +239,8 @@ SQL;
 						A.COL1,
 						TI.ITEM_NAME
 					FROM
-						T_COMPONENT_TRANS A, 
-						T_COMPONENT B,
+						t_component_trans A, 
+						t_component B,
 						T_ITEMS TI
 					WHERE
 						A.COMP_IDX = B.IDX 
@@ -252,7 +252,7 @@ SQL;
 			UNION ALL
 			SELECT COUNT(TI.ITEM_NAME),'합계' AS TEXT,B.COMPONENT_NM, B.UNIT, SUM(OUT_QTY) OUT_QTY,'','',SUM(A.COL1)
 			FROM 
-				T_COMPONENT_TRANS A, T_COMPONENT B,T_ITEMS TI
+				t_component_trans A, t_component B,T_ITEMS TI
 			WHERE A.COMP_IDX = B.IDX
 			AND TI.IDX = A.ITEM_IDX
 			AND A.KIND = 'OT'
@@ -293,8 +293,8 @@ SQL;
 			SELECT 
 				COUNT(*) AS CUT
 			FROM 
-				T_COMPONENT_TRANS A,
-				T_COMPONENT B,
+				t_component_trans A,
+				t_component B,
 				T_ITEMS TI 
 			WHERE 
 				A.COMP_IDX = B.IDX
@@ -349,7 +349,7 @@ SQL;
 	{
 		$query = $this->db->where("IDX",$idx)
 				-> $this->db->where("KIND","IN")
-						->get("T_COMPONENT_TRANS");
+						->get("t_component_trans");
 		return $query->row();
 	}
 
@@ -378,12 +378,12 @@ SQL;
 		$this->db->where("COALESCE(TAD.END_YN,'N') <>","Y");
 
 		$query = $this->db->select("TAH.ACT_DATE, TAD.IDX as ACT_IDX, TAD.ITEM_NM, TAD.QTY,TSH.SERIES_NM, TSD.COLOR, TIS.QTY AS MAXQTY, TBR.CUST_NM")
-						->from("T_ACT_D as TAD")
-						->join("T_ACT_H as TAH","TAH.IDX = TAD.H_IDX","LEFT")
+						->from("t_act_d as TAD")
+						->join("t_act_h as TAH","TAH.IDX = TAD.H_IDX","LEFT")
 						->join("T_SERIES_D as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
 						->join("T_SERIES_H as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
 						->join("T_ITEM_STOCK as TIS","TIS.ITEM_IDX = TAD.ITEMS_IDX AND TIS.SERIESD_IDX = TSD.IDX","LEFT")
-						->join("T_BIZ_REG AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
+						->join("t_big_reg AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
 						->limit($limit, $start)
 						->order_by("TAH.ACT_DATE","ASC")
 						->order_by("tsh.SERIES_NM","ASC")
@@ -420,12 +420,12 @@ SQL;
 		$this->db->where("COALESCE(TAD.END_YN,'N') <>","Y");
 
 		$query = $this->db->select("COUNT(*) as CUT")
-						->from("T_ACT_D as TAD")
-						->join("T_ACT_H as TAH","TAH.IDX = TAD.H_IDX","LEFT")
+						->from("t_act_d as TAD")
+						->join("t_act_h as TAH","TAH.IDX = TAD.H_IDX","LEFT")
 						->join("T_SERIES_D as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
 						->join("T_SERIES_H as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
 						->join("T_ITEM_STOCK as TIS","TIS.ITEM_IDX = TAD.ITEMS_IDX AND TIS.SERIESD_IDX = TSD.IDX","LEFT")
-						->join("T_BIZ_REG AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
+						->join("t_big_reg AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
 						->get();
 		return $query->row()->CUT;
 	}
@@ -440,7 +440,7 @@ SQL;
 		);
 
 		$query = $this->db->where("IDX",$params['ACT_IDX'])
-						->get("T_ACT_D");
+						->get("t_act_d");
 		$actinfo = $query->row();
 
 		date_default_timezone_set('Asia/Seoul');
@@ -453,7 +453,7 @@ SQL;
 			
 			$this->db->set(array("STATUS"=>"CG","END_YN"=>'Y'))
 				->where("IDX",$params['ACT_IDX'])
-				->update("T_ACT_D");
+				->update("t_act_d");
 
 			$this->db->set(array(
 				"ITEMS_IDX"=>$actinfo->ITEMS_IDX, 
@@ -484,19 +484,19 @@ SQL;
 			if ($this->db->trans_status() !== FALSE){
 				$query = $this->db->select("COUNT(*) as CUT")
 							->where("H_IDX",$actinfo->H_IDX)
-							->get("T_ACT_D");
+							->get("t_act_d");
 				$actCount = $query->row()->CUT;
 
 				$query = $this->db->select("COUNT(*) as CUT")
 							->where("H_IDX",$actinfo->H_IDX)
 							->where("COALESCE(END_YN,'N')","Y")
-							->get("T_ACT_D");
+							->get("t_act_d");
 				$endCount = $query->row()->CUT;
 
 				if($actCount == $endCount){
 					$this->db->set("END_YN","Y")
 							->where("IDX",$actinfo->H_IDX)
-							->update("T_ACT_H");
+							->update("t_act_h");
 				}
 				
 				$data['status'] = "Y";
@@ -545,13 +545,13 @@ public function component_count($date='',$param)
 						->set("UPDATE_ID",$username)
 						->set("UPDATE_DATE",$datetime)
 						->where("COMPONENT", "CLAY")	
-						->update("T_COMPONENT");
+						->update("t_component");
 
 		$query = $this->db->set("IN_QTY",$param['QTY'])
 						->set("UPDATE_ID",$username)
 						->set("UPDATE_DATE",$datetime)
 						->where(array("IDX"=>$param['ITEM_IDX']))
-						->update("T_COMPONENT_TRANS");
+						->update("t_component_trans");
 						
 		
 		return $this->db->affected_rows();
@@ -568,11 +568,11 @@ public function component_count($date='',$param)
 		// 				->set("UPDATE_ID",$username)
 		// 				->set("UPDATE_DATE",$datetime)
 		// 				->where("COMPONENT", "CLAY")	
-		// 				->update("T_COMPONENT");
+		// 				->update("t_component");
 
-		//$sql = "DELETE FROM T_COMPONENT_TRANS WHERE IDX={$param['IDX']}";
+		//$sql = "DELETE FROM t_component_trans WHERE IDX={$param['IDX']}";
 		$this->db->where('IDX',$param['IDX']);
-		$this->db->delete("T_COMPONENT_TRANS");
+		$this->db->delete("t_component_trans");
 		// if(empty($param['IDX'] || $param['IDX']=="")
 		// 	return;
 		return $this->db->affected_rows();
@@ -610,12 +610,12 @@ public function component_count($date='',$param)
 
 		$query = $this->db->select("TIS.TRANS_DATE, TBR.CUST_NM, TSH.SERIES_NM, TAD.ITEM_NM, TSD.COLOR, TAD.QTY, TIS.OUT_QTY, TIS.ACT_IDX, TC.INSERT_DATE AS CLAIM_DATE")
 						->from("T_ITEMS_TRANS AS TIS")
-						->join("T_ACT_D as TAD","TAD.IDX = TIS.ACT_IDX","LEFT")
-						->join("T_ACT_H as TAH","TAH.IDX = TAD.H_IDX","LEFT")
+						->join("t_act_d as TAD","TAD.IDX = TIS.ACT_IDX","LEFT")
+						->join("t_act_h as TAH","TAH.IDX = TAD.H_IDX","LEFT")
 						->join("T_SERIES_D as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
 						->join("T_SERIES_H as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
-						->join("T_BIZ_REG AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
-						->join("T_CLAIM AS TC","TC.ACT_IDX = TAD.IDX","LEFT")
+						->join("t_big_reg AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
+						->join("t_claim AS TC","TC.ACT_IDX = TAD.IDX","LEFT")
 						->limit($limit, $start)
 						->order_by("TIS.TRANS_DATE","DESC")
 						->order_by("TSH.SERIES_NM","ASC")
@@ -658,12 +658,12 @@ public function component_count($date='',$param)
 
 		$query = $this->db->select("COUNT(*) as CUT")
 						->from("T_ITEMS_TRANS AS TIS")
-						->join("T_ACT_D as TAD","TAD.IDX = TIS.ACT_IDX","LEFT")
-						->join("T_ACT_H as TAH","TAH.IDX = TAD.H_IDX","LEFT")
+						->join("t_act_d as TAD","TAD.IDX = TIS.ACT_IDX","LEFT")
+						->join("t_act_h as TAH","TAH.IDX = TAD.H_IDX","LEFT")
 						->join("T_SERIES_D as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
 						->join("T_SERIES_H as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
-						->join("T_BIZ_REG AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
-						->join("T_CLAIM AS TC","TC.ACT_IDX = TAD.IDX","LEFT")
+						->join("t_big_reg AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
+						->join("t_claim AS TC","TC.ACT_IDX = TAD.IDX","LEFT")
 						->get();
 		return $query->row()->CUT;
 	}
@@ -672,10 +672,10 @@ public function component_count($date='',$param)
 	{
 		$data = $this->db->select("TAD.*, TSD.COLOR, TIS.OUT_QTY, TC.REMARK AS CLAIM, TC.ACT_IDX AS CIDX")
 						->where(array('TAD.IDX'=>$idx))
-						->from("T_ACT_D as TAD")
+						->from("t_act_d as TAD")
 						->join("T_SERIES_D as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
 						->join("T_ITEMS_TRANS AS TIS","TAD.IDX = TIS.ACT_IDX","LEFT")
-						->join("T_CLAIM AS TC","TAD.IDX = TC.ACT_IDX","LEFT")
+						->join("t_claim AS TC","TAD.IDX = TC.ACT_IDX","LEFT")
 						->get();
 		return $data->row();
 	}
@@ -687,12 +687,12 @@ public function component_count($date='',$param)
 					->set("ACT_IDX",$params['IDX'])
 					->set("INSERT_DATE",$params['DATE'])
 					->where("ACT_IDX",$params['IDX']);
-			$this->db->update("T_CLAIM");
+			$this->db->update("t_claim");
 		}else{
 			$this->db->set("REMARK",$params['REMARK'])
 					->set("ACT_IDX",$params['IDX'])
 					->set("INSERT_DATE",$params['DATE']);
-			$this->db->insert("T_CLAIM");
+			$this->db->insert("t_claim");
 		}
 
 		return $this->db->insert_id();
