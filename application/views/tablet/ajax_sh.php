@@ -15,7 +15,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </h2>
 
 
-<div class="formContaier">
+<div class="formContainer">
 
     <form name="ajaxform" id="ajaxform">
         <div class="register_form_5">
