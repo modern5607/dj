@@ -99,7 +99,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <th style="width:250px;">품명</th>
                             <th>색상</th>
                             <th>지시수량</th>
-                            <th>비고</th>
+                            <!-- <th>비고</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -115,14 +115,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     <td  style="text-align:left;"><a href="#" class="add_itemnum" data-idx="<?php echo $row->TRANS_IDX; ?>"><?php echo $row->ITEM_NAME; ?></a></td>
                                     <td><?php echo $row->COLOR; ?></td>
                                     <td class="right"><?php echo number_format($row->ORDER_QTY); ?></td>
-                                    <td><?php echo $row->REMARK; ?></td>
+                                    <!-- <td><?php echo $row->REMARK; ?></td> -->
                                 </tr>
 
                             <?php }
                         } else {
                             ?>
                             <tr>
-                                <td colspan="12" class="list_none">작업지시 내역이 없습니다.</td>
+                                <td colspan="5" class="list_none">작업지시 내역이 없습니다.</td>
                             </tr>
                         <?php
                         } ?>
@@ -230,6 +230,9 @@ $('tr:even').addClass('even');
     $(document).on("click", "h2 > span.close", function() {
         iTime = $("input[name='timer']").val();
         timerControl = setInterval(function() {
+            if (iTime == '') {
+            return false;
+            }
             iTime--;
             if (iTime == 0)
                 location.reload();
