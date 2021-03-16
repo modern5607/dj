@@ -386,7 +386,7 @@ SQL;
 						->join("t_biz_reg AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
 						->limit($limit, $start)
 						->order_by("TAH.ACT_DATE","ASC")
-						->order_by("tsh.SERIES_NM","ASC")
+						->order_by("TSH.SERIES_NM","ASC")
 						->order_by("TAD.ITEM_NM")
 						->order_by("COLOR","ASC")
 						->get();
