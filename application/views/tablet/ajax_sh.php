@@ -51,7 +51,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <tr>
                             <th>완료수량</th>
                             <td>
-                                <input type="number" name="FNSH_QTY" value="<?= $info->ORDER_QTY - $info->PROD_QTY ?>" class="form_input5 input_5">
+                                <input type="number" name="FNSH_QTY" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" value="<?= $info->ORDER_QTY - $info->PROD_QTY ?>" class="form_input5 input_5">
                             </td>
                         </tr>
 

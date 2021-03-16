@@ -46,15 +46,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             </tr>
                             <tr>
                                 <th>2급</th>
-                                <td colspan="3"><input type="text" name="A3" class="form_input input_5 sbpop right" value=""></td>
+                                <td colspan="3"><input type="text" name="A3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" class="form_input input_5 sbpop right" value=""></td>
                             </tr>
                             <tr>
                                 <th>파손</th>
-                                <td colspan="3"><input type="text" name="A4" size="6" class="form_input input_5 sbpop right" value=""></td>
+                                <td colspan="3"><input type="text" name="A4" size="6" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" class="form_input input_5 sbpop right" value=""></td>
                             </tr>
                             <tr>
                                 <th>시유</th>
-                                <td colspan="3"><input type="text" name="A5" size="6" class="form_input input_5 sbpop right" value=""></td>
+                                <td colspan="3"><input type="text" name="A5" size="6" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" class="form_input input_5 sbpop right" value=""></td>
                             </tr>
                             <tr>
                                 <th>비고</th>
