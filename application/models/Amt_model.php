@@ -64,14 +64,14 @@ class Amt_model extends CI_Model {
 		}
 
 		if(!empty($param['CUSTOMER']) && $param['CUSTOMER'] != ""){
-			$where .= " AND (SELECT CUST_NM FROM t_big_reg WHERE IDX = A.BIZ_IDX) LIKE '%{$param['CUSTOMER']}%'";
+			$where .= " AND (SELECT CUST_NM FROM t_biz_reg WHERE IDX = A.BIZ_IDX) LIKE '%{$param['CUSTOMER']}%'";
 		}
 
 
 		$sql=<<<SQL
 			SELECT 
 				AA.TRANS_DATE,
-				(SELECT CUST_NM FROM t_big_reg WHERE IDX = AA.BIZ_IDX) CUST_NM, 
+				(SELECT CUST_NM FROM t_biz_reg WHERE IDX = AA.BIZ_IDX) CUST_NM, 
 				AA.COMPONENT_NM, 
 				AA.UNIT, 
 				AA.IN_QTY, 
@@ -80,7 +80,7 @@ class Amt_model extends CI_Model {
 				(
 					SELECT
 						A.TRANS_DATE,
-						(SELECT CUST_NM FROM t_big_reg WHERE IDX = A.BIZ_IDX) CUST_NM, 
+						(SELECT CUST_NM FROM t_biz_reg WHERE IDX = A.BIZ_IDX) CUST_NM, 
 						B.COMPONENT_NM, 
 						B.UNIT, 
 						A.IN_QTY, 
@@ -218,7 +218,7 @@ SQL;
 		$sql=<<<SQL
 			SELECT 
 				AA.TRANS_DATE,
-				(SELECT CUST_NM FROM t_big_reg WHERE IDX = AA.BIZ_IDX) CUST_NM, 
+				(SELECT CUST_NM FROM t_biz_reg WHERE IDX = AA.BIZ_IDX) CUST_NM, 
 				AA.COMPONENT_NM, 
 				AA.UNIT, 
 				AA.OUT_QTY, 
@@ -229,7 +229,7 @@ SQL;
 				(
 					SELECT
 						A.TRANS_DATE,
-						(SELECT CUST_NM FROM t_big_reg WHERE IDX = A.BIZ_IDX) CUST_NM, 
+						(SELECT CUST_NM FROM t_biz_reg WHERE IDX = A.BIZ_IDX) CUST_NM, 
 						B.COMPONENT_NM, 
 						B.UNIT, 
 						A.OUT_QTY, 
@@ -383,7 +383,7 @@ SQL;
 						->join("t_series_d as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
 						->join("t_series_h as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
 						->join("t_item_stock as TIS","TIS.ITEM_IDX = TAD.ITEMS_IDX AND TIS.SERIESD_IDX = TSD.IDX","LEFT")
-						->join("t_big_reg AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
+						->join("t_biz_reg AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
 						->limit($limit, $start)
 						->order_by("TAH.ACT_DATE","ASC")
 						->order_by("tsh.SERIES_NM","ASC")
@@ -425,7 +425,7 @@ SQL;
 						->join("t_series_d as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
 						->join("t_series_h as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
 						->join("t_item_stock as TIS","TIS.ITEM_IDX = TAD.ITEMS_IDX AND TIS.SERIESD_IDX = TSD.IDX","LEFT")
-						->join("t_big_reg AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
+						->join("t_biz_reg AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
 						->get();
 		return $query->row()->CUT;
 	}
@@ -614,7 +614,7 @@ public function component_count($date='',$param)
 						->join("t_act_h as TAH","TAH.IDX = TAD.H_IDX","LEFT")
 						->join("t_series_d as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
 						->join("t_series_h as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
-						->join("t_big_reg AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
+						->join("t_biz_reg AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
 						->join("t_claim AS TC","TC.ACT_IDX = TAD.IDX","LEFT")
 						->limit($limit, $start)
 						->order_by("TIS.TRANS_DATE","DESC")
@@ -662,7 +662,7 @@ public function component_count($date='',$param)
 						->join("t_act_h as TAH","TAH.IDX = TAD.H_IDX","LEFT")
 						->join("t_series_d as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
 						->join("t_series_h as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
-						->join("t_big_reg AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
+						->join("t_biz_reg AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
 						->join("t_claim AS TC","TC.ACT_IDX = TAD.IDX","LEFT")
 						->get();
 		return $query->row()->CUT;

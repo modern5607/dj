@@ -262,7 +262,7 @@ SQL;
 		$this->db->join("t_act_h as C", "C.IDX = A.ACT_IDX", "LEFT");
 		$this->db->join("t_act_d as B", "B.IDX = A.ACT_D_IDX", "LEFT");
 		$this->db->join("t_series_d as D", "D.IDX = A.SERIESD_IDX", "LEFT");
-		$this->db->join("t_big_reg AS F ", "C.BIZ_IDX = F.IDX", "LEFT");
+		$this->db->join("t_biz_reg AS F ", "C.BIZ_IDX = F.IDX", "LEFT");
 		$this->db->join("t_series_h AS E ", "E.IDX = D.SERIES_IDX", "LEFT");
 
 		if ((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")) {
@@ -310,7 +310,7 @@ SQL;
 		$this->db->join("t_act_h as C", "C.IDX = A.ACT_IDX", "LEFT");
 		$this->db->join("t_act_d as B", "B.IDX = A.ACT_D_IDX", "LEFT");
 		$this->db->join("t_series_d as D", "D.IDX = A.SERIESD_IDX", "LEFT");
-		$this->db->join("t_big_reg AS F ", "C.BIZ_IDX = F.IDX", "LEFT");
+		$this->db->join("t_biz_reg AS F ", "C.BIZ_IDX = F.IDX", "LEFT");
 		$this->db->join("t_series_h AS E ", "E.IDX = D.SERIES_IDX", "LEFT");
 
 		if ((!empty($param['SDATE']) && $param['SDATE'] != "") && (!empty($param['EDATE']) && $param['EDATE'] != "")) {
@@ -814,7 +814,7 @@ SQL;
 				LEFT JOIN t_act_h as TAH ON(TAH.IDX = TA.H_IDX)
 				LEFT JOIN t_inventory_trans as TIT ON(TIT.ACT_D_IDX = TA.IDX)
 				LEFT JOIN t_series_d as TS ON(TS.IDX = TA.SERIESD_IDX)
-				LEFT JOIN t_big_reg as TBR ON(TBR.IDX = TAH.BIZ_IDX)
+				LEFT JOIN t_biz_reg as TBR ON(TBR.IDX = TAH.BIZ_IDX)
 				LEFT JOIN t_item_stock as B ON( B.ITEM_IDX = TA.ITEMS_IDX AND B.SERIESD_IDX = TA.SERIESD_IDX)
 				LEFT JOIN t_items_trans as TIS ON(TIS.ACT_IDX = TA.IDX)
 			WHERE
@@ -874,7 +874,7 @@ SQL;
 				LEFT JOIN t_act_h as TAH ON(TAH.IDX = TA.H_IDX)
 				LEFT JOIN t_inventory_trans as TIT ON(TIT.ACT_D_IDX = TA.IDX)
 				LEFT JOIN t_series_d as TS ON(TS.IDX = TA.SERIESD_IDX)
-				LEFT JOIN t_big_reg as TBR ON(TBR.IDX = TAH.BIZ_IDX)
+				LEFT JOIN t_biz_reg as TBR ON(TBR.IDX = TAH.BIZ_IDX)
 				LEFT JOIN t_items_trans as TIS ON(TIS.ACT_IDX = TA.IDX)
 			WHERE
 				1
@@ -895,7 +895,7 @@ SQL;
 		$sql = <<<SQL
 			SELECT
 				TAH.ACT_DATE, TA.ITEM_NM, TA.QTY, TIT.IN_QTY, TIT.`1_QTY` as QT1, TIT.`2_QTY` as QT2, TIT.`3_QTY` as QT3, TIT.`4_QTY` as QT4,	DATE_FORMAT(TAH.DEL_DATE, '%Y-%m-%d') as DEL_DATE, TIT.CU_DATE, TIT.SB_DATE, TIT.CG_DATE, TS.COLOR, TA.END_YN,
-				(SELECT A.CUST_NM FROM t_big_reg as A WHERE A.IDX = TAH.BIZ_IDX) as BIZ_NAME
+				(SELECT A.CUST_NM FROM t_biz_reg as A WHERE A.IDX = TAH.BIZ_IDX) as BIZ_NAME
 			FROM
 				t_act_d as TA
 				LEFT JOIN t_act_h as TAH ON(TAH.IDX = TA.H_IDX)
@@ -1274,7 +1274,7 @@ SQL;
 				D.COLOR,
 				A.QTY,
 				( SELECT E.SERIES_NM FROM t_series_h AS E WHERE E.IDX = D.SERIES_IDX ) AS SE_NAME,
-				( SELECT F.CUST_NM FROM t_big_reg AS F WHERE F.IDX = C.BIZ_IDX ) AS CUST_NM
+				( SELECT F.CUST_NM FROM t_biz_reg AS F WHERE F.IDX = C.BIZ_IDX ) AS CUST_NM
 			FROM
 				t_act_d AS A
 				LEFT JOIN t_items AS B ON B.IDX = A.ITEMS_IDX
@@ -1469,7 +1469,7 @@ SQL;
 		$data['ITEM_NAME'] = $query->row()->ITEM_NAME;*/
 
 
-		$this->db->select("A.IDX, C.ACT_DATE, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY, A.GJ_GB, B.END_YN, (SELECT F.CUST_NM FROM t_big_reg AS F WHERE F.IDX = C.BIZ_IDX ) AS CUST_NM");
+		$this->db->select("A.IDX, C.ACT_DATE, B.ITEM_NM, D.COLOR, B.QTY, A.IN_QTY, A.GJ_GB, B.END_YN, (SELECT F.CUST_NM FROM t_biz_reg AS F WHERE F.IDX = C.BIZ_IDX ) AS CUST_NM");
 		$this->db->from("t_inventory_trans as A");
 		$this->db->join("t_act_d as B", "B.IDX = A.ACT_D_IDX", "LEFT");
 		$this->db->join("t_series_d as D", "D.IDX = A.SERIESD_IDX", "LEFT");

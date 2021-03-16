@@ -30,7 +30,7 @@ class Biz_model extends CI_Model {
 		}
 
 		$this->db->limit($limit,$start);
-		$res = $this->db->get("t_big_reg");
+		$res = $this->db->get("t_biz_reg");
 		// echo $this->db->last_query();
 		
 		return $res->result();
@@ -52,7 +52,7 @@ class Biz_model extends CI_Model {
 			$this->db->like("CUST_TYPE",$param['CUST_TYPE']);
 		}
 		$this->db->select("COUNT(*) as CUT");
-		$res = $this->db->get("t_big_reg");
+		$res = $this->db->get("t_biz_reg");
 		// echo $this->db->last_query();
 		return $res->row()->CUT;
 	}
@@ -81,7 +81,7 @@ class Biz_model extends CI_Model {
 				'COL1'        	=> '',
 				'COL2'        	=> ''
 			);
-			$this->db->update("t_big_reg",$data,array("IDX"=>$param['IDX']));
+			$this->db->update("t_biz_reg",$data,array("IDX"=>$param['IDX']));
 			return $param['IDX'];
 		
 		}else{
@@ -105,7 +105,7 @@ class Biz_model extends CI_Model {
 
 			
 
-			$this->db->insert("t_big_reg",$data);
+			$this->db->insert("t_biz_reg",$data);
 
 			return $this->db->insert_id();
 
@@ -122,14 +122,14 @@ class Biz_model extends CI_Model {
 	public function get_bizReg_info($idx)
 	{
 		$res = $this->db->where("IDX",$idx)
-						->get("t_big_reg");
+						->get("t_biz_reg");
 		return $res->row();
 	}
 
 
 	public function delete_bizReg($idx)
 	{
-		$res = $this->db->delete("t_big_reg",array('IDX'=>$idx));
+		$res = $this->db->delete("t_biz_reg",array('IDX'=>$idx));
 		return $this->db->affected_rows();
 	}
 
@@ -141,7 +141,7 @@ class Biz_model extends CI_Model {
 	{
 		$this->db->select("CUST_NM");
 		$this->db->group_by("CUST_NM");
-		$query = $this->db->get("t_big_reg");
+		$query = $this->db->get("t_biz_reg");
 		return $query->result();		
 	}
 
