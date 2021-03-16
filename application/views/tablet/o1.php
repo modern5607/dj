@@ -63,7 +63,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
             <div id="" class="bc_search gsflexst" style="border: 1px solid #f7f7f7; display:flex; justify-content:space-between; position:relative">
 
-                <div class="home"><a href="<?php echo base_url('tablet/index') ?>"><span class="material-icons">
+                <div class="home"><a href="<?php echo base_url('tablet/index') ?>" ><span class="material-icons" style="padding: 10px;">
                             arrow_back
                         </span></a></div>
                 <div style="margin-bottom: 7px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
