@@ -156,7 +156,7 @@ $today = date('y-m-d');
             </nav>
             <div class="side_menu">
                 <div class="maker">
-                    <div class="maker_name">작업자 : <?=$member_name?></div>
+                    <div class="maker_name">작업자 : <?=empty($member_name)?"":$member_name?></div>
                     <div class="maker_detail">
                         <div class="maker_detail_1">
                             <div class="product">생산관리</div>
