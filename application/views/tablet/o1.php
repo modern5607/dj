@@ -213,6 +213,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
     $(document).on("click", "h2 > span.close", function() {
         iTime = $("input[name='timer']").val();
         timerControl = setInterval(function() {
+            if (iTime == '') {
+            return false;
+            }
             iTime--;
             if (iTime == 0)
                 location.reload();
