@@ -73,7 +73,7 @@ class MDM extends CI_Controller
 		$data['headList']   = $this->main_model->get_cocdHead_list();
 		$data['detailList'] = $this->main_model->get_cocdDetail_list($hid);
 		$this->data['cnt'] = $this->main_model->get_cocdHead_cut();
-		$data['head'] = $this->main_model->get_headInfo("T_COCD_H", "NAME", $hid);
+		$data['head'] = $this->main_model->get_headInfo("t_cocd_h", "NAME", $hid);
 		$data['H_IDX']      = $hid;
 		$data['de_show_chk'] = ($hid != "") ? true : false;
 
