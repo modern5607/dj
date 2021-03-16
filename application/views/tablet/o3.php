@@ -96,7 +96,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <tr>
                             <th>No</th>
                             <th>시리즈</th>
-                            <th style="width:250px;">품명</th>
+                            <th>품명</th>
                             <th>색상</th>
                             <th>지시수량</th>
                             <!-- <th>비고</th> -->
@@ -112,7 +112,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <tr>
                                     <td class="cen"><?php echo $num; ?></td>
                                     <td><?php echo $row->SERIES_NM; ?></td>
-                                    <td  style="text-align:left;"><a href="#" class="add_itemnum" data-idx="<?php echo $row->TRANS_IDX; ?>"><?php echo $row->ITEM_NAME; ?></a></td>
+                                    <td><a href="#" class="add_itemnum" data-idx="<?php echo $row->TRANS_IDX; ?>"><?php echo $row->ITEM_NAME; ?></a></td>
                                     <td><?php echo $row->COLOR; ?></td>
                                     <td class="right"><?php echo number_format($row->ORDER_QTY); ?></td>
                                     <!-- <td><?php echo $row->REMARK; ?></td> -->

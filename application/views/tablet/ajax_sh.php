@@ -51,7 +51,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <tr>
                             <th>완료수량</th>
                             <td>
-                                <input type="number" name="FNSH_QTY" value="<?= $info->ORDER_QTY ?>" class="form_input5 input_5" style="border-bottom:1px solid #bbb;">
+                                <input type="number" name="FNSH_QTY" value="<?= $info->ORDER_QTY - $info->PROD_QTY ?>" class="form_input5 input_5" style="border-bottom:1px solid #bbb;">
                             </td>
                         </tr>
 

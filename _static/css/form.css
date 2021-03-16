@@ -2,7 +2,7 @@
 
 .formContainer { min-width: 600px; height: auto; max-height:90%; /*overflow-y: auto;*/ /*padding:20px;*/}
 .register_form { padding: 10px; max-height:700px; overflow-y:auto;}
-.register_form_5 { padding: 50px; max-height:700px; overflow-y:auto;}
+.register_form_5 { padding: 25px; max-height:700px; overflow-y:auto;}
 
 
 
@@ -12,17 +12,15 @@
 .form_input { border: 1px solid #ddd; padding:7px 8px;}
 .form_input1 { border: 1px solid #ddd; padding:4px 6px;}
 .form_input5 { border: 1px solid #ddd; padding:4px 6px; border:none; margin-left:20px;}
-.input_5{width:350px; margin-left:30px; font-size:20px; border:none; margin-left:20px;}
+.input_5{width:350px;  font-size:20px; border:none; margin:7px;}
 
-.form_5 table tr th { text-align: left; background: rgb(255, 255, 255); padding: 0 10px; font-size:16px;}
+.form_5 table tr th { text-align: left; background: #3b4d73; color:#fff; padding: 0 10px; font-size:16px;}
+.form_5 table tr td { background: #eee;}
 
 
 /* 시유팝업 */
-span.btni_5{margin-top:40px; padding:10px 16px; background:rgb(39, 73, 146); color:#fff; font-size:24px; /*border:1px solid #ddd;*/ cursor:pointer;
+span.btni_5{margin-top:20px; padding:10px 16px; background:rgb(39, 73, 146); color:#fff; font-size:24px; /*border:1px solid #ddd;*/ cursor:pointer;
 position: relative; right:200px;
-}
-.cupop{
-  margin-bottom:10px;
 }
 
 /* 선별팝업 */
@@ -146,7 +144,7 @@ option{padding:4px 0;}
 .blue_btn:hover {background: rgb(38, 62, 114);}
 
 /* 팝업버튼 */
-.t_blue_btn {background: rgb(39, 73, 146); color: #fff; padding:10px 16px; border: 0; cursor: pointer; font-size:24px; margin-top:50px; position:relative; left:45%;}
+.t_blue_btn {background: rgb(39, 73, 146); color: #fff; padding:10px 16px; border: 0; cursor: pointer; font-size:24px; margin-top:20px; position:relative; left:45%;}
 .t_blue_btn:hover {background: rgb(38, 62, 114);}
 
 .blue_btnx {background: rgb(39, 73, 146); color: #fff; width: 100px; height: 32px; border: 0; cursor: pointer;}

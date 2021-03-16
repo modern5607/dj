@@ -69,7 +69,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <div style="margin-bottom: 7px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
 
                     <span class="btn_right">
-                        <p style="font-size: 30px; padding-left:20px;">
+                        <p style="font-size: 24px; padding-left:20px;">
                             <?= empty($NDATE) ? "" : $NDATE ?></p>
                     </span>
                     <span class="btn_right">
@@ -107,7 +107,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <tr>
                                     <td style="widtj:50px;" class="cen"><?php echo $num; ?></td>
                                     <td><?php echo $row->SERIES_NM; ?></td>
-                                    <td class="<?= $mlink ?> cen" style="text-align:left;" data-idx="<?= $row->TRANS_IDX ?>">
+                                    <td class="<?= $mlink ?> cen" data-idx="<?= $row->TRANS_IDX ?>">
                                         <?php echo $row->ITEM_NAME; ?></td>
                                     <td class="right"><?= number_format($row->ORDER_QTY); ?></td>
                                     <td class="right"><?= number_format($row->PROD_QTY) ?></td>

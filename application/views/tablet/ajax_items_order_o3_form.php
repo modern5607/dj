@@ -51,7 +51,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
     } ?>
 
 
-    <!--a href="http://rainshop.ivyro.net/rain_code3/PLN/index" class="alink" style="float:left;">전체코드보기</a-->
     <span class="btni_5 btn_right add_form form_submit" data-hidx="3">입력</span>
 
 </div>
