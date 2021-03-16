@@ -109,7 +109,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <tr>
                                     <td class="cen"><?php echo $num; ?></td>
                                     <td class="cen"><?php echo substr($row->ACT_DATE, 0, 10); ?></td>
-                                    <td><span data-idx='<?php echo $row->IDX; ?>' style="text-align:left;" class="link_s1 add_itemnum"><?php echo $row->ITEM_NM; ?></span></td>
+                                    <td><span data-idx='<?php echo $row->IDX; ?>' style="text-align:left;" class="mlink add_itemnum"><?php echo $row->ITEM_NM; ?></span></td>
                                     <td class="cen"><?php echo $row->COLOR; ?></td>
                                     <td class="right"><?php echo $row->QTY; ?></td>
                                     <td style="text-align:center"><?php echo $row->IN_QTY; ?></td>

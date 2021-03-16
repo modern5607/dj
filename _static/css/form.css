@@ -14,13 +14,13 @@
 .form_input5 { border: 1px solid #ddd; padding:4px 6px; border:none; margin-left:20px;}
 .input_5{width:350px;  font-size:20px; border:none; margin:7px;}
 
-.form_5 table tr th { text-align: left; background: #3b4d73; color:#fff; padding: 0 10px; font-size:16px;}
+.form_5 table tr th { text-align: left; background: #3b4d73; color:#fff; padding: 0 10px; font-size:16px; width:180px}
 .form_5 table tr td { background: #eee;}
 
 
 /* 시유팝업 */
 span.btni_5{margin-top:20px; padding:10px 16px; background:rgb(39, 73, 146); color:#fff; font-size:24px; /*border:1px solid #ddd;*/ cursor:pointer;
-position: relative; right:200px;
+position: relative; right:calc(50% - 40px);
 }
 
 /* 선별팝업 */

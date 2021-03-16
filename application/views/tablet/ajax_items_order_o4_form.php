@@ -12,7 +12,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </h2>
 <?php date_default_timezone_set('Asia/Seoul'); ?>
 
-<div style="padding:20px 50px;" class="register_form_5">
+<div class="register_form_5">
 <div class="form_5">
 
     <form method="post" name="menuUpdateForm" id="menuUpdateForm" action="<?php echo base_url('tablet/form_a11_update'); ?>">
