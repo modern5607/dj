@@ -241,7 +241,7 @@ SQL;
 					FROM
 						t_component_trans A, 
 						t_component B,
-						T_ITEMS TI
+						t_items TI
 					WHERE
 						A.COMP_IDX = B.IDX 
 						AND TI.IDX = A.ITEM_IDX
@@ -252,7 +252,7 @@ SQL;
 			UNION ALL
 			SELECT COUNT(TI.ITEM_NAME),'합계' AS TEXT,B.COMPONENT_NM, B.UNIT, SUM(OUT_QTY) OUT_QTY,'','',SUM(A.COL1)
 			FROM 
-				t_component_trans A, t_component B,T_ITEMS TI
+				t_component_trans A, t_component B,t_items TI
 			WHERE A.COMP_IDX = B.IDX
 			AND TI.IDX = A.ITEM_IDX
 			AND A.KIND = 'OT'
@@ -295,7 +295,7 @@ SQL;
 			FROM 
 				t_component_trans A,
 				t_component B,
-				T_ITEMS TI 
+				t_items TI 
 			WHERE 
 				A.COMP_IDX = B.IDX
 				AND TI.IDX = A.ITEM_IDX 
@@ -380,9 +380,9 @@ SQL;
 		$query = $this->db->select("TAH.ACT_DATE, TAD.IDX as ACT_IDX, TAD.ITEM_NM, TAD.QTY,TSH.SERIES_NM, TSD.COLOR, TIS.QTY AS MAXQTY, TBR.CUST_NM")
 						->from("t_act_d as TAD")
 						->join("t_act_h as TAH","TAH.IDX = TAD.H_IDX","LEFT")
-						->join("T_SERIES_D as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
-						->join("T_SERIES_H as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
-						->join("T_ITEM_STOCK as TIS","TIS.ITEM_IDX = TAD.ITEMS_IDX AND TIS.SERIESD_IDX = TSD.IDX","LEFT")
+						->join("t_series_d as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
+						->join("t_series_h as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
+						->join("t_item_stock as TIS","TIS.ITEM_IDX = TAD.ITEMS_IDX AND TIS.SERIESD_IDX = TSD.IDX","LEFT")
 						->join("t_big_reg AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
 						->limit($limit, $start)
 						->order_by("TAH.ACT_DATE","ASC")
@@ -422,9 +422,9 @@ SQL;
 		$query = $this->db->select("COUNT(*) as CUT")
 						->from("t_act_d as TAD")
 						->join("t_act_h as TAH","TAH.IDX = TAD.H_IDX","LEFT")
-						->join("T_SERIES_D as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
-						->join("T_SERIES_H as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
-						->join("T_ITEM_STOCK as TIS","TIS.ITEM_IDX = TAD.ITEMS_IDX AND TIS.SERIESD_IDX = TSD.IDX","LEFT")
+						->join("t_series_d as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
+						->join("t_series_h as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
+						->join("t_item_stock as TIS","TIS.ITEM_IDX = TAD.ITEMS_IDX AND TIS.SERIESD_IDX = TSD.IDX","LEFT")
 						->join("t_big_reg AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
 						->get();
 		return $query->row()->CUT;
@@ -466,7 +466,7 @@ SQL;
 				"INSERT_ID"=>$username, 
 				"INSERT_DATE"=>$datetime,
 				"ACT_D_IDX"=>$params['ACT_IDX']))
-				->insert("T_INVENTORY_TRANS");
+				->insert("t_inventory_trans");
 
 			$this->db->set("ITEMS_IDX",$actinfo->ITEMS_IDX)
 					->set("TRANS_DATE",$params['XDATE'])
@@ -609,11 +609,11 @@ public function component_count($date='',$param)
 		$this->db->where("TAD.END_YN","Y");
 
 		$query = $this->db->select("TIS.TRANS_DATE, TBR.CUST_NM, TSH.SERIES_NM, TAD.ITEM_NM, TSD.COLOR, TAD.QTY, TIS.OUT_QTY, TIS.ACT_IDX, TC.INSERT_DATE AS CLAIM_DATE")
-						->from("T_ITEMS_TRANS AS TIS")
+						->from("t_items_trans AS TIS")
 						->join("t_act_d as TAD","TAD.IDX = TIS.ACT_IDX","LEFT")
 						->join("t_act_h as TAH","TAH.IDX = TAD.H_IDX","LEFT")
-						->join("T_SERIES_D as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
-						->join("T_SERIES_H as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
+						->join("t_series_d as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
+						->join("t_series_h as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
 						->join("t_big_reg AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
 						->join("t_claim AS TC","TC.ACT_IDX = TAD.IDX","LEFT")
 						->limit($limit, $start)
@@ -657,11 +657,11 @@ public function component_count($date='',$param)
 		$this->db->where("TAD.END_YN","Y");
 
 		$query = $this->db->select("COUNT(*) as CUT")
-						->from("T_ITEMS_TRANS AS TIS")
+						->from("t_items_trans AS TIS")
 						->join("t_act_d as TAD","TAD.IDX = TIS.ACT_IDX","LEFT")
 						->join("t_act_h as TAH","TAH.IDX = TAD.H_IDX","LEFT")
-						->join("T_SERIES_D as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
-						->join("T_SERIES_H as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
+						->join("t_series_d as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
+						->join("t_series_h as TSH","TSH.IDX = TSD.SERIES_IDX","LEFT")
 						->join("t_big_reg AS TBR","TBR.IDX = TAH.BIZ_IDX","LEFT")
 						->join("t_claim AS TC","TC.ACT_IDX = TAD.IDX","LEFT")
 						->get();
@@ -673,8 +673,8 @@ public function component_count($date='',$param)
 		$data = $this->db->select("TAD.*, TSD.COLOR, TIS.OUT_QTY, TC.REMARK AS CLAIM, TC.ACT_IDX AS CIDX")
 						->where(array('TAD.IDX'=>$idx))
 						->from("t_act_d as TAD")
-						->join("T_SERIES_D as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
-						->join("T_ITEMS_TRANS AS TIS","TAD.IDX = TIS.ACT_IDX","LEFT")
+						->join("t_series_d as TSD","TSD.IDX = TAD.SERIESD_IDX","LEFT")
+						->join("t_items_trans AS TIS","TAD.IDX = TIS.ACT_IDX","LEFT")
 						->join("t_claim AS TC","TAD.IDX = TC.ACT_IDX","LEFT")
 						->get();
 		return $data->row();

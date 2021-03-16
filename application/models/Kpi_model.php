@@ -137,7 +137,7 @@ class Kpi_model extends CI_Model {
 						END as OUTB_GBN,
 						DESC_GBN 
 					FROM
-					T_ACTPLN
+					t_actpln
 					WHERE
 					1
 					{$where}
@@ -158,7 +158,7 @@ SQL;
 		}
 		
 		$this->db->select("COUNT(IDX) as cut");
-		$data = $this->db->get('T_ACTPLN');
+		$data = $this->db->get('t_actpln');
 		return $data->row()->cut;
 	}
 	
@@ -188,7 +188,7 @@ SQL;
 				END as OUTB_GBN,
 				DESC_GBN 
 			FROM
-			T_ACTPLN
+			t_actpln
 			WHERE
 			1
 			{$where}
@@ -210,7 +210,7 @@ SQL;
 		}
 		
 		$this->db->select("COUNT(IDX) as cut");
-		$data = $this->db->get('T_ACTPLN');
+		$data = $this->db->get('t_actpln');
 		return $data->row()->cut;
 	}
 
@@ -240,7 +240,7 @@ SQL;
 					END as OUTB_GBN,
 					DESC_GBN 
 				FROM
-				T_ACTPLN
+				t_actpln
 				WHERE
 				1
 				{$where}
@@ -262,7 +262,7 @@ SQL;
 			}
 			
 			$this->db->select("COUNT(IDX) as cut");
-			$data = $this->db->get('T_ACTPLN');
+			$data = $this->db->get('t_actpln');
 			return $data->row()->cut;
 		}
 

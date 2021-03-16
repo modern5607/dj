@@ -61,7 +61,7 @@ SQL;
 
 	public function get_testUpdate()
 	{
-		$this->db->insert("T_ACTPLN",array("BL_NO"=>"1AD-SA03811BA"));
+		$this->db->insert("t_actpln",array("BL_NO"=>"1AD-SA03811BA"));
 	}
 
 
@@ -106,13 +106,13 @@ SQL;
 
 	public function get_trans_list($params,$start=0,$limit=20)
 	{
-		$subquery = "(SELECT TI.ITEM_NAME FROM T_ITEMS AS TI WHERE TI.BL_NO = TA.BL_NO AND TI.GJ_GB = TA.GJ_GB) AS ITEM_NAME";
+		$subquery = "(SELECT TI.ITEM_NAME FROM t_items AS TI WHERE TI.BL_NO = TA.BL_NO AND TI.GJ_GB = TA.GJ_GB) AS ITEM_NAME";
 		$kind = "(SELECT K.NAME FROM t_cocd_d as K WHERE K.H_IDX = 17 AND K.CODE = TCT.KIND) as KIND";
 		$this->db->select("TC.COMPONENT, TC.COMPONENT_NM, TC.USE_YN, {$kind}, TCT.OUT_QTY, TCT.TRANS_DATE, TCT.IDX as TIDX, TA.BL_NO, {$subquery}");
 		
 		$this->db->from("t_component_trans AS TCT");
 		$this->db->join("t_component AS TC","TC.IDX = TCT.C_IDX","left");
-		$this->db->join("T_ACTPLN AS TA","TA.IDX = TCT.ACT_IDX","left");
+		$this->db->join("t_actpln AS TA","TA.IDX = TCT.ACT_IDX","left");
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
 
@@ -126,7 +126,7 @@ SQL;
 		$this->db->select("COUNT(*) AS CUT");
 		$this->db->from("t_component_trans AS TCT");
 		$this->db->join("t_component AS TC","TC.IDX = TCT.C_IDX","left");
-		$this->db->join("T_ACTPLN AS TA","TA.IDX = TCT.ACT_IDX","left");
+		$this->db->join("t_actpln AS TA","TA.IDX = TCT.ACT_IDX","left");
 		$query = $this->db->get();
 		return $query->row()->CUT;
 	}

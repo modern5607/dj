@@ -351,10 +351,10 @@ SQL;
 			$this->db->like("TAD.ITEM_NM",$params['s2']);
 		}
 		
-		$this->db->from("T_ACT_D AS TAD");
+		$this->db->from("t_act_d AS TAD");
 		$this->db->join("t_items AS TI","TI.IDX = TAD.ITEMS_IDX");
-		$this->db->join("T_SERIES_H AS TSH","TSH.IDX = TI.SERIES_IDX");
-		$this->db->join("T_SERIES_D AS TSD","TSD.IDX = TAD.SERIESD_IDX");
+		$this->db->join("t_series_h AS TSH","TSH.IDX = TI.SERIES_IDX");
+		$this->db->join("t_series_d AS TSD","TSD.IDX = TAD.SERIESD_IDX");
 		$this->db->order_by("TAD.ITEM_NM");
 		$this->db->order_by("TSD.COLOR");
 		$query = $this->db->get();

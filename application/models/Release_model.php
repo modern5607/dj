@@ -69,7 +69,7 @@ class Release_model extends CI_Model {
 
 		$this->db->select("TA.*,{$subquery}, COUNT(TIT.IDX) as XNUM, MAX(TIT.IDX) AS TIDX, SUM(TIT.OUT_QTY) as OUT_QTY, SUM(TIT.RE_QTY) as RE_QTY, MAX(TIT.CG_DATE) as CG_DATE, MAX(TIT.RE_DATE) as RE_DATE, (TA.QTY - IFNULL(SUM(TIT.OUT_QTY),0)) as XXX");
 		
-		$this->db->from("T_ACTPLN AS TA");
+		$this->db->from("t_actpln AS TA");
 		$this->db->join("t_items_trans AS TIT","TIT.ACT_IDX = TA.IDX","left");
 
 		$this->db->where("TA.FINISH","Y");
@@ -96,7 +96,7 @@ class Release_model extends CI_Model {
 		
 		$this->db->where("TA.FINISH","Y");
 		$this->db->select("COUNT(TA.IDX) as cut");
-		$this->db->from("T_ACTPLN AS TA");
+		$this->db->from("t_actpln AS TA");
 		$this->db->join("t_items_trans AS TIT","TIT.ACT_IDX = TA.IDX","left");
 		$query = $this->db->get();
 		return $query->row()->cut;
@@ -121,7 +121,7 @@ class Release_model extends CI_Model {
 		$subquery = "(SELECT B.REMARK FROM t_claim as B WHERE B.H_IDX = TIT.IDX AND B.A_IDX = TA.IDX) as REMARK";
 		$this->db->select("TA.*, TIT.IDX AS TIDX, TIT.H_IDX, TIT.OUT_QTY, TIT.CG_DATE, TIT.RE_DATE, TIT.CG_YN, TIT.RE_YN, TIT.RE_DATE, TIT.RE_QTY, {$subquery}");
 		$this->db->where("TIT.CG_YN","Y");
-		$this->db->from("T_ACTPLN AS TA");
+		$this->db->from("t_actpln AS TA");
 		$this->db->join("t_items_trans AS TIT","TIT.ACT_IDX = TA.IDX","right");
 		
 		//$this->db->group_by("TA.IDX");
@@ -144,7 +144,7 @@ class Release_model extends CI_Model {
 		}
 
 		$this->db->select("COUNT(TIT.IDX) as cut");
-		$this->db->from("T_ACTPLN AS TA");
+		$this->db->from("t_actpln AS TA");
 		$this->db->join("t_items_trans AS TIT","TIT.ACT_IDX = TA.IDX","rigth");
 		$query = $this->db->get();
 		
@@ -169,8 +169,8 @@ class Release_model extends CI_Model {
 
 		$this->db->select("TC.*,TA.LOT_NO, TA.NAME");
 		
-		$this->db->from("T_ACTPLN AS TA");
-		$this->db->join("T_ITEMS_TRANS as TIT","TIT.ACT_IDX = TA.IDX");
+		$this->db->from("t_actpln AS TA");
+		$this->db->join("t_items_trans as TIT","TIT.ACT_IDX = TA.IDX");
 		$this->db->join("t_claim AS TC","TC.A_IDX = TA.IDX","right");
 		//$this->db->group_by("TA.IDX");
 		$this->db->order_by("TC.RE_DATE","DESC");
@@ -191,7 +191,7 @@ class Release_model extends CI_Model {
 		}
 
 		$this->db->select("COUNT(TC.IDX) as cut");
-		$this->db->from("T_ACTPLN AS TA");
+		$this->db->from("t_actpln AS TA");
 		$this->db->join("t_claim AS TC","TC.A_IDX = TA.IDX","rigth");
 		$query = $this->db->get();
 		
@@ -208,7 +208,7 @@ class Release_model extends CI_Model {
 		$subquery = "(SELECT TI.IDX FROM t_items AS TI WHERE TI.BL_NO = TA.BL_NO AND TI.GJ_GB = TA.GJ_GB) AS HIDX";
 		
 		$this->db->select("TA.*,{$subquery}");
-		$query = $this->db->where("TA.IDX",$param['idx'])->get("T_ACTPLN as TA");
+		$query = $this->db->where("TA.IDX",$param['idx'])->get("t_actpln as TA");
 		$info = $query->row();
 
 		
@@ -245,7 +245,7 @@ SQL;
 		$this->db->select("TIT.*,TA.BL_NO, TA.NAME");
 		$this->db->where("TA.IDX",$param['idx']);
 		$this->db->from("t_items_trans as TIT");
-		$this->db->join("T_ACTPLN as TA","TA.IDX = TIT.ACT_IDX","left");
+		$this->db->join("t_actpln as TA","TA.IDX = TIT.ACT_IDX","left");
 		$query = $this->db->get();
 		
 		return $query->result();
@@ -257,7 +257,7 @@ SQL;
 		$this->db->select("TIT.*,A.CUSTOMER, A.BL_NO");
 		$this->db->where("TIT.IDX",$params['idx']);
 		$this->db->from("t_items_trans as TIT");
-		$this->db->join("T_ACTPLN AS A","A.IDX = TIT.ACT_IDX","LEFT");
+		$this->db->join("t_actpln AS A","A.IDX = TIT.ACT_IDX","LEFT");
 		$query = $this->db->get();
 
 		$data['chk'] = false;

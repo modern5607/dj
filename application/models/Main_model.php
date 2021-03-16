@@ -313,7 +313,7 @@ class Main_model extends CI_Model
 	{
 		if ($param['upd']) {
 			$this->db->select("TI.*, SUM(TIS.QTY) AS QTY, SUM((SELECT SUM(B.QTY) FROM t_act_d as B WHERE B.ITEMS_IDX = TIS.ITEM_IDX AND B.SERIESD_IDX = TIS.SERIESD_IDX)) as EQTY ");
-			$this->db->join("T_ITEM_STOCK as TIS", "TI.IDX = TIS.ITEM_IDX", "LEFT");
+			$this->db->join("t_item_stock as TIS", "TI.IDX = TIS.ITEM_IDX", "LEFT");
 		}
 
 		$query = $this->db->where("IDX", $param['idx'])
