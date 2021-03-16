@@ -52,6 +52,7 @@ class Tablet extends CI_Controller
 	public function index()
 	{
 		$data['timer'] = $this->main_model->get_selectInfo_remark("tch.CODE","TIMER","Second");
+		$data['member_name'] = $this->session->userdata('user_name');
 
 		$this->load->view('/tablet/index',$data);
 	}

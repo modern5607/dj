@@ -50,8 +50,8 @@ $today = date('y-m-d');
     .m_nav {
         display: flex;
         justify-content: space-around;
-        margin-top: 10%;
-        height: 300px;
+        margin-top: 5%;
+        height: 200px;
     }
 
     .side_menu {
@@ -62,7 +62,7 @@ $today = date('y-m-d');
         padding-top: 20px;
         margin-left: 20px;
         position: reelative;
-        float: right;
+        float: left;
     }
 
     .side_menu a {
@@ -156,7 +156,7 @@ $today = date('y-m-d');
             </nav>
             <div class="side_menu">
                 <div class="maker">
-                    <div class="maker_name">작업자</div>
+                    <div class="maker_name">작업자 : <?=$member_name?></div>
                     <div class="maker_detail">
                         <div class="maker_detail_1">
                             <div class="product">생산관리</div>
