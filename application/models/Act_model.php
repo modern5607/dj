@@ -2271,8 +2271,8 @@ SQL;
 
 		$this->db->select("TSH.SERIES_NM, ITEM_NO, ITEM_NAME, SH_QTY, JH_QTY");
 		$this->db->from("t_items as ti");
-		$this->db->join("t_series_h as tsh", "tsh.idx=ti.series_idx", "LEFT");
-		$this->db->where("ti.use_yn = 'Y' AND tsh.use_yn = 'Y' AND (SH_QTY > 0 OR JH_QTY > 0)");
+		$this->db->join("t_series_h as TSH", "TSH.idx=ti.series_idx", "LEFT");
+		$this->db->where("ti.use_yn = 'Y' AND TSH.use_yn = 'Y' AND (SH_QTY > 0 OR JH_QTY > 0)");
 		$this->db->limit($limit, $start);
 		$this->db->order_by("SERIES_NM, ITEM_NAME");
 
