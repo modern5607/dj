@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '221.144.12.7',  //'221.144.12.7',
-	'username' => 'djsmart',
-	'password' => 'intertech3',
-	'database' => 'djsmart',
+	'hostname' => 'smartinter.co.kr',
+	'username' => 'tj',
+	'password' => '3.intertech!3',
+	'database' => 'tj',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
