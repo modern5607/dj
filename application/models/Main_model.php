@@ -826,6 +826,6 @@ class Main_model extends CI_Model
 			"LOCATION"	=> $params['LOC']
 		);
 
-		$this->db->insert("T_ENV", $set);
+		$this->db->insert("t_env", $set);
 	}
 }

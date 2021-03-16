@@ -21,7 +21,7 @@ class Monitor_model extends CI_Model {
 			SELECT 
 				DATE
 			FROM
-				T_ENV
+			t_env
 			WHERE 
 			1
 				{$where}
@@ -49,7 +49,7 @@ SQL;
 			SELECT 
 				DATE
 			FROM
-				T_ENV
+			t_env
 			WHERE 
 			1
 				{$where}

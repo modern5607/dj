@@ -374,7 +374,7 @@ SQL;
 		$this->db->update("t_act_d");
 
 		$sql = <<<SQL
-				INSERT T_INVENTORY_TRANS
+				INSERT t_inventory_trans
 				SET
 				ITEMS_IDX    = '{$info->ITEMS_IDX}',
 				SERIESD_IDX  = '{$info->SERIESD_IDX}',

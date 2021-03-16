@@ -357,7 +357,7 @@ SQL;
 		foreach ($params['QTY'] as $k => $qty) {
 
 			$this->db->where("IDX", $params['ITEM_IDX'][$k]);
-			$que = $this->db->get("T_ITEMS");
+			$que = $this->db->get("t_items");
 			$chk = $que->row();
 			$qty = $qty * 1;
 
@@ -500,7 +500,7 @@ SQL;
 		foreach ($params['QTY'] as $k => $qty) {
 
 			// $this->db->where("IDX",$params['ITEM_IDX'][$k]);
-			// $que = $this->db->get("T_ITEMS");
+			// $que = $this->db->get("t_items");
 			// $chk = $que->row();
 
 			$qty = $qty * 1;
@@ -1325,7 +1325,7 @@ SQL;
 
 
 			// 			$this->db->where("IDX",$params['ITEMS_IDX'][$k]);
-			// 			$que = $this->db->get("T_ITEMS");
+			// 			$que = $this->db->get("t_items");
 			// 			$chk = $que->row();
 
 
@@ -1347,7 +1347,7 @@ SQL;
 			$this->db->update("t_act_d");
 
 			$sql = <<<SQL
-				INSERT T_INVENTORY_TRANS
+				INSERT t_inventory_trans
 				SET
 				ITEMS_IDX    = '{$params['ITEMS_IDX'][$k]}',
 				SERIESD_IDX  = '{$params['SERIESD_IDX'][$k]}',
@@ -1950,7 +1950,7 @@ SQL;
 	public function ajax_an3_listupdate($param)
 	{
 		$query = $this->db->select("`2_QTY` as QT2, ITEMS_IDX, SERIESD_IDX")
-			->get("T_INVENTORY_TRANS", array("IDX" => $param['IDX']));
+			->get("t_inventory_trans", array("IDX" => $param['IDX']));
 		$info = $query->row();
 
 		$this->db->trans_start();
@@ -1958,11 +1958,11 @@ SQL;
 		$query = $this->db->set("RECYCLE", $param['VX'])
 			->set("`2_QTY`", 0)
 			->where("IDX", $param['IDX'])
-			->update("T_INVENTORY_TRANS");
+			->update("t_inventory_trans");
 
 		$query = $this->db->set("QTY", "QTY+{$info->QT2}", false)
 			->where(array("ITEM_IDX" => $info->ITEMS_IDX, "SERIESD_IDX" => $info->SERIESD_IDX))
-			->update("T_ITEM_STOCK");
+			->update("t_item_stock");
 
 		$this->db->trans_complete();
 
@@ -1991,7 +1991,7 @@ SQL;
 			->set("KS_DATE", $datetime)
 			->set("ITEMS_IDX", $param['ITEM_IDX'])
 			->set("SERIESD_IDX", $param['SERIESD_IDX'])
-			->insert("T_INVENTORY_TRANS");
+			->insert("t_inventory_trans");
 
 
 		return $this->db->affected_rows();
@@ -2235,8 +2235,8 @@ SQL;
 			SELECT
 				A.IMG_LINK1,A.IMG_LINK2,A.IMG_LINK3,B.ITEM_NAME
 			FROM
-				T_INVENTORY_TRANS as A
-				LEFT JOIN T_ITEMS as B ON(B.IDX = A.ITEMS_IDX)
+			t_inventory_trans as A
+				LEFT JOIN t_items as B ON(B.IDX = A.ITEMS_IDX)
 			WHERE
 				1
 				AND (A.IMG_LINK1 IS NOT NULL OR A.IMG_LINK2 IS NOT NULL OR A.IMG_LINK3 IS NOT NULL)
@@ -2253,7 +2253,7 @@ SQL;
 	{
 		$query = $this->db->set("USE_YN", $param['USE_YN'])
 			->where(array("ITEM_IDX" => $param['ITEM_IDX'], "SERIESD_IDX" => $param['SERIESD_IDX']))
-			->update("T_ITEM_STOCK");
+			->update("t_item_stock");
 
 		return $this->db->affected_rows();
 	}
@@ -2391,7 +2391,7 @@ WHERE
    	AND TIS.ITEM_IDX = TIT.ITEMS_IDX AND TIS.SERIESD_IDX = TIT.SERIESD_IDX 
    	AND IFNULL(TAD.END_YN ,'A') != 'Y'
    	AND TI.KS_YN = 'Y' 
-	AND NOT EXISTS (SELECT '*' FROM T_INVENTORY_TRANS WHERE ACT_D_IDX = TIT.ACT_D_IDX AND GJ_GB = 'KS')
+	AND NOT EXISTS (SELECT '*' FROM t_inventory_trans WHERE ACT_D_IDX = TIT.ACT_D_IDX AND GJ_GB = 'KS')
 	{$where}
 ORDER BY
    TAH.ACT_DATE ASC,
@@ -2458,7 +2458,7 @@ SQL;
 
 		if ($param['GJ_GB'] == 'SB') {
 			$sql = <<<SQL
-			DELETE FROM T_INVENTORY_TRANS
+			DELETE FROM t_inventory_trans
 			WHERE IDX = '{$param['IDX']}'
 SQL;
 			$query = $this->db->query($sql);
@@ -2473,12 +2473,12 @@ SQL;
 				->set("SERIESD_IDX", $info->SERIESD_IDX)
 				->set("ACT_IDX", $info->ACT_IDX)
 				->set("ACT_D_IDX", $info->ACT_D_IDX)
-				->insert("T_INVENTORY_TRANS");
+				->insert("t_inventory_trans");
 		}
 
 		// 	$sql=<<<SQL
-		// 		UPDATE 	T_ITEM_STOCK AS TIS
-		// 		JOIN	T_INVENTORY_TRANS AS TIT ON TIT.IDX = {$param['IDX']}
+		// 		UPDATE 	t_item_stock AS TIS
+		// 		JOIN	t_inventory_trans AS TIT ON TIT.IDX = {$param['IDX']}
 		// 		SET 	TIS.QTY = TIS.QTY - {$param['5_QTY']}
 		// 		WHERE 	TIS.ITEM_IDX = TIT.ITEMS_IDX AND TIS.SERIESD_IDX = TIT.SERIESD_IDX
 		// SQL;

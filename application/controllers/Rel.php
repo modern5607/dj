@@ -558,7 +558,7 @@ class Rel extends CI_Controller {
 		return $this->load->view('/release/ajax_return',$data);
 	}
 
-	//T_ITEMS_TRANS 반품갯수 추가
+	//t_items_TRANS 반품갯수 추가
 	public function ajax_returnNum_form()
 	{
 		$params['idx'] = $this->input->post("idx");

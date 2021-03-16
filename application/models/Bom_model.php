@@ -43,7 +43,7 @@ class Bom_model extends CI_Model {
 				(SELECT tcd4.NAME FROM t_cocd_d as tcd4 WHERE tcd4.CODE = ti.STATE) as STATE,
 				(SELECT COUNT(tb.IDX) FROM t_bom as tb WHERE tb.H_IDX = ti.IDX) as C_COUNT
 			FROM
-				T_ITEMS as ti
+			t_items as ti
 			WHERE
 				1
 				{$where}
@@ -90,7 +90,7 @@ SQL;
 			SELECT
 				COUNT(ti.IDX) as cnt
 			FROM
-				T_ITEMS as ti
+			t_items as ti
 			WHERE
 				1
 				{$where}
@@ -185,13 +185,13 @@ SQL;
 
 	public function set_itemsInsert($params)
 	{
-		$this->db->insert("T_ITEMS",$params);
+		$this->db->insert("t_items",$params);
 		return $this->db->insert_id();
 	}
 
 	public function set_itemsUpdate($params,$idx)
 	{
-		$this->db->update("T_ITEMS",$params,array("IDX"=>$idx));
+		$this->db->update("t_items",$params,array("IDX"=>$idx));
 		return $this->db->affected_rows();
 	}
 
@@ -200,7 +200,7 @@ SQL;
 	{
 		$this->db->select("*,1ST_CLASS as CLASS1, 2ND_CLASS as CLASS2, 2ND_LINE as LINE2, 3ND_LINE as LINE3, 2ND_P_T as PT2, 3ND_P_T as PT3 ");
 		$this->db->where(array("IDX"=>$idx));
-		$data = $this->db->get("T_ITEMS");
+		$data = $this->db->get("t_items");
 		return $data->row();
 	}
 
@@ -585,7 +585,7 @@ SQL;
 
 	public function delete_item($param)
 	{
-		$this->db->delete("T_ITEMS",array("IDX"=>$param['IDX']));
+		$this->db->delete("t_items",array("IDX"=>$param['IDX']));
 		return $this->db->affected_rows();
 	}
 

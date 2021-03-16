@@ -164,7 +164,7 @@ SQL;
 			array_push($datas,$datax);
 		}
 
-		$this->db->insert_batch("T_ITEMS_ORDERS",$datas);
+		$this->db->insert_batch("t_items_orders",$datas);
 		return $this->db->affected_rows();
 	}
 
@@ -208,7 +208,7 @@ SQL;
 			array_push($datas,$datax);
 		}
 
-		$this->db->insert_batch("T_ITEMS_ORDERS",$datas);
+		$this->db->insert_batch("t_items_orders",$datas);
 		return $this->db->affected_rows();
 	}
 
@@ -339,7 +339,7 @@ SQL;
 		}else{
 			
 			$this->db->select("TAD.ITEM_NM, SUM(TIT.IN_QTY) AS QTY, TSD.COLOR, tad.ITEMS_IDX, tad.SERIESD_IDX");
-			$this->db->join("T_INVENTORY_TRANS AS TIT","TIT.ACT_D_IDX = TAD.IDX");
+			$this->db->join("t_inventory_trans AS TIT","TIT.ACT_D_IDX = TAD.IDX");
 			$this->db->group_by("TAD.ITEM_NM, TSD.COLOR, tad.ITEMS_IDX, tad.SERIESD_IDX");
 			$this->db->where("TIT.GJ_GB","CU");
 		}
@@ -351,10 +351,10 @@ SQL;
 			$this->db->like("TAD.ITEM_NM",$params['s2']);
 		}
 		
-		$this->db->from("t_act_d AS TAD");
-		$this->db->join("T_ITEMS AS TI","TI.IDX = TAD.ITEMS_IDX");
-		$this->db->join("t_series_h AS TSH","TSH.IDX = TI.SERIES_IDX");
-		$this->db->join("t_series_d AS TSD","TSD.IDX = TAD.SERIESD_IDX");
+		$this->db->from("T_ACT_D AS TAD");
+		$this->db->join("t_items AS TI","TI.IDX = TAD.ITEMS_IDX");
+		$this->db->join("T_SERIES_H AS TSH","TSH.IDX = TI.SERIES_IDX");
+		$this->db->join("T_SERIES_D AS TSD","TSD.IDX = TAD.SERIESD_IDX");
 		$this->db->order_by("TAD.ITEM_NM");
 		$this->db->order_by("TSD.COLOR");
 		$query = $this->db->get();
@@ -390,7 +390,7 @@ SQL;
 			array_push($datas,$datax);
 		}
 
-		$this->db->insert_batch("T_INVENTORY_ORDERS",$datas);
+		$this->db->insert_batch("t_inventory_orders",$datas);
 		return $this->db->affected_rows();
 	}
 

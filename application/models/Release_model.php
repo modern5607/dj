@@ -205,7 +205,7 @@ class Release_model extends CI_Model {
 
 	public function ajax_trans_items($param)
 	{
-		$subquery = "(SELECT TI.IDX FROM T_ITEMS AS TI WHERE TI.BL_NO = TA.BL_NO AND TI.GJ_GB = TA.GJ_GB) AS HIDX";
+		$subquery = "(SELECT TI.IDX FROM t_items AS TI WHERE TI.BL_NO = TA.BL_NO AND TI.GJ_GB = TA.GJ_GB) AS HIDX";
 		
 		$this->db->select("TA.*,{$subquery}");
 		$query = $this->db->where("TA.IDX",$param['idx'])->get("T_ACTPLN as TA");

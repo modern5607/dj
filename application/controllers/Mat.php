@@ -56,7 +56,7 @@ class Mat extends CI_Controller {
 
 
 	/*	재고실사관리 
-	*	materialList : T_ITEMS LIST
+	*	materialList : t_items LIST
 	*	materialInfo : 리스트상세정보
 	*/
 	public function materials($idx="")
@@ -143,7 +143,7 @@ class Mat extends CI_Controller {
 
 
 	/*	재고현황
-	*	materialList : T_ITEMS LIST
+	*	materialList : t_items LIST
 	*	materialInfo : 리스트상세정보
 	*/
 	public function stocklist($idx="")
