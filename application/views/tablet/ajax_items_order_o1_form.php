@@ -12,7 +12,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <?php date_default_timezone_set('Asia/Seoul'); ?>
 
 
-<div class="formContaine">
+<div class="formContainer">
     <div style="background:#eceff5; padding:20px;" class="gsflexst">
         <div>
             <label for="s1">시리즈</label>

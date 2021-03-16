@@ -80,8 +80,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <ul class="menu02" <?php echo ($this->data['pos'] == "PLN")?"style='display:block'":"";?>>
                             <li><a href="<?php echo base_url('PLN')?>" class="<?php echo ($this->data['subpos'] == NULL || $this->data['subpos'] == 'index')?"on":"";?>"><i class="material-icons">dvr</i>수주관리</a></li>
                             <!-- <li><a href="<?php echo base_url('PLN/p1')?>" class="<?php echo ($this->data['subpos'] == "p1")?"on":"";?>"><i class="material-icons">dvr</i>주문대비진행현황</a></li> -->
-                            <li><a href="<?php echo base_url('PLN/p2')?>" class="<?php echo ($this->data['subpos'] == "p2")?"on":"";?>"><i class="material-icons">dvr</i>생산계획등록</a></li>
-                            <li><a href="<?php echo base_url('PLN/p3')?>" class="<?php echo ($this->data['subpos'] == "p3")?"on":"";?>"><i class="material-icons">dvr</i>생산계획조회</a></li>
+                            <li><a href="<?php echo base_url('PLN/p2')?>" class="<?php echo ($this->data['subpos'] == "p2")?"on":"";?>"><i class="material-icons">dvr</i>생산계획등록/조회</a></li>
+                            <!-- <li><a href="<?php echo base_url('PLN/p3')?>" class="<?php echo ($this->data['subpos'] == "p3")?"on":"";?>"><i class="material-icons">dvr</i>생산계획조회</a></li> -->
                         </ul>
                     </li>
                     <li class="menu01_li">
