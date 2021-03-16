@@ -42,23 +42,23 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             </tr>
                             <tr>
                                 <th>1급</th>
-                                <td colspan="3"><input type="text" name="A2" class="form_input input_5 sbpop right" style="border-bottom:1px solid #bbb;" readonly value="<?php echo $row->IN_QTY; ?>"></td>
+                                <td colspan="3"><input type="text" name="A2" class="form_input input_5 sbpop right" readonly value="<?php echo $row->IN_QTY; ?>"></td>
                             </tr>
                             <tr>
                                 <th>2급</th>
-                                <td colspan="3"><input type="text" name="A3" class="form_input input_5 sbpop right" style="border-bottom:1px solid #bbb;" value=""></td>
+                                <td colspan="3"><input type="text" name="A3" class="form_input input_5 sbpop right" value=""></td>
                             </tr>
                             <tr>
                                 <th>파손</th>
-                                <td colspan="3"><input type="text" name="A4" size="6" class="form_input input_5 sbpop right" style="border-bottom:1px solid #bbb;" value=""></td>
+                                <td colspan="3"><input type="text" name="A4" size="6" class="form_input input_5 sbpop right" value=""></td>
                             </tr>
                             <tr>
                                 <th>시유</th>
-                                <td colspan="3"><input type="text" name="A5" size="6" class="form_input input_5 sbpop right" style="border-bottom:1px solid #bbb;" value=""></td>
+                                <td colspan="3"><input type="text" name="A5" size="6" class="form_input input_5 sbpop right" value=""></td>
                             </tr>
                             <tr>
                                 <th>비고</th>
-                                <td colspan="3"><input type="text" name="A6" class="form_input input_5 sbpop" style="border-bottom:1px solid #bbb;" value=""></td>
+                                <td colspan="3"><input type="text" name="A6" class="form_input input_5 sbpop" value=""></td>
                             </tr>
 
                         <?php } ?>

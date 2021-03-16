@@ -41,7 +41,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             </tr>
                             <tr>
                                 <th>완료수량</th>
-                                <td colspan="3"><input type="text" name="QTY" class="form_input5 input_5 cupop right" style="border-bottom:1px solid #bbb;" value="<?php echo $row->ORDER_QTY; ?>"></td>
+                                <td colspan="3"><input type="text" name="QTY" class="form_input5 input_5 cupop right" value="<?php echo $row->ORDER_QTY; ?>"></td>
                             </tr>
                         </tbody>
                     </table>
