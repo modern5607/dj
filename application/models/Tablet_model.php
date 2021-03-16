@@ -314,7 +314,7 @@ SQL;
 				A.SERIESD_IDX,
 				D.COLOR,
 				A.QTY,
-				( SELECT E.SERIES_NM FROM T_SERIES_H AS E WHERE E.IDX = D.SERIES_IDX ) AS SE_NAME,
+				( SELECT E.SERIES_NM FROM t_series_h AS E WHERE E.IDX = D.SERIES_IDX ) AS SE_NAME,
 				( SELECT F.CUST_NM FROM T_BIZ_REG AS F WHERE F.IDX = C.BIZ_IDX ) AS CUST_NM
 			FROM
 				t_act_d AS A
@@ -390,7 +390,7 @@ SQL;
 		$this->db->query($sql);
 
 		$sql = <<<SQL
-				INSERT INTO T_ITEMS_TRANS
+				INSERT INTO t_items_trans
 				SET
 				ITEMS_IDX    	= '{$info->ITEMS_IDX}',
 				ACT_IDX      	= '{$info->ACT_IDX}',

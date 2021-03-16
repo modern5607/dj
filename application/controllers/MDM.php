@@ -960,7 +960,7 @@ class MDM extends CI_Controller
 		$data['series_headList'] = $this->main_model->get_seriesHead_list($params, $start, $config['per_page']);
 		$this->data['cnt'] = $this->main_model->get_seriesHead_cut($params);
 		$data['series_detailList'] = $this->main_model->get_seriesDetail_list($hid, $params);
-		$data['head'] = $this->main_model->get_headInfo("T_SERIES_H", "SERIES_NM", $hid);
+		$data['head'] = $this->main_model->get_headInfo("t_series_h", "SERIES_NM", $hid);
 		$data['SERIES'] = $this->main_model->get_seriesh_select();
 
 		$data['H_IDX'] = $hid;

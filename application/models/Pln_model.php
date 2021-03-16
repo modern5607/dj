@@ -41,13 +41,13 @@ class Pln_model extends CI_Model {
 	public function get_p2_list($year,$month)
 	{
 		$query = $this->db->like("WOEK_DATE",$year."-".$month)
-						->get("T_WORKCAL");
+						->get("t_workcal");
 		return $query->result();
 	}
 
 	public function get_p2_info($date)
 	{
-		$query = $this->db->where("WOEK_DATE",$date)->get("T_WORKCAL");
+		$query = $this->db->where("WOEK_DATE",$date)->get("t_workcal");
 		return $query->row();
 	}
 
@@ -55,7 +55,7 @@ class Pln_model extends CI_Model {
 	public function ajax_p2_insert($params)
 	{
 		$query = $this->db->where("WOEK_DATE",$params['WOEK_DATE'])
-						->get("T_WORKCAL");
+						->get("t_workcal");
 		$chk = $query->row();
 		$data = array(
 			"status" => "",
@@ -64,7 +64,7 @@ class Pln_model extends CI_Model {
 		if(!empty($chk)){
 			$this->db->set("REMARK",$params['REMARK']);
 			$this->db->where("WOEK_DATE",$chk->WOEK_DATE);
-			$this->db->update("T_WORKCAL");
+			$this->db->update("t_workcal");
 			if($this->db->affected_rows()){
 				$data['status'] = "ok";
 				$data['msg'] = "수정되었습니다.";
@@ -78,7 +78,7 @@ class Pln_model extends CI_Model {
 			$this->db->set("WOEK_DATE",$params['WOEK_DATE']);
 			$this->db->set("INSERT_DATE",$datetime);
 			$this->db->set("INSERT_ID",$username);
-			$this->db->insert("T_WORKCAL");
+			$this->db->insert("t_workcal");
 			
 			if($this->db->affected_rows()){
 				$data['status'] = "ok";

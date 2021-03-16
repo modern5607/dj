@@ -70,7 +70,7 @@ class Release_model extends CI_Model {
 		$this->db->select("TA.*,{$subquery}, COUNT(TIT.IDX) as XNUM, MAX(TIT.IDX) AS TIDX, SUM(TIT.OUT_QTY) as OUT_QTY, SUM(TIT.RE_QTY) as RE_QTY, MAX(TIT.CG_DATE) as CG_DATE, MAX(TIT.RE_DATE) as RE_DATE, (TA.QTY - IFNULL(SUM(TIT.OUT_QTY),0)) as XXX");
 		
 		$this->db->from("T_ACTPLN AS TA");
-		$this->db->join("T_ITEMS_TRANS AS TIT","TIT.ACT_IDX = TA.IDX","left");
+		$this->db->join("t_items_trans AS TIT","TIT.ACT_IDX = TA.IDX","left");
 
 		$this->db->where("TA.FINISH","Y");
 
@@ -97,7 +97,7 @@ class Release_model extends CI_Model {
 		$this->db->where("TA.FINISH","Y");
 		$this->db->select("COUNT(TA.IDX) as cut");
 		$this->db->from("T_ACTPLN AS TA");
-		$this->db->join("T_ITEMS_TRANS AS TIT","TIT.ACT_IDX = TA.IDX","left");
+		$this->db->join("t_items_trans AS TIT","TIT.ACT_IDX = TA.IDX","left");
 		$query = $this->db->get();
 		return $query->row()->cut;
 	}
@@ -122,7 +122,7 @@ class Release_model extends CI_Model {
 		$this->db->select("TA.*, TIT.IDX AS TIDX, TIT.H_IDX, TIT.OUT_QTY, TIT.CG_DATE, TIT.RE_DATE, TIT.CG_YN, TIT.RE_YN, TIT.RE_DATE, TIT.RE_QTY, {$subquery}");
 		$this->db->where("TIT.CG_YN","Y");
 		$this->db->from("T_ACTPLN AS TA");
-		$this->db->join("T_ITEMS_TRANS AS TIT","TIT.ACT_IDX = TA.IDX","right");
+		$this->db->join("t_items_trans AS TIT","TIT.ACT_IDX = TA.IDX","right");
 		
 		//$this->db->group_by("TA.IDX");
 		$this->db->order_by("TIT.CG_DATE","DESC");
@@ -145,7 +145,7 @@ class Release_model extends CI_Model {
 
 		$this->db->select("COUNT(TIT.IDX) as cut");
 		$this->db->from("T_ACTPLN AS TA");
-		$this->db->join("T_ITEMS_TRANS AS TIT","TIT.ACT_IDX = TA.IDX","rigth");
+		$this->db->join("t_items_trans AS TIT","TIT.ACT_IDX = TA.IDX","rigth");
 		$query = $this->db->get();
 		
 		return $query->row()->cut;
@@ -170,7 +170,7 @@ class Release_model extends CI_Model {
 		$this->db->select("TC.*,TA.LOT_NO, TA.NAME");
 		
 		$this->db->from("T_ACTPLN AS TA");
-		$this->db->join("T_ITEMS_TRANS as TIT","TIT.ACT_IDX = TA.IDX");
+		$this->db->join("t_items_trans as TIT","TIT.ACT_IDX = TA.IDX");
 		$this->db->join("T_CLAIM AS TC","TC.A_IDX = TA.IDX","right");
 		//$this->db->group_by("TA.IDX");
 		$this->db->order_by("TC.RE_DATE","DESC");
@@ -218,7 +218,7 @@ class Release_model extends CI_Model {
 
 		$sql=<<<SQL
 			INSERT INTO
-				T_ITEMS_TRANS
+				t_items_trans
 			SET
 				H_IDX      = '{$info->HIDX}',
 				TRANS_DATE = '{$dateTime}',
@@ -244,7 +244,7 @@ SQL;
 	{
 		$this->db->select("TIT.*,TA.BL_NO, TA.NAME");
 		$this->db->where("TA.IDX",$param['idx']);
-		$this->db->from("T_ITEMS_TRANS as TIT");
+		$this->db->from("t_items_trans as TIT");
 		$this->db->join("T_ACTPLN as TA","TA.IDX = TIT.ACT_IDX","left");
 		$query = $this->db->get();
 		
@@ -256,7 +256,7 @@ SQL;
 	{
 		$this->db->select("TIT.*,A.CUSTOMER, A.BL_NO");
 		$this->db->where("TIT.IDX",$params['idx']);
-		$this->db->from("T_ITEMS_TRANS as TIT");
+		$this->db->from("t_items_trans as TIT");
 		$this->db->join("T_ACTPLN AS A","A.IDX = TIT.ACT_IDX","LEFT");
 		$query = $this->db->get();
 
@@ -270,7 +270,7 @@ SQL;
 			$this->db->set("RE_QTY",$params['rNum']);
 			
 			$this->db->where("IDX",$info->IDX);
-			$this->db->update("T_ITEMS_TRANS");
+			$this->db->update("t_items_trans");
 			
 			if($this->db->affected_rows() > 0){
 
@@ -371,7 +371,7 @@ SQL;
 			FROM
 				T_COCD_D as TCD
 				LEFT JOIN T_ACT_ILBO as TAI ON(TAI.M_LINE = TCD.CODE)
-				LEFT JOIN (SELECT M_LINE,ROUND((PT * OUT_QTY)/60) as SUM_PT FROM T_ITEMS_TRANS WHERE TRANS_DATE BETWEEN '{$toDate} 00:00:00' AND '{$toDate} 23:59:59' AND KIND = 'OT' GROUP BY M_LINE) as T2 ON(T2.M_LINE = TAI.M_LINE)
+				LEFT JOIN (SELECT M_LINE,ROUND((PT * OUT_QTY)/60) as SUM_PT FROM t_items_trans WHERE TRANS_DATE BETWEEN '{$toDate} 00:00:00' AND '{$toDate} 23:59:59' AND KIND = 'OT' GROUP BY M_LINE) as T2 ON(T2.M_LINE = TAI.M_LINE)
 			WHERE
 				TCD.H_IDX = 11 AND
 				TAI.ORDER_DATE BETWEEN '{$toDate} 00:00:00' AND '{$toDate} 23:59:59'
@@ -392,7 +392,7 @@ SQL;
 			ELSE ROUND((SUM_PT / (TIMESTAMPDIFF(minute, T1.ORDER_DATE, NOW()) - 60)) * 100)
 			END AS VAL
 			FROM T_ACT_ILBO T1, 
-			(SELECT M_LINE, SUM(OUT_QTY) SUM_QTY, ROUND((PT * OUT_QTY)/60) SUM_PT FROM T_ITEMS_TRANS
+			(SELECT M_LINE, SUM(OUT_QTY) SUM_QTY, ROUND((PT * OUT_QTY)/60) SUM_PT FROM t_items_trans
 			 WHERE TRANS_DATE BETWEEN '{$toDate} 00:00:00' AND '{$toDate} 23:59:59' AND KIND = 'OT'
 			  GROUP BY M_LINE) T2  
 			WHERE T1.M_LINE = T2.M_LINE

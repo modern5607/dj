@@ -150,7 +150,7 @@ SQL;
 		
 		$this->db->set("LEVEL",$param['level']);
 		$this->db->where("IDX",$param['idx']);
-		$this->db->update("T_MEMBER");
+		$this->db->update("t_member");
 
 		return $this->db->affected_rows();
 
@@ -184,7 +184,7 @@ SQL;
 		
 		$this->db->order_by("SDATE","desc");
 		$this->db->limit($limit,$start);
-		$res = $this->db->get("T_LOG");
+		$res = $this->db->get("t_log");
 		return $res->result();
 	}
 
@@ -198,7 +198,7 @@ SQL;
 		}
 		$this->db->select("COUNT(*) as CUT");
 
-		$res = $this->db->get("T_LOG");
+		$res = $this->db->get("t_log");
 		return $res->row()->CUT;
 	}
 
