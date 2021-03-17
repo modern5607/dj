@@ -21,9 +21,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				</form>
 			</div>
 
-			<div class="bc_header none_padding">
+			<!-- <div class="bc_header none_padding">
 				<a href="<?php echo base_url('ACT2/a10') ?>"><span class="btni btn_right add_head">시유실적1</span></a>
-			</div>
+			</div> -->
 
 			<div class="tbl-content">
 				<table cellpadding="0" cellspacing="0" border="0" width="100%">
