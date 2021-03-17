@@ -333,14 +333,14 @@ SQL;
 	public function ajax_inven_pop($params)
 	{
 		if($params['type'] == "CU"){
-			$this->db->select("TAD.ITEM_NM, TSD.COLOR, tad.ITEMS_IDX, tad.SERIESD_IDX, IFNULL(TI.JH_QTY,0) AS QTY, TAD.IDX AS ACT_D_IDX, TAD.H_IDX AS ACT_IDX, TAD.QTY AS D_QTY");
+			$this->db->select("TAD.ITEM_NM, TSD.COLOR, TAD.ITEMS_IDX, TAD.SERIESD_IDX, IFNULL(TI.JH_QTY,0) AS QTY, TAD.IDX AS ACT_D_IDX, TAD.H_IDX AS ACT_IDX, TAD.QTY AS D_QTY");
 			$this->db->where("(TAD.STATUS is null)",null,false); // 시유받을거
 			$this->db->where("( SELECT count( ACT_D_IDX ) FROM t_inventory_orders WHERE ACT_D_IDX = TAD.IDX ) != 1",null,false); // 시유받을거
 		}else{
 			
-			$this->db->select("TAD.ITEM_NM, SUM(TIT.IN_QTY) AS QTY, TSD.COLOR, tad.ITEMS_IDX, tad.SERIESD_IDX");
+			$this->db->select("TAD.ITEM_NM, SUM(TIT.IN_QTY) AS QTY, TSD.COLOR, TAD.ITEMS_IDX, TAD.SERIESD_IDX");
 			$this->db->join("t_inventory_trans AS TIT","TIT.ACT_D_IDX = TAD.IDX");
-			$this->db->group_by("TAD.ITEM_NM, TSD.COLOR, tad.ITEMS_IDX, tad.SERIESD_IDX");
+			$this->db->group_by("TAD.ITEM_NM, TSD.COLOR, TAD.ITEMS_IDX, TAD.SERIESD_IDX");
 			$this->db->where("TIT.GJ_GB","CU");
 		}
 

@@ -218,25 +218,19 @@ SQL;
 		$sql=<<<SQL
 			SELECT 
 				AA.TRANS_DATE,
-				(SELECT CUST_NM FROM t_biz_reg WHERE IDX = AA.BIZ_IDX) CUST_NM, 
 				AA.COMPONENT_NM, 
 				AA.UNIT, 
 				AA.OUT_QTY, 
 				AA.REMARK,
-				AA.ITEM_NAME, 
-				AA.COL1
+				AA.ITEM_NAME
 			FROM 
 				(
 					SELECT
 						A.TRANS_DATE,
-						(SELECT CUST_NM FROM t_biz_reg WHERE IDX = A.BIZ_IDX) CUST_NM, 
 						B.COMPONENT_NM, 
 						B.UNIT, 
 						A.OUT_QTY, 
 						A.REMARK,
-						A.ITEM_IDX,
-						A.BIZ_IDX, 
-						A.COL1,
 						TI.ITEM_NAME
 					FROM
 						t_component_trans A, 
@@ -248,9 +242,11 @@ SQL;
 						AND A.KIND = 'OT'
 						{$where}
 					ORDER BY A.TRANS_DATE DESC
+					
+			LIMIT {$start},{$limit}
 				) as AA
 			UNION ALL
-			SELECT COUNT(TI.ITEM_NAME),'합계' AS TEXT,B.COMPONENT_NM, B.UNIT, SUM(OUT_QTY) OUT_QTY,'','',SUM(A.COL1)
+			SELECT COUNT(TI.ITEM_NAME),B.COMPONENT_NM, B.UNIT, SUM(OUT_QTY) OUT_QTY,'','합계'
 			FROM 
 				t_component_trans A, t_component B,t_items TI
 			WHERE A.COMP_IDX = B.IDX
@@ -258,7 +254,6 @@ SQL;
 			AND A.KIND = 'OT'
 			{$where}
 			GROUP BY COMP_IDX
-			LIMIT {$start},{$limit}
 SQL;
 		$query = $this->db->query($sql);
 		//  echo $this->db->Last_query();

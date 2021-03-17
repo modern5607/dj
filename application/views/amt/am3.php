@@ -50,7 +50,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<th>No</th>
 						<th>자재출고일</th>
 						<th>품명</th>
-						<th>수량</th>
 						<th>자재명</th>
 						<th>출고량</th>
 						<th>단위</th>
@@ -61,13 +60,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php 
 				if(!empty($List)){
 				$count=0;
-				$countcol=0;
 				$remark=0;
 				foreach($List as $i=>$row){ 
 					$no = $pageNum+$i+1; 
-					if($row->CUST_NM == "합계"){
+					if($row->ITEM_NAME == "합계"){
 						$count += $row->OUT_QTY;
-						$countcol += $row->COL1;
 						$remark += $row->TRANS_DATE;
 					}else{
 				?>
@@ -75,7 +72,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td class="cen"><?php echo $no; ?></td>
 					<td class="cen"><?php echo $row->TRANS_DATE; ?></td>
 					<td><?php echo $row->ITEM_NAME; ?></td>
-					<td class="right"><?php echo number_format($row->COL1); ?></td>
 					<td><?php echo $row->COMPONENT_NM; ?></td>
 					<td class="right"><?php echo number_format($row->OUT_QTY); ?></td>
 					<td class="cen"><?php echo $row->UNIT; ?></td>
@@ -84,20 +80,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php
 					}
 				}
-				?>
+                if($remark != 0){?>
 				<tr style="background:#f3f8fd;" class="nhover">
-					<td colspan="1" style="text-align:right;"><strong>건수</strong></td>
+					<td colspan="2" style="text-align:right;"><strong>건수</strong></td>
 					<td class="right"><strong><?php echo number_format($remark); ?></strong></td>
 					<td colspan="1" style="text-align:right;"><strong>합계</strong></td>
-					<!-- <td><?php echo $row->COMPONENT_NM; ?></td> -->
-					<td class="right"><strong><?php echo number_format($countcol); ?></strong></td>
-					<td></td>
 					<td class="right"><strong><?php echo number_format($count); ?></strong></td>
 					<td class="cen"><?php echo $row->UNIT; ?></td>
 					<td class="cen"><?php echo $row->REMARK; ?></td>
 				</tr>
 				<?php
-				}else{
+				}}
+				if(empty($List) || $remark == 0){
 				?>
 
 					<tr>
