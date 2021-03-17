@@ -127,10 +127,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<li><a href="<?php echo base_url('ACT2/a9')?>" class="<?php echo ($this->data['subpos'] == "a9")?"on":"";?>"><i class="material-icons">memory</i>정형실적</a></li>
 							<li><a href="<?php echo base_url('ACT2/a9_1')?>" class="<?php echo ($this->data['subpos'] == "a9_1")?"on":"";?>"><i class="material-icons">memory</i>정형BK</a></li>
 							<li><a href="<?php echo base_url('ACT2/a9_2')?>" class="<?php echo ($this->data['subpos'] == "a9_2")?"on":"";?>"><i class="material-icons">memory</i>정형실적현황</a></li>
-							<li><a href="<?php echo base_url('ACT2/a10')?>" class="<?php echo ($this->data['subpos'] == "a10" || $this->data['subpos'] == "a10_1")?"on":"";?>"><i class="material-icons">memory</i>시유실적</a></li>
+							<li><a href="<?php echo base_url('ACT2/a10')?>" class="<?php echo ($this->data['subpos'] == "a10" || $this->data['subpos'] == "a10")?"on":"";?>"><i class="material-icons">memory</i>시유실적</a></li>
+							<li><a href="<?php echo base_url('ACT2/a10_1')?>" class="<?php echo ($this->data['subpos'] == "a10_1" || $this->data['subpos'] == "a10_1")?"on":"";?>"><i class="material-icons">memory</i>시유실적관리</a></li>
 							<li><a href="<?php echo base_url('ACT2/a10_2')?>" class="<?php echo ($this->data['subpos'] == "a10_2")?"on":"";?>"><i class="material-icons">memory</i>시유실적현황</a></li>
 							<li><a href="<?php echo base_url('ACT2/a11')?>" class="<?php echo ($this->data['subpos'] == "a11")?"on":"";?>"><i class="material-icons">memory</i>선별작업실적</a></li>
-							<li><a href="<?php echo base_url('ACT2/a11_1')?>" class="<?php echo ($this->data['subpos'] == "a11_1")?"on":"";?>"><i class="material-icons">memory</i>선별작업실적2</a></li>
+							<li><a href="<?php echo base_url('ACT2/a11_1')?>" class="<?php echo ($this->data['subpos'] == "a11_1")?"on":"";?>"><i class="material-icons">memory</i>선별작업관리</a></li>
 							<li><a href="<?php echo base_url('ACT2/a11_2')?>" class="<?php echo ($this->data['subpos'] == "a11_2")?"on":"";?>"><i class="material-icons">memory</i>선별실적현황</a></li>
 							<li><a href="<?php echo base_url('ACT2/a12')?>" class="<?php echo ($this->data['subpos'] == "a12")?"on":"";?>"><i class="material-icons">memory</i>후처리</a></li>
 							<li><a href="<?php echo base_url('ACT2/a12_1')?>" class="<?php echo ($this->data['subpos'] == "a12_1")?"on":"";?>"><i class="material-icons">memory</i>후처리현황</a></li>
