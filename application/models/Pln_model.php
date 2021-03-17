@@ -176,10 +176,12 @@ class Pln_model extends CI_Model {
 	public function set_series_select($idx)
 	{
 		$query = $this->db->where("SERIES_IDX",$idx)
+						->where("USE_YN","Y")
 						->get("t_items");
 		$data['items'] = $query->result();
 		
 		$query = $this->db->where("SERIES_IDX",$idx)
+						->where("USE_YN","Y")
 						->get("t_series_d");
 		$data['sdetail'] = $query->result();
 		

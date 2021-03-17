@@ -409,8 +409,10 @@ SQL;
 			$this->db->where("SH_QTY > 0");
 		}
 
-		$this->db->where("USE_YN", "Y");
-		$query = $this->db->get("t_items");
+		$this->db->where("ti.USE_YN", "Y");
+		$this->db->where("tsh.USE_YN", "Y");
+		$this->db->JOIN("t_series_h AS tsh","ti.SERIES_IDX = tsh.IDX");
+		$query = $this->db->get("t_items AS ti");
 		// echo $this->db->last_query();
 		return $query->result();
 	}

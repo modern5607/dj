@@ -333,7 +333,7 @@ SQL;
 	public function ajax_inven_pop($params)
 	{
 		if($params['type'] == "CU"){
-			$this->db->select("TAD.ITEM_NM, TSD.COLOR, TAD.ITEMS_IDX, TAD.SERIESD_IDX, IFNULL(TI.JH_QTY,0) AS QTY, TAD.IDX AS ACT_D_IDX, TAD.H_IDX AS ACT_IDX, TAD.QTY AS D_QTY");
+			$this->db->select("TAD.ITEM_NM, TSD.COLOR, TAD.ITEMS_IDX, TAD.SERIESD_IDX, IFNULL(TI.JH_QTY,0) AS QTY, TAD.IDX AS ACT_D_IDX, TAD.H_IDX AS ACT_IDX, TAD.QTY AS D_QTY,TAH.ACT_DATE");
 			$this->db->where("(TAD.STATUS is null)",null,false); // 시유받을거
 			$this->db->where("( SELECT count( ACT_D_IDX ) FROM t_inventory_orders WHERE ACT_D_IDX = TAD.IDX ) != 1",null,false); // 시유받을거
 		}else{
@@ -352,9 +352,11 @@ SQL;
 		}
 		
 		$this->db->from("t_act_d AS TAD");
+		$this->db->join("t_act_h AS TAH","TAD.H_IDX = TAH.IDX");
 		$this->db->join("t_items AS TI","TI.IDX = TAD.ITEMS_IDX");
 		$this->db->join("t_series_h AS TSH","TSH.IDX = TI.SERIES_IDX");
 		$this->db->join("t_series_d AS TSD","TSD.IDX = TAD.SERIESD_IDX");
+		$this->db->order_by("TAH.ACT_DATE");
 		$this->db->order_by("TAD.ITEM_NM");
 		$this->db->order_by("TSD.COLOR");
 		$query = $this->db->get();

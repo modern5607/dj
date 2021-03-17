@@ -801,6 +801,7 @@ class Main_model extends CI_Model
 
 	public function get_seriesh_select()
 	{
+		$this->db->where('USE_YN',"Y");
 		$this->db->order_by('series_nm');
 		$query = $this->db->get("t_series_h");
 		return $query->result();

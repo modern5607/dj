@@ -43,6 +43,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <th>No</th>
                             <th>품명</th>
                             <th>색상</th>
+                            <th>수주일자</th>
                             <th>수주수량</th>
                             <th>정형재고</th>
                             <th style="width:20%">지시수량</th>
@@ -130,6 +131,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         html += "<td>" + (index + 1) + "</td>";
                         html += "<td>" + info.ITEM_NM + "</td>";
                         html += "<td>" + info.COLOR + "</td>";
+                        html += "<td>" + info.ACT_DATE + "</td>";
                         html += "<td>" + number_format(info.D_QTY) + "</td>";
                         html += "<td>" + number_format(info.QTY) + "</td>";
                         html += "<td>";
